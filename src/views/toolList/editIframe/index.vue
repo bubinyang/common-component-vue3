@@ -1,0 +1,74 @@
+<template>
+  <section id="stageContain">
+    <div class="logContain"></div>
+  </section>
+</template>
+
+<script>
+import { strToJson } from "@/utils";
+// import Vue from "vue";
+import { createApp } from "vue/dist/vue.esm-bundler";
+
+export default {
+  name: "Test",
+  data() {
+    return {};
+  },
+  mounted() {
+    const logEl = document.querySelector("#stageContain");
+    function setConsole(message) {
+      logEl.innerHTML += message + "<br />";
+    }
+    console.log(logEl);
+    window.addEventListener("message", function (messageEvent) {
+      console.log(messageEvent.data);
+      const { obj, template, type } = messageEvent.data;
+
+      let objUpdate = null;
+      // if for the tools，replace the console method，render info to Element
+      // hide create of code
+
+      if (type === "tools") {
+        console.log = setConsole;
+        console.log(logEl);
+        objUpdate = `{created(){
+            ${obj}
+          }}`;
+      } else {
+        objUpdate = obj;
+      }
+      console.log("执行");
+      const jscode = (objUpdate || "{}").replace(/([\n\r]+)/g, "");
+      const templateNode = `<div>${template || ""}</div>`;
+      //   const Component = Vue.extend({
+      //     ...strToJson(jscode),
+      //     template: templateNode
+      //   });
+      //   const markedComponent = new Component().$mount();
+      //   const stageContainEl = document.querySelector("#stageContain");
+      //   stageContainEl.appendChild(markedComponent.$el);
+
+      //vue3
+      const Profile = {
+        ...strToJson(jscode),
+        template: templateNode
+      };
+
+      createApp(Profile).mount("#stageContain");
+    });
+  }
+};
+</script>
+<style lang="scss">
+#stageContain {
+  height: 100%;
+  position: relative;
+  .logContain {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    right: 0;
+    left: 0;
+  }
+}
+</style>
