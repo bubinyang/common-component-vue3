@@ -86,18 +86,9 @@ const originList = [
     `
   },
 
-  // {
-  //   type: 'tools',
-  //   name: '保留几位小数,去除多余0',
-  //   detail: '保留小数,不会出现补0情况,支持千分位,百分位增加逗号',
-  //   code: 'tools-3',
-  //   explain: [{ name: 'val', state: '数据源', type: '[Number,String]' }, { name: 'num', state: '保留小数位', type: 'Number' }, { name: 'standard', state: '千分位，百分位等位数,逗号摆放位置', type: 'Number' }],
-  //   fun
-  // }
-
   {
     type: "component",
-    name: "根据年月日选中对应时间",
+    name: "快捷编辑",
     deail: "点击后快速编辑内容",
     code: "component-1",
     templete: `<LabelInputSwitch v-model="color" type="select" :options="options" />`,
@@ -117,12 +108,16 @@ const originList = [
     deail: "切换年月日编辑不同类型的日期",
     code: "component-2",
     explain: ChangeYearMonthDayProps,
-    templete: `<changeYearMonthDay
-    v-model="dateOption"
-    :futureTime="true"
-    :multiple="false"
-    :typeList="['day','year']"
-    />`,
+    templete: `<ChangeYearMonthDay
+      v-model:dateOption="dateOption"
+      :addHours="0"
+      :multiple="true"
+      :increase="true"
+      :type-list="['year', 'allyear']"
+      :typeListMutiple="['allyear']"
+      :intervalTimeValue="{ realtime: 1, day: 1, month: 1, year: 1 }"
+    ></ChangeYearMonthDay>`,
+    // templete: `<el-button type="primary">Primary</el-button>`,
     fun: `data:function(){
      return{
         dateOption:{

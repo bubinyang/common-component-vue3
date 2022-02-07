@@ -8,6 +8,10 @@
 import { strToJson } from "@/utils";
 // import Vue from "vue";
 import { createApp } from "vue/dist/vue.esm-bundler";
+import publicComponents from "@/components/publicCompoents.js";
+import widgetComponents from "@/packages/index.js";
+import ElementPlus from "element-plus";
+import "element-plus/dist/index.css";
 
 export default {
   name: "Test",
@@ -53,8 +57,9 @@ export default {
         ...strToJson(jscode),
         template: templateNode
       };
-
-      createApp(Profile).mount("#stageContain");
+      console.log(Profile, "Profile");
+      const app = createApp(Profile);
+      app.use(ElementPlus).use(publicComponents).use(widgetComponents).mount("#stageContain");
     });
   }
 };

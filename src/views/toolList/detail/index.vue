@@ -41,7 +41,7 @@
             />
           </div>
         </div>
-        {{ iframeLoading }}
+
         <div
           v-loading="iframeLoading"
           element-loading-background="rgba(0, 0, 0, 0.8)"

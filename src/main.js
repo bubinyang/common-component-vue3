@@ -1,9 +1,12 @@
 import { createApp } from "vue";
 import App from "./App.vue";
 import router from "./router";
-import publicComponents from "./components/publicCompoents.js";
+import publicComponents from "@/components/publicCompoents.js";
+import widgetComponents from "@/packages/index.js";
+import moment from "moment";
 import ElementPlus from "element-plus";
 import "./style/base.scss";
 import "element-plus/dist/index.css";
-
-createApp(App).use(router).use(ElementPlus).use(publicComponents).mount("#app");
+const app = createApp(App);
+app.config.globalProperties.$moment = moment;
+app.use(router).use(ElementPlus).use(publicComponents).use(widgetComponents).mount("#app");

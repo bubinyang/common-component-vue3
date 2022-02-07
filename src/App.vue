@@ -5,7 +5,6 @@ import HelloWorld from "./components/HelloWorld.vue";
 </script>
 
 <template>
-  contain
   <!-- <img alt="Vue logo" src="./assets/logo.png" /> -->
   <!-- <HelloWorld msg="Hello Vue 3 + Vite" /> -->
   <router-view></router-view>
@@ -18,6 +17,6 @@ import HelloWorld from "./components/HelloWorld.vue";
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
-  margin-top: 60px;
+  /* margin-top: 60px; */
 }
 </style>
