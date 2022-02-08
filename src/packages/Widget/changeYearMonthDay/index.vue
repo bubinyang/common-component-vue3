@@ -242,10 +242,10 @@ export default {
           .format("YYYY");
       } else {
         this.computeDateOption.date = moment(val)
-          .subtract(this.setDiffVal("year")["startDiffVal"], "year")
+          .subtract(this.setDiffVal("allyear")["startDiffVal"], "year")
           .format("YYYY");
         this.computeDateOption.dateOther = moment(val)
-          .subtract(this.setDiffVal("year")["endDiffVal"], "year")
+          .subtract(this.setDiffVal("allyear")["endDiffVal"], "year")
           .format("YYYY");
       }
     },
@@ -279,7 +279,7 @@ export default {
     },
 
     setDiffVal(type) {
-      if (this.increase) {
+      if (this.increase && this.typeListMutiple.includes(type)) {
         return {
           startDiffVal: this.intervalTimeValue[type],
           endDiffVal: 0

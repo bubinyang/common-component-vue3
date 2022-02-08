@@ -51,7 +51,8 @@ export default {
         realtime: 1,
         day: 1,
         month: 1,
-        year: 1
+        year: 1,
+        allyear: 1
       };
     },
     state: "默认时间范围差"

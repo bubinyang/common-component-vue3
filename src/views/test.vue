@@ -7,7 +7,7 @@
       :increase="true"
       :type-list="['year', 'allyear']"
       :typeListMutiple="['allyear']"
-      :intervalTimeValue="{ realtime: 1, day: 1, month: 1, year: 1 }"
+      :intervalTimeValue="{ realtime: 1, day: 1, month: 1, year: 1, allyear: 1 }"
     ></ChangeYearMonthDay>
     <el-button type="primary">Primary</el-button>
 
