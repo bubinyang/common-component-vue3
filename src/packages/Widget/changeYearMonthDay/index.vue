@@ -281,13 +281,13 @@ export default {
     setDiffVal(type) {
       if (this.increase && this.typeListMutiple.includes(type)) {
         return {
-          startDiffVal: this.intervalTimeValue[type],
+          startDiffVal: this.intervalTimeValue[type] || 1,
           endDiffVal: 0
         };
       } else {
         return {
           startDiffVal: 0,
-          endDiffVal: this.intervalTimeValue[type]
+          endDiffVal: this.intervalTimeValue[type] || 1
         };
       }
     }

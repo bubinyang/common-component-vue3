@@ -115,9 +115,8 @@ const originList = [
       :increase="true"
       :type-list="['year', 'allyear']"
       :typeListMutiple="['allyear']"
-      :intervalTimeValue="{ realtime: 1, day: 1, month: 1, year: 1 }"
+      :intervalTimeValue="{ realtime: 1, day: 1, month: 1, year: 1,allyear:1}"
     ></ChangeYearMonthDay>`,
-    // templete: `<el-button type="primary">Primary</el-button>`,
     fun: `data:function(){
      return{
         dateOption:{
@@ -135,7 +134,10 @@ const originList = [
     deail: "左右布局主体",
     keyWord: "layout",
     code: "component-3",
-    templete: `<SideLayout><div slot="side"></div><template slot="main"></template></SideLayout>`,
+    templete: `<SideLayout>
+    <template #side></template>
+    <template #main></template>
+    </SideLayout>`,
     fun: ``
   },
 
@@ -145,7 +147,10 @@ const originList = [
     deail: "上下布局主体",
     keyWord: "layout",
     code: "component-4",
-    templete: `<ContainLayout><template slot="side"></template><template slot="main"></template></ContainLayout>`,
+    templete: `<ContainLayout>
+    <template #action></template>
+    <template #contain></template>
+    </ContainLayout>`,
     fun: ``
   },
 

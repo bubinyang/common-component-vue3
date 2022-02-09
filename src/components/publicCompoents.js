@@ -6,6 +6,9 @@ import TreeNode from "./tools/treeNode/index.vue";
 import CascaderNode from "./tools/cascaderNode/index.vue";
 
 import Editor from "./tools/editor/index.vue";
+import SideLayout from "@/components/layout/sideLayout/index.vue";
+import ContainLayout from "@/components/layout/containLayout/index.vue";
+
 const components = [
   // FixBoxWh,
   ExportImage,
@@ -13,7 +16,9 @@ const components = [
   TreeNode,
   CascaderNode,
   // LabelInputSwitch,
-  Editor
+  Editor,
+  SideLayout,
+  ContainLayout
   // ChangeYearMonthDay,
   // HourMinSecond
   // ThreeLangrunda
