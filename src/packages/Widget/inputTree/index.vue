@@ -10,74 +10,79 @@ valueKey 上下树形结构情况，获取的字段可能不是id
 keyType : 处理数据结构，左右树形情况给出想要的字段
 -->
 <template>
-  <div class="input-tree-style">
+  <div class="input-tree-style test">
     <el-cascader
-      :show-all-levels="false"
-      filterable
-      :clearable="clearable"
       v-if="treeHorizontal"
+      :show-all-levels="false"
+      :clearable="clearable"
       :props="keyType"
-      expandTrigger="hover"
       v-model="showValHz"
       :options="origin"
+      filterable
+      expand-trigger="hover"
       @change="changeCascader"
       @visible-change="visibleChange"
-    ></el-cascader>
+    />
 
     <template v-if="!treeHorizontal">
       <el-popover
+        ref="deptListPopover"
         :width="treeWidth"
         :disabled="disabled"
-        v-model="deptListVisible"
-        ref="deptListPopover"
+        v-model:visible="deptListVisible"
         placement="bottom-start"
         trigger="click"
-        popper-class="input-tree-style-contain"
       >
         <el-tree
+          ref="deptListTree"
           :show-checkbox="showCheckbox"
           v-bind="$attrs"
-          @check="checkNode"
           :data="origin"
           :props="keyType"
-          node-key="id"
-          @node-click="handleNodeClick"
           :filter-node-method="filterNode"
-          ref="deptListTree"
           :expand-on-click-node="false"
+          node-key="id"
           accordion
           highlight-current
-        ></el-tree>
+          @check="checkNode"
+          @node-click="handleNodeClick"
+        />
+
+        <template #reference>
+          <el-input
+            v-if="!showCheckbox"
+            ref="treeInput"
+            v-model="showVal"
+            :disabled="disabled"
+            :clearable="clearable"
+            :placeholder="findVal ? findVal[keyType.label] : placeHolder"
+            @click="deptListVisible = !deptListVisible"
+            @clear="clear"
+          />
+        </template>
+        <!-- <template #reference>
+          <el-button @click="deptListVisible = !deptListVisible">手动激活</el-button>
+        </template> -->
       </el-popover>
-      <el-input
-        v-if="!showCheckbox"
-        ref="treeInput"
-        v-model="showVal"
-        v-popover:deptListPopover
-        :disabled="disabled"
-        :clearable="clearable"
-        @clear="clear"
-        :placeholder="findVal ? findVal[keyType.label] : placeHolder"
-      >
-      </el-input>
 
       <!--多选-->
       <el-input
-        v-if="showCheckbox"
-        type="textarea"
-        ref="treeInput"
         v-popover:deptListPopover
+        v-if="showCheckbox"
+        ref="treeInput"
         v-model="multipleVal"
         :disabled="disabled"
+        type="textarea"
         readonly
         placeholder=""
-      >
-      </el-input>
+      />
     </template>
   </div>
 </template>
 
 <script>
+import { spreadTree } from "@/utils/index.js";
+import props from "./prop.js";
 // 辅助横向inputTree查找层级数组方法
 function findParentNode(list, val, key, children) {
   const arr = [];
@@ -99,106 +104,18 @@ function findParentNode(list, val, key, children) {
   return arr;
 }
 
-function spreadTree(data, children = "children") {
-  return data.reduce((total, item) => {
-    total.push(item);
-    if (item[children]) {
-      total.push(...spreadTree(item[children], children));
-    }
-    return total;
-  }, []);
-}
-
-// import { mapState } from 'vuex'
-// input框选中
 export default {
   name: "InputTree",
-  model: {
-    event: "set",
-    prop: "value"
-  },
-  props: {
-    // styleBox: {
-    //   type: String,
-    //   default () {
-    //     return {}
-    //   }
-    // },
-    value: {
-      type: String,
-      default() {
-        return "";
-      }
-    },
-
-    origin: {
-      type: Array,
-      default() {
-        return [];
-      }
-    },
-    placeHolder: {
-      type: String,
-      default() {
-        return "请填写内容";
-      }
-    },
-    keyType: {
-      type: Object,
-      default() {
-        return { label: "label", children: "children" };
-      }
-    },
-    disabled: {
-      type: Boolean,
-      default() {
-        return false;
-      }
-    },
-
-    labelVal: {
-      type: String,
-      default() {
-        return "";
-      }
-    },
-    // // 值类型,一般为code，有时候是label
-    valueKey: {
-      type: String,
-      default() {
-        return "id";
-      }
-    },
-    treeHorizontal: {
-      type: Boolean,
-      default() {
-        return false;
-      }
-    },
-    /* cascader的属性 */
-    // 是否清除
-    clearable: {
-      type: Boolean,
-      default() {
-        return false;
-      }
-    },
-    //是否为多选
-    showCheckbox: {
-      type: Boolean,
-      default() {
-        return false;
-      }
-    }
-  },
+  props: props,
   data() {
     return {
+      visible: false,
       deptListVisible: false,
       spreadData: [],
       showVal: "",
       findVal: {},
       filterText: "",
-      treeWidth: 150,
+      treeWidth: 350,
       originVal: [],
       multipleVal: ""
       // showValHz: ''
@@ -211,17 +128,17 @@ export default {
         const { value, children } = this.keyType;
         const key = value || "id";
         const childrenKey = children || "childList";
-        const val = findParentNode(this.origin, this.value, key, childrenKey).reverse();
-        //  this.$emit('emitVal', val)
+        const val = findParentNode(this.origin, this.modelValue, key, childrenKey).reverse();
         return val;
       },
       set(val) {
         this.originVal = val;
-        this.$emit("set", val[val.length - 1]);
+        // this.$emit("set", val[val.length - 1]);
+        this.$emit("update:modelValue", val[val.length - 1]);
       }
     }
 
-    //多选val监听
+    // 多选val监听
     // multipleVal:{
     //   get(){
     //      return [1,2,3]
@@ -239,7 +156,7 @@ export default {
         if (val) {
           this.filterText = "";
           const findVal = this.spreadData.find(
-            (item) => item[this.valueKey] === this.value || item.name === this.value
+            (item) => item[this.valueKey] === this.modelValue || item.name === this.modelValue
           );
           this.$nextTick(() => {
             if (findVal) {
@@ -248,7 +165,6 @@ export default {
               this.$refs.deptListTree.setCurrentKey(null);
             }
           });
-          //选中就清空,避免过滤导致无法查看全部待选项目
           this.showVal = "";
         } else {
           this.showVal = this.findVal ? this.findVal[this.keyType.label] : "";
@@ -262,23 +178,27 @@ export default {
         val = val || [];
         this.spreadData = spreadTree(val, this.keyType.children);
         this.findVal = this.spreadData.find(
-          (item) => item[this.valueKey] === this.value || item.name === this.value
+          (item) => item[this.valueKey] === this.modelValue || item.name === this.modelValue
         );
+
         if (this.findVal) this.showVal = this.findVal[this.keyType.label];
       },
       immediate: true
     },
     // 外面的待选数据列表快于历史数据处理
-    value: {
+    modelValue: {
       handler(val) {
         // 有历史数据,但是未找到findVal,代变历史数据更快，执行一次查找
         if (val || !this.findVal) {
           this.findVal = this.spreadData.find(
-            (item) => item[this.valueKey] === this.value || item.name === this.value
+            (item) => item[this.valueKey] === this.modelValue || item.name === this.modelValue
           );
           if (this.findVal) this.showVal = this.findVal[this.keyType.label];
         }
-        if (!val) this.showVal = "";
+        if (!val) {
+          this.showVal = "";
+          this.findVal = null;
+        }
       },
       immediate: true
     },
@@ -290,8 +210,10 @@ export default {
 
   created() {},
   mounted() {
-    if (!this.$refs.treeInput) return;
-    this.treeWidth = this.$refs.treeInput.$el.getBoundingClientRect().width;
+    this.$nextTick(() => {
+      if (!this.$refs.treeInput) return;
+      this.treeWidth = this.$refs.treeInput.$el.getBoundingClientRect().width;
+    });
   },
   methods: {
     checkNode(entity) {
@@ -303,10 +225,11 @@ export default {
     handleNodeClick(entity, Node) {
       if (this.showCheckbox) return;
       this.setLabel(entity);
-      this.$emit("set", entity[this.valueKey]);
+      this.$emit("update:modelValue", entity[this.valueKey]);
       this.$emit("change", entity);
 
       this.deptListVisible = false;
+      this.$forceUpdate();
     },
     setLabel(entity) {
       this.findVal = this.spreadData.find((item) => item[this.valueKey] === entity[this.valueKey]);
@@ -317,14 +240,14 @@ export default {
     },
     clear() {
       this.findVal = null;
-      this.$emit("set", "");
+      this.$emit("update:modelValue", "");
     },
     // 搜索
     filterNode(value, data) {
       return data[this.keyType.label].includes(value);
     },
     focus() {
-      // this.showVal=''
+      this.showVal = "";
     },
     visibleChange(isShow) {},
     changeCascader() {
@@ -332,6 +255,10 @@ export default {
         list: this.originVal,
         val: this.originVal[this.originVal.length - 1]
       });
+    },
+    //vue3.0
+    focusInput() {
+      // this.deptListVisible = true;
     }
   }
 };
