@@ -83,7 +83,6 @@ export default {
     initEditor() {
       const self = this;
       self.$refs.container.innerHTML = "";
-      console.log(self.$refs.container);
       self.monacoEditor = monaco.editor.create(self.$refs.container, {
         value: self.codes,
         language: self.language,

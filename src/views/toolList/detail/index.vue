@@ -145,7 +145,6 @@ export default {
     getEditValue(val) {
       const { language, editValue } = val;
       this[languages[language]] = editValue;
-      console.log(val);
       // this.compile();
       this.iframeReload();
       // this.iFrameEl.contentWindow.location.reload()
@@ -161,7 +160,6 @@ export default {
         template: this.htmlCodes,
         type: this.item.type
       };
-      console.log(extendParam, "extendParam");
       this.iFrameEl.contentWindow.postMessage(extendParam, "*");
     },
 
@@ -184,7 +182,6 @@ export default {
     iframeLoad() {
       this.iframeLoading = true;
       this.iFrameEl.onload = () => {
-        console.log("加载完成");
         setTimeout(() => {
           this.compile();
         }, 1000);

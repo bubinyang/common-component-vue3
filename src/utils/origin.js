@@ -4,6 +4,84 @@ import ChangeYearMonthDayProps from "@/packages/Widget/changeYearMonthDay/prop.j
 const originList = [
   {
     type: "tools",
+    name: "防抖(非立即执行)",
+    detail: "防抖(多次触发事件，控制频繁操作只执行一次) 非立即执行",
+    code: "tools-4",
+    fun: `
+      function debounce(fn,ms){
+      let timeout;
+       return function (){
+        if(timeout){
+          clearTimeout(timeout)
+        }
+         timeout=setTimeout(()=>{
+             fn.apply(this,arguments)
+         },ms)
+      }
+    }
+    `
+  },
+
+  {
+    type: "tools",
+    name: "防抖(立即执行)",
+    detail: "防抖(立即执行)",
+    code: "tools-5",
+    fun: `
+    function debounceImmedidately(fn, ms) {
+      let timeout;
+      return function () {
+        if (timeout) clearTimeout(timeout);
+        timeout = setTimeout(() => {
+          timeout = null;
+        }, ms);
+        if (!timeout) fn.apply(this, arguments);
+      };
+    }
+    `
+  },
+
+  {
+    type: "tools",
+    name: "节流 (立即执行,时间戳版本)",
+    detail: "节流 (立即执行,时间戳版本)",
+    code: "tools-6",
+    fun: `
+    function throttleImmedidately(fn, ms) {
+      let star = 0;
+      return function () {
+        let nowTime = new Date();
+        if (nowTime - star > ms) {
+          fn.apply(this, arguments);
+          star = new Date();
+        }
+      };
+    }
+    `
+  },
+
+  {
+    type: "tools",
+    name: "节流 (非立即执行,定时器版本)",
+    detail: "节流 (非立即执行,定时器版本)",
+    code: "tools-7",
+    fun: `
+    function throttle(func, wait) {
+      let timeout;
+      return function () {
+        if (!timeout) {
+          timeout = setTimeout(() => {
+            timeout = null;
+          }, wait);
+          func.apply(this, arguments);
+        }
+      };
+    }
+    `
+  },
+
+  {
+    type: "tools",
     name: "执行一次方法",
     detail: "只执行一次的方法，不能执行第二次，用到了闭包的知识",
     code: "tools-1",
@@ -211,7 +289,6 @@ originList.forEach((item) => {
     });
   }
 });
-console.log(originList);
 export default originList;
 
 // export default originList.map(item => {

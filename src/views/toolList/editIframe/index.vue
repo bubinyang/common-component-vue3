@@ -23,9 +23,7 @@ export default {
     function setConsole(message) {
       logEl.innerHTML += message + "<br />";
     }
-    console.log(logEl);
     window.addEventListener("message", function (messageEvent) {
-      console.log(messageEvent.data);
       const { obj, template, type } = messageEvent.data;
 
       let objUpdate = null;
@@ -34,14 +32,12 @@ export default {
 
       if (type === "tools") {
         console.log = setConsole;
-        console.log(logEl);
         objUpdate = `{created(){
             ${obj}
           }}`;
       } else {
         objUpdate = obj;
       }
-      console.log("执行");
       const jscode = (objUpdate || "{}").replace(/([\n\r]+)/g, "");
       const templateNode = `<div>${template || ""}</div>`;
       //   const Component = Vue.extend({
@@ -57,7 +53,7 @@ export default {
         ...strToJson(jscode),
         template: templateNode
       };
-      console.log(Profile, "Profile");
+
       const app = createApp(Profile);
       app.use(ElementPlus).use(publicComponents).use(widgetComponents).mount("#stageContain");
     });

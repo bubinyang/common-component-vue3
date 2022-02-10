@@ -81,7 +81,7 @@ keyType : 处理数据结构，左右树形情况给出想要的字段
 </template>
 
 <script>
-import { spreadTree } from "@/utils/index.js";
+import { spreadTrees } from "@/utils/index.js";
 import props from "./prop.js";
 // 辅助横向inputTree查找层级数组方法
 function findParentNode(list, val, key, children) {
@@ -176,7 +176,7 @@ export default {
     origin: {
       handler(val) {
         val = val || [];
-        this.spreadData = spreadTree(val, this.keyType.children);
+        this.spreadData = spreadTrees(val, this.keyType.children);
         this.findVal = this.spreadData.find(
           (item) => item[this.valueKey] === this.modelValue || item.name === this.modelValue
         );
