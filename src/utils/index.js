@@ -996,6 +996,54 @@ export function setXmlHttpRequest(url, method, options = {}) {
   });
 }
 
+/* 
+ 背景,上传文件后录入其他内容点击按钮进行保存，如果上传内容了，直接调组件submit即可走formData格式进行http的post请求
+ 不传文件，组件submit调取不了，故而需要自行写请求方法，axios无法实现formData，需要封装xml
+ 最终结果：可以使用XMLHttpRequest原生走formData格式进行http请求
+ */
+export function setXmlHttpRequestSpecial(url, method, options = {}) {
+  return new Promise((resolve, reject) => {
+    const { headers, data, onProgress } = options;
+    // formData 方式http请求
+    if (!XMLHttpRequest) {
+      return console.err("浏览器不支持XMLHtpRequest,请检查");
+    }
+    const xhr = new XMLHttpRequest();
+    xhr.open(method, url, true); // 第三个参数是觉得是否为异步
+    for (const key in headers) {
+      if (Object.prototype.hasOwnProperty.call(headers, key) && (headers[key] ?? "") !== "") {
+        xhr.setRequestHeader(key, headers[key]);
+      }
+    }
+    if (xhr.upload && onProgress) {
+      xhr.upload.onprogress = function progress(e) {
+        if (e.total > 0) {
+          e.percent = (e.loaded / e.total) * 100;
+        }
+        onProgress(e);
+      };
+    }
+    const formData = new FormData();
+    for (const key in data) {
+      if (Object.prototype.hasOwnProperty.call(data, key)) {
+        formData.append(key, data[key]);
+      }
+    }
+    formData.append(options.filename, options.file, options.file.name);
+    xhr.onreadystatechange = function () {
+      if (this.readyState !== 4) {
+        return;
+      }
+      if (this.status === 200) {
+        resolve(this.response);
+      } else {
+        reject(new Error(this.statusText));
+      }
+    };
+    xhr.send(formData);
+  });
+}
+
 export default {
   // 时间类
   getTimeDataRange,
