@@ -88,6 +88,18 @@ const routes: Array<RouteRecordRaw> = [
         component: () => import("@/views/toolList/editIframe/index.vue")
       }
     ]
+  },
+  //看板外壳
+  {
+    path: "/largeScreen",
+    name: "LargeScreen",
+    component: () => import("@/views/largeScreen/index.vue"),
+    children: [
+      {
+        path: "/largeScreen",
+        component: () => import("@/views/largeScreen/index.vue")
+      }
+    ]
   }
 ];
 

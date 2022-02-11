@@ -8,6 +8,7 @@ import CascaderNode from "./tools/cascaderNode/index.vue";
 import Editor from "./tools/editor/index.vue";
 import SideLayout from "@/components/layout/sideLayout/index.vue";
 import ContainLayout from "@/components/layout/containLayout/index.vue";
+import largeScreenMain from "@/components/layout/large-screen-main/index.vue";
 
 const components = [
   // FixBoxWh,
@@ -18,7 +19,8 @@ const components = [
   // LabelInputSwitch,
   Editor,
   SideLayout,
-  ContainLayout
+  ContainLayout,
+  largeScreenMain
   // ChangeYearMonthDay,
   // HourMinSecond
   // ThreeLangrunda

@@ -14,7 +14,7 @@
     "sourceMap": true,
     "resolveJsonModule": true,
     "baseUrl": ".",
-    "types": ["vite/client", "vite-plugin-pwa/client"],
+    "types": ["vite/client", "vite-plugin-pwa/client","node"],
     "paths": {
       "@/*": ["src/*"]
     },
