@@ -1,7 +1,7 @@
 <template>
   <div class="editor-style">
     <p>
-      <el-button type="success" icon="el-icon-check" circle @click="RunResult" />
+      <!-- <el-button type="success" icon="el-icon-check" circle @click="RunResult" /> -->
       <!-- <span class="theme" style="float:right">
         <el-select v-model="theme" size="mini" placeholder="请选择主题" @change="themeChange">
           <el-option

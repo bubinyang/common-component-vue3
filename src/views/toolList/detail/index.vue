@@ -102,20 +102,33 @@ export default {
     // }
   },
   mounted() {
-    function throttle(action, ms) {
-      const startTime = 0;
+    // function throttle(action, ms) {
+    //   let startTime = 0;
+    //   return function () {
+    //     const currentTime = +new Date();
+
+    //     if (currentTime - startTime > ms) {
+    //       action();
+    //       startTime = new Date();
+    //     }
+    //   };
+    // }
+    function throttle(func, wait) {
+      let timeout;
       return function () {
-        const currentTime = +new Date();
-        if (currentTime - startTime > ms) {
-          action();
+        if (!timeout) {
+          timeout = setTimeout(() => {
+            timeout = null;
+          }, wait);
+          func.apply(this, arguments);
         }
       };
     }
     window.addEventListener(
       "resize",
       throttle(function () {
-        console.log(11);
-      })
+        window.location.reload();
+      }, 500)
     );
     this.iFrameEl = this.$refs["stageContainIframe"];
     const { id } = this.$route.params;
@@ -130,17 +143,6 @@ export default {
     htmlOnCodeChange() {},
     cssOnCodeChange() {},
     javascriptCodeChange() {},
-
-    // getEditValue(val) {
-    //   this.iframeLoading = true
-    //   const { language, editValue } = val
-    //   this[languages[language]] = editValue
-    //   this.iFrameEl.contentWindow.location.reload()
-    //   this.iFrameEl.onload = () => {
-    //     this.compile()
-    //     this.iframeLoading = false
-    //   }
-    // },
 
     getEditValue(val) {
       const { language, editValue } = val;
