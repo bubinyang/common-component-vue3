@@ -58,7 +58,7 @@
       </section>
 
       <section class="prop-explain-style" style="boder: 1px solid">
-        <el-table :data="tableData" style="width: 100%">
+        <el-table :data="tableData" style="width: 100%" border>
           <el-table-column prop="name" label="参数" width="180" />
           <el-table-column prop="state" label="说明" />
           <el-table-column width="180" prop="type" label="类型" />
@@ -215,16 +215,21 @@ export default {
 <style lang="scss">
 // @import "@/style/extend.scss";
 .toolist-style {
-  height: 100%;
+  height: 100vh;
   display: flex;
   padding: 10px;
-  // background: #222;
+  background: #222;
   .item-list-contain {
     flex: 0 0 200px;
     margin-right: 10px;
-    // background: linear-gradient(#313131, #131313);
+    background: linear-gradient(#313131, #131313);
+    color: rgb(153, 153, 153);
+
     ul li {
       cursor: pointer;
+      text-align: left;
+      border-bottom: 1px solid black;
+      padding: 7px 5px 6px 8px;
     }
   }
   .edit-interface {
@@ -246,6 +251,7 @@ export default {
     .edit-room-bottom {
       margin-top: 10px;
       flex: 1;
+      background: white;
     }
     .stageContainIframe {
       width: 100%;
@@ -255,7 +261,7 @@ export default {
     }
   }
   .activeStyle {
-    background-color: #409eff;
+    // background-color: #409eff;
     color: white;
   }
 }
