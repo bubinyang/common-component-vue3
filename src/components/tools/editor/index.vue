@@ -13,7 +13,7 @@
         </el-select>
       </span> -->
     </p>
-    <div id="container" ref="container" style="flex: 1" />
+    <div @keyup.ctrl.s="RunResult" id="container" ref="container" style="flex: 1" />
   </div>
 </template>
 <script>
@@ -77,6 +77,11 @@ export default {
     }
   },
   mounted() {
+    document.addEventListener("keydown", function (event) {
+      if (window.event.keyCode === 83 && event.ctrlKey) {
+        event.preventDefault();
+      }
+    });
     this.initEditor();
   },
   methods: {

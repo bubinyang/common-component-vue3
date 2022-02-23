@@ -216,8 +216,11 @@ export default {
   height: 100%;
   display: flex;
   padding: 10px;
+  // background: #222;
   .item-list-contain {
     flex: 0 0 200px;
+    margin-right: 10px;
+    // background: linear-gradient(#313131, #131313);
     ul li {
       cursor: pointer;
     }
