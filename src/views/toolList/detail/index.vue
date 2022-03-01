@@ -58,7 +58,7 @@
       </section>
 
       <section class="prop-explain-style" style="boder: 1px solid">
-        <el-table :data="tableData" style="width: 100%">
+        <el-table :data="tableData" style="width: 100%" border>
           <el-table-column prop="name" label="参数" width="180" />
           <el-table-column prop="state" label="说明" />
           <el-table-column width="180" prop="type" label="类型" />
@@ -102,20 +102,33 @@ export default {
     // }
   },
   mounted() {
-    function throttle(action, ms) {
-      const startTime = 0;
+    // function throttle(action, ms) {
+    //   let startTime = 0;
+    //   return function () {
+    //     const currentTime = +new Date();
+
+    //     if (currentTime - startTime > ms) {
+    //       action();
+    //       startTime = new Date();
+    //     }
+    //   };
+    // }
+    function throttle(func, wait) {
+      let timeout;
       return function () {
-        const currentTime = +new Date();
-        if (currentTime - startTime > ms) {
-          action();
+        if (!timeout) {
+          timeout = setTimeout(() => {
+            timeout = null;
+          }, wait);
+          func.apply(this, arguments);
         }
       };
     }
     window.addEventListener(
       "resize",
       throttle(function () {
-        console.log(11);
-      })
+        window.location.reload();
+      }, 500)
     );
     this.iFrameEl = this.$refs["stageContainIframe"];
     const { id } = this.$route.params;
@@ -130,17 +143,6 @@ export default {
     htmlOnCodeChange() {},
     cssOnCodeChange() {},
     javascriptCodeChange() {},
-
-    // getEditValue(val) {
-    //   this.iframeLoading = true
-    //   const { language, editValue } = val
-    //   this[languages[language]] = editValue
-    //   this.iFrameEl.contentWindow.location.reload()
-    //   this.iFrameEl.onload = () => {
-    //     this.compile()
-    //     this.iframeLoading = false
-    //   }
-    // },
 
     getEditValue(val) {
       const { language, editValue } = val;
@@ -213,13 +215,21 @@ export default {
 <style lang="scss">
 // @import "@/style/extend.scss";
 .toolist-style {
-  height: 100%;
+  height: 100vh;
   display: flex;
   padding: 10px;
+  background: #222;
   .item-list-contain {
     flex: 0 0 200px;
+    margin-right: 10px;
+    background: linear-gradient(#313131, #131313);
+    color: rgb(153, 153, 153);
+
     ul li {
       cursor: pointer;
+      text-align: left;
+      border-bottom: 1px solid black;
+      padding: 7px 5px 6px 8px;
     }
   }
   .edit-interface {
@@ -241,6 +251,7 @@ export default {
     .edit-room-bottom {
       margin-top: 10px;
       flex: 1;
+      background: white;
     }
     .stageContainIframe {
       width: 100%;
@@ -250,7 +261,7 @@ export default {
     }
   }
   .activeStyle {
-    background-color: #409eff;
+    // background-color: #409eff;
     color: white;
   }
 }
