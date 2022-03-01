@@ -86,6 +86,7 @@
       v-model="value"
       filterable
       :allow-create="allowCreate"
+      @blur="editBlur()"
       @change="change"
     >
       <el-option v-for="v in options" :key="v.value" :label="v.label" :value="v.value" />

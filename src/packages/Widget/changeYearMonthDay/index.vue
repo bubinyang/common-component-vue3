@@ -274,6 +274,10 @@ export default {
         year: (val, key) => {
           if (key === "date") this.computeDateOption.date = moment(val).format("YYYY");
           if (key === "dateOther") this.computeDateOption.dateOther = moment(val).format("YYYY");
+        },
+        allyear: (val, key) => {
+          if (key === "date") this.computeDateOption.date = moment(val).format("YYYY");
+          if (key === "dateOther") this.computeDateOption.dateOther = moment(val).format("YYYY");
         }
       };
     },
