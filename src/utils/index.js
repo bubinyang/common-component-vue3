@@ -1044,6 +1044,17 @@ export function setXmlHttpRequestSpecial(url, method, options = {}) {
   });
 }
 
+/**
+ *正则表达式替换字符
+ * @param val 数据源
+ * @param beReplace 被替换的内容
+ * @param replaceVal 替换的新内容
+ */
+function clearStr(val, beReplace, replaceVal) {
+  return val.replace(new RegExp(`\\b${beReplace}`, "g"), replaceVal);
+}
+
+
 export default {
   // 时间类
   getTimeDataRange,
