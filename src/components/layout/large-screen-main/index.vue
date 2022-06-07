@@ -58,6 +58,7 @@ export default {
       }
       this.ratio = docEl.getBoundingClientRect().width / 1920;
       El.style.transform = "scale(" + this.ratio + ")";
+      docEl.style.height = `${1080 * this.ratio}px`
       console.log(this.ratio);
       this.$emit("emitRatio", this.ratio);
     }
