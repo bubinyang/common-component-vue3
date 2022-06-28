@@ -1064,6 +1064,119 @@ export function criculationAction(fn, ms) {
   beginAction();
 }
 
+/**
+ *正则表达式替换字符
+ * @param val 数据源
+ * @param beReplace 被替换的内容
+ * @param replaceVal 替换的新内容
+ */
+function clearStr(val, beReplace, replaceVal) {
+  return val.replace(new RegExp(`\\b${beReplace}`, "g"), replaceVal);
+}
+
+/**
+ * 改变桑基图贝塞尔曲线弧度
+ * @param el 数据源
+ * @param quadrticBezier 二次贝塞尔曲线
+ * @param controlPointSize 贝塞尔曲线弧度
+ */
+
+function changeBezier(el, quadrticBezier = true, controlPointSize = 5) {
+  //   const el = document.querySelector(className);
+  const dValue = el.getAttribute("d").split(",");
+  //   const findCBezier=dValue.find((item) => item.includes("C"))
+  const Mindex = 0,
+    curvetoIndexA = 1,
+    curvetoIndexB = 2,
+    endIndex = 3;
+
+  const dValueGroup = dValue.reduce((total, item, index) => {
+    if (!(index % 2)) {
+      total.push({ x: item, y: dValue[index + 1] });
+    }
+    return total;
+  }, []);
+  const intermediatePoint = {
+    // x: (Number(dValueGroup[curvetoIndexB].x) - solidWidth).toString(),
+    x: dValueGroup[curvetoIndexA].x,
+    y: (Number(dValueGroup[curvetoIndexA].y) + Number(dValueGroup[curvetoIndexB].y)) / 2
+  };
+
+  //起始点+A转折点+B转折点+结束点   B转折点的Y值需要减controlPointSize，否则B增加二次贝塞尔会出现突出情况
+  const changeBezierCoordinate = [dValueGroup[0], dValueGroup[endIndex]];
+  changeBezierCoordinate.splice(1, 0, { x: dValueGroup[1].x, y: dValueGroup[0].y });
+  changeBezierCoordinate.splice(2, 0, {
+    x: dValueGroup[1].x,
+    y: dValueGroup[endIndex].y - controlPointSize
+  });
+  //去除Curveto
+
+  changeBezierCoordinate.forEach((item) => {
+    if (item.x.match(/[a-zA-Z]+/)) {
+      item.x = item.x.replace(/C/g, "L");
+    }
+  });
+
+  const { length } = changeBezierCoordinate;
+  changeBezierCoordinate[length - 1].x = `L${changeBezierCoordinate[length - 1].x}`;
+
+  //判断中间点是否低于起始点M
+  const isOvertopM = dValueGroup[Mindex].y < intermediatePoint.y;
+
+  //如果增加二次贝塞尔曲线
+  changeBezierCoordinate[2].x = `L${
+    Number(clearStr(changeBezierCoordinate[2].x, "L", "")) + controlPointSize
+  }`;
+  changeBezierCoordinate[3].y = isOvertopM
+    ? `${Number(changeBezierCoordinate[3].y)}`
+    : `${Number(changeBezierCoordinate[3].y)}`;
+
+  let QA, QB;
+  //中间坐标点低于起始点(中间点位置不同,二次贝塞尔曲线设置标准不同)
+
+  const QA_Star_X = Number(clearStr(changeBezierCoordinate[1].x, "L", "")) + controlPointSize;
+  const QA_Star_Y = changeBezierCoordinate[1].y;
+  const QA_End_X = QA_Star_X;
+  const QA_End_y = isOvertopM
+    ? Number(changeBezierCoordinate[1].y) + controlPointSize
+    : Number(changeBezierCoordinate[1].y) - controlPointSize;
+
+  const QB_Star_X = clearStr(changeBezierCoordinate[2].x, "L", "");
+  const QB_Star_Y = isOvertopM
+    ? Number(changeBezierCoordinate[2].y) + controlPointSize
+    : Number(changeBezierCoordinate[2].y) - controlPointSize;
+  const QB_end_X = Number(clearStr(changeBezierCoordinate[2].x, "L", "")) + controlPointSize;
+  const QB_end_Y = isOvertopM
+    ? Number(changeBezierCoordinate[2].y) + controlPointSize
+    : Number(changeBezierCoordinate[2].y) - controlPointSize;
+
+  QA = `Q${QA_Star_X} ${QA_Star_Y} ${QA_End_X} ${QA_End_y}`;
+  QB = `Q${QB_Star_X} ${QB_Star_Y} ${QB_end_X} ${QB_end_Y}`;
+
+  console.log(QA, QB, quadrticBezier);
+  if (quadrticBezier) {
+    changeBezierCoordinate.splice(2, 0, QA);
+    changeBezierCoordinate.splice(4, 0, QB);
+  }
+
+  //是否在拐弯点增加二次贝塞尔曲线效果
+
+  const setDvalue = changeBezierCoordinate
+    .reduce((total, item) => {
+      if (Object.prototype.toString.apply(item) === "[object Object]") {
+        total.push(...[item.x, item.y]);
+      } else {
+        if (item) total.push(item);
+      }
+
+      return total;
+    }, [])
+    .join(",");
+  console.log(changeBezierCoordinate, setDvalue);
+  el.setAttribute("d", setDvalue);
+}
+
+
 export default {
   // 时间类
   getTimeDataRange,
