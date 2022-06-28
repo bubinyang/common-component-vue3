@@ -1044,6 +1044,26 @@ export function setXmlHttpRequestSpecial(url, method, options = {}) {
   });
 }
 
+//数组分组
+export function grouping(origin, lengthVal = 5) {
+  let i = 0;
+  return origin.reduce((total, item, index) => {
+    const arr = origin.slice(i, i + lengthVal);
+    i += lengthVal;
+    if (arr.length) total.push(arr);
+    return total;
+  }, []);
+}
+
+//定时循环执行,不增加内存,替换setInterval
+export function criculationAction(fn, ms) {
+  const beginAction = () => {
+    fn();
+    setTimeout(beginAction, ms);
+  };
+  beginAction();
+}
+
 export default {
   // 时间类
   getTimeDataRange,
@@ -1063,5 +1083,6 @@ export default {
   createrUrlJson,
   strToJson,
   getTimeList,
-  setGuid
+  setGuid,
+  grouping
 };
