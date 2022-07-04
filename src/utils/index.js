@@ -1058,6 +1058,7 @@ export function grouping(origin, lengthVal = 5) {
 //定时循环执行,不增加内存,替换setInterval
 export function criculationAction(fn, ms) {
   const beginAction = () => {
+    //fn.apply(this, arguments);
     fn();
     setTimeout(beginAction, ms);
   };
@@ -1176,7 +1177,6 @@ function changeBezier(el, quadrticBezier = true, controlPointSize = 5) {
   el.setAttribute("d", setDvalue);
 }
 
-
 export default {
   // 时间类
   getTimeDataRange,
@@ -1197,5 +1197,6 @@ export default {
   strToJson,
   getTimeList,
   setGuid,
-  grouping
+  grouping,
+  criculationAction
 };

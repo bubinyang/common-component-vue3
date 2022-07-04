@@ -4,6 +4,7 @@ import SmallContain from "./layout/smallContain/index.vue";
 import ExportImage from "./tools/exportImage/index.vue"; // 导出图片
 import TreeNode from "./tools/treeNode/index.vue";
 import CascaderNode from "./tools/cascaderNode/index.vue";
+import Clock from "./tools/clock/index.vue";
 
 import Editor from "./tools/editor/index.vue";
 import SideLayout from "@/components/layout/sideLayout/index.vue";
@@ -12,6 +13,7 @@ import largeScreenMain from "@/components/layout/large-screen-main/index.vue";
 
 const components = [
   // FixBoxWh,
+  Clock,
   ExportImage,
   SmallContain,
   TreeNode,
