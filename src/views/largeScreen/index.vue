@@ -79,6 +79,8 @@ export default {
 </script>
 <style lang="scss">
 .largeScreen-contain {
+  width: 500px;
+  height: 500px;
   .screen-top {
     height: 160px;
     display: flex;

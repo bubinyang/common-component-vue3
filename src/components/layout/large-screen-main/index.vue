@@ -1,6 +1,6 @@
 <template>
   <div class="langScreen" :style="{ background: fullmodel ? 'rgb(4,9,61)' : 'initial' }">
-    <ExpandButton @refresh="refresh" v-model="fullmodel"></ExpandButton>
+    <ExpandButton @refresh="refresh" v-bind="$attrs" v-model="fullmodel"></ExpandButton>
     <div :style="bg" class="main_box">
       <div class="main_contain">
         <slot name="top" />
@@ -38,11 +38,12 @@ export default {
 
   methods: {
     refresh() {
+      this.rize();
       this.$emit("change", "go");
     },
     rize() {
       const docEl = document.querySelector(".langScreen");
-      console.log(docEl);
+      console.log("rize执行了");
       const El = document.querySelector(".main_box");
       El.style.width = "1920px";
       El.style.height = "1080px";
@@ -58,7 +59,7 @@ export default {
       }
       this.ratio = docEl.getBoundingClientRect().width / 1920;
       El.style.transform = "scale(" + this.ratio + ")";
-      docEl.style.height = `${1080 * this.ratio}px`
+      docEl.style.height = `${1080 * this.ratio}px`;
       console.log(this.ratio);
       this.$emit("emitRatio", this.ratio);
     }

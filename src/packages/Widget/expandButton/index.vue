@@ -1,18 +1,17 @@
 <template>
   <div class="expand-btn" @click="screen">
-    <i v-if="!fullmodel" class="el-icon-full-screen" />
-    <i v-if="fullmodel" class="el-icon-menu" />
+    <i
+      :style="{ color: $attrs.expandColor || 'white' }"
+      v-if="!modelValue"
+      class="el-icon-full-screen"
+    />
+    <i :style="{ color: $attrs.expandColor || 'white' }" v-if="modelValue" class="el-icon-menu" />
   </div>
 </template>
-
 <script>
 export default {
   name: "ExpandButton",
   components: {},
-  model: {
-    event: "change",
-    prop: "fullmodel"
-  },
   props: {
     fullmodel: {
       type: Boolean,
@@ -25,7 +24,19 @@ export default {
       default() {
         return "";
       }
+    },
+    modelValue: {
+      type: Boolean,
+      default() {
+        return false;
+      }
     }
+    // expandColor: {
+    //   type: String,
+    //   default() {
+    //     return "white";
+    //   }
+    // }
   },
   data() {
     return {
@@ -36,20 +47,21 @@ export default {
   mounted() {},
   methods: {
     screen(e) {
+      console.log(this.modelValue);
       const parentEl = e.currentTarget.parentElement;
-      console.log(parentEl);
-      if (!this.fullmodel) {
+      if (!this.modelValue) {
         parentEl.classList.add("expand-style");
       } else {
         parentEl.classList.remove("expand-style");
       }
-      this.$emit("change", !this.fullmodel);
+      // this.$emit("change", !this.fullmodel);
+      this.$emit("update:modelValue", !this.modelValue);
       this.$emit("refresh");
     }
-  }
+  },
+  emits: ["update:modelValue", "refresh"]
 };
 </script>
-
 <style lang="scss">
 .expand-btn {
   cursor: pointer;
