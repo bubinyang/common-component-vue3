@@ -296,6 +296,7 @@ export function scrollItem({ contentEl, speed = 20, orient = "horizontal" }) {
   // const boxSizeVal = boxEl.getBoundingClientRect()[types[orient].sizeLabel]
   const contentSizeVal = contentEl.getBoundingClientRect()[types[orient].sizeLabel];
   let distance = 0;
+  let action = true;
   setInterval(() => {
     distance = distance - 1;
     if (-distance >= parseInt(contentSizeVal)) {
@@ -304,6 +305,14 @@ export function scrollItem({ contentEl, speed = 20, orient = "horizontal" }) {
     // console.log(distance)
     contentEl.style.transform = types[orient].setStyle(distance);
   }, 20);
+
+  //鼠标触碰暂停启动
+  contentEl.addEventListener("mouseenter", () => {
+    action = false;
+  });
+  contentEl.addEventListener("mouseleave", () => {
+    action = true;
+  });
 }
 
 /**
