@@ -7,6 +7,8 @@ import moment from "moment";
 import ElementPlus from "element-plus";
 import "./style/base.scss";
 import "element-plus/dist/index.css";
+import Echarts from "vue-echarts";
 const app = createApp(App);
 app.config.globalProperties.$moment = moment;
+app.component("v-chart", Echarts);
 app.use(router).use(ElementPlus).use(publicComponents).use(widgetComponents).mount("#app");

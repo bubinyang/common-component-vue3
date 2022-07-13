@@ -6,6 +6,8 @@ import TreeNode from "./tools/treeNode/index.vue";
 import CascaderNode from "./tools/cascaderNode/index.vue";
 import Clock from "./tools/clock/index.vue";
 
+import decorateEchart from "./tools/echart/index.vue";
+
 import Editor from "./tools/editor/index.vue";
 import SideLayout from "@/components/layout/sideLayout/index.vue";
 import ContainLayout from "@/components/layout/containLayout/index.vue";
@@ -22,7 +24,8 @@ const components = [
   Editor,
   SideLayout,
   ContainLayout,
-  largeScreenMain
+  largeScreenMain,
+  decorateEchart
   // ChangeYearMonthDay,
   // HourMinSecond
   // ThreeLangrunda

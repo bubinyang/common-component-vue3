@@ -12,7 +12,9 @@
       <section class="screen-main-content">
         <section class="screen-main-l">
           <div class="module-box">
-            <SmallContain :title="'综合能源消费量'" />
+            <SmallContain :title="'综合能源消费量'">
+              <chartBar></chartBar>
+            </SmallContain>
           </div>
 
           <div class="module-box">
@@ -48,9 +50,10 @@
 <script>
 import { getWeek } from "@/utils";
 import mapModule from "@/views/largeScreen/map.vue";
+import chartBar from "@/views/largeScreen/chartBar.vue";
 export default {
   name: "LargeScreen",
-  components: { mapModule },
+  components: { mapModule, chartBar },
   data() {
     return {
       timeVal: "",
@@ -59,9 +62,9 @@ export default {
     };
   },
   created() {
-    setInterval(() => {
-      this.setTime();
-    }, 1000);
+    // setInterval(() => {
+    //   this.setTime();
+    // }, 1000);
   },
   mounted() {},
   methods: {
@@ -79,8 +82,8 @@ export default {
 </script>
 <style lang="scss">
 .largeScreen-contain {
-  width: 500px;
-  height: 500px;
+  width: 1000px;
+  // height: 500px;
   .screen-top {
     height: 160px;
     display: flex;
