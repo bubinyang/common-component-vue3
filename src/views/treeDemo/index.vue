@@ -30,6 +30,16 @@
       }"
       @change="handleChange"
     />
+
+    <treeStructure
+      ref="tree"
+      :filter="true"
+      :is-initial-data="true"
+      :check="true"
+      :accordion="true"
+      @change="changeHandler"
+      @finishLoading="finishHandler"
+    />
   </div>
 </template>
 
@@ -69,7 +79,9 @@ export default {
     },
     handleChange(val) {
       console.log(val);
-    }
+    },
+    changeHandler() {},
+    finishHandler() {}
   }
 };
 </script>

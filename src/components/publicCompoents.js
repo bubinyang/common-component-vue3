@@ -5,6 +5,7 @@ import ExportImage from "./tools/exportImage/index.vue"; // 导出图片
 import TreeNode from "./tools/treeNode/index.vue";
 import CascaderNode from "./tools/cascaderNode/index.vue";
 import Clock from "./tools/clock/index.vue";
+import treeStructure from "./tools/treeStructure/index.vue";
 
 import decorateEchart from "./tools/echart/index.vue";
 
@@ -25,7 +26,8 @@ const components = [
   SideLayout,
   ContainLayout,
   largeScreenMain,
-  decorateEchart
+  decorateEchart,
+  treeStructure
   // ChangeYearMonthDay,
   // HourMinSecond
   // ThreeLangrunda
