@@ -11,7 +11,8 @@ export default defineConfig({
   // 这里是将src目录配置别名为 /@ 方便在项目中导入src目录下的文件
   resolve: {
     alias: {
-      "@": resolve(__dirname, "./src")
+      "@": resolve(__dirname, "./src"),
+      snapsvg: "snapsvg/dist/snap.svg.js"
     }
   },
   // 强制预构建插件包

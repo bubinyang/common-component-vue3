@@ -100,6 +100,19 @@ const routes: Array<RouteRecordRaw> = [
         component: () => import("@/views/largeScreen/index.vue")
       }
     ]
+  },
+
+  //svg标尺
+  {
+    path: "/svgScalePlate",
+    name: "SvgScalePlate",
+    component: () => import("@/views/svgScalePlate/index.vue"),
+    children: [
+      {
+        path: "/svgScalePlate",
+        component: () => import("@/views/svgScalePlate/index.vue")
+      }
+    ]
   }
 ];
 
