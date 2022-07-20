@@ -27,7 +27,6 @@ export default {
         let date = moment(times).format("YYYY年MM月DD日");
         let week = moment(times).day();
         this.timeValue = `${time}   ${date}   星期${week}`;
-        console.log(`${time}   ${date}   星期${week}`);
       };
     };
     criculationAction(setGetDate, 60000);

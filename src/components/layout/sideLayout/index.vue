@@ -27,7 +27,7 @@ $sideWidth: 250px;
   display: flex;
   position: relative;
   overflow: hidden;
-  height: calc(100vh - 50px - 30px - 38px);
+  height: calc(100vh - 500px);
   // height: calc(#{$content--fill-height-tabs});
   .side {
     width: $sideWidth;

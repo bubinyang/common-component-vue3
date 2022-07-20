@@ -113,6 +113,18 @@ const routes: Array<RouteRecordRaw> = [
         component: () => import("@/views/svgScalePlate/index.vue")
       }
     ]
+  },
+
+  {
+    path: "/layout",
+    name: "Layout",
+    component: () => import("@/views/layout/index.vue"),
+    children: [
+      {
+        path: "/layout",
+        component: () => import("@/views/layout/index.vue")
+      }
+    ]
   }
 ];
 
