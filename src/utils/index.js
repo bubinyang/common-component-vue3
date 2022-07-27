@@ -819,14 +819,14 @@ class SetDialogPosition {
       defaultPosition: "rt"
     }
   ) {
-    const { eventItem, dialogElName, defaultPosition } = options;
+    const { eventItem, dialogElName, dialogEl, defaultPosition } = options;
     this.eventItem = eventItem;
 
-    if (!containElName || !dialogElName) {
+    if (!containElName || (!dialogElName && !dialogEl)) {
       console.log("传参有问题，请检查");
       return;
     }
-    this.dialogEl = document.querySelector(dialogElName);
+    this.dialogEl = document.querySelector(dialogElName) || dialogEl;
     this.containEl = document.querySelector(containElName);
     return this.action();
   }
@@ -842,7 +842,6 @@ class SetDialogPosition {
     const dialogW = this.dialogEl.getBoundingClientRect().width;
     const dialogH = this.dialogEl.getBoundingClientRect().height;
     const contentElBoundingRect = this.containEl.getBoundingClientRect();
-
     if (dialogW <= spaceW) {
       left = contentElBoundingRect.width - spaceW;
     } else {

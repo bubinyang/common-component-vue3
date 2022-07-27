@@ -68,10 +68,10 @@
 </template>
 <script>
 import EasyPlayer from "@easydarwin/easyplayer";
-import { reactive, ref } from "vue";
+import { reactive, ref, onMounted, nextTick } from "vue";
 import { list, lista, listb, originData } from "@/utils/test.js";
 import { grouping, criculationAction } from "@/utils/index.js";
-//import Clock from "@/components/tools/clock/index.vue";
+
 export default {
   name: "Test",
   //components: { Clock },
@@ -227,11 +227,11 @@ export default {
     //   }
     // });
 
-    console.log(
-      origin,
-      origin.filter((item) => item.ten).filter((item) => item.list[0] < 2 || item.list[1] < 1),
-      origin.filter((item) => item.four)
-    );
+    // console.log(
+    //   origin,
+    //   origin.filter((item) => item.ten).filter((item) => item.list[0] < 2 || item.list[1] < 1),
+    //   origin.filter((item) => item.four)
+    // );
 
     let videoUrl = ref("");
     let input = ref("");
@@ -242,7 +242,7 @@ export default {
         videoUrl = input;
       }
     };
-
+    //关于原型
     function A() {
       this.name = "Aname";
       this.play = [1, 2, 3];
@@ -277,6 +277,18 @@ export default {
       input,
       player
     };
+  },
+  data() {
+    return {};
+  },
+  mounted() {},
+  methods: {
+    refreshComponent(key) {
+      this[key] = false;
+      this.$nextTick(() => {
+        this[key] = true;
+      });
+    }
   }
 };
 </script>
@@ -369,4 +381,8 @@ export default {
   height: 100%;
   --baccarat-score-cards-stroke-color: #979797;
 }
+
+// .aTable-style{
+//   .tootip-contain{}
+// }
 </style>

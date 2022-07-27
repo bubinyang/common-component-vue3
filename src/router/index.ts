@@ -57,6 +57,19 @@ const routes: Array<RouteRecordRaw> = [
     ]
   },
 
+  // 拖拽树形结构进行排序
+  {
+    path: "/dragSort",
+    name: "DragSort",
+    component: () => import("@/views/dragSort/index.vue"),
+    children: [
+      {
+        path: "/dragSort",
+        component: () => import("@/views/dragSort/index.vue")
+      }
+    ]
+  },
+
   // 组件和方法列表
   {
     path: "/toolList",
