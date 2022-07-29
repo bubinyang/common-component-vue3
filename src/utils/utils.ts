@@ -214,6 +214,8 @@ export class lrdEchart {
  * 2.lrdDrg 相当于基类，辅助各种拖拉拽子类
  * 3.moveActionBind 作为方法传入addEventListener会导致this指向变化，需要bind
  * 4.onselectstart和ondragstart 防止拖拽选中文字和元素
+ * 5.外部数据重新渲染，lrdDrag实例化禁止重复，否则点击事件会多次绑定导致多次执行
+ * 6.findParent 查找仅次于拖拽子项容易，有两种情况，className和attribute，需要包括这2个条件
  */
 /**
  * @param el 拖拉拽所在的相对位置的盒子
@@ -282,16 +284,19 @@ export class lrdDragSort extends lrdDrag {
   public name: string; //点击弹出createEl中的内容
   public alowSort: boolean; //鼠标超出el容器框是否允许执行mouseup事件关键字段
   public mouseUpCallBack: IFunction; //mouseUp外部回调函数
+  public attributeKey: string; //排序子项容器的className
   constructor(public el: HTMLDivElement, options: IObject) {
     super(el, options);
+    const { attributeKey } = options;
     this.createEl = null;
     this.markeLineEl = null;
     this.parentNodeList = [];
     this.name = "";
     this.alowSort = true;
+    this.attributeKey = attributeKey;
     this.mouseUpCallBack = function () {};
   }
-  private newSetDialogPosition(el: string, options: IObject): SetDialogPosition {
+  private newSetDialogPosition(el: HTMLDivElement, options: IObject): SetDialogPosition {
     return new SetDialogPosition(el, options);
   }
 
@@ -300,7 +305,7 @@ export class lrdDragSort extends lrdDrag {
     console.log("被滚动");
   }
   moveAction(event: MouseEvent): void {
-    const position: IObject = this.newSetDialogPosition(".aTable-style", {
+    const position: IObject = this.newSetDialogPosition(this.el, {
       eventItem: event,
       dialogElName: ".createEl-style"
     }).action();
@@ -335,12 +340,30 @@ export class lrdDragSort extends lrdDrag {
     }
 
     //根据位移高度  设置位移后的位置标注线
+    this.setMarkeLinePosition(event);
+    // this.parentNodeList = [];
+    // this.findParent(event.target);
 
+    // const trEl = this.parentNodeList[0] as HTMLDivElement;
+    // const currentKey = trEl?.getAttribute("data-row-key");
+    // if (!trEl || !currentKey) return;
+    // const { top, height, bottom } = trEl.getBoundingClientRect();
+
+    // const centerY = top + height / 2;
+    // const completeContentElTop = this.completeContentEl.getBoundingClientRect().top;
+    // if (event.pageY > centerY) {
+    //   (this.markeLineEl as HTMLDivElement).style.top = `${bottom - completeContentElTop}px`;
+    // } else {
+    //   (this.markeLineEl as HTMLDivElement).style.top = `${top - completeContentElTop}px`;
+    // }
+  }
+
+  setMarkeLinePosition(event: MouseEvent): void {
     this.parentNodeList = [];
     this.findParent(event.target);
 
     const trEl = this.parentNodeList[0] as HTMLDivElement;
-    const currentKey = trEl?.getAttribute("data-row-key");
+    const currentKey = trEl?.getAttribute(this.attributeKey);
     if (!trEl || !currentKey) return;
     const { top, height, bottom } = trEl.getBoundingClientRect();
 
@@ -354,8 +377,20 @@ export class lrdDragSort extends lrdDrag {
   }
 
   findParent(dom: HTMLDivElement | EventTarget | null): any {
+    const parentDom = dom && ((dom as HTMLDivElement).parentNode as HTMLDivElement);
+    //属性条件或者className条件 满足都算父节点。查找排序子项容器dom,有时候要按照属性判断，有时候要按照className判断
     if (dom) {
-      if (!this.parentNodeList.length && (dom as HTMLDivElement).parentNode?.nodeName == "TR") {
+      if (
+        !this.parentNodeList.length &&
+        parentDom?.hasAttribute &&
+        parentDom?.hasAttribute(this.attributeKey)
+      ) {
+        this.parentNodeList.push((dom as HTMLDivElement).parentNode);
+      } else if (
+        !this.parentNodeList.length &&
+        parentDom?.className &&
+        parentDom?.className.includes(this.attributeKey)
+      ) {
         this.parentNodeList.push((dom as HTMLDivElement).parentNode);
       }
       this.findParent((dom as HTMLDivElement).parentNode); //dom.parentNode作为子元素向上查找它的父元素
@@ -392,7 +427,7 @@ export class lrdDragSort extends lrdDrag {
     this.createEl.className = "createEl-style";
     this.el.appendChild(this.createEl);
 
-    const position: any = this.newSetDialogPosition(".aTable-style", {
+    const position: any = this.newSetDialogPosition(this.el, {
       eventItem: event,
       dialogEl: this.createEl
     }).action();
@@ -419,7 +454,7 @@ export class lrdDragSort extends lrdDrag {
 
     // document.querySelector("body")?.appendChild(this.markeLineEl);
     this.completeContentEl.appendChild(this.markeLineEl);
-
+    this.setMarkeLinePosition(event);
     //获取当前行唯一id
     this.parentNodeList = [];
     this.findParent(event.target);
@@ -440,7 +475,7 @@ class SetDialogPosition {
   private eventItem: MouseEvent;
   public dialogEl!: HTMLDivElement;
   public containEl!: HTMLDivElement;
-  constructor(public containElName: string, options: IObject) {
+  constructor(public containElName: HTMLDivElement, options: IObject) {
     const { eventItem, dialogElName, dialogEl, defaultPosition } = options;
     this.eventItem = eventItem;
 
@@ -449,7 +484,7 @@ class SetDialogPosition {
       return;
     }
     this.dialogEl = document.querySelector(dialogElName) || dialogEl;
-    this.containEl = document.querySelector(containElName) as HTMLDivElement;
+    this.containEl = containElName;
     // return this.action();
   }
 

@@ -158,8 +158,8 @@ export default {
       const containEl = document.querySelector(".aTable-style");
       const completeContentEl = document.querySelector(".aTable-style .ant-table");
       newLrdDrag = new lrdDragSort(containEl, {
-        parentEl: containEl,
-        completeContentEl
+        completeContentEl,
+        attributeKey: "data-row-key"
       });
 
       // newLrdDrag.moveAction = function () {
