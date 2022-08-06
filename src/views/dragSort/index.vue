@@ -33,6 +33,13 @@
           ></a>
         </template>
       </template>
+      <!-- <template #operation="{ record }">
+        <a
+          @mouseenter="draggableClick(record)"
+          draggable
+          style="display: block; height: 50px; width: 50px; background: black"
+        ></a>
+      </template> -->
     </a-table>
   </section>
 </template>
@@ -125,6 +132,7 @@ const columnsData = [
     title: "operation",
     dataIndex: "operation",
     fixed: "right"
+    // slots: { customRender: "operation" }
   }
 ];
 import { reactive, ref, onMounted, nextTick } from "vue";
@@ -173,6 +181,9 @@ export default {
       rowSelection,
       draggableClick
     };
+  },
+  created() {
+    console.log("刷新");
   }
 };
 </script>

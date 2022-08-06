@@ -188,25 +188,42 @@ export default {
         //allow false设置了2条数据后，需要重置各个条件
         allowFalse = 0;
         totalNum = 0;
+        targeIndex = 0;
       } //如果查找了2条数据大于危险值
       const val = overTwoNum(item.list);
       totalNum += val;
-      //console.log(allowFalse, totalNum, index);
-      // console.log(targeIndex, totalNum,index);
-
+      targeIndex++;
       if (totalNum <= 2 && !item.isAllow) {
         //totalNum大于2的时候，后面数据isAllow设置成true
-        targeIndex++;
         if (targeIndex > 2) {
           item.isAllow = true;
           allowTrue++;
-          //console.log(index, allowTrue);
         }
       } else if (totalNum > 2 && !item.isAllow) {
         //num大于二，累计数据isAllow设置成false的次数
         allowFalse++;
       }
     });
+
+    // let actionNum = 0;
+    // let totalStand = 0;
+    // origin.forEach((item, index) => {
+    //   if (item.isAllow) {
+    //     return;
+    //   }
+    //   actionNum++;
+    //   if (actionNum <= 2) totalStand += overTwoNum(item.list);
+    //   if (actionNum === 2 && totalStand <= 2) {
+    //     if (origin[index + 1]) origin[index + 1].isAllow = true;
+    //     if (origin[index + 2]) origin[index + 2].isAllow = true;
+    //     if (origin[index + 3]) origin[index + 3].isAllow = true;
+    //   }
+    //   if (actionNum === 2) {
+    //     actionNum = 0;
+    //     totalStand = 0;
+    //   }
+    // });
+
     //集体存在0或者1
     origin.forEach((item) => {
       item.two = item.list.some((childitem) => childitem < 2);

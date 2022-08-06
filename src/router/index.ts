@@ -1,10 +1,11 @@
 import { createRouter, createWebHashHistory, RouteRecordRaw } from "vue-router";
+import laoyout from "@/layout/layout.vue";
 // import {debounce} from '../utils/index.js'
 const routes: Array<RouteRecordRaw> = [
   {
     path: "/",
     name: "home",
-    component: () => import("@/views/test.vue")
+    component: () => import("@/views/test-copy.vue")
   },
   {
     path: "/fourGrid",
@@ -61,7 +62,7 @@ const routes: Array<RouteRecordRaw> = [
   {
     path: "/dragSort",
     name: "DragSort",
-    component: () => import("@/views/dragSort/index.vue"),
+    component: laoyout,
     children: [
       {
         path: "/dragSort",
@@ -142,4 +143,10 @@ const routes: Array<RouteRecordRaw> = [
 ];
 
 const router = createRouter({ history: createWebHashHistory(), routes });
+
+router.beforeEach((to, from, next) => {
+  console.log(to);
+  next();
+});
+
 export default router;
