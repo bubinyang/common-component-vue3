@@ -16,6 +16,21 @@
     "
     class="aTable-style"
   >
+    <table class="test-style">
+      <tr>
+        <th>Firstname</th>
+        <th>Lastname</th>
+      </tr>
+      <tr>
+        <td>Peter</td>
+        <td>Griffin</td>
+      </tr>
+      <tr>
+        <td>Lois</td>
+        <td>Griffin</td>
+      </tr>
+    </table>
+
     <!-- <div class="tootip-contain"></div> -->
     <a-table
       :scroll="{ x: 700, y: 445 }"
@@ -33,13 +48,6 @@
           ></a>
         </template>
       </template>
-      <!-- <template #operation="{ record }">
-        <a
-          @mouseenter="draggableClick(record)"
-          draggable
-          style="display: block; height: 50px; width: 50px; background: black"
-        ></a>
-      </template> -->
     </a-table>
   </section>
 </template>
@@ -183,7 +191,19 @@ export default {
     };
   },
   created() {
-    console.log("刷新");
+    console.log("drag刷新");
   }
 };
 </script>
+
+<style scoped>
+/* .test-style.table {
+  border-collapse: collapse;
+} */
+
+.test-style.table,
+td,
+th {
+  border: 1px solid black;
+}
+</style>

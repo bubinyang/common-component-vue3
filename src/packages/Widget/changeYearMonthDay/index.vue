@@ -12,7 +12,7 @@
       <el-radio-button v-if="typeList.includes('allyear')" label="allyear">多年</el-radio-button>
     </el-radio-group>
     <!--        将年月日拆分成三个组件的原因：快速切换datePicker的type并且很快的打开关闭，会出现样式bug-->
-    <div>{{ titleList[0] ? titleList[0] : "" }}</div>
+    <div v-if="titleList.length">{{ titleList[0] ? titleList[0] : "" }}</div>
     <div v-show="computeDateOption.type === 'day' || computeDateOption.type === 'realtime'">
       <el-date-picker
         v-model="computeDateOption.date"
@@ -58,9 +58,8 @@
       placeholder="选择年"
       @change="changeDatePicker(dateOption.date, 'date')"
     />
-
     <template v-if="multiple && typeListMutiple.includes(dateOption.type)">
-      <div>{{ titleList[1] ? titleList[1] : "" }}</div>
+      <div v-if="titleList.length">{{ titleList[1] ? titleList[1] : "" }}</div>
       <template v-if="!titleList.length"><div class="septalLine">-</div></template>
       <el-date-picker
         v-if="dateOption.type === 'day' || dateOption.type === 'realtime'"
@@ -304,9 +303,9 @@ export default {
 .yearDateComponentPriva {
   display: flex;
   align-items: center;
-  .septalLine {
-    margin: 0 5px;
-  }
+  // .septalLine {
+  //   margin: 0 5px;
+  // }
 
   .el-radio-group {
     margin-right: 5px;
@@ -314,6 +313,7 @@ export default {
   .el-date-editor.el-input {
     //  margin-left:5px;
     width: 140px;
+    margin: 0 5px;
   }
   //  .marginRight{
   //      margin-right: 5px;

@@ -10,7 +10,7 @@
       :typeListMutiple="['allyear']"
       :intervalTimeValue="{ realtime: 1, day: 1, month: 1, year: 1, allyear: 1 }"
     ></ChangeYearMonthDay>
-    <el-button type="primary">Primary</el-button>
+    <el-button @click="changeUserInfo" type="primary">Primary</el-button>
 
     <LabelInputSwitch v-model="color" type="select" :options="options" />
     222
@@ -71,11 +71,16 @@ import EasyPlayer from "@easydarwin/easyplayer";
 import { reactive, ref, onMounted, nextTick } from "vue";
 import { list, lista, listb, originData } from "@/utils/test.js";
 import { grouping, criculationAction } from "@/utils/index.js";
-
+import { useStore } from "vuex";
+console.log(useStore);
+// const { dispatch } = useStore();
 export default {
   name: "Test",
   //components: { Clock },
   setup() {
+    const store = useStore();
+
+    console.log(store.state.userInfo);
     const dateOption = ref({ dateOther: "", date: "", type: "year" });
     const color = ref("red");
     const optionList = reactive({
@@ -326,7 +331,8 @@ export default {
       ...optionList,
       videoUrl,
       input,
-      player
+      player,
+      store
     };
   },
   data() {
@@ -339,6 +345,13 @@ export default {
       this.$nextTick(() => {
         this[key] = true;
       });
+    },
+    changeUserInfo() {
+      this.store.dispatch("updateState", { userInfo: "lhx" }).then((res) => {
+        console.log(res);
+      });
+
+      console.log("执行1");
     }
   }
 };

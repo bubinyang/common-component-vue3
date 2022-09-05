@@ -8,6 +8,11 @@ const routes: Array<RouteRecordRaw> = [
     component: () => import("@/views/test-copy.vue")
   },
   {
+    path: "/setup",
+    name: "setup",
+    component: () => import("@/views/setup.vue")
+  },
+  {
     path: "/fourGrid",
     name: "FourGrid",
     component: () => import("@/views/fourGridLayout/index.vue"),
@@ -26,7 +31,7 @@ const routes: Array<RouteRecordRaw> = [
     component: () => import("@/views/treeDemo/index.vue"),
     children: [
       {
-        path: "/layoutDemo",
+        path: "/treeMenu",
         component: () => import("@/views/treeDemo/index.vue")
       }
     ]
@@ -36,10 +41,10 @@ const routes: Array<RouteRecordRaw> = [
   {
     path: "/swiperDemo",
     name: "SwiperDemo",
-    component: () => import("@/views/swiperDemo/index.vue"),
+    component: laoyout,
     children: [
       {
-        path: "/layoutDemo",
+        path: "/swiperDemo",
         component: () => import("@/views/swiperDemo/index.vue")
       }
     ]
@@ -49,7 +54,7 @@ const routes: Array<RouteRecordRaw> = [
   {
     path: "/setDialogPosition",
     name: "SetDialogPosition",
-    component: () => import("@/views/setDialogPosition/index.vue"),
+    component: laoyout,
     children: [
       {
         path: "/setDialogPosition",

@@ -191,14 +191,14 @@ const originList = [
       :addHours="0"
       :multiple="true"
       :increase="true"
-      :type-list="['year', 'allyear']"
-      :typeListMutiple="['allyear']"
+      :type-list="['realtime','year']"
+    
       :intervalTimeValue="{ realtime: 1, day: 1, month: 1, year: 1,allyear:1}"
     ></ChangeYearMonthDay>`,
     fun: `data:function(){
      return{
         dateOption:{
-          type:'year',
+          type:'realtime',
           date:'',
           dateOther:''   
       }

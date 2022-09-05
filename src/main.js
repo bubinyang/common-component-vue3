@@ -10,11 +10,14 @@ import "element-plus/dist/index.css";
 import "ant-design-vue/dist/antd.css";
 import Echarts from "vue-echarts";
 import { Table } from "ant-design-vue";
+import store from "./store";
 const app = createApp(App);
 app.config.globalProperties.$moment = moment;
 app.component("v-chart", Echarts);
+console.log(store);
 app
   .use(router)
+  .use(store)
   .use(ElementPlus)
   .use(Table)
   .use(publicComponents)

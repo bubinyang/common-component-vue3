@@ -1,4 +1,4 @@
-import moment from "moment";
+import moment, { fn } from "moment";
 
 /**
  * time 哪一天
@@ -972,6 +972,16 @@ export function throttle(func, wait) {
         timeout = null;
       }, wait);
       func.apply(this, arguments);
+    }
+  };
+}
+export function testThrottle(fn, ms) {
+  let starTime = 0;
+  return function () {
+    const nowTime = new Date();
+    if (nowTime - starTime > ms) {
+      fn.apply(fn, arguments);
+      starTime = new Date();
     }
   };
 }

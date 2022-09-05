@@ -53,6 +53,7 @@ export default {
         ...strToJson(jscode),
         template: templateNode
       };
+      console.log(Profile, strToJson(jscode));
 
       const app = createApp(Profile);
       app.use(ElementPlus).use(publicComponents).use(widgetComponents).mount("#stageContain");

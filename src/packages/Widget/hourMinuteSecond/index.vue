@@ -1,6 +1,6 @@
 <template>
   <section class="hourMinSecond-style">
-    <el-tooltip class="item" effect="dark" content="小时s" placement="top">
+    <el-tooltip class="item" effect="dark" content="小时" placement="top">
       <span>
         <el-select @change="changeDate" v-model="hourValue" placeholder="时">
           <el-option v-for="item in hourList" :key="item" :label="item" :value="item"> </el-option>
@@ -199,7 +199,7 @@ export default {
   align-items: center;
   .el-select {
     width: 70px;
-    margin: 0 5px 0 5px;
+    margin: 0 5px 0 0;
   }
 }
 </style>

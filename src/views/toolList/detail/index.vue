@@ -93,51 +93,32 @@ export default {
       tableData: []
     };
   },
-  computed: {
-    // activeStyle(){
-    //   return {
-    //      "background-color":"#409eff",
-    //      "color":"white"
-    //   }
-    // }
-  },
+  computed: {},
   mounted() {
-    // function throttle(action, ms) {
-    //   let startTime = 0;
-    //   return function () {
-    //     const currentTime = +new Date();
-
-    //     if (currentTime - startTime > ms) {
-    //       action();
-    //       startTime = new Date();
-    //     }
-    //   };
-    // }
     function throttle(func, wait) {
       let timeout;
       return function () {
-        if (!timeout) {
-          timeout = setTimeout(() => {
-            timeout = null;
-          }, wait);
+        if (timeout) clearTimeout(timeout);
+        timeout = setTimeout(() => {
           func.apply(this, arguments);
-        }
+        }, wait);
       };
     }
     window.addEventListener(
       "resize",
       throttle(function () {
         window.location.reload();
-      }, 500)
+      }, 1000)
     );
     this.iFrameEl = this.$refs["stageContainIframe"];
     const { id } = this.$route.params;
+    console.log(this.$route.params);
     if (!id) {
       console.error("路由未接受到参数,请检查");
       return;
     }
     this.showContent(id);
-    this.iframeLoad();
+    //this.iframeLoad();
   },
   methods: {
     htmlOnCodeChange() {},
