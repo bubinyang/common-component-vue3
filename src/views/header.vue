@@ -1,5 +1,6 @@
 <template>
   <section>
+    {{ test }}
     <p>{{ title }}</p>
     <p>{{ info }}</p>
     <p>{{ author }}</p>
@@ -10,7 +11,8 @@ import { defineProps } from "vue";
 const props = defineProps({
   title: String,
   info: String,
-  author: String
+  author: String,
+  test: { type: Boolean, default: false }
 }); // 对象形式声明 props
 // 等价于以 字符串数组声明 props
 //const props = defineProps(['title', 'info', 'author']);

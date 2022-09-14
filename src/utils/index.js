@@ -87,6 +87,7 @@ function getTimeObject(time, type = "day", timingType = "startOf", difference = 
  * beforeUpload:上传前
  */
 import axios from "axios";
+import { is } from "snapsvg";
 // import { Curve } from 'three';
 class UploadClass {
   constructor(options) {
@@ -1076,11 +1077,24 @@ export function grouping(origin, lengthVal = 5) {
 //定时循环执行,不增加内存,替换setInterval
 export function criculationAction(fn, ms) {
   const beginAction = () => {
-    //fn.apply(this, arguments);
-    fn();
+    fn.apply(this, arguments);
     setTimeout(beginAction, ms);
   };
   beginAction();
+}
+//可关闭递归定时器
+export function criculationActionSwitch(fn, ms) {
+  const obj = {
+    isAction: true,
+    action() {
+      const beginAction = () => {
+        fn.apply(this, arguments);
+        if (obj.isAction) setTimeout(beginAction, ms);
+      };
+      beginAction();
+    }
+  };
+  return obj;
 }
 
 /**
@@ -1193,6 +1207,29 @@ function changeBezier(el, quadrticBezier = true, controlPointSize = 5) {
     .join(",");
   console.log(changeBezierCoordinate, setDvalue);
   el.setAttribute("d", setDvalue);
+}
+
+/**
+ *随机查抄0~500的数字，还是8的倍数
+ * @param {*最小值} min
+ * @param {*最大值} max
+ * @param {*某个数字的整数倍}  times
+ */
+export function createPointFood(min, max, times) {
+  const numList = [];
+  const top = Math.floor(max / 8);
+  for (let i = 1; i <= top; i++) {
+    numList.push(times * i);
+  }
+  const result = [];
+  for (let i = 0; i < 5; i++) {
+    const len = numList.length;
+
+    const index = Math.round(len * Math.random());
+    result.push(numList.splice(index, 1)[0]);
+  }
+
+  return result;
 }
 
 export default {

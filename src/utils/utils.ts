@@ -3,6 +3,7 @@
  * 针对固定内容封装出一个专门产出 供echart展示的数据结构的类。该类可以进行改变属性方法应对其他非能源结构数据的接口
  * echart展示使用装饰器思想进行封装
  */
+// import { criculationActionSwitch } from "@/utils/index.js";
 interface IObject<T = any> {
   [key: string]: T;
 }
@@ -10,8 +11,9 @@ interface IFunction<T = any> {
   (x?: any): T;
 }
 
+import { isTemplateNode } from "@vue/compiler-core";
 import moment from "moment";
-// import { newSetDialogPosition } from "@/utils";
+// import { createPointFood } from "@/utils/index.js";
 
 export class lrdEchart {
   public xAxisData: Array<number>; //xAxisData 横轴数据集合
@@ -530,4 +532,293 @@ class SetDialogPosition {
       right
     };
   }
+}
+
+//贪吃蛇
+/**
+ * 1.随机创造一个点（键盘控制点的位移）
+ * 2.空白地方随机创造N个待吃点
+ */
+export class snake {
+  public points: Array<IObject>; //初始蛇各点位置
+  public currentDirection: string; //方向
+  public bindPoints: string;
+  public speed: number; //速度
+  public currentPointList: Array<any>; //当前点的数量
+  public pointDiameter = 2; //点的直径除以2
+  public keyDownHistory: Array<any>; //键盘方向记录点
+  public pointFood: Array<any>; //随机落地的食物
+  private width: number; //容器的宽度
+  private height: number; //容器的高度
+  public snakeWidth: number; //蛇身宽度
+  public criculationActionObj: IObject;
+  // public keydownObj={
+  //   ArrowUp:'up'
+  //   ArrowRight:'right'
+  //   ArrowDown
+  //   ArrowLeft
+  // }
+  public svgEl: HTMLDivElement; //获取当前svg容器
+  public rafId = 0;
+  public pause: boolean; //暂停启动
+  private forbidAction = {
+    ArrowUp: "ArrowDown",
+    ArrowDown: "ArrowUp",
+    ArrowRight: "ArrowLeft",
+    ArrowLeft: "ArrowRight"
+  } as any;
+  private score: number;
+  private render: IFunction;
+  constructor(public options: IObject = {}) {
+    const { speed, svgEl, height, width, snakeWidth } = options;
+    this.snakeWidth = snakeWidth;
+    this.width = width;
+    this.height = height;
+    this.svgEl = svgEl;
+    this.speed = speed ? speed : 1;
+    this.points = [
+      { cx: 80, cy: 16, direction: "ArrowDown" },
+      { cx: 80, cy: 24, direction: "ArrowDown" },
+      { cx: 80, cy: 32, direction: "ArrowDown" },
+      { cx: 80, cy: 40, direction: "ArrowDown" },
+      { cx: 80, cy: 48, direction: "ArrowDown" },
+      { cx: 80, cy: 56, direction: "ArrowDown" },
+      { cx: 80, cy: 64, direction: "ArrowDown" },
+      { cx: 80, cy: 72, direction: "ArrowDown" }
+    ];
+    this.keyDownHistory = [{ cx: 80, cy: 40, direction: "ArrowDown" }];
+    this.pointFood = [
+      { cx: 328, cy: 40 },
+      { cx: 488, cy: 480 },
+      { cx: 240, cy: 224 },
+      { cx: 232, cy: 296 },
+      { cx: 336, cy: 304 }
+    ];
+    this.currentDirection = "ArrowDown";
+    this.criculationActionObj = {};
+    this.pause = false;
+    this.score = 0;
+    this.render = function () {};
+    this.eventSuspension();
+    // this.rafId = 0;
+    // this.createFood();
+  }
+
+  eventSuspension(): void {
+    // this.criculationActionObj = criculationActionSwitch(() => {
+    //   this.eat();
+    //   this.move();
+
+    //   this.action();
+    //   if (!this.pointFood.length) this.createFood();
+    //   if (
+    //     this.points.some((item: any) => {
+    //       const remainder = this.width % this.snakeWidth;
+    //       return item.cx === this.width - remainder;
+    //     })
+    //   ) {
+    //     this.criculationActionObj.isAction = false;
+    //   }
+    // }, 60);
+    // this.criculationActionObj.action();
+    this.render = () => {
+      this.move();
+      this.eat();
+      this.action();
+      if (!this.pointFood.length) this.createFood();
+      this.rafId = requestAnimationFrame(this.render);
+
+      if (
+        this.points.some((item: any) => {
+          const remainder = this.width % this.snakeWidth;
+          const val = this.width - remainder;
+          return item.cx === val || item.cy === val || item.cx === 0 || item.cy === 0;
+        })
+      ) {
+        cancelAnimationFrame(this.rafId);
+        this.reset();
+      }
+    };
+    // this.rafId = requestAnimationFrame(this.render);
+    // const animloop = () => {
+    //   // render();
+    //   this.rafId = requestAnimationFrame(render);
+    //   if (
+    //     this.points.some((item: any) => {
+    //       const remainder = this.width % this.snakeWidth;
+    //       const val = this.width - remainder;
+    //       return item.cx === val || item.cy === val;
+    //     }) ||
+    //     this.pause
+    //   ) {
+    //     cancelAnimationFrame(this.rafId);
+    //   }
+    // };
+    // animloop();
+
+    document.addEventListener("keydown", (event) => {
+      if (
+        this.currentDirection === event.key ||
+        this.forbidAction[event.key] === this.currentDirection
+      )
+        return;
+      const item = this.points[this.points.length - 1];
+      this.keyDownHistory.push({ ...item, direction: event.key });
+      this.points[this.points.length - 1].direction = event.key;
+      this.currentDirection = event.key;
+    });
+  }
+
+  move(): void {
+    this.points = this.points.map((item, index) => {
+      const findItem = this.keyDownHistory.find((childitem) => {
+        return childitem.cx === item.cx && childitem.cy === item.cy;
+      });
+      const findIndex = this.keyDownHistory.findIndex((childitem) => {
+        return childitem.cx === item.cx && childitem.cy === item.cy;
+      });
+      if (index === 0 && findItem) {
+        this.keyDownHistory.splice(findIndex, 1);
+      }
+      return this.changePointer(item, findItem ? findItem.direction : item.direction)();
+    });
+  }
+
+  changePointer(item: IObject, key: string): () => IObject {
+    const speed = this.speed;
+    return (
+      {
+        ArrowUp: () => {
+          const L = item.cx;
+          const R = item.cy - speed;
+          return { cx: L, cy: R, direction: key };
+        },
+
+        ArrowRight: () => {
+          const L = item.cx + speed;
+          const R = item.cy;
+          return { cx: L, cy: R, direction: key };
+        },
+
+        ArrowDown: () => {
+          const L = item.cx;
+          const R = item.cy + speed;
+          return { cx: L, cy: R, direction: key };
+        },
+        ArrowLeft: () => {
+          const L = item.cx - speed;
+          const R = item.cy;
+          return { cx: L, cy: R, direction: key };
+        }
+      } as { [key: string]: () => any }
+    )[key];
+  }
+
+  eat(): void {
+    //蛇吃到食物 snakeWidth
+    let findIndex = -1;
+    const isEat = this.points.some((item) => {
+      findIndex = this.pointFood.findIndex((childitem) => {
+        return (
+          Math.abs(childitem.cx - item.cx) < this.snakeWidth &&
+          Math.abs(childitem.cy - item.cy) < this.snakeWidth
+        );
+      });
+
+      return this.pointFood.some((childitem) => {
+        return (
+          Math.abs(childitem.cx - item.cx) < this.snakeWidth &&
+          Math.abs(childitem.cy - item.cy) < this.snakeWidth
+        );
+      });
+    });
+
+    if (findIndex >= 0) {
+      //把新点丢到最后一个点后面
+      const lastPoint = Object.assign({}, this.points[this.points.length - 1]);
+      if (this.currentDirection === "ArrowUp") lastPoint.cy = lastPoint.cy - 8;
+      if (this.currentDirection === "ArrowRight") lastPoint.cx = lastPoint.cx + 8;
+      if (this.currentDirection === "ArrowDown") lastPoint.cy = lastPoint.cy + 8;
+      if (this.currentDirection === "ArrowLeft") lastPoint.cx = lastPoint.cx - 8;
+      this.points.push({ ...lastPoint, direction: this.currentDirection });
+      this.pointFood.splice(findIndex, 1);
+    }
+    if (isEat) {
+      this.score++;
+      // this.criculationActionObj.isAction = false;
+      //cancelAnimationFrame(this.rafId);
+    }
+  }
+  //创造随机食物
+  createFood(): void {
+    const list = [];
+    let result = [];
+    const top = Math.floor(this.width / 8);
+    for (let i = 1; i <= top; i++) {
+      list.push(this.snakeWidth * i);
+    }
+    for (let i = 0; i < list.length; i++) {
+      for (let index = 0; index < list.length; index++) {
+        result.push({ cx: list[i], cy: list[index] });
+      }
+    }
+    //过滤出蛇身
+    result = result.filter((item) => {
+      return !this.points.some((childitem) => {
+        return childitem.cx === item.cx && childitem.cy === item.cy;
+      });
+    });
+    const arr = [];
+    for (let i = 0; i < 5; i++) {
+      const len = result.length;
+      const index = Math.round(len * Math.random());
+      this.pointFood.push(result[index]);
+    }
+  }
+  stop(): void {
+    cancelAnimationFrame(this.rafId);
+  }
+  continue(): void {}
+  start(): void {
+    this.rafId = requestAnimationFrame(this.render);
+  }
+  reset(): void {
+    this.points = [{ cx: 80, cy: 16, direction: "ArrowDown" }];
+    this.keyDownHistory = [{ cx: 80, cy: 40, direction: "ArrowDown" }];
+    this.pointFood = [];
+    this.score = 0;
+  }
+  action(): void {}
+}
+
+function createPointFood(min: number, max: number, times: number) {
+  const numList = [];
+  const top = Math.floor(max / 8);
+  for (let i = 1; i <= top; i++) {
+    numList.push(times * i);
+  }
+  const result = [];
+  for (let i = 0; i < 5; i++) {
+    const len = numList.length;
+
+    const index = Math.round(len * Math.random());
+    result.push(numList.splice(index, 1)[0]);
+  }
+
+  return result;
+}
+
+function criculationActionSwitch(fn: any, ms: number) {
+  const obj = {
+    isAction: true,
+    action() {
+      const beginAction = () => {
+        // eslint-disable-next-line prefer-rest-params
+        if (obj.isAction) fn.apply(this, arguments);
+        setTimeout(beginAction, ms);
+      };
+      beginAction();
+    }
+  };
+  return obj;
 }

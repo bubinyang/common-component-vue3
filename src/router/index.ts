@@ -13,6 +13,12 @@ const routes: Array<RouteRecordRaw> = [
     component: () => import("@/views/setup.vue")
   },
   {
+    //贪吃蛇
+    path: "/snake",
+    name: "snake",
+    component: () => import("@/views/snake/index.vue")
+  },
+  {
     path: "/fourGrid",
     name: "FourGrid",
     component: () => import("@/views/fourGridLayout/index.vue"),

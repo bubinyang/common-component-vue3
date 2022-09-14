@@ -1,5 +1,6 @@
 <template>
   <section id="stageContain">
+    <div class="css-style">My name is Hege Refsnes</div>
     <Clock></Clock>
     <ChangeYearMonthDay
       v-model:dateOption="dateOption"
@@ -361,6 +362,11 @@ export default {
 // a {
 //   color: #42b983;
 // }
+.css-style {
+  font-variant: small-caps;
+  unicode-bidi: bidi-override;
+  direction: rtl;
+}
 .pokerContain {
   display: flex;
   flex-wrap: wrap;

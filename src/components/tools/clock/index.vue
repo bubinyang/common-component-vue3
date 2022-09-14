@@ -3,7 +3,21 @@
 <script>
 import moment from "moment";
 import { reactive, toRefs } from "vue";
-import { criculationAction } from "@/utils/index.js";
+import { criculationAction, criculationActionSwitch } from "@/utils/index.js";
+// let isAllow = true;
+// setTimeout(() => {
+//   isAllow = false;
+// }, 5000);
+// function criculationAction(fn, ms) {
+//   const beginAction = () => {
+//     fn.apply(this, arguments);
+//     setTimeout(() => {
+//       console.log(isAllow);
+//       if (isAllow) beginAction();
+//     }, ms);
+//   };
+//   beginAction();
+// }
 
 export default {
   name: "Clock",
@@ -17,10 +31,6 @@ export default {
       });
     };
     const initialize = () => {
-      this.getTime().then((res) => {
-        times = +res;
-        criculationAction(setTime, 1000);
-      });
       const setTime = () => {
         times += 1000;
         let time = moment(times).format("HH:mm:ss");
@@ -28,6 +38,16 @@ export default {
         let week = moment(times).day();
         this.timeValue = `${time}   ${date}   星期${week}`;
       };
+      let criculationActionObj = criculationActionSwitch(setTime, 1000);
+      setTimeout(() => {
+        criculationActionObj.isAction = false;
+      }, 5000);
+      this.getTime().then((res) => {
+        times = +res;
+
+        //criculationAction(setTime, 1000);
+        criculationActionObj.action();
+      });
     };
     criculationAction(setGetDate, 60000);
     initialize();
