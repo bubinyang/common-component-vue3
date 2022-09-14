@@ -769,7 +769,7 @@ export class snake {
       });
     });
     const arr = [];
-    for (let i = 0; i < 5; i++) {
+    for (let i = 0; i < 25; i++) {
       const len = result.length;
       const index = Math.round(len * Math.random());
       this.pointFood.push(result[index]);
