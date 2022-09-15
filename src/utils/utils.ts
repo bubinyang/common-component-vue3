@@ -569,6 +569,8 @@ export class snake {
   } as any;
   private score: number;
   private render: IFunction;
+  private gameStatus: IObject;
+  public currentGameStatus: symbol;
   constructor(public options: IObject = {}) {
     const { speed, svgEl, height, width, snakeWidth } = options;
     this.snakeWidth = snakeWidth;
@@ -585,11 +587,27 @@ export class snake {
       { cx: 80, cy: 56, direction: "ArrowDown" },
       { cx: 80, cy: 64, direction: "ArrowDown" },
       { cx: 80, cy: 72, direction: "ArrowDown" }
+
+      // { cx: 80, cy: 84, direction: "ArrowDown" },
+
+      // { cx: 80, cy: 92, direction: "ArrowDown" },
+
+      // { cx: 80, cy: 100, direction: "ArrowDown" },
+
+      // { cx: 80, cy: 108, direction: "ArrowDown" },
+
+      // { cx: 80, cy: 116, direction: "ArrowDown" },
+
+      // { cx: 80, cy: 124, direction: "ArrowDown" },
+
+      // { cx: 80, cy: 132, direction: "ArrowDown" },
+
+      // { cx: 82, cy: 138, direction: "ArrowRight" }
     ];
     this.keyDownHistory = [{ cx: 80, cy: 40, direction: "ArrowDown" }];
     this.pointFood = [
       { cx: 328, cy: 40 },
-      { cx: 488, cy: 480 },
+      { cx: 496, cy: 480 },
       { cx: 240, cy: 224 },
       { cx: 232, cy: 296 },
       { cx: 336, cy: 304 }
@@ -598,6 +616,12 @@ export class snake {
     this.criculationActionObj = {};
     this.pause = false;
     this.score = 0;
+    this.gameStatus = {
+      pause: Symbol(),
+      runing: Symbol(),
+      reset: Symbol()
+    };
+    this.currentGameStatus = this.gameStatus.pause;
     this.render = function () {};
     this.eventSuspension();
     // this.rafId = 0;
@@ -627,16 +651,17 @@ export class snake {
       this.action();
       if (!this.pointFood.length) this.createFood();
       this.rafId = requestAnimationFrame(this.render);
-
+      //如果接触到墙壁,蛇头接触到身体，游戏结束
       if (
         this.points.some((item: any) => {
-          const remainder = this.width % this.snakeWidth;
-          const val = this.width - remainder;
-          return item.cx === val || item.cy === val || item.cx === 0 || item.cy === 0;
-        })
+          const start = this.snakeWidth / 2;
+          const end = this.width - this.snakeWidth / 2;
+          return item.cx < start || item.cx > end || item.cy < start || item.cy > end;
+        }) ||
+        this.touchBody()
       ) {
         cancelAnimationFrame(this.rafId);
-        this.reset();
+        // this.reset();
       }
     };
     // this.rafId = requestAnimationFrame(this.render);
@@ -775,14 +800,34 @@ export class snake {
       this.pointFood.push(result[index]);
     }
   }
+
+  touchBody(): boolean {
+    const snakehead = this.points[this.points.length - 1];
+    return this.points.slice(0, this.points.length - 3).some((item: any) => {
+      return (
+        Math.abs(snakehead.cx - item.cx) < this.snakeWidth &&
+        Math.abs(snakehead.cy - item.cy) < this.snakeWidth
+      );
+    });
+  }
+
   stop(): void {
+    if (this.currentDirection === this.gameStatus.pause) return;
+    this.currentGameStatus = this.gameStatus.pause;
+
     cancelAnimationFrame(this.rafId);
   }
   continue(): void {}
   start(): void {
+    if (this.currentGameStatus === this.gameStatus.runing) return;
+    this.currentGameStatus = this.gameStatus.runing;
+
     this.rafId = requestAnimationFrame(this.render);
   }
   reset(): void {
+    if (this.currentDirection === this.gameStatus.reset) return;
+    this.currentGameStatus = this.gameStatus.reset;
+
     this.points = [{ cx: 80, cy: 16, direction: "ArrowDown" }];
     this.keyDownHistory = [{ cx: 80, cy: 40, direction: "ArrowDown" }];
     this.pointFood = [];
