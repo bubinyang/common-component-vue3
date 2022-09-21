@@ -1,5 +1,10 @@
-import { createRouter, createWebHashHistory, RouteRecordRaw } from "vue-router";
+import { createRouter, createWebHashHistory, Router, RouteRecordRaw } from "vue-router";
 import laoyout from "@/layout/layout.vue";
+import store from "@/store";
+
+interface IObject<T = any> {
+  [key: string]: T;
+}
 // import {debounce} from '../utils/index.js'
 const routes: Array<RouteRecordRaw> = [
   {
@@ -12,23 +17,24 @@ const routes: Array<RouteRecordRaw> = [
     name: "setup",
     component: () => import("@/views/setup.vue")
   },
-  {
-    //贪吃蛇
-    path: "/snake",
-    name: "snake",
-    component: () => import("@/views/snake/index.vue")
-  },
-  {
-    path: "/fourGrid",
-    name: "FourGrid",
-    component: () => import("@/views/fourGridLayout/index.vue"),
-    children: [
-      {
-        path: "/rotate",
-        component: () => import("@/views/fourGridLayout/index.vue")
-      }
-    ]
-  },
+  // {
+  //   //贪吃蛇
+  //   path: "/snake/index",
+  //   name: "/snake/index",
+  //   component: () => import("@/views/snake/index.vue")
+  // },
+
+  // {
+  //   path: "/fourGrid",
+  //   name: "FourGrid",
+  //   component: () => import("@/views/fourGridLayout/index.vue"),
+  //   children: [
+  //     {
+  //       path: "/rotate",
+  //       component: () => import("@/views/fourGridLayout/index.vue")
+  //     }
+  //   ]
+  // },
 
   // 树型组件
   {
@@ -154,10 +160,37 @@ const routes: Array<RouteRecordRaw> = [
 ];
 
 const router = createRouter({ history: createWebHashHistory(), routes });
-
+const token = true;
 router.beforeEach((to, from, next) => {
   console.log(to);
-  next();
+  if (token) {
+    if (to.path === "/setup") {
+      next({ path: "/" });
+    } else {
+      //如果没有拿到路由列表,去请求接口
+      console.log(store.state.userInfo);
+      if (store.state.userInfo) {
+        next();
+      } else {
+        store.dispatch("getuserInfo").then((res) => {
+          const { userRouters } = res;
+          // router.addRoute(userRouters[1]);
+          addRouteFromUser(userRouters);
+          next({ ...to, replace: true });
+        });
+      }
+    }
+  }
 });
+
+//判断是否已经存在该路由  同时动态添加路由地址
+function addRouteFromUser(routes: Array<RouteRecordRaw>) {
+  routes.forEach((item: RouteRecordRaw) => {
+    if (!item.path) return;
+    if (!router.hasRoute(item.path)) {
+      router.addRoute(item);
+    }
+  });
+}
 
 export default router;
