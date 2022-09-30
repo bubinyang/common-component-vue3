@@ -17,6 +17,11 @@ const routes: Array<RouteRecordRaw> = [
     name: "setup",
     component: () => import("@/views/setup.vue")
   },
+  {
+    path: "/largeScreen",
+    name: "largeScreen",
+    component: () => import("@/views/largeScreen/index.vue")
+  },
   // {
   //   //贪吃蛇
   //   path: "/snake/index",
@@ -162,13 +167,12 @@ const routes: Array<RouteRecordRaw> = [
 const router = createRouter({ history: createWebHashHistory(), routes });
 const token = true;
 router.beforeEach((to, from, next) => {
-  console.log(to);
   if (token) {
     if (to.path === "/setup") {
+      //setup假装登录地址
       next({ path: "/" });
     } else {
       //如果没有拿到路由列表,去请求接口
-      console.log(store.state.userInfo);
       if (store.state.userInfo) {
         next();
       } else {

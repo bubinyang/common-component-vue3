@@ -1,5 +1,9 @@
 <template>
   <section id="stageContain">
+    <img
+      style="width: 200px; height: 400px; object-fit: contain"
+      src="/public/img/home/house1.png"
+    />
     <div class="css-style">My name is Hege Refsnes</div>
     <Clock></Clock>
     <ChangeYearMonthDay
