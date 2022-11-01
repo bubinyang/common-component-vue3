@@ -22,7 +22,13 @@ const routes: Array<RouteRecordRaw> = [
     name: "largeScreen",
     component: () => import("@/views/largeScreen/index.vue")
   },
-  // {
+  //threejs 沿着路线运动demo
+  {
+    path: "/modeRunByThree",
+    name: "ModeRunByThree",
+    component: () => import("@/views/ModeRunByThree/index.vue")
+  },
+  // { src\views\ModeRunByThree\index.vue
   //   //贪吃蛇
   //   path: "/snake/index",
   //   name: "/snake/index",

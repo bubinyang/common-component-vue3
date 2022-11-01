@@ -341,6 +341,8 @@ export default {
     const hm = new human();
     xiaohong.play.push(4);
     console.log(xiaohong.play, hm);
+
+    //设置cookie和删除cookie
     const setCookie = () => {
       //  document.cookie=
       const time = new Date();
@@ -356,7 +358,8 @@ export default {
       document.cookie = `username=; ${expires}`;
       console.log(document.cookie);
     };
-
+    //随机生产日语
+    const japanes = [];
     return {
       playACheck,
       playBCheck,
