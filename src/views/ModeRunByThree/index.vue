@@ -161,6 +161,7 @@ export default {
         cubeList, //曲线坐标点数据
         line, //曲线对象
         lineBufferGeometry, //画线几何类
+        lineGeometry,
         lines;
       var path = 0;
       //curve 画出来的路径线
@@ -437,13 +438,19 @@ export default {
 
         //第一种创造线条的方法
         points = curve.getPoints(50); // 50等分获取曲线点数组
-        console.log(points);
-        lineBufferGeometry = new THREE.BufferGeometry();
+        lineGeometry = new THREE.Geometry();
+        for (let i = 0; i < 50; i++) {
+          lineGeometry.vertices.push(new THREE.Vector3());
+        }
         line = new THREE.Line( // LineLoop画出来的曲线是闭环，最后一个点会连接到第一个点。 Line画出来的是非闭环
-          lineBufferGeometry.setFromPoints(points),
+          // lineBufferGeometry.setFromPoints(points),
+          lineGeometry.clone(),
           new THREE.LineBasicMaterial({ color: 0x00ff00 })
         ); // 绘制实体线条，仅用于示意曲线，后面的向量线条同理，相关代码就省略了
         scene.add(line);
+
+        drawLineUpdate();
+
         //创造一个跑动点movingTarget
 
         var material = new THREE.MeshLambertMaterial({ color: Math.random() * 0xffffff });
@@ -511,27 +518,27 @@ export default {
           // console.log(points);
           //console.log();
           // console.log(curve.getPoints(50));
-          console.log(line.geometry.attributes.position.array);
-          curve.getPoints(50).forEach((item, index) => {
-            var t = index / (51 - 1);
-            // console.log(t, item);
-            curve.getPointAt(t, item);
-          });
-          const positions = line.geometry.attributes.position.array;
-          let x, y, z, index;
-          x = y = z = index = 0;
 
-          for (let i = 0, l = 200; i < l; i++) {
-            positions[index++] = x;
-            positions[index++] = y;
-            positions[index++] = z;
+          // curve.getPoints(50).forEach((item, index) => {
+          //   var t = index / (51 - 1);
+          //   // console.log(t, item);
+          //   curve.getPointAt(t, item);
+          // });
+          // const positions = line.geometry.attributes.position.array;
+          // let x, y, z, index;
+          // x = y = z = index = 0;
 
-            // x += ( Math.random() - 0.5 ) * 30;
-            // y += ( Math.random() - 0.5 ) * 30;
-            // z += ( Math.random() - 0.5 ) * 30;
-          }
+          // for (let i = 0, l = 200; i < l; i++) {
+          //   positions[index++] = x;
+          //   positions[index++] = y;
+          //   positions[index++] = z;
 
-          line.geometry.attributes.position.needsUpdate = true;
+          //   // x += ( Math.random() - 0.5 ) * 30;
+          //   // y += ( Math.random() - 0.5 ) * 30;
+          //   // z += ( Math.random() - 0.5 ) * 30;
+          // }
+
+          // line.geometry.attributes.position.needsUpdate = true;
           // console.log();
           // curve.getPoints(curve.getPoints());
           // for(let i=0;i<50;i++){
@@ -544,6 +551,20 @@ export default {
           transformControl.detach(event.object); //去除加载3D控制器
           // cancelHideTransorm();
         });
+
+        transformControl.addEventListener("objectChange", function (e) {
+          drawLineUpdate();
+        });
+      }
+
+      //画出线
+      function drawLineUpdate() {
+        for (var i = 0; i < 50; i++) {
+          var p = line.geometry.vertices[i];
+          var t = i / (50 - 1);
+          curve.getPoint(t, p);
+        }
+        line.geometry.verticesNeedUpdate = true;
       }
 
       function animate() {
