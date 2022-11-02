@@ -162,7 +162,9 @@ export default {
         line, //曲线对象
         lineBufferGeometry, //画线几何类
         lineGeometry,
-        lines;
+        lines,
+        cureCuttingNumber = 50,
+        lineObject = {}; //多条线的实体列表
       var path = 0;
       //curve 画出来的路径线
 
@@ -316,9 +318,9 @@ export default {
         var intersects = raycaster.intersectObjects(scene.children, true);
         const currentItem = intersects[0] ? intersects[0].object.name : false;
         if (intersects[0]) {
-          // console.log(
-          //   `x:${intersects[0].point.x},y:${intersects[0].point.y},y:${intersects[0].point.z}`
-          // );
+          console.log(
+            `x:${intersects[0].point.x},y:${intersects[0].point.y},y:${intersects[0].point.z}`
+          );
         }
         const findItem = factoryList.find((item) => item.code === currentItem);
         if (findItem) {
@@ -408,7 +410,7 @@ export default {
           geoetryItem,
           new THREE.LineBasicMaterial({ color: 0x00ff00 })
         );
-        scene.add(lineItem);
+        // scene.add(lineItem);
 
         const list = [];
         //根据基础坐标值创建相应的四方体
@@ -437,9 +439,9 @@ export default {
         curve.arcLengthDivisions = 2;
 
         //第一种创造线条的方法
-        points = curve.getPoints(50); // 50等分获取曲线点数组
+        //points = curve.getPoints(50); // 50等分获取曲线点数组
         lineGeometry = new THREE.Geometry();
-        for (let i = 0; i < 50; i++) {
+        for (let i = 0; i < cureCuttingNumber; i++) {
           lineGeometry.vertices.push(new THREE.Vector3());
         }
         line = new THREE.Line( // LineLoop画出来的曲线是闭环，最后一个点会连接到第一个点。 Line画出来的是非闭环
@@ -447,6 +449,7 @@ export default {
           lineGeometry.clone(),
           new THREE.LineBasicMaterial({ color: 0x00ff00 })
         ); // 绘制实体线条，仅用于示意曲线，后面的向量线条同理，相关代码就省略了
+        console.log(line.geometry.vertices);
         scene.add(line);
 
         drawLineUpdate();
@@ -490,7 +493,7 @@ export default {
         scene.add(transformControl);
         transformControl.addEventListener("mouseDown", function (e) {
           console.log("鼠标按下ss");
-          console.log(line);
+          console.log(e.object);
           //	cancelHideTransorm();
         });
 
@@ -559,10 +562,10 @@ export default {
 
       //画出线
       function drawLineUpdate() {
-        for (var i = 0; i < 50; i++) {
+        for (var i = 0; i < cureCuttingNumber; i++) {
           var p = line.geometry.vertices[i];
-          var t = i / (50 - 1);
-          curve.getPoint(t, p);
+          var t = i / (cureCuttingNumber - 1);
+          curve.getPoint(t, p); //返回曲线上的点，P向量会被这个返回值赋值,相当于线有点了，会画成线了
         }
         line.geometry.verticesNeedUpdate = true;
       }
@@ -580,7 +583,96 @@ export default {
         path %= 1;
         movingTarget.position.copy(curve.getPointAt(path));
 
+        Object.entries(lineObject).forEach((item) => {
+          const [key, value] = item;
+          let { movingTarget, createCurve, speed, den } = value;
+          value.path += speed;
+          value.path %= den;
+          movingTarget.position.copy(createCurve.getPointAt(value.path));
+        });
+
         requestAnimationFrame(animate);
+      }
+
+      //创造多条轨道和物体进行，物体并沿轨道进行位移
+      const origin = [
+        {
+          points: [
+            { x: 935.4736532220461, y: 125.72124294247564, z: 1292.9298960835008 },
+            { x: 852.3585184605006, y: 126.579089893769847, z: 1679.3401069559873 },
+            { x: 623.8722171402046, y: 273.6766653395756, z: 1775.0513808810504 }
+          ],
+          path: 0,
+          speed: 0.005,
+          den: 1,
+          key: "one"
+        },
+        {
+          points: [
+            { x: 391.3617063106858, y: 64.25004833278402, z: 2417.8107032109883 },
+            { x: 255.5820537741204, y: -1.590312712515221, z: 2863.653726133555 },
+            { x: 63.968133554482776, y: 292.5416169737242, z: 2903.89072115592 }
+          ],
+          path: 0,
+          speed: 0.005,
+          den: 1,
+          key: "two"
+        }
+      ];
+      //创建多条线，各自目标物体沿线运动
+      function createLineAndTargetMove() {
+        return origin.reduce((total, item) => {
+          //创造目标移动物体
+          const movingTarget = new THREE.Mesh(
+            new THREE.BoxGeometry(50, 50, 50),
+            new THREE.MeshLambertMaterial({ color: Math.random() * 0xffffff })
+          );
+
+          movingTarget.position.x = 500;
+          movingTarget.position.y = 500;
+          movingTarget.position.z = 500;
+
+          movingTarget.castShadow = true;
+          movingTarget.receiveShadow = true;
+          scene.add(movingTarget);
+
+          //画线逻辑
+          const verticesList = item.points.map((item) => {
+            const { x, y, z } = item;
+            return new THREE.Vector3(x, y, z);
+          });
+          const createCurve = new THREE.CatmullRomCurve3(verticesList);
+          createCurve.curveType = "catmullrom";
+          createCurve.closed = false;
+          let createLine, createlineGeometry;
+          createlineGeometry = new THREE.Geometry();
+          for (let i = 0; i < 50; i++) {
+            createlineGeometry.vertices.push(new THREE.Vector3());
+          }
+          createLine = new THREE.Line(
+            createlineGeometry.clone(),
+            new THREE.LineBasicMaterial({ color: 0x00ff00 })
+          );
+          scene.add(createLine);
+
+          for (var i = 0; i < 50; i++) {
+            var p = createLine.geometry.vertices[i];
+            var t = i / (50 - 1);
+            createCurve.getPoint(t, p); //返回曲线上的点，P向量会被这个返回值赋值,相当于线有点了，会画成线了
+          }
+          createLine.geometry.verticesNeedUpdate = true;
+          console.log(total, item.key);
+          if (!total[item.key]) total[item.key] = {};
+          total[item.key] = {
+            createCurve,
+            createLine,
+            movingTarget,
+            path: item.path,
+            speed: item.speed,
+            den: item.den
+          };
+          return total;
+        }, {});
       }
 
       function draw() {
@@ -598,6 +690,7 @@ export default {
         initModel();
         initControls();
         transformContols();
+        lineObject = createLineAndTargetMove();
         initStats();
         animate();
       }
