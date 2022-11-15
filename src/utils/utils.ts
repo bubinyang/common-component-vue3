@@ -547,6 +547,7 @@ export function getSysRouteMap(): IObject {
 //组装用户路由列表，设置component
 export function setRouterComponent(origin: Array<any>): IObject[] {
   function dealUrlSlash(url: string): string {
+    //判断开头是否有'/',如果没有，补齐'/'
     return (url = !/^\//g.test(url) ? "/" + url : url);
   }
   const arr: IObject[] = [];

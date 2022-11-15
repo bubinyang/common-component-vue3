@@ -32,6 +32,7 @@ export default createStore({
     },
     getuserInfo({ commit }, data) {
       const userRouters = setRouterComponent(menuList);
+      console.log(userRouters);
       const userName = "bby";
       return new Promise((resolve) => {
         setTimeout(resolve, 1000, { userRouters, userName });
@@ -43,31 +44,3 @@ export default createStore({
   },
   modules: {}
 });
-
-// function setRouterComponent(origin: any): IObject[] {
-//   function dealUrlSlash(url: string): string {
-//     return (url = !/^\//g.test(url) ? "/" + url : url);
-//   }
-//   const arr: IObject[] = [];
-//   origin.forEach((item: any) => {
-//     const path = dealUrlSlash(item.url);
-//     const vueUrl = toSysViewComponentPath(path);
-//     const route = {
-//       path,
-//       name: path,
-//       component: getSysRouteMap()[vueUrl]
-//     };
-//     arr.push(route);
-//   });
-//   return arr;
-// }
-
-// function toSysViewComponentPath(path: string): string {
-//   path = path.replace("_", "-");
-//   return `/src/views${path}.vue`;
-// }
-
-// //获取vue文件路径下的 import(url)文件组合成的json， key是url
-// function getSysRouteMap(): IObject {
-//   return import.meta.glob("/src/views/**/*.vue");
-// }

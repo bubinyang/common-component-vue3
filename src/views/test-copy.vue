@@ -1,6 +1,13 @@
 <template>
   <section id="stageContain">
+    <img
+      style="width: 200px; height: 400px; object-fit: contain"
+      src="/public/img/home/house1.png"
+    />
     <div class="css-style">My name is Hege Refsnes</div>
+    <el-button @click="setCookie" type="primary">设置cookie</el-button>
+    <el-button @click="deleteCookie" type="primary">删除cookie</el-button>
+
     <Clock></Clock>
     <ChangeYearMonthDay
       v-model:dateOption="dateOption"
@@ -315,9 +322,44 @@ export default {
     const newB = new B();
     const newA = new A();
     newB.test.push("bb");
-
+    console.log(newB.test, newA.test);
     console.log(Object.create(A.prototype).test);
 
+    //继承经典案例
+    function human() {
+      this.walkMethod = "leg";
+      this.play = [1, 2, 3];
+    }
+
+    function woman() {
+      this.apperance = "beautiful";
+    }
+    woman.prototype = new human();
+    woman.prototype.constructor = woman;
+    console.log(woman.prototype.constructor);
+    const xiaohong = new woman();
+    const hm = new human();
+    xiaohong.play.push(4);
+    console.log(xiaohong.play, hm);
+
+    //设置cookie和删除cookie
+    const setCookie = () => {
+      //  document.cookie=
+      const time = new Date();
+      time.setTime(+time + 10 * 10000);
+      const expires = `expires=${time.toGMTString()}`;
+      document.cookie = `username=John Doe; ${expires}`;
+      console.log(document.cookie);
+    };
+    const deleteCookie = () => {
+      const time = new Date();
+      time.setTime(+time - 1);
+      const expires = `expires=${time.toGMTString()}`;
+      document.cookie = `username=; ${expires}`;
+      console.log(document.cookie);
+    };
+    //随机生产日语
+    const japanes = [];
     return {
       playACheck,
       playBCheck,
@@ -333,7 +375,9 @@ export default {
       videoUrl,
       input,
       player,
-      store
+      store,
+      setCookie,
+      deleteCookie
     };
   },
   data() {

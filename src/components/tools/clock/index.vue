@@ -39,9 +39,9 @@ export default {
         this.timeValue = `${time}   ${date}   星期${week}`;
       };
       let criculationActionObj = criculationActionSwitch(setTime, 1000);
-      setTimeout(() => {
-        criculationActionObj.isAction = false;
-      }, 5000);
+      // setTimeout(() => {
+      //   criculationActionObj.isAction = false;
+      // }, 5000);
       this.getTime().then((res) => {
         times = +res;
 
