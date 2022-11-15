@@ -291,7 +291,7 @@ export default {
         dracoLoader.setDecoderPath("./threejs/draco/gltf/");
         loaderGLTF.setDRACOLoader(dracoLoader);
 
-        loaderGLTF.load("./threejs/1110small.glb", function (mesh) {
+        loaderGLTF.load("./threejs/110small.glb", function (mesh) {
           let glfItem;
           flower = mesh.scene;
           //放大缩小模型
