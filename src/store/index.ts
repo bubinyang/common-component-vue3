@@ -16,6 +16,7 @@ export default createStore({
       });
     },
     setUserInfo(state, userInfo): void {
+      console.log(userInfo);
       state.userInfo = userInfo;
     }
   },
@@ -32,12 +33,12 @@ export default createStore({
     },
     getuserInfo({ commit }, data) {
       const userRouters = setRouterComponent(menuList);
-      console.log(userRouters);
       const userName = "bby";
       return new Promise((resolve) => {
+        commit("setUserInfo", { userRouters, userName });
         setTimeout(resolve, 1000, { userRouters, userName });
       }).then((res) => {
-        commit("setUserInfo", { userRouters, userName });
+        //console.log(userRouters);
         return res;
       });
     }

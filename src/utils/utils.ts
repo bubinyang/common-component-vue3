@@ -544,6 +544,7 @@ export function getSysRouteMap(): IObject {
   return import.meta.glob("/src/views/**/*.vue");
 }
 
+import layout from "@/layout/layout.vue";
 //组装用户路由列表，设置component
 export function setRouterComponent(origin: Array<any>): IObject[] {
   function dealUrlSlash(url: string): string {
@@ -554,11 +555,14 @@ export function setRouterComponent(origin: Array<any>): IObject[] {
   origin.forEach((item: any) => {
     const path = dealUrlSlash(item.url);
     const vueUrl = toSysViewComponentPath(path);
-    const route = {
+    const route: IObject = {
       path,
       name: path,
-      component: getSysRouteMap()[vueUrl]
+      component: item.children && item.children.length ? layout : getSysRouteMap()[vueUrl]
     };
+    if (item.children) {
+      route.children = setRouterComponent(item.children);
+    }
     arr.push(route);
   });
   return arr;

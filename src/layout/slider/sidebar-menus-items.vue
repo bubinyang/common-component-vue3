@@ -39,8 +39,8 @@ export default {
 
     const router = useRouter();
     const pushPath = (path) => {
-      console.log(path);
-      router.push("/snake/index");
+      const { url } = path;
+      router.push(url);
     };
 
     return {

@@ -1,5 +1,5 @@
 import { createRouter, createWebHashHistory, Router, RouteRecordRaw } from "vue-router";
-import laoyout from "@/layout/layout.vue";
+import laoyout from "@/layout/index.vue";
 import store from "@/store";
 
 interface IObject<T = any> {
@@ -18,16 +18,21 @@ const routes: Array<RouteRecordRaw> = [
     component: () => import("@/views/setup.vue")
   },
   {
+    path: "/login",
+    name: "Login",
+    component: () => import("@/views/login/login.vue")
+  },
+  {
     path: "/largeScreen",
     name: "largeScreen",
     component: () => import("@/views/largeScreen/index.vue")
   },
   //threejs 沿着路线运动demo
-  {
-    path: "/modeRunByThree",
-    name: "ModeRunByThree",
-    component: () => import("@/views/ModeRunByThree/index.vue")
-  },
+  // {
+  //   path: "/modeRunByThree",
+  //   name: "ModeRunByThree",
+  //   component: () => import("@/views/ModeRunByThree/index.vue")
+  // },
   // { src\views\ModeRunByThree\index.vue
   //   //贪吃蛇
   //   path: "/snake/index",
@@ -171,11 +176,11 @@ const routes: Array<RouteRecordRaw> = [
 ];
 
 const router = createRouter({ history: createWebHashHistory(), routes });
-const token = true;
+const token = false;
 router.beforeEach((to, from, next) => {
   if (token) {
-    if (to.path === "/setup") {
-      //setup假装登录地址
+    if (to.path === "/login") {
+      //登录地址跳转到/
       next({ path: "/" });
     } else {
       //如果没有拿到路由列表,去请求接口
@@ -186,10 +191,16 @@ router.beforeEach((to, from, next) => {
           const { userRouters } = res;
           // router.addRoute(userRouters[1]);
           addRouteFromUser(userRouters);
+          // setTimeout(() => {
+          //   next({ ...to, replace: true });
+          // }, 2000);
           next({ ...to, replace: true });
         });
       }
     }
+  } else {
+    if (to.path === "/login") next();
+    next("/login");
   }
 });
 

@@ -1,8 +1,27 @@
 <script>
 import HelloWorld from "./components/HelloWorld.vue";
-import layout from "@/layout/layout.vue";
+import layout from "@/layout/index.vue";
+import FullscreenLayout from "@/views/layout/fullscreen-layout.vue";
+import app from "@/constant/app.ts";
+import { reactive, watch } from "vue";
+import { useRoute } from "vue-router";
+import { pageLayout } from "@/constant/setting";
 export default {
-  components: { layout }
+  components: { layout, FullscreenLayout },
+  setup() {
+    const route = useRoute();
+    const state = reactive({ layout: "" });
+    watch(
+      () => [route.path, route.query],
+      ([path, query]) => {
+        state.layout = app.fullscreen.includes(path) ? pageLayout.fullscreen : pageLayout.page;
+      }
+    );
+    return {
+      state,
+      page: pageLayout.fullscreen
+    };
+  }
 };
 </script>
 
@@ -16,7 +35,8 @@ export default {
         <component :is="Component"></component>
       </keep-alive>
     </router-view> -->
-    <layout></layout>
+    <FullscreenLayout v-if="state.layout === page"></FullscreenLayout>
+    <layout v-else></layout>
   </div>
 </template>
 

@@ -56,7 +56,7 @@ export default {
     const handleOpen = function () {};
     const handleClose = function () {};
     const state = reactive({ menuList });
-    console.log(state.menuList);
+    console.log(store.state.userInfo);
     return {
       ...toRefs(state),
       handleOpen,
