@@ -688,6 +688,13 @@ export default {
             position: { x: -40.339814351422575, y: 50.94430054091745, z: 369.4471831471705 }
           }
         ];
+
+        createLinePoint({
+          initialPoints: dialogTip.map((item) => item.position),
+          THREE,
+          scene
+        });
+
         let domDialog;
         dialogTip.forEach((item, index) => {
           domDialog = document.createElement("div");

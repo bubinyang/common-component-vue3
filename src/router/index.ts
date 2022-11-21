@@ -176,7 +176,7 @@ const routes: Array<RouteRecordRaw> = [
 ];
 
 const router = createRouter({ history: createWebHashHistory(), routes });
-const token = false;
+const token = true;
 router.beforeEach((to, from, next) => {
   if (token) {
     if (to.path === "/login") {

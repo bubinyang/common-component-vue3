@@ -51,8 +51,10 @@ export default {
       const parentEl = e.currentTarget.parentElement;
       if (!this.modelValue) {
         parentEl.classList.add("expand-style");
+        // parentEl["webkitRequestFullScreen"](); 可以实现一键全屏
       } else {
         parentEl.classList.remove("expand-style");
+        // document["webkitCancelFullScreen"](); 一键取消全屏
       }
       // this.$emit("change", !this.fullmodel);
       this.$emit("update:modelValue", !this.modelValue);

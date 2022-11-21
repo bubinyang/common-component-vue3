@@ -123,7 +123,7 @@ export const domTag = function (dom, position, id) {
 export const getLabelRenderer = function ({ width, height }) {
   const labelRenderer = new CSS2DRenderer();
   labelRenderer.setSize(width, height);
-
+  //这个是弹出框 容器位置，需要设置到当前页面的容器位置即可
   labelRenderer.domElement.style.position = "fixed";
   labelRenderer.domElement.style.top = "50px";
   labelRenderer.domElement.style.left = "230px";
