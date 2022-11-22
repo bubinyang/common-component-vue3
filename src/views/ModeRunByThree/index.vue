@@ -42,6 +42,7 @@ import {
   getLabelRenderer
 } from "@/utils/threeUtils.js";
 import { max } from "moment";
+import { onActivated, onDeactivated } from "vue";
 // import app from "@/constants/app";
 // import { Flow } from "three/addons/modifiers/CurveModifier.js";
 // import { Flow } from "https://threejs.org/examples/jsm/modifiers/CurveModifier.js";
@@ -100,6 +101,10 @@ function debounce(fn, ms) {
     if (actionNow) fn.apply(this, arguments);
   };
 }
+//目标移动物体的animation
+var movingTargetRequestAnimation = {},
+  mainRequestAnimationFrame,
+  animate;
 
 export default {
   name: "factory",
@@ -108,6 +113,17 @@ export default {
       type: [Number, String],
       default: () => 1
     }
+  },
+  setup() {
+    onDeactivated(() => {
+      //离开取消requestAnimationFrame,提升效率
+      cancelAnimationFrame(mainRequestAnimationFrame);
+    });
+
+    onActivated(() => {
+      //激活再次启动requestAnimationFrame
+      if (mainRequestAnimationFrame) mainRequestAnimationFrame = requestAnimationFrame(animate);
+    });
   },
   data() {
     return {
@@ -502,7 +518,7 @@ export default {
             THREE
           });
           scene.add(line);
-          item.goFly = goFly({ curve, targeItem: arrow });
+          item.goFly = goFly({ curve, targeItem: arrow, item });
           item.goFly();
         });
       }
@@ -553,7 +569,7 @@ export default {
         });
       }
 
-      function animate() {
+      animate = function () {
         // 更新控制器
         render();
         // 更新性能插件
@@ -562,9 +578,9 @@ export default {
         // path += 0.005;
         // path %= 2;
         if (labelRenderer) labelRenderer.render(scene, camera);
-
-        requestAnimationFrame(animate);
-      }
+        console.log("动画执行");
+        mainRequestAnimationFrame = requestAnimationFrame(animate);
+      };
 
       //创造多条轨道和物体进行，物体并沿轨道进行位移
       const origin = [
@@ -722,7 +738,7 @@ export default {
         transformContols();
         // lineObject = createLineAndTargetMove();
         initStats();
-        goFly({ curve, targeItem: movingTarget })();
+        goFly({ curve, targeItem: movingTarget, item: movingTargetRequestAnimation })();
         animate();
         setTimeout(() => {
           setCameraAnimate();

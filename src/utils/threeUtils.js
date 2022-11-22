@@ -60,8 +60,9 @@ export function drawLine({ position, THREE }) {
  * @param  curve CatmullRomCurve3的实例 位移的路劲
  * @param THREE
  * @param targetItem 目标位移项
+ * @param item  外部数据源,此处目的是存储requestAnimatioFrame以便进行cancel
  */
-export function goFly({ maxIndex = 1000, curve, targeItem }) {
+export function goFly({ maxIndex = 1000, curve, targeItem, item }) {
   let index = 0;
   return function action() {
     if (index > maxIndex) index = 0;
@@ -74,7 +75,8 @@ export function goFly({ maxIndex = 1000, curve, targeItem }) {
     targeItem.rotateY(Math.PI / 2);
     targeItem.position.copy(position);
     index++;
-    requestAnimationFrame(action);
+    //requestAnimationFrame(action);
+    item.mainRequestAnimationFrame = requestAnimationFrame(action);
   };
 }
 
