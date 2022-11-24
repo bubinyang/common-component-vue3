@@ -39,7 +39,8 @@ import {
   goFly,
   updateLineByChangeMainPoint,
   domTag,
-  getLabelRenderer
+  getLabelRenderer,
+  getIntersects
 } from "@/utils/threeUtils.js";
 import { max } from "moment";
 import { onActivated, onDeactivated } from "vue";
@@ -104,8 +105,8 @@ function debounce(fn, ms) {
 //目标移动物体的animation
 var movingTargetRequestAnimation = {},
   mainRequestAnimationFrame,
-  animate;
-
+  animate,
+  touchCurrentModel; //当前鼠标触摸的模型对象
 export default {
   name: "factory",
   props: {
@@ -258,7 +259,7 @@ export default {
         // light.castShadow = true;
         // scene.add(light);
         /**
-         * 模拟舍内光(模型导入)
+         * 模拟室内光(模型导入)
          */
         const pmremGenerator = new THREE.PMREMGenerator(renderer);
         pmremGenerator.compileEquirectangularShader();
@@ -314,23 +315,28 @@ export default {
           console.log(flower);
           flower.scale.set(3900, 3900, 3900);
           //遍历模型里面的各种小部件
-          flower.traverse((item) => {
-            if (item.name === "仪器") glfItem = item;
+
+          flower.traverse((item, index) => {
+            if (item.name === "一次泵018") {
+              glfItem = item;
+              console.log(item, index);
+            }
           });
           //flower.scale.copy(new THREE.Vector3(50, 50, 50)); //通过copy放大50倍
           // flower.scale.set(1, 1, 1); //通过set放大50倍
-          glfItem.material.color.set("yellow"); //模型外表设置颜色为黄色 material外观材质
+          console.log(glfItem);
+          // glfItem.material.color.set("red"); //模型外表设置颜色为黄色 material外观材质
           //打印glfColor.material.constructor你会发现它的类型就是MeshStandardMaterial，颜色可以通过color.set进行设置
           //为什么flower可以直接使用set方法设置scale和position等属性，因为flower的constructor看到的scene,包含了Objec3D基础对象类，
           //基础对象类有position和scale这些属性，而这些属性又是三维向量Vector3的类型，Vector3具有set等方法
 
           //可以拿到模型中的某一个几何体,并进行多边形物体类创建
-          /*const geometry = mesh.scene.children[2].geometry;
-          flower = new THREE.Mesh(
-            geometry,
-            new THREE.MeshLambertMaterial({ color: new THREE.Color("rgb(35, 78, 176)") })
-          );
-          flower.scale.copy(new THREE.Vector3(4000, 4000, 4000)); //glb模型放大*/
+          // const geometry = mesh.scene.children[2].geometry;
+          // var flowertest = new THREE.Mesh(
+          //   geometry,
+          //   new THREE.MeshLambertMaterial({ color: new THREE.Color("rgb(35, 78, 176)") })
+          // );
+          // flowertest.scale.copy(new THREE.Vector3(4000, 4000, 4000)); //glb模型放大*/
           scene.add(flower);
           loaderGLTF.load("./threejs/arrow.glb", function (arrow) {
             arrowData = arrow;
@@ -367,6 +373,7 @@ export default {
         //   that.loading = false;
         // });
         El.addEventListener("click", onMouseClick, false);
+        El.addEventListener("mousemove", onMouseover, false);
         // El.addEventListener('mousemove', debounce(
         //   function(){console.log('移动')}
         // ), false)
@@ -384,6 +391,10 @@ export default {
       }
 
       function onMouseClick(event) {
+        console.log(11);
+      }
+
+      function onMouseover(event) {
         const elRect = El.getBoundingClientRect();
         const left = event.clientX - elRect.left;
         const top = event.clientY - elRect.top;
@@ -395,12 +406,27 @@ export default {
         raycaster.setFromCamera(mouse, camera);
         // 获取raycaster直线和所有模型相交的数组集合
         var intersects = raycaster.intersectObjects(scene.children, true);
+        // var intersects = getIntersects({ El, event, mouse, camera, scene, raycaster });
         const currentItem = intersects[0] ? intersects[0].object.name : false;
+
+        //鼠标位移到某个模型组件上，增加选中颜色.离开恢复原来的颜色
         if (intersects[0]) {
-          console.log(
-            `x:${intersects[0].point.x},y:${intersects[0].point.y},y:${intersects[0].point.z}`
-          );
+          if (["一次泵018", "一次泵017"].includes(intersects[0].object.name)) {
+            /**此处需要再次设置原来颜色，否则下面的getHex无法获取到原来的颜色*/
+            if (touchCurrentModel) {
+              touchCurrentModel.material.emissive.setHex(touchCurrentModel.cloneColor);
+            }
+            touchCurrentModel = intersects[0].object;
+            touchCurrentModel.cloneColor = touchCurrentModel.material.emissive.getHex();
+            touchCurrentModel.material.emissive.setHex(0xff0000);
+          } else {
+            if (touchCurrentModel) {
+              touchCurrentModel.material.emissive.setHex(touchCurrentModel.cloneColor);
+              touchCurrentModel = null;
+            }
+          }
         }
+
         const findItem = factoryList.find((item) => item.code === currentItem);
         if (findItem) {
           that.clickHorse(event, findItem);
@@ -542,6 +568,7 @@ export default {
         const transformControl = new THREE.TransformControls(camera, renderer.domElement);
         transformControl.addEventListener("change", render);
         scene.add(transformControl);
+        //控制器attach加载出来后，的鼠标点击事件
         transformControl.addEventListener("mouseDown", function (e) {
           console.log("鼠标按下ss");
           console.log(e.object);
@@ -578,7 +605,6 @@ export default {
         // path += 0.005;
         // path %= 2;
         if (labelRenderer) labelRenderer.render(scene, camera);
-        console.log("动画执行");
         mainRequestAnimationFrame = requestAnimationFrame(animate);
       };
 
@@ -716,8 +742,7 @@ export default {
           domDialog = document.createElement("div");
           domDialog.className = `title-text`;
           domDialog.innerHTML = item.label;
-          // domDialog.innerHTML = JSON.stringify(item);
-          scene.add(domTag(domDialog, item.position, item.id));
+          scene.add(domTag({ dom: domDialog, position: item.position, id: item.id }));
         });
       }
 

@@ -108,7 +108,7 @@ export function updateLineByChangeMainPoint({ line, cubeList, THREE }) {
  * @param position tootip在3D空间显示的位置
  * @id 该弹出框的标识
  */
-export const domTag = function (dom, position, id) {
+export const domTag = function ({ dom, position, id }) {
   // const dom=document.querySelector(id)
   if (!dom) return null;
   const moonLabel = new CSS2DObject(dom);
@@ -132,4 +132,21 @@ export const getLabelRenderer = function ({ width, height }) {
   labelRenderer.domElement.style.pointerEvents = "none";
   document.body.appendChild(labelRenderer.domElement);
   return labelRenderer;
+};
+
+/**
+ * 通过鼠标的位置和当前相机的矩阵计算出raycaster 以便查找出单个object
+ */
+export const getIntersects = function ({ El, event, mouse, camera, scene, raycaster }) {
+  const elRect = El.getBoundingClientRect();
+  const left = event.clientX - elRect.left;
+  const top = event.clientY - elRect.top;
+  // 通过鼠标点击的位置计算出raycaster所需要的点的位置，以屏幕中心为原点，值的范围为-1到1.
+  mouse.x = (left / elRect.width) * 2 - 1;
+  mouse.y = -(top / elRect.height) * 2 + 1;
+
+  // 通过鼠标点的位置和当前相机的矩阵计算出raycaster
+  raycaster.setFromCamera(mouse, camera);
+  // 获取raycaster直线和所有模型相交的数组集合
+  return raycaster.intersectObjects(scene.children, true);
 };
