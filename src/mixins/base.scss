@@ -1,0 +1,16 @@
+@mixin clearfix($bg,$shadowColor,$borderColor) {
+    background: $bg;
+    box-shadow: inset 0px 0px 15px 0px $shadowColor;
+    border-radius: 4px 4px 4px 4px;
+    opacity: 1;
+    border: 1px solid $borderColor;
+  }
+@mixin contentCenter{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+$menuActiveColor: rgb(45,140,240);
+$mainFontColorHover:rgb(255,255,255);
+$mainFontColor:rgb(187,187,187)

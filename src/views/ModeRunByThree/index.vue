@@ -391,37 +391,40 @@ export default {
       }
 
       function onMouseClick(event) {
-        console.log(11);
+        //点击展示设备 位置弹出框
+        var intersects = getIntersects({ El, event, mouse, camera, scene, raycaster });
+        console.log(intersects);
+        if (intersects[0]) {
+          console.log(intersects[0].object);
+          let domDialog = document.createElement("div");
+          domDialog.className = `title-text`;
+          domDialog.innerHTML = "内容";
+          const result = domTag({
+            dom: domDialog,
+            position: intersects[0].object.position,
+            id: 11
+          });
+          console.log(result);
+          scene.add(result);
+        }
       }
 
       function onMouseover(event) {
-        const elRect = El.getBoundingClientRect();
-        const left = event.clientX - elRect.left;
-        const top = event.clientY - elRect.top;
-        // 通过鼠标点击的位置计算出raycaster所需要的点的位置，以屏幕中心为原点，值的范围为-1到1.
-        mouse.x = (left / elRect.width) * 2 - 1;
-        mouse.y = -(top / elRect.height) * 2 + 1;
-
-        // 通过鼠标点的位置和当前相机的矩阵计算出raycaster
-        raycaster.setFromCamera(mouse, camera);
-        // 获取raycaster直线和所有模型相交的数组集合
-        var intersects = raycaster.intersectObjects(scene.children, true);
-        // var intersects = getIntersects({ El, event, mouse, camera, scene, raycaster });
+        var intersects = getIntersects({ El, event, mouse, camera, scene, raycaster });
         const currentItem = intersects[0] ? intersects[0].object.name : false;
-
         //鼠标位移到某个模型组件上，增加选中颜色.离开恢复原来的颜色
         if (intersects[0]) {
           if (["一次泵018", "一次泵017"].includes(intersects[0].object.name)) {
             /**此处需要再次设置原来颜色，否则下面的getHex无法获取到原来的颜色*/
             if (touchCurrentModel) {
-              touchCurrentModel.material.emissive.setHex(touchCurrentModel.cloneColor);
+              touchCurrentModel.material.color.setHex(touchCurrentModel.cloneColor);
             }
             touchCurrentModel = intersects[0].object;
-            touchCurrentModel.cloneColor = touchCurrentModel.material.emissive.getHex();
-            touchCurrentModel.material.emissive.setHex(0xff0000);
+            touchCurrentModel.cloneColor = touchCurrentModel.material.color.getHex();
+            touchCurrentModel.material.color.setHex(0xff0000);
           } else {
             if (touchCurrentModel) {
-              touchCurrentModel.material.emissive.setHex(touchCurrentModel.cloneColor);
+              touchCurrentModel.material.color.setHex(touchCurrentModel.cloneColor);
               touchCurrentModel = null;
             }
           }

@@ -3,7 +3,7 @@
     active-text-color="#ffd04b"
     background-color="#545c64"
     class="el-menu-vertical-demo"
-    default-active="2"
+    :default-active="currentRouteUrl"
     text-color="#fff"
     @open="handleOpen"
     @close="handleClose"
@@ -44,19 +44,31 @@
 
 <script>
 import { menuList } from "@/utils/menuData.js";
-import { reactive, toRefs } from "vue";
+import { reactive, toRefs, watch } from "vue";
 import SidebarMenusItems from "./sidebar-menus-items.vue";
 import { useStore } from "vuex";
+import { useRoute, useRouter } from "vue-router";
+import { use } from "echarts";
 
 export default {
   name: "BaseSlider",
   components: { SidebarMenusItems },
   setup() {
     const store = useStore();
+    const route = useRoute();
     const handleOpen = function () {};
     const handleClose = function () {};
-    const state = reactive({ menuList });
-    console.log(store.state.userInfo);
+    const state = reactive({ menuList, currentRouteUrl: route.path });
+
+    watch(
+      () => [route.path],
+      ([path]) => {
+        console.log(path);
+        state.currentRouteUrl = path;
+      }
+    );
+
+    console.log(route.path);
     return {
       ...toRefs(state),
       handleOpen,

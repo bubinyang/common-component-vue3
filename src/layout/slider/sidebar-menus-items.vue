@@ -3,13 +3,13 @@
     <el-sub-menu v-if="x.children && x.children.length > 0" :index="x.url">
       <template #title>
         <span>
-          <a>{{ x.name }}</a>
+          <a>{{ x.name }} </a>
         </span>
       </template>
 
       <sidebar-menus-items :menus="x.children"></sidebar-menus-items>
     </el-sub-menu>
-    <el-menu-item v-else>
+    <el-menu-item :index="x.url" v-else>
       <template #title>
         <!-- <a @click="pushPath(x)" v-if="x.meta?.isNewPage" :href="`${x.meta.url}`" target="_blank">
           {{ x.meta.title }}

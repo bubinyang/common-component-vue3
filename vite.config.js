@@ -6,6 +6,13 @@ function pathResolve(dir) {
   return resolve(__dirname, ".", dir);
 }
 export default defineConfig({
+  css: {
+    preprocessorOptions: {
+      scss: {
+        additionalData: `@import "@/mixins/base.scss";`
+      }
+    }
+  },
   plugins: [
     vue(),
     monacoEditorPlugin() //配置在线编辑器

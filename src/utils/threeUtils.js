@@ -136,6 +136,7 @@ export const getLabelRenderer = function ({ width, height }) {
 
 /**
  * 通过鼠标的位置和当前相机的矩阵计算出raycaster 以便查找出单个object
+ * (一般再鼠标事件需要找到对应模型部件的时候用到)
  */
 export const getIntersects = function ({ El, event, mouse, camera, scene, raycaster }) {
   const elRect = El.getBoundingClientRect();
