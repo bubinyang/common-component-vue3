@@ -1088,8 +1088,8 @@ export function criculationActionSwitch(fn, ms) {
     isAction: true,
     action() {
       const beginAction = () => {
-        fn.apply(this, arguments);
-        if (obj.isAction) setTimeout(beginAction, ms);
+        if (obj.isAction)  fn.apply(this, arguments);
+       setTimeout(beginAction, ms);
       };
       beginAction();
     }
