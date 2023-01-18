@@ -66,7 +66,9 @@ export default {
     //   this.setTime();
     // }, 1000);
   },
-  mounted() {},
+  mounted() {
+    console.log("largreen 执行");
+  },
   methods: {
     setTime() {
       const date = this.$moment().format("YYYY-MM-DD");

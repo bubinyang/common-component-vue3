@@ -1,4 +1,56 @@
 <template>
+  <div class="changePosition">
+    <div>
+      x:
+      <el-button
+        @click="changePosition('x', 'add')"
+        type="primary"
+        icon="el-icon-plus"
+        circle
+      ></el-button>
+
+      <el-button
+        @click="changePosition('x', 'reduce')"
+        type="primary"
+        icon="el-icon-minus"
+        circle
+      ></el-button>
+    </div>
+
+    <div>
+      y:
+      <el-button
+        @click="changePosition('y', 'add')"
+        type="primary"
+        icon="el-icon-plus"
+        circle
+      ></el-button>
+
+      <el-button
+        @click="changePosition('y', 'reduce')"
+        type="primary"
+        icon="el-icon-minus"
+        circle
+      ></el-button>
+    </div>
+
+    <div>
+      z:
+      <el-button
+        @click="changePosition('z', 'add')"
+        type="primary"
+        icon="el-icon-plus"
+        circle
+      ></el-button>
+
+      <el-button
+        @click="changePosition('z', 'reduce')"
+        type="primary"
+        icon="el-icon-minus"
+        circle
+      ></el-button>
+    </div>
+  </div>
   <div
     class="Three-contain"
     v-loading="loading"
@@ -8,9 +60,9 @@
   >
     <div class="current-points-style">
       <div v-for="(item, key) in currentPonts" :key="key">
-        <div>x:{{ item.x }}</div>
-        <div>y:{{ item.y }}</div>
-        <div>z:{{ item.z }}</div>
+        <div>x:{{ item.x }},</div>
+        <div>y:{{ item.y }},</div>
+        <div>z:{{ item.z }},</div>
       </div>
     </div>
     <div class="ThreeD" @mousemove="hideDialog"></div>
@@ -106,7 +158,11 @@ function debounce(fn, ms) {
 var movingTargetRequestAnimation = {},
   mainRequestAnimationFrame,
   animate,
-  touchCurrentModel; //当前鼠标触摸的模型对象
+  line,
+  cubeList,
+  touchCurrentModel, //当前鼠标触摸的模型对象
+  currentClickMoveTarget, //当前点击的坐标模型
+  curve;
 export default {
   name: "factory",
   props: {
@@ -190,11 +246,10 @@ export default {
         raycaster,
         mouse,
         points,
-        curve,
         movingTarget,
         geoetryItem,
-        cubeList, //曲线坐标点数据
-        line, //曲线对象
+        // cubeList, //曲线坐标点数据
+        // line, //曲线对象
         lineBufferGeometry, //画线几何类
         lineGeometry,
         lines,
@@ -229,14 +284,14 @@ export default {
       function initCamera() {
         camera = new THREE.PerspectiveCamera(35, width / height, 0.1, 10000000);
         // camera.position.set(200, 200, 200);
-        camera.position.set(0, 250, 10000);
+        camera.position.set(0, 0.3, 0.8);
         camera.up.x = 0;
         camera.up.y = 1;
         camera.up.z = 0;
         camera.lookAt({
           // 相机看向哪个坐标
-          x: 500,
-          y: 500,
+          x: 0,
+          y: 0,
           z: 0
         });
       }
@@ -307,13 +362,15 @@ export default {
         const dracoLoader = new DRACOLoader();
         dracoLoader.setDecoderPath("./threejs/draco/gltf/");
         loaderGLTF.setDRACOLoader(dracoLoader);
-
-        loaderGLTF.load("./threejs/1110small.glb", function (mesh) {
+        console.log(loaderGLTF.loadAsync);
+        //localhost:8001/one_compress.glb
+        loaderGLTF.load("./threejs/night_pipeline.glb", function (mesh) {
           let glfItem;
           flower = mesh.scene;
           //放大缩小模型
           console.log(flower);
-          flower.scale.set(3900, 3900, 3900);
+          flower.scale.set(1, 1, 1);
+          flower.position.set(0, 0, 0);
           //遍历模型里面的各种小部件
 
           flower.traverse((item, index) => {
@@ -393,7 +450,6 @@ export default {
       function onMouseClick(event) {
         //点击展示设备 位置弹出框
         var intersects = getIntersects({ El, event, mouse, camera, scene, raycaster });
-        console.log(intersects);
         if (intersects[0]) {
           console.log(intersects[0].object);
           let domDialog = document.createElement("div");
@@ -405,7 +461,7 @@ export default {
             id: 11
           });
           console.log(result);
-          scene.add(result);
+          //  scene.add(result);
         }
       }
 
@@ -468,7 +524,7 @@ export default {
         controls.autoRotate = false;
         controls.autoRotateSpeed = 0.5;
         // 设置相机距离原点的最远距离
-        controls.minDistance = 15;
+        controls.minDistance = 0;
         // 设置相机距离原点的最远距离
         controls.maxDistance = 8000;
         // 是否开启右键拖拽
@@ -557,10 +613,14 @@ export default {
         var material = new THREE.MeshLambertMaterial({
           color: new THREE.Color("rgb(35, 78, 176)")
         });
-        movingTarget = new THREE.Mesh(new THREE.BoxGeometry(50, 50, 50), material);
-        movingTarget.position.x = 1075.3834454744501;
-        movingTarget.position.y = 109.87132556560576;
-        movingTarget.position.z = 322.08633024099527;
+        // movingTarget = new THREE.Mesh(new THREE.BoxGeometry(0.01, 0.01, 0.01), material);
+        // movingTarget.position.x = 0.153834454744501;
+        // movingTarget.position.y = 0.10871325565605753;
+        // movingTarget.position.z = -0.1208633024099527;
+        movingTarget = new THREE.Mesh(new THREE.BoxGeometry(0.005, 0.005, 0.005), material);
+        movingTarget.position.x = 0.153834454744501;
+        movingTarget.position.y = 0.10871325565605753;
+        movingTarget.position.z = -0.1208633024099527;
         movingTarget.castShadow = true;
         movingTarget.receiveShadow = true;
         scene.add(movingTarget);
@@ -582,6 +642,8 @@ export default {
         dragcontrols.addEventListener("hoveron", function (event) {
           controls.enabled = false; //点击后要进行拖拽改路径，需要禁止控制器的执行,拖拽结束后再次开启controls
           transformControl.attach(event.object); //加载显示3D控制器
+          currentClickMoveTarget = event.object;
+          console.log(currentClickMoveTarget);
         });
 
         dragcontrols.addEventListener("hoveroff", function (event) {
@@ -596,6 +658,20 @@ export default {
           //显示坐标值
           that.currentPonts = curve.points;
           that.$forceUpdate();
+        });
+
+        //键盘事件，变化object的位置
+        document.addEventListener("keydown", function (e) {
+          console.log("键盘按下", currentClickMoveTarget, e);
+          // if (e.code === "KeyZ" && e.code === "Equal") {
+          //   console.log("执行成功");
+          //   currentClickMoveTarget.position.x = currentClickMoveTarget.position.x + 2;
+          // }
+          if (e.altKey && e.code === "KeyZ" && e.code === "Equal") {
+            console.log("Ctrl+c");
+          }
+
+          // currentClickMoveTarget.position.setX(1000);
         });
       }
 
@@ -734,11 +810,11 @@ export default {
           }
         ];
 
-        createLinePoint({
-          initialPoints: dialogTip.map((item) => item.position),
-          THREE,
-          scene
-        });
+        // createLinePoint({
+        //   initialPoints: dialogTip.map((item) => item.position),
+        //   THREE,
+        //   scene
+        // });
 
         let domDialog;
         dialogTip.forEach((item, index) => {
@@ -773,6 +849,20 @@ export default {
         }, 5000);
       }
       draw();
+    },
+
+    changePosition(type, isAdd) {
+      if (isAdd === "add") {
+        currentClickMoveTarget.position[type] = currentClickMoveTarget.position[type] + 0.0005;
+      } else {
+        currentClickMoveTarget.position[type] = currentClickMoveTarget.position[type] - 0.0005;
+      }
+      updateLineByChangeMainPoint({ line, THREE, cubeList });
+
+      //显示坐标值
+      this.currentPonts = curve.points;
+      this.$forceUpdate();
+      /// updateLineByChangeMainPoint({ line, THREE, cubeList });
     },
 
     clickHorse(e, findItem) {
@@ -883,5 +973,12 @@ export default {
   display: flex;
   justify-content: center;
   align-items: center;
+}
+
+.changePosition {
+  position: absolute;
+  z-index: 1000;
+  top: 0;
+  display: flex;
 }
 </style>

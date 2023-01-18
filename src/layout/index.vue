@@ -6,7 +6,7 @@
     </section>
     <section class="layout-main">
       <router-view v-slot="{ Component }">
-        <keep-alive>
+        <keep-alive exclude="TreeMenu">
           <component :is="Component"></component>
         </keep-alive>
       </router-view>

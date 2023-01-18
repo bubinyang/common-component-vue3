@@ -1,9 +1,11 @@
 import { CSS2DObject, CSS2DRenderer } from "three/examples/jsm/renderers/CSS2DRenderer";
 
 const points = [
-  { x: 1075.3834454744501, y: 109.871325565605753, z: 322.08633024099527 },
-  { x: -1132.0475222805737, y: 125.50002615639014, z: 313.47358128384633 },
-  { x: -1124.548672156688, y: 125.499939967936353, z: -2215.54737535147314 }
+  { x: 0.3575931895858307, y: 0.023585346503902718, z: 0.24781165932809013 },
+  { x: 0.35725956873009235, y: 0.01990188380026229, z: -0.19507437619057438 },
+
+  { x: 0.34080503183996286, y: 0.01890200166052646, z: -0.205949067745171 },
+  { x: 0.27607404492791365, y: 0.018168824717028145, z: -0.20375677710517087 }
 ];
 /**
  * 增加拉拽点并画线
@@ -15,7 +17,7 @@ export function createLinePoint({ initialPoints = points, THREE, scene }) {
   //创造点并画线
   let cubeList;
   const addCube = (pos) => {
-    const geometry = new THREE.BoxBufferGeometry(20, 20, 20);
+    const geometry = new THREE.BoxBufferGeometry(0.005, 0.005, 0.005);
     const material = new THREE.MeshBasicMaterial({ color: Math.random() * 0xffffff });
     const cube = new THREE.Mesh(geometry, material);
     cube.position.copy(pos);
@@ -68,7 +70,7 @@ export function goFly({ maxIndex = 1000, curve, targeItem, item }) {
     if (index > maxIndex) index = 0;
     const path = index / maxIndex;
     const position = curve.getPointAt(path);
-    position.y += 10;
+    //position.y += 10;
     const tanget = curve.getTangentAt(path);
     const look = tanget.add(position);
     targeItem.lookAt(look);

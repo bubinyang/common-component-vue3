@@ -24,7 +24,7 @@ const routes: Array<RouteRecordRaw> = [
   },
   {
     path: "/largeScreen",
-    name: "largeScreen",
+    name: "LargeScreen",
     component: () => import("@/views/largeScreen/index.vue")
   },
   //threejs 沿着路线运动demo
@@ -178,6 +178,7 @@ const routes: Array<RouteRecordRaw> = [
 const router = createRouter({ history: createWebHashHistory(), routes });
 const token = true;
 router.beforeEach((to, from, next) => {
+  console.log(to);
   if (token) {
     if (to.path === "/login") {
       //登录地址跳转到/
@@ -185,6 +186,7 @@ router.beforeEach((to, from, next) => {
     } else {
       //如果没有拿到路由列表,去请求接口
       if (store.state.userInfo) {
+        console.log(11);
         next();
       } else {
         store.dispatch("getuserInfo").then((res) => {
@@ -194,6 +196,7 @@ router.beforeEach((to, from, next) => {
           // setTimeout(() => {
           //   next({ ...to, replace: true });
           // }, 2000);
+          console.log(router.options.routes);
           next({ ...to, replace: true });
         });
       }

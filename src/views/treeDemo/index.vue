@@ -47,7 +47,7 @@
 import { dataList, res } from "@/components/tools/treeNode/data";
 
 export default {
-  name: "TreeDemo",
+  name: "TreeMenu",
   data() {
     return {
       defaultProps: {
@@ -61,6 +61,7 @@ export default {
     };
   },
   mounted() {
+    console.log("TreeMenu 执行了");
     this.getOrigin()
       .then((data) => {
         this.data = data;
