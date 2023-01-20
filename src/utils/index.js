@@ -742,7 +742,7 @@ export function findMax({ origin, key, type = "max" }) {
 export function once(fn) {
   let done = false;
   return function () {
-    return done ? undefined : ((done = true), fn.apply(this, arguments));
+    return done ? undefined : ((done = true), fn.apply(this, arguments)); //此处this缓存undefined也可以，没什么意义，目的是为了实现apply用到arguments
   };
 }
 

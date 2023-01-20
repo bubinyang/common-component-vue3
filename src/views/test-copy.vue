@@ -25,16 +25,28 @@
     <div class="logContain">111</div>
     <section class="pokerContain">
       <div class="group" v-for="(item, index) in dataPoker" :key="index">
-        <div class="pokerCard" v-for="(childitem, indexs) in item.data" :key="indexs">
-          {{ childitem }}
+        <div
+          class="pokerCard"
+          v-for="(childitem, indexs) in item.data"
+          :key="indexs"
+          :class="{
+            playerAcolor: childitem.label === 'playA',
+            playerBcolor: childitem.label === 'playB',
+            playerMinColor: childitem.label === 'playMin'
+          }"
+          :label="childitem.label"
+        >
+          {{ childitem.value }}
           <el-button
-            @click="deleteCard(item.data, childitem, item.id)"
+            v-if="!item.data[indexs].label"
+            @click="deleteCard(item, childitem, indexs)"
             class="delete"
             type="danger"
             icon="el-icon-delete"
             circle
           ></el-button>
         </div>
+        <i @click="refresh(item)" class="el-icon-refresh-right"></i>
       </div>
 
       <div class="playerA">
@@ -56,13 +68,12 @@
       </div>
 
       <div class="playerMine">
-        <div>
-          playerMine
-          <el-checkbox @change="playChange('playerMine')" v-model="playMineCheck"
-            >playerMine</el-checkbox
-          >
-        </div>
+        <el-checkbox @change="playChange('playerMine')" v-model="playMineCheck"
+          >playerMine</el-checkbox
+        >
       </div>
+
+      <i @click="refreshAll(item)" class="el-icon-refresh"></i>
     </section>
 
     <!-- <EasyPlayer :videoUrl="videoUrl" fluent autoplay live stretch></EasyPlayer> -->
@@ -100,33 +111,32 @@ export default {
     const playAList = reactive([]);
     const playBList = reactive([]);
     let once;
-    const deleteCard = function (data, item, indexs) {
-      // if (once === item && (playACheck.value || playBCheck.value)) return;
-
+    const deleteCard = function (item, childitem, indexs) {
+      // data.splice(data.indexOf(item), 1);
       // if (playACheck.value) {
-      //   data.splice(data.indexOf(item), 1);
-      //   playBList.push({ data });
+      //   const i = playBList.findIndex((item) => item.id === indexs);
+      //   if (i > -1) {
+      //     playBList.splice(i, 1);
+      //   }
+      //   playBList.push({ data, id: indexs });
       // } else if (playBCheck.value) {
-      //   data.splice(data.indexOf(item), 1);
-      //   playAList.push({ data });
+      //   const i = playAList.findIndex((item) => item.id === indexs);
+      //   if (i > -1) {
+      //     playAList.splice(i, 1);
+      //   }
+      //   playAList.push({ data, id: indexs });
       // }
-      // once = item;
-      data.splice(data.indexOf(item), 1);
+      console.log(item);
       if (playACheck.value) {
-        const i = playBList.findIndex((item) => item.id === indexs);
-        if (i > -1) {
-          playBList.splice(i, 1);
-        }
-        playBList.push({ data, id: indexs });
+        item.data[indexs].label = "playA";
       } else if (playBCheck.value) {
-        const i = playAList.findIndex((item) => item.id === indexs);
-        if (i > -1) {
-          playAList.splice(i, 1);
-        }
-        playAList.push({ data, id: indexs });
+        item.data[indexs].label = "playB";
+      } else if (playMineCheck.value) {
+        item.data[indexs].label = "playMin";
       }
+      console.log(item, dataPoker);
     };
-    const dataPoker = reactive([
+    let dataPoker = reactive([
       { data: ["A", "A", "A", "A"], id: "A" },
       { data: ["2", "2", "2", "2"], id: "2" },
       { data: ["3", "3", "3", "3"], id: "3" },
@@ -144,11 +154,32 @@ export default {
       { data: ["Q", "Q", "Q", "Q"], id: "Q" },
       { data: ["K", "K", "K", "K"], id: "K" },
       { data: ["大王", "小王"], id: "wang" }
-    ]);
+    ]).map((item) => {
+      item.data = item.data.map((childitem) => ({ value: childitem, label: "" }));
+      return item;
+    });
+
     const playACheck = ref(false);
     const playBCheck = ref(false);
 
     const playMineCheck = ref(false);
+
+    const refresh = function (item) {
+      item.data.forEach((x) => {
+        x.label = "";
+      });
+    };
+
+    const refreshAll = function () {
+      dataPoker.forEach((item) => {
+        item.data.forEach((childitem) => {
+          childitem.label = "";
+        });
+      });
+      playACheck.value = false;
+      playBCheck.value = false;
+      playMineCheck.value = false;
+    };
 
     const playChange = function (val) {
       if (val === "playA") {
@@ -377,7 +408,9 @@ export default {
       player,
       store,
       setCookie,
-      deleteCookie
+      deleteCookie,
+      refresh,
+      refreshAll
     };
   },
   data() {
@@ -424,12 +457,28 @@ export default {
     width: 220px;
     height: 60px;
     margin: 5px 10px;
+    position: relative;
+    .el-icon-refresh-right {
+      position: absolute;
+      right: 0;
+      top: 0px;
+      cursor: pointer;
+    }
+
     .pokerCard {
       width: 55px;
       border: 1px solid wheat;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      position: relative;
       &:hover {
         .delete {
+          position: absolute;
           display: block;
+          top: 50%;
+          left: 50%;
+          transform: translateX(-50%) translateY(-50%);
         }
       }
       .delete {
@@ -440,15 +489,49 @@ export default {
 
   .playerA {
     position: absolute;
-    left: -200px;
+    left: -140px;
+    top: 5px;
     width: 150px;
+    background: #2380fc;
+    .el-checkbox__label {
+      color: #ffffff;
+    }
   }
 
   .playerB {
     position: absolute;
-    right: -250px;
-    width: 180px;
+    right: -121px;
+    top: 5px;
+    width: 150px;
+    background: #06e0d5;
+    .el-checkbox__label {
+      color: #ffffff;
+    }
   }
+
+  .playerMine {
+    position: relative;
+    bottom: 5px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 150px;
+    background: #e04206;
+    .el-checkbox__label {
+      color: #ffffff;
+    }
+  }
+  .playerAcolor {
+    background: #2380fc;
+    color: #ffffff;
+  }
+  .playerBcolor {
+    background: #06e0d5;
+    color: #ffffff;
+  }
+  .playerMinColor {
+    opacity: 0.3;
+  }
+
   .playerContain {
     display: flex;
     flex-wrap: wrap;
@@ -464,6 +547,16 @@ export default {
         border: 1px solid wheat;
       }
     }
+  }
+
+  .el-icon-refresh {
+    width: 100px;
+    height: 100px;
+    position: absolute;
+    right: -100px;
+    top: 200px;
+    font-size: 100px;
+    cursor: pointer;
   }
 }
 
