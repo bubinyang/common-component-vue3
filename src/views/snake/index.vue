@@ -79,7 +79,7 @@ export default {
   },
   mounted() {
     const svgEl = document.querySelector(".snak-style svg");
-    this.newSnake = new snake({ svgEl, width: 500, height: 500, snakeWidth: 8 });
+    this.newSnake = new snake({ svgEl, width: 1000, height: 800, snakeWidth: 8 });
     // this.newSnake = newSnake
 
     this.newSnake.action = () => {
@@ -125,8 +125,8 @@ function refreshPoints(origin) {
 
 <style lang="scss">
 .snak-style {
-  width: 504px;
-  height: 504px;
+  width: 1004px;
+  height: 804px;
   border: 2px solid black;
   margin: 0 auto;
   // svg {

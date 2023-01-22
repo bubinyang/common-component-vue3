@@ -657,8 +657,7 @@ export class snake {
           const start = this.snakeWidth / 2;
           const end = this.width - this.snakeWidth / 2;
           return item.cx < start || item.cx > end || item.cy < start || item.cy > end;
-        }) ||
-        this.touchBody()
+        }) 
       ) {
         cancelAnimationFrame(this.rafId);
         // this.reset();
@@ -682,9 +681,14 @@ export class snake {
     // animloop();
 
     document.addEventListener("keydown", (event) => {
+      console.log(this.forbidAction,event.key)
       if (
         this.currentDirection === event.key ||
-        this.forbidAction[event.key] === this.currentDirection
+        this.forbidAction[event.key] === this.currentDirection ||
+        Object.entries(this.forbidAction).every(item=>{
+          const [key, value] = item;
+          return event.key!==value
+        })
       )
         return;
       const item = this.points[this.points.length - 1];
@@ -794,7 +798,7 @@ export class snake {
       });
     });
     const arr = [];
-    for (let i = 0; i < 25; i++) {
+    for (let i = 0; i < 100; i++) {
       const len = result.length;
       const index = Math.round(len * Math.random());
       this.pointFood.push(result[index]);
@@ -803,7 +807,7 @@ export class snake {
 
   touchBody(): boolean {
     const snakehead = this.points[this.points.length - 1];
-    return this.points.slice(0, this.points.length - 3).some((item: any) => {
+    return this.points.slice(0, this.points.length - 5).some((item: any) => {
       return (
         Math.abs(snakehead.cx - item.cx) < this.snakeWidth &&
         Math.abs(snakehead.cy - item.cy) < this.snakeWidth
