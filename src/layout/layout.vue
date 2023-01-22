@@ -1,23 +1,16 @@
 <template>
-  <div class="layout">
-    内部框
-    <router-view v-slot="{ Component }">
-      <keep-alive>
-        <component :is="Component"></component>
-      </keep-alive>
-    </router-view>
-  </div>
+  <router-view v-slot="{ Component }">
+    <keep-alive>
+      <component :is="Component" />
+    </keep-alive>
+  </router-view>
 </template>
-
-<script>
-import { lrdDrag, lrdDragSort } from "@/utils/utils.ts";
-import emits from "@/utils/emit.js";
-
-export default {
+<script lang="ts">
+// import app from "@/constants/app";
+import { defineComponent } from "vue";
+export default defineComponent({
   setup() {
-    emits.on("go", () => {
-      console.log("我接收到了go");
-    });
+    //return { enabledKeepAlive: app.enabledKeepAlive };
   }
-};
+});
 </script>

@@ -23,7 +23,7 @@
     </div>
 
     <div v-show="itemContentShow" class="item-content" :style="positionStyle">
-      <div class="text-top"></div>
+      <div class="text-top"><i @click="closeDiaglog" class="el-icon-close"></i></div>
       <div class="title">{{ currentOutLine ? currentOutLine.name : "" }}</div>
       <div class="text-set" v-for="(item, index) in origin.slice(0, 3)" :key="index">
         <div class="dot"></div>
@@ -61,7 +61,8 @@ export default {
       hourseList,
       currentOutLine: {},
       positionStyle: {},
-      itemContentShow: false
+      itemContentShow: false,
+      isShow: true
     };
   },
   created() {
@@ -74,14 +75,16 @@ export default {
   mounted() {},
   methods: {
     showHouseOutline(item) {
-      this.itemContentShow = false;
-      this.currentOutLine = item;
+      //this.itemContentShow = false;
+      if (this.isShow) this.currentOutLine = item;
     },
     hideHouseOutline() {
       //   this.itemContentShow = false;
       //   this.currentOutLine = null;
     },
     clickHorse(e) {
+      if (!this.isShow) return;
+
       this.itemContentShow = false;
       this.$nextTick(() => {
         const position = newSetDialogPosition(".largeScreen-map-style", {
@@ -96,7 +99,13 @@ export default {
           }
         });
         this.itemContentShow = true;
+        this.isShow = false;
       });
+    },
+    closeDiaglog() {
+      this.itemContentShow = false;
+      this.currentOutLine = null;
+      this.isShow = true;
     }
   }
 };
@@ -118,9 +127,15 @@ export default {
     height: 128px;
     position: absolute;
     z-index: 3;
-    background: url("~@/assets/img/home/item_bg.png");
+    background: url("@/assets/img/home/item_bg.png");
     .text-top {
       height: 18px;
+      color: white;
+      text-align: right;
+      padding-right: 10px;
+      .el-icon-close {
+        cursor: pointer;
+      }
     }
     .title {
       text-align: center;

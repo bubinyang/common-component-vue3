@@ -534,6 +534,40 @@ class SetDialogPosition {
   }
 }
 
+export function toSysViewComponentPath(path: string): string {
+  path = path.replace("_", "-");
+  return `/src/views${path}.vue`;
+}
+
+//获取vue文件路径下的 import(url)文件组合成的json， key是url
+export function getSysRouteMap(): IObject {
+  return import.meta.glob("/src/views/**/*.vue");
+}
+
+import layout from "@/layout/layout.vue";
+//组装用户路由列表，设置component
+export function setRouterComponent(origin: Array<any>): IObject[] {
+  function dealUrlSlash(url: string): string {
+    //判断开头是否有'/',如果没有，补齐'/'
+    return (url = !/^\//g.test(url) ? "/" + url : url);
+  }
+  const arr: IObject[] = [];
+  origin.forEach((item: any) => {
+    const path = dealUrlSlash(item.url);
+    const vueUrl = toSysViewComponentPath(path);
+    const route: IObject = {
+      path,
+      name: path,
+      component: item.children && item.children.length ? layout : getSysRouteMap()[vueUrl]
+    };
+    if (item.children) {
+      route.children = setRouterComponent(item.children);
+    }
+    arr.push(route);
+  });
+  return arr;
+}
+
 //贪吃蛇
 /**
  * 1.随机创造一个点（键盘控制点的位移）
@@ -808,10 +842,19 @@ export class snake {
   touchBody(): boolean {
     const snakehead = this.points[this.points.length - 1];
     return this.points.slice(0, this.points.length - 5).some((item: any) => {
+<<<<<<< HEAD
       return (
         Math.abs(snakehead.cx - item.cx) < this.snakeWidth &&
         Math.abs(snakehead.cy - item.cy) < this.snakeWidth
       );
+=======
+      const len = Math.hypot(Math.abs(snakehead.cx - item.cx), Math.abs(snakehead.cy - item.cy));
+      return len < this.snakeWidth;
+      // return (
+      //   Math.abs(snakehead.cx - item.cx) < this.snakeWidth &&
+      //   Math.abs(snakehead.cy - item.cy) < this.snakeWidth
+      // );
+>>>>>>> aff609d60f527310995948c7feb6d17f4c50ff8d
     });
   }
 

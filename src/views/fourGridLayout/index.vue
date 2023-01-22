@@ -75,6 +75,7 @@ export default {
       const that = this;
       // 记住首次点击获取的位置
       let fristPull;
+      console.log(formerEl, formerEl.style[typeDirection.styleKey]);
       const rowPercentTop = Number(that.getPercentVal(formerEl.style[typeDirection.styleKey])[0]);
       const rowPercentBottom = Number(that.getPercentVal(rearEl.style[typeDirection.styleKey])[0]);
       moveEl.addEventListener("mousedown", function (e) {
@@ -85,6 +86,7 @@ export default {
           let topPercentVal = rowPercentTop;
           let bottomPercentVal;
           const differPercent = (moveTop / containElSize).toFixed(30) * 100;
+          console.log(differPercent);
           topPercentVal += differPercent;
           if (topPercentVal > 100) topPercentVal = 100;
           if (topPercentVal < 0) topPercentVal = 0;

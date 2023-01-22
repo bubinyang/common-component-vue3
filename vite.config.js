@@ -1,4 +1,4 @@
-import { defineConfig } from "vite";
+import { defineConfig, loadEnv } from "vite";
 import vue from "@vitejs/plugin-vue";
 import { resolve } from "path";
 import monacoEditorPlugin from "vite-plugin-monaco-editor";
@@ -6,7 +6,18 @@ function pathResolve(dir) {
   return resolve(__dirname, ".", dir);
 }
 export default defineConfig({
-  plugins: [vue(), monacoEditorPlugin()], // 配置需要使用的插件列表，这里将vue添加进去
+  css: {
+    preprocessorOptions: {
+      scss: {
+        additionalData: `@import "@/mixins/base.scss";`
+      }
+    }
+  },
+  plugins: [
+    vue(),
+    monacoEditorPlugin() //配置在线编辑器
+    // apiURL: loadEnv(mode, process.cwd()).VITE_APP_API,//配置全局变量，api
+  ], // 配置需要使用的插件列表，这里将vue添加进去
   // 配置文件别名 vite1.0是/@/  2.0改为/@
   // 这里是将src目录配置别名为 /@ 方便在项目中导入src目录下的文件
   resolve: {

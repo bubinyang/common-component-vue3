@@ -1,10 +1,12 @@
 import { createStore } from "vuex";
+import { setRouterComponent } from "@/utils/utils";
+import { menuList } from "@/utils/menuData.js";
 interface IObject<T = any> {
   [key: string]: T;
 }
 export default createStore({
   state: {
-    userInfo: "bby"
+    userInfo: null
   } as IObject,
   mutations: {
     setUpdateState(state, payload): void {
@@ -12,6 +14,10 @@ export default createStore({
         const [key, value] = item;
         state[key] = value;
       });
+    },
+    setUserInfo(state, userInfo): void {
+      console.log(userInfo);
+      state.userInfo = userInfo;
     }
   },
   actions: {
@@ -23,6 +29,17 @@ export default createStore({
 
       return Promise.resolve("不必要").then((res) => {
         return "有意义";
+      });
+    },
+    getuserInfo({ commit }, data) {
+      const userRouters = setRouterComponent(menuList);
+      const userName = "bby";
+      return new Promise((resolve) => {
+        commit("setUserInfo", { userRouters, userName });
+        setTimeout(resolve, 1000, { userRouters, userName });
+      }).then((res) => {
+        //console.log(userRouters);
+        return res;
       });
     }
   },

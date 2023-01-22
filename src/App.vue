@@ -1,10 +1,27 @@
 <script>
-// This starter template is using Vue 3 <script setup> SFCs
-// Check out https://v3.vuejs.org/api/sfc-script-setup.html#sfc-script-setup
 import HelloWorld from "./components/HelloWorld.vue";
-// import layout from "@/layout/layout.vue";
+import layout from "@/layout/index.vue";
+import FullscreenLayout from "@/views/layout/fullscreen-layout.vue";
+import app from "@/constant/app.ts";
+import { reactive, watch } from "vue";
+import { useRoute } from "vue-router";
+import { pageLayout } from "@/constant/setting";
 export default {
-  // components: { layout }
+  components: { layout, FullscreenLayout },
+  setup() {
+    const route = useRoute();
+    const state = reactive({ layout: "" });
+    watch(
+      () => [route.path, route.query],
+      ([path, query]) => {
+        state.layout = app.fullscreen.includes(path) ? pageLayout.fullscreen : pageLayout.page;
+      }
+    );
+    return {
+      state,
+      page: pageLayout.fullscreen
+    };
+  }
 };
 </script>
 
@@ -13,13 +30,13 @@ export default {
   <!-- <HelloWorld msg="Hello Vue 3 + Vite" /> -->
   <!--如果需要全屏，layout单独封装出来易于维护-->
   <div class="app">
-    App框
-
-    <router-view v-slot="{ Component }">
+    <!-- <router-view v-slot="{ Component }">
       <keep-alive>
         <component :is="Component"></component>
       </keep-alive>
-    </router-view>
+    </router-view> -->
+    <FullscreenLayout v-if="state.layout === page"></FullscreenLayout>
+    <layout v-else></layout>
   </div>
 </template>
 

@@ -44,15 +44,32 @@ export default {
     };
   },
   computed: {},
-  mounted() {},
+  mounted() {
+    //如果不是点击图标进行全屏/取消全屏，那么图标的状态值不会变，紧跟着它的样式也不会变化
+    /**
+     * Boolean(document.webkitCurrentFullScreenElement) 该属性可以判断是否全屏状态
+     */
+    window.addEventListener(
+      "resize",
+      () => {
+        // if(Boolean(document.webkitCurrentFullScreenElement))
+        this.$emit("update:modelValue", Boolean(document.webkitCurrentFullScreenElement));
+      },
+      false
+    );
+  },
   methods: {
     screen(e) {
       console.log(this.modelValue);
       const parentEl = e.currentTarget.parentElement;
       if (!this.modelValue) {
-        parentEl.classList.add("expand-style");
+        // parentEl.classList.add("expand-style");
+        //可以实现一键全屏
+        parentEl["webkitRequestFullScreen"]();
       } else {
-        parentEl.classList.remove("expand-style");
+        //parentEl.classList.remove("expand-style");
+        //一键取消全屏
+        document["webkitCancelFullScreen"]();
       }
       // this.$emit("change", !this.fullmodel);
       this.$emit("update:modelValue", !this.modelValue);

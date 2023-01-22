@@ -742,7 +742,7 @@ export function findMax({ origin, key, type = "max" }) {
 export function once(fn) {
   let done = false;
   return function () {
-    return done ? undefined : ((done = true), fn.apply(this, arguments));
+    return done ? undefined : ((done = true), fn.apply(this, arguments)); //此处this缓存undefined也可以，没什么意义，目的是为了实现apply用到arguments
   };
 }
 
@@ -1088,8 +1088,8 @@ export function criculationActionSwitch(fn, ms) {
     isAction: true,
     action() {
       const beginAction = () => {
-        fn.apply(this, arguments);
-        if (obj.isAction) setTimeout(beginAction, ms);
+        if (obj.isAction) fn.apply(this, arguments); //如果需要经常开关的需求，那么递归持续运行,停止和启动执行方法fn即可
+        setTimeout(beginAction, ms); //如果关闭后不再开启，如倒计时，那么直接关闭setTimout即可，判断条件放在这行前面
       };
       beginAction();
     }
