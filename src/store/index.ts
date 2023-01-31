@@ -1,5 +1,5 @@
 import { createStore } from "vuex";
-import { setRouterComponent } from "@/utils/utils";
+import { setRouterComponent } from "@/utils/utils.ts";
 import { menuList } from "@/utils/menuData.js";
 interface IObject<T = any> {
   [key: string]: T;
@@ -9,9 +9,9 @@ export default createStore({
     userInfo: null
   } as IObject,
   mutations: {
-    setUpdateState(state, payload): void {
+    setUpdateState(state, payload):void {
       Object.entries(payload).forEach((item) => {
-        const [key, value] = item;
+            const [key, value] = item;
         state[key] = value;
       });
     },

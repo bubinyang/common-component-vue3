@@ -842,19 +842,10 @@ export class snake {
   touchBody(): boolean {
     const snakehead = this.points[this.points.length - 1];
     return this.points.slice(0, this.points.length - 5).some((item: any) => {
-<<<<<<< HEAD
       return (
         Math.abs(snakehead.cx - item.cx) < this.snakeWidth &&
         Math.abs(snakehead.cy - item.cy) < this.snakeWidth
       );
-=======
-      const len = Math.hypot(Math.abs(snakehead.cx - item.cx), Math.abs(snakehead.cy - item.cy));
-      return len < this.snakeWidth;
-      // return (
-      //   Math.abs(snakehead.cx - item.cx) < this.snakeWidth &&
-      //   Math.abs(snakehead.cy - item.cy) < this.snakeWidth
-      // );
->>>>>>> aff609d60f527310995948c7feb6d17f4c50ff8d
     });
   }
 
