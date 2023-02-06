@@ -9,9 +9,9 @@ export default createStore({
     userInfo: null
   } as IObject,
   mutations: {
-    setUpdateState(state, payload):void {
+    setUpdateState(state, payload): void {
       Object.entries(payload).forEach((item) => {
-            const [key, value] = item;
+        const [key, value] = item;
         state[key] = value;
       });
     },

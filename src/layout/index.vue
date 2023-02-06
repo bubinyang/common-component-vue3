@@ -4,7 +4,7 @@
     <section class="layout-slider">
       <BaseSlider v-if="state.isShow"></BaseSlider>
     </section>
-    <section class="layout-main">
+    <section class="layout-main" v-if="isRouterActive">
       <router-view v-slot="{ Component }">
         <keep-alive exclude="TreeMenu">
           <component :is="Component"></component>
@@ -19,7 +19,7 @@ import { lrdDrag, lrdDragSort } from "@/utils/utils.ts";
 import emits from "@/utils/emit.js";
 import BaseSlider from "@/layout/slider/base-slider.vue";
 import { useStore } from "vuex";
-import { reactive } from "vue";
+import { reactive, provide, ref, nextTick } from "vue";
 
 export default {
   components: { BaseSlider },
@@ -28,12 +28,18 @@ export default {
       console.log("我接收到了go");
     });
     const state = reactive({ isShow: false });
+    const isRouterActive = ref(true);
     state.isShow = true;
     // setTimeout(() => {
     //   state.isShow = true;
     // }, 8000);
-
-    return { state };
+    provide("reload", () => {
+      isRouterActive.value = false;
+      nextTick(() => {
+        isRouterActive.value = true;
+      });
+    });
+    return { state, isRouterActive };
   }
 };
 </script>
@@ -43,7 +49,7 @@ export default {
   width: 100vw;
   overflow: auto;
   display: flex;
-  flex-wrap: wrap;
+  // flex-wrap: wrap;
   .layout-header {
     height: 50px;
     position: absolute;

@@ -1,14 +1,31 @@
 <template>
   <section id="stageContain">
+    <div class="septalLine"></div>
+    <LabelInputSwitch v-model="color" type="select" :options="options" />
+
+    <!--图标不变形，正常显示-->
+    <div class="septalLine"></div>
     <img
       style="width: 200px; height: 400px; object-fit: contain"
       src="/public/img/home/house1.png"
     />
+
+    <!--文字倒着反向展示-->
+    <div class="septalLine"></div>
+
     <div class="css-style">My name is Hege Refsnes</div>
+    <!--设置和删除cookie-->
+    <div class="septalLine"></div>
+
     <el-button @click="setCookie" type="primary">设置cookie</el-button>
     <el-button @click="deleteCookie" type="primary">删除cookie</el-button>
+    <!--时钟-->
+    <div class="septalLine"></div>
 
     <Clock></Clock>
+    <!--时间控件-->
+    <div class="septalLine"></div>
+
     <ChangeYearMonthDay
       v-model:dateOption="dateOption"
       :addHours="0"
@@ -18,11 +35,15 @@
       :typeListMutiple="['allyear']"
       :intervalTimeValue="{ realtime: 1, day: 1, month: 1, year: 1, allyear: 1 }"
     ></ChangeYearMonthDay>
-    <el-button @click="changeUserInfo" type="primary">Primary</el-button>
+    <!--执行store-->
+    <div class="septalLine"></div>
 
-    <LabelInputSwitch v-model="color" type="select" :options="options" />
-    222
-    <div class="logContain">111</div>
+    <el-button @click="changeUserInfo" type="primary">Primary</el-button>
+    <!--刷新路由-->
+    <i @click="refreshRoute" style="font-size: 30px" class="el-icon-refresh"></i>
+
+    <!--斗地主辅助-->
+    <div class="septalLine"></div>
     <section class="pokerContain">
       <div class="group" v-for="(item, index) in dataPoker" :key="index">
         <div
@@ -87,7 +108,7 @@
 </template>
 <script>
 import EasyPlayer from "@easydarwin/easyplayer";
-import { reactive, ref, onMounted, nextTick } from "vue";
+import { reactive, ref, onMounted, nextTick, inject } from "vue";
 import { list, lista, listb, originData } from "@/utils/test.js";
 import { grouping, criculationAction } from "@/utils/index.js";
 import { useStore } from "vuex";
@@ -389,6 +410,11 @@ export default {
       document.cookie = `username=; ${expires}`;
       console.log(document.cookie);
     };
+    //刷新路由方法
+    const reload = inject("reload");
+    const refreshRoute = () => {
+      reload();
+    };
     //随机生产日语
     const japanes = [];
     return {
@@ -410,7 +436,8 @@ export default {
       setCookie,
       deleteCookie,
       refresh,
-      refreshAll
+      refreshAll,
+      refreshRoute
     };
   },
   data() {
@@ -592,4 +619,10 @@ export default {
 // .aTable-style{
 //   .tootip-contain{}
 // }
+
+.septalLine {
+  // background: #263238;
+  height: 5px;
+  border-top: 1px dashed #263238;
+}
 </style>

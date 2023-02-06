@@ -215,7 +215,7 @@ export default {
       // this.change()
       setTimeout(() => {
         this.showLabel = true;
-      }, 50);
+      }, 200);
     },
     editShow() {
       this.doSpecial();
