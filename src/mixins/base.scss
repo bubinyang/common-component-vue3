@@ -13,4 +13,24 @@
 
 $menuActiveColor: rgb(45,140,240);
 $mainFontColorHover:rgb(255,255,255);
-$mainFontColor:rgb(187,187,187)
+$mainFontColor:rgb(187,187,187);
+
+
+
+
+@function setRem($px){
+ @return calc($px / 37.5)*1rem
+}
+
+$device-width:375;
+
+@function setVw($px){
+  @return calc($px/($device-width/100vw))
+}
+
+$grid-width: 40px;
+$gutter-width: 10px;
+
+@function grid-width($n) {
+  @return $n * $grid-width + ($n - 1) * $gutter-width;
+}

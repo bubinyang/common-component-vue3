@@ -25,6 +25,10 @@ const menuList = [
       {
         name: "模型demo",
         url: "/3D/index"
+      },
+      {
+        name: "基于类创建的模型demo",
+        url: "/3DClass/index"
       }
     ]
   },

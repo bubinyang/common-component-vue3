@@ -44,6 +44,9 @@ export default {
 };
 </script>
 <style lang="scss">
+// @function setRem($px) {
+//   @return ($px/37.5) * 1rem;
+// }
 .layout {
   height: 100vh;
   width: 100vw;
@@ -53,6 +56,8 @@ export default {
   .layout-header {
     height: 50px;
     position: absolute;
+    width: grid-width(5);
+    font-size: 16px;
     // flex: 0 0 100%;
   }
   .layout-slider {

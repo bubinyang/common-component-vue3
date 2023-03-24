@@ -364,7 +364,7 @@ export default {
         loaderGLTF.setDRACOLoader(dracoLoader);
         console.log(loaderGLTF.loadAsync);
         //localhost:8001/one_compress.glb
-        loaderGLTF.load("./threejs/modelDraco.glb", function (mesh) {
+        loaderGLTF.load("./threejs/1110small.glb", function (mesh) {
           let glfItem;
           flower = mesh.scene;
           //放大缩小模型

@@ -28,10 +28,10 @@
 //菜单
 .layout-slider{
   background-color: blue;
-   .el-menu-item{
+   .el-menu-item,.el-sub-menu__title{
     a{color:$mainFontColor}
    }
-  .el-menu-item:hover{ 
+  .el-menu-item:hover,.el-sub-menu__title:hover{ 
       background: $menuActiveColor;
       //color:$mainFontColorHover
     //background-color: $menuActiveColor;

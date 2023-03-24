@@ -298,14 +298,23 @@ export function scrollItem({ contentEl, speed = 20, orient = "horizontal" }) {
   const contentSizeVal = contentEl.getBoundingClientRect()[types[orient].sizeLabel];
   let distance = 0;
   let action = true;
-  setInterval(() => {
+
+  function go() {
     distance = distance - 1;
     if (-distance >= parseInt(contentSizeVal)) {
       distance = 0;
     }
-    // console.log(distance)
     contentEl.style.transform = types[orient].setStyle(distance);
-  }, 20);
+    return requestAnimationFrame(go);
+  }
+
+  // setInterval(() => {
+  //   distance = distance - 1;
+  //   if (-distance >= parseInt(contentSizeVal)) {
+  //     distance = 0;
+  //   }
+  //   contentEl.style.transform = types[orient].setStyle(distance);
+  // }, 20);
 
   //鼠标触碰暂停启动
   contentEl.addEventListener("mouseenter", () => {
@@ -314,6 +323,7 @@ export function scrollItem({ contentEl, speed = 20, orient = "horizontal" }) {
   contentEl.addEventListener("mouseleave", () => {
     action = true;
   });
+  return go();
 }
 
 /**

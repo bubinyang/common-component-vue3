@@ -216,7 +216,7 @@ export class lrdEchart {
  * 2.lrdDrg 相当于基类，辅助各种拖拉拽子类
  * 3.moveActionBind 作为方法传入addEventListener会导致this指向变化，需要bind
  * 4.onselectstart和ondragstart 防止拖拽选中文字和元素
- * 5.外部数据重新渲染，lrdDrag实例化禁止重复，否则点击事件会多次绑定导致多次执行
+ * 5.外部数据重新渲染，lrdDrag实例化禁止重复，否则点击事件会多次绑定导致多次执行   if(newLrdDrag) return;
  * 6.findParent 查找仅次于拖拽子项容易，有两种情况，className和attribute，需要包括这2个条件
  */
 /**
@@ -691,7 +691,7 @@ export class snake {
           const start = this.snakeWidth / 2;
           const end = this.width - this.snakeWidth / 2;
           return item.cx < start || item.cx > end || item.cy < start || item.cy > end;
-        }) 
+        })
       ) {
         cancelAnimationFrame(this.rafId);
         // this.reset();
@@ -715,13 +715,13 @@ export class snake {
     // animloop();
 
     document.addEventListener("keydown", (event) => {
-      console.log(this.forbidAction,event.key)
+      console.log(this.forbidAction, event.key);
       if (
         this.currentDirection === event.key ||
         this.forbidAction[event.key] === this.currentDirection ||
-        Object.entries(this.forbidAction).every(item=>{
+        Object.entries(this.forbidAction).every((item) => {
           const [key, value] = item;
-          return event.key!==value
+          return event.key !== value;
         })
       )
         return;
@@ -904,4 +904,379 @@ function criculationActionSwitch(fn: any, ms: number) {
     }
   };
   return obj;
+}
+
+//three3D创建类
+import gsap from "gsap";
+export class ThreeBasic {
+  THREE: IObject;
+  El: HTMLDivElement; //元素
+  renderer: IObject; //构造器
+  width: number; //容器宽
+  height: number; //容器高
+  camera: IObject; //相机
+  scene: IObject; //场景
+  light: IObject; //灯光
+  raycaster: IObject; //光线投射
+  mouse: IObject; //光线投射鼠标
+  controls: IObject; //控制器对象
+
+  url: string; //基础模型路径
+  assistTools: boolean; //是否显示辅助工具
+
+  constructor(param: IObject) {
+    this.THREE = param.THREE;
+    this.El = param.El;
+    this.url = param.url;
+    this.renderer = {};
+    this.width = param.El.offsetWidth;
+    this.height = param.El.offsetHeight;
+    this.camera = {};
+    this.scene = {};
+    this.light = {};
+    this.raycaster = {};
+    this.mouse = {};
+    this.controls = {};
+    this.assistTools = param.assistTools;
+  }
+
+  draw(): void {
+    this.initRender();
+    this.initScene();
+    this.initCamera();
+    this.initLight();
+    if (this.assistTools) {
+      this.setAxesHelper();
+      this.setGridHelper();
+    }
+
+    this.load3DModel();
+    this.initControls();
+    this.setRaycaster();
+
+    // this.animate();
+    // requestAnimationFrame(this.animate);
+
+    const animate = () => {
+      // 更新控制器
+      this.render();
+
+      // 更新性能插件
+      //stats.update();
+
+      this.renderer.render(this.scene, this.camera);
+
+      requestAnimationFrame(animate);
+    };
+    animate();
+  }
+
+  initRender(): void {
+    // 初始化场景构造器
+    this.renderer = new this.THREE.WebGLRenderer({ antialias: true, alpha: true });
+    this.renderer.setPixelRatio(window.devicePixelRatio);
+    this.renderer.setSize(this.width, this.height);
+    // renderer.setClearColor(0xb9d3ff, 1)
+    this.renderer.shadowMap.enabled = true;
+    this.renderer.outputEncoding = this.THREE.sRGBEncoding; //让模型看上去更真实,模型更亮
+    this.renderer.toneMapping = this.THREE.ACESFilmicToneMapping;
+    this.renderer.toneMappingExposure = 1;
+
+    this.El.appendChild(this.renderer.domElement);
+  }
+  initScene(): void {
+    this.scene = new this.THREE.Scene();
+    //scene.background = new THREE.Color(0x010e31); //增加背景
+    // scene.fog = new THREE.Fog(0xa0a0a0, 200, 1000);//增加浓雾
+
+    const cube = new this.THREE.Mesh(
+      new this.THREE.BoxGeometry(0.05, 0.05, 0.05),
+      new this.THREE.MeshBasicMaterial({
+        color: new this.THREE.Color("rgb(41,55,109)")
+      })
+    );
+
+    cube.position.set(0, 0.35, 0);
+
+    this.scene.add(cube);
+
+    gsap.fromTo(
+      cube.position,
+      {
+        z: -0.05
+      },
+      {
+        z: 0.5,
+        duration: 1,
+        yoyo: true,
+        repeat: -1,
+        ease: "sine.inOut"
+      }
+    );
+  }
+  initCamera(): void {
+    //初始化相机位置及朝向
+    this.camera = new this.THREE.PerspectiveCamera(35, this.width / this.height);
+    this.camera.position.set(0, 0.7, 0.85);
+    this.camera.lookAt({
+      // 相机看向哪个坐标
+      x: 0,
+      y: 0,
+      z: 0
+    });
+  }
+
+  initLight(): void {
+    //初始化光照
+    this.light = new this.THREE.DirectionalLight(0xffffff, 1); //平行光(相当于太阳光)
+    this.light.position.set(60, 100, 40);
+    this.light.castShadow = true;
+    //   light = new THREE.HemisphereLight(0xffffbb, 0x080820, 2.2);
+    //scene.add(light);
+    //更亮的室内环境光，模拟threejs官方在线编辑界面
+    // const pmremGenerator = new THREE.PMREMGenerator(renderer);
+    // pmremGenerator.compileEquirectangularShader();
+    // scene.environment = pmremGenerator.fromScene(new THREE.RoomEnvironment(), 0.5).texture;
+    //环境光
+    const ambientLight = new this.THREE.AmbientLight(0x404040); //环境光 无阴影
+    ambientLight.intensity = 1;
+    this.scene.add(ambientLight);
+
+    //添加舞台聚光灯,点光源，能造阴影
+    const bigSpotLight = new this.THREE.SpotLight("#ffffff", 2);
+    bigSpotLight.angle = Math.PI / 8;
+    bigSpotLight.penumbra = 0.2;
+    bigSpotLight.decay = 2;
+    bigSpotLight.distance = 30;
+    bigSpotLight.position.set(0, 10, 0);
+    bigSpotLight.target.position.set(0, 0, 0);
+    // scene.add(bigSpotLight.target);
+    this.scene.add(bigSpotLight);
+
+    //有时候模型不管什么光都会有暗淡的状况(需要自行增加)
+    const virtualScene = new this.THREE.Scene();
+    const fbo = new this.THREE.WebGLCubeRenderTarget(256);
+    fbo.texture.type = this.THREE.HalfFloatType;
+    const cubeCamera = new this.THREE.CubeCamera(1, 1000, fbo);
+
+    virtualScene.add(cubeCamera);
+
+    // 天花板灯
+    const topLight = this.generateVirtualLight({
+      intensity: 0.75,
+      scale: [10, 10, 1],
+      position: [0, 5, -9],
+      rotation: [Math.PI / 2, 0, 0]
+    });
+
+    const leftTopLight = this.generateVirtualLight({
+      intensity: 4,
+      scale: [20, 0.1, 1],
+      position: [-5, 1, -1],
+      rotation: [0, Math.PI / 2, 0]
+    });
+    const leftBottomLight = this.generateVirtualLight({
+      intensity: 1,
+      scale: [20, 0.5, 1],
+      position: [-5, -1, -1],
+      rotation: [0, Math.PI / 2, 0]
+    });
+    const rightTopLight = this.generateVirtualLight({
+      intensity: 1,
+      scale: [20, 1, 1],
+      position: [10, 1, 0],
+      rotation: [0, -Math.PI / 2, 0]
+    });
+
+    const floatLight = this.generateVirtualLight({
+      form: "ring",
+      color: "white",
+      intensity: 1.5,
+      scale: 10,
+      position: [-15, 4, -18],
+      target: [0, 0, 0]
+    });
+
+    const floatLightOther = this.generateVirtualLight({
+      form: "ring",
+      color: "white",
+      intensity: 1.5,
+      scale: 10,
+      position: [10, 4, 18],
+      target: [0, 0, 0]
+    });
+
+    virtualScene.add(topLight);
+    virtualScene.add(leftTopLight);
+    virtualScene.add(leftBottomLight);
+    virtualScene.add(rightTopLight);
+    virtualScene.add(floatLight);
+    virtualScene.add(floatLightOther);
+
+    this.scene.environment = fbo.texture;
+    const virtualRender = () => {
+      cubeCamera.update(this.renderer, virtualScene);
+      requestAnimationFrame(virtualRender);
+    };
+    virtualRender();
+  }
+
+  // initModel() {}
+  //
+
+  //虚拟环境光(原理：插入白色材料，反射光到模型上)
+  generateVirtualLight({
+    THREE = this.THREE,
+    form = "rect",
+    intensity = 1,
+    color = "white",
+    scale = [1, 1, 1],
+    toneMapped = false,
+    position = [0, 0, 0],
+    rotation = [0, 0, 0],
+    target
+  }: IObject): IObject {
+    scale = Array.isArray(scale) && scale.length === 2 ? [scale[0], scale[1], 1] : scale;
+
+    let geometry;
+    if (form === "circle") {
+      geometry = new THREE.RingGeometry(0, 1, 64);
+    }
+    if (form === "ring") {
+      geometry = new THREE.RingGeometry(0.5, 1, 64);
+    }
+    if (form === "rect") {
+      geometry = new THREE.PlaneGeometry();
+    }
+
+    const material = new THREE.MeshBasicMaterial({
+      toneMapped: toneMapped,
+      side: THREE.DoubleSide,
+      color: color
+    });
+
+    material.color.multiplyScalar(intensity);
+
+    const mesh = new THREE.Mesh(geometry, material);
+    Array.isArray(scale) ? mesh.scale.set(...scale) : mesh.scale.set(scale, scale, scale);
+
+    mesh.position.set(...position);
+    mesh.rotation.set(...rotation);
+    if (target) {
+      mesh.lookAt(new THREE.Vector3(...target));
+    }
+    return mesh;
+  }
+
+  async load3DModel(): Promise<void> {
+    if (!this.url) return;
+    //监测模型加载进度
+    const manager = new this.THREE.LoadingManager();
+    manager.onProgress = (url: any, loaded: number, total: number) => {
+      console.log((loaded / total) * 100, loaded, total);
+    };
+
+    //加载gltf配置
+    console.log(this.THREE.DRACOLoader);
+    const dracoLoader = new this.THREE.DRACOLoader();
+    dracoLoader.setDecoderPath("./threejs/draco/gltf/");
+    const loaderGLTF = new this.THREE.GLTFLoader(manager);
+    loaderGLTF.setDRACOLoader(dracoLoader);
+
+    loaderGLTF.load(this.url, (gltf: any) => {
+      const model = gltf.scene;
+      model.scale.set(1, 1, 1);
+      model.position.set(0, 0, 0);
+      this.scene.add(model);
+    });
+  }
+
+  //添加光线投射，以便点击找到对应模型
+  setRaycaster(): void {
+    console.log(this);
+    this.raycaster = new this.THREE.Raycaster();
+    this.mouse = new this.THREE.Vector2();
+  }
+
+  initControls(): void {
+    console.log(this);
+    this.controls = new this.THREE.OrbitControls(this.camera, this.renderer.domElement);
+    this.controls.maxPolarAngle = 1.5;
+    this.controls.enableDamping = false; //旋转是否由惯性
+    this.controls.enableZoom = true; //缩放
+
+    this.controls.autoRotate = false; //自动旋转
+    this.controls.autoRotateSpeed = 3;
+
+    this.controls.minDistance = 0; // 设置相机距离原点的最近距离
+
+    this.controls.maxDistance = 80000; // 设置相机距离原点的最远距离
+
+    this.controls.enablePan = true; // 是否开启右键拖拽
+  }
+
+  //x和y轴辅助线(辅助开发)
+  setAxesHelper(): void {
+    const helper = new this.THREE.AxesHelper(500000);
+
+    this.scene.add(helper);
+    console.log(this.scene, helper);
+  }
+
+  //添加网格地板(辅助开发)
+  setGridHelper(): void {
+    const grid = new this.THREE.GridHelper(20000, 200, 0x000000, 0x000000);
+    grid.material.opacity = 0.2;
+    grid.material.transparent = true;
+    this.scene.add(grid);
+  }
+
+  render(): void {
+    this.controls.update();
+  }
+
+  // animate(): void {
+  //   // 更新控制器
+  //   console.log(this);
+  //   this.controls.update();
+  //   // 更新性能插件
+  //   //stats.update();
+  //   this.renderer.render(this.scene, this.camera);
+  //   // requestAnimationFrame(this.animate);
+  // }
+
+  //管理加载进度
+
+  // setLoading(): void {
+  //   const manager = new this.THREE.LoadingManager();
+  //   manager.onProgress = async (url: any, loaded: any, total: any) => {
+  //     if (Math.floor((loaded / total) * 100) === 100) {
+  //       this.setState({ loadingProcess: Math.floor((loaded / total) * 100) });
+  //       Animations.animateCamera(
+  //         camera,
+  //         controls,
+  //         { x: 0, y: 40, z: 140 },
+  //         { x: 0, y: 0, z: 0 },
+  //         4000,
+  //         () => {
+  //           this.setState({ sceneReady: true });
+  //         }
+  //       );
+  //     } else {
+  //       this.setState({ loadingProcess: Math.floor((loaded / total) * 100) });
+  //     }
+  //   };
+  //   const loader = new GLTFLoader(manager);
+  //   loader.load(islandModel, (mesh) => {
+  //     mesh.scene.traverse((child) => {
+  //       if (child.isMesh) {
+  //         child.material.metalness = 0.4;
+  //         child.material.roughness = 0.6;
+  //       }
+  //     });
+  //     mesh.scene.position.set(0, -2, 0);
+  //     mesh.scene.scale.set(33, 33, 33);
+  //     scene.add(mesh.scene);
+  //   });
+  // }
 }

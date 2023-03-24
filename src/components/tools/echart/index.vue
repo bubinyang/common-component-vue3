@@ -396,7 +396,7 @@ export default {
             color: this.axisLabelColor,
             formatter: this.xAxisLabelFormatter
           },
-          boundaryGap: false,
+          boundaryGap: false, //xAxis刻度值是否从最左边开始(图表或者折现是否贴着yXis开始)
           axisLine: {
             onZero: false,
             lineStyle: { color: "#0c73a5", width: 2 }
