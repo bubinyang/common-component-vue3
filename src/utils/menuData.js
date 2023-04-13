@@ -36,6 +36,11 @@ const menuList = [
   {
     name: "ElTable自定义样式",
     url: "/elTableCostomStyle/index"
+  },
+
+  {
+    name: "monkey历史数据查询",
+    url: "/monkeyData/index"
   }
 ];
 export { menuList };

@@ -193,6 +193,15 @@ router.beforeEach((to, from, next) => {
           const { userRouters } = res;
           // router.addRoute(userRouters[1]);
           addRouteFromUser(userRouters);
+
+          // if (!router.hasRoute("/:path(.*)*")) {
+          //   router.addRoute({
+          //     meta: {},
+          //     path: "/:path(.*)*",
+          //     redirect: { path: "/largeScreen", query: { to: 404 }, replace: true }
+          //   });
+          // }
+
           // setTimeout(() => {
           //   next({ ...to, replace: true });
           // }, 2000);

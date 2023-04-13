@@ -1,5 +1,11 @@
 <template>
   <section id="stageContain">
+    <ul class="lineheight">
+      <li>图标不变形，正常显示</li>
+      <li>文字倒着反向展示</li>
+      <li>设置和删除cookie</li>
+    </ul>
+
     <div class="septalLine"></div>
     <LabelInputSwitch v-model="color" type="select" :options="options" />
 
@@ -119,7 +125,6 @@ export default {
   //components: { Clock },
   setup() {
     const store = useStore();
-
     console.log(store.state.userInfo);
     const dateOption = ref({ dateOther: "", date: "", type: "year" });
     const color = ref("red");
@@ -415,6 +420,16 @@ export default {
     const refreshRoute = () => {
       reload();
     };
+
+    onMounted(async () => {
+      await new Promise((resolve) => {
+        setTimeout(resolve, 20000);
+      });
+      console.log("加载完毕");
+    });
+
+    //定时创造dom，删除dome
+
     //随机生产日语
     const japanes = [];
     return {
@@ -624,5 +639,11 @@ export default {
   // background: #263238;
   height: 5px;
   border-top: 1px dashed #263238;
+}
+.lineheight {
+  li {
+    line-height: 20px;
+    font-size: 14px;
+  }
 }
 </style>
