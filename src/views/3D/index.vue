@@ -84,6 +84,8 @@
 </template>
 <script>
 const { LBTcamera, THREE, Stats } = window;
+import gsap from "gsap";
+
 import { DRACOLoader } from "@/utils/DRACOLoader.js";
 import {
   createLinePoint,
@@ -284,13 +286,13 @@ export default {
       function initCamera() {
         camera = new THREE.PerspectiveCamera(35, width / height, 0.1, 10000000);
         // camera.position.set(200, 200, 200);
-        camera.position.set(0, 0.3, 0.8);
+        camera.position.set(3, 0.3, 0.8);
         camera.up.x = 0;
         camera.up.y = 1;
         camera.up.z = 0;
         camera.lookAt({
           // 相机看向哪个坐标
-          x: 0,
+          x: 11,
           y: 0,
           z: 0
         });
@@ -374,8 +376,11 @@ export default {
           //遍历模型里面的各种小部件
 
           flower.traverse((item, index) => {
+            console.log(item.name);
             if (item.name === "一次泵018") {
               glfItem = item;
+              item.scale.set(0.5, 0.5, 0.5);
+              item.position.y += 0.05;
               console.log(item, index);
             }
           });
@@ -470,7 +475,23 @@ export default {
         const currentItem = intersects[0] ? intersects[0].object.name : false;
         //鼠标位移到某个模型组件上，增加选中颜色.离开恢复原来的颜色
         if (intersects[0]) {
+          console.log(intersects[0]);
           if (["一次泵018", "一次泵017"].includes(intersects[0].object.name)) {
+            // intersects[0].object.position.x += 0.05;
+            gsap.fromTo(
+              intersects[0].object.position,
+              {
+                x: intersects[0].object.position.x
+              },
+              {
+                x: intersects[0].object.position.x - 0.01,
+                duration: 3,
+                yoyo: false,
+                repeat: 0,
+                ease: "sine.inOut"
+              }
+            );
+
             /**此处需要再次设置原来颜色，否则下面的getHex无法获取到原来的颜色*/
             if (touchCurrentModel) {
               touchCurrentModel.material.color.setHex(touchCurrentModel.cloneColor);

@@ -907,7 +907,9 @@ function criculationActionSwitch(fn: any, ms: number) {
 }
 
 //three3D创建类
-import gsap from "gsap";
+import { Depth, LayerMaterial } from "lamina/vanilla";
+
+// import gsap from "gsap";
 export class ThreeBasic {
   THREE: IObject;
   El: HTMLDivElement; //元素
@@ -924,6 +926,9 @@ export class ThreeBasic {
   url: string; //基础模型路径
   assistTools: boolean; //是否显示辅助工具
 
+  loading: boolean; //模型加载完成之前的遮罩及进度条
+  progress: number; //模型加载进度百分比
+
   constructor(param: IObject) {
     this.THREE = param.THREE;
     this.El = param.El;
@@ -938,7 +943,15 @@ export class ThreeBasic {
     this.mouse = {};
     this.controls = {};
     this.assistTools = param.assistTools;
+    this.loading = true;
+    this.progress = 0;
+    this.draw();
   }
+
+  // get fullname(): number {
+  //   console.log(this.progress, 11);
+  //   return this.progress;
+  // }
 
   draw(): void {
     this.initRender();
@@ -953,9 +966,6 @@ export class ThreeBasic {
     this.load3DModel();
     this.initControls();
     this.setRaycaster();
-
-    // this.animate();
-    // requestAnimationFrame(this.animate);
 
     const animate = () => {
       // 更新控制器
@@ -976,6 +986,7 @@ export class ThreeBasic {
     this.renderer = new this.THREE.WebGLRenderer({ antialias: true, alpha: true });
     this.renderer.setPixelRatio(window.devicePixelRatio);
     this.renderer.setSize(this.width, this.height);
+    this.renderer.setClearColor(0xaaaaaa);
     // renderer.setClearColor(0xb9d3ff, 1)
     this.renderer.shadowMap.enabled = true;
     this.renderer.outputEncoding = this.THREE.sRGBEncoding; //让模型看上去更真实,模型更亮
@@ -1000,19 +1011,19 @@ export class ThreeBasic {
 
     this.scene.add(cube);
 
-    gsap.fromTo(
-      cube.position,
-      {
-        z: -0.05
-      },
-      {
-        z: 0.5,
-        duration: 1,
-        yoyo: true,
-        repeat: -1,
-        ease: "sine.inOut"
-      }
-    );
+    // gsap.fromTo(
+    //   cube.position,
+    //   {
+    //     z: -0.05
+    //   },
+    //   {
+    //     z: 0.5,
+    //     duration: 10,
+    //     yoyo: false,
+    //     repeat: 1,
+    //     ease: "sine.inOut"
+    //   }
+    // );
   }
   initCamera(): void {
     //初始化相机位置及朝向
@@ -1063,7 +1074,7 @@ export class ThreeBasic {
 
     // 天花板灯
     const topLight = this.generateVirtualLight({
-      intensity: 0.75,
+      intensity: 1.75,
       scale: [10, 10, 1],
       position: [0, 5, -9],
       rotation: [Math.PI / 2, 0, 0]
@@ -1076,13 +1087,13 @@ export class ThreeBasic {
       rotation: [0, Math.PI / 2, 0]
     });
     const leftBottomLight = this.generateVirtualLight({
-      intensity: 1,
+      intensity: 1.5,
       scale: [20, 0.5, 1],
       position: [-5, -1, -1],
       rotation: [0, Math.PI / 2, 0]
     });
     const rightTopLight = this.generateVirtualLight({
-      intensity: 1,
+      intensity: 1.5,
       scale: [20, 1, 1],
       position: [10, 1, 0],
       rotation: [0, -Math.PI / 2, 0]
@@ -1091,7 +1102,7 @@ export class ThreeBasic {
     const floatLight = this.generateVirtualLight({
       form: "ring",
       color: "white",
-      intensity: 1.5,
+      intensity: 2,
       scale: 10,
       position: [-15, 4, -18],
       target: [0, 0, 0]
@@ -1100,7 +1111,7 @@ export class ThreeBasic {
     const floatLightOther = this.generateVirtualLight({
       form: "ring",
       color: "white",
-      intensity: 1.5,
+      intensity: 2,
       scale: 10,
       position: [10, 4, 18],
       target: [0, 0, 0]
@@ -1114,6 +1125,37 @@ export class ThreeBasic {
     virtualScene.add(floatLightOther);
 
     this.scene.environment = fbo.texture;
+
+    const materials = new LayerMaterial({
+      color: "#444",
+      layers: [
+        new Depth({
+          colorA: "#2de8cd",
+          colorB: "black",
+          alpha: 0.5,
+          mode: "normal",
+          near: 0,
+          far: 300,
+          origin: new this.THREE.Vector3(100, 100, 100)
+        })
+      ]
+    });
+    (materials as any).side = 1;
+
+    const geometry = new this.THREE.SphereGeometry(1, 64, 64);
+
+    const virtualBackgroundMesh = new this.THREE.Mesh(geometry, materials);
+    virtualBackgroundMesh.scale.set(100, 100, 100);
+    virtualScene.add(virtualBackgroundMesh);
+
+    //模拟threejs/editor 实现光照
+    // const peremGenerator = new this.THREE.PMREMGenerator(this.renderer);
+    // peremGenerator.compileEquirectangularShader();
+    // this.scene.environment = peremGenerator.fromScene(
+    //   new this.THREE.RoomEnvironment(),
+    //   0.04
+    // ).texture;
+    //替代方案，虚拟光
     const virtualRender = () => {
       cubeCamera.update(this.renderer, virtualScene);
       requestAnimationFrame(virtualRender);
@@ -1174,6 +1216,10 @@ export class ThreeBasic {
     const manager = new this.THREE.LoadingManager();
     manager.onProgress = (url: any, loaded: number, total: number) => {
       console.log((loaded / total) * 100, loaded, total);
+      this.progress = (loaded / total) * 100;
+      if (this.progress === 100) {
+        this.loading = false;
+      }
     };
 
     //加载gltf配置
@@ -1185,8 +1231,15 @@ export class ThreeBasic {
 
     loaderGLTF.load(this.url, (gltf: any) => {
       const model = gltf.scene;
-      model.scale.set(1, 1, 1);
+      console.log(model);
+      model.scale.set(0.01, 0.01, 0.01);
       model.position.set(0, 0, 0);
+      model.traverse((item: any, index: any) => {
+        console.log(item);
+        if (item.material && item.material.name === "材质.3") {
+          item.material.color.set("#099595");
+        }
+      });
       this.scene.add(model);
     });
   }

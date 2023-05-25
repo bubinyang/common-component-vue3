@@ -1,5 +1,10 @@
 <template>
   <section id="stageContain">
+    <a class="btn" href="#">平安夜</a>
+    <div class="btn-shadow">
+      <label></label>
+    </div>
+
     <ul class="lineheight">
       <li>图标不变形，正常显示</li>
       <li>文字倒着反向展示</li>
@@ -644,6 +649,34 @@ export default {
   li {
     line-height: 20px;
     font-size: 14px;
+  }
+}
+
+.btn {
+  display: inline-block;
+  text-align: center;
+  line-height: 30px;
+  width: 60px;
+  height: 30px;
+  color: #fff;
+  background-image: linear-gradient(#00b3f1, #00a3ef);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.19), inset 0 1px 0 rgba(255, 255, 255, 0.4);
+  border: solid 1px #0082be;
+  border-radius: 2px;
+}
+.btn-shadow {
+  width: 50px;
+  height: 50px;
+  box-shadow: inset 0px 5px 7px 4px #a9a0a0;
+  border-radius: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  label {
+    width: 40px;
+    height: 40px;
+    border-radius: 40px;
+    background-image: linear-gradient(to bottom, #fb3d53, #da032b);
   }
 }
 </style>

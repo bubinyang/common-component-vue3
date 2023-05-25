@@ -2,6 +2,7 @@
   <v-chart ref="baseChart" :autoresize="true" :option="options"></v-chart>
 </template>
 <script>
+import { criculationActionSwitch } from "@/utils/index";
 export default {
   name: "decorateEchart",
   data() {
@@ -172,8 +173,32 @@ export default {
   },
   mounted() {
     if (this.showDefaultTipAction) this.showDefaultTip();
+    this.criculationShowTootip();
   },
   methods: {
+    //自动循环展示tootip
+    criculationShowTootip() {
+      setTimeout(() => {
+        let index = 0;
+        this.caiculationObj = criculationActionSwitch(() => {
+          if (index > this.dataIndex) index = 0;
+          this.$refs.baseChart?.dispatchAction({
+            type: "showTip",
+            seriesIndex: this.seriesIndex, // 显示第几个series
+            dataIndex: index // 显示第几个数据
+          });
+          index++;
+        }, 4000);
+        this.caiculationObj.action();
+        this.$refs.baseChart?.$el.addEventListener("mouseover", () => {
+          this.caiculationObj.isAction = false;
+        });
+        this.$refs.baseChart?.$el.addEventListener("mouseout", () => {
+          this.caiculationObj.isAction = true;
+        });
+      }, 2000);
+    },
+
     // 显示默认最后一个数据的提示
     showDefaultTip() {
       setTimeout(() => {

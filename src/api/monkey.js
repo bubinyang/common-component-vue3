@@ -7,3 +7,11 @@ export function getMonkeyData(query) {
     params: query
   });
 }
+
+export function findRealTimeData(query) {
+  return request({
+    url: "/findRealTimeData",
+    method: "get",
+    params: query
+  });
+}

@@ -84,7 +84,7 @@ export default {
 </script>
 <style lang="scss">
 .largeScreen-contain {
-  width: 1000px;
+  width: 100%;
   // height: 500px;
   .screen-top {
     height: 160px;

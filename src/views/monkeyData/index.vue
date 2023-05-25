@@ -2,39 +2,41 @@
 表格样式私有化定制+vue事件结合节流方法
 -->
 <template>
-  <el-button type="primary" @click="query()">查询</el-button>
-
-  <section class="monkeyContain-style">
-    <div class="coloum" v-for="(item, index) in originList" :key="index">
-      <div class="row" v-for="(childitem, childindex) in item" :key="childindex">
-        {{ childitem.type }}
-        <label v-if="childitem.errorTimes !== 9999">{{ childitem.errorTimes }}</label>
-      </div>
+  <section class="monkeyData-style">
+    <div class="action">
+      <el-button type="primary" @click="query()">查询</el-button>
     </div>
+    <section class="monkeyContainMap-style">
+      <div class="coloum" v-for="(item, index) in originList" :key="index">
+        <div class="row" v-for="(childitem, childindex) in item" :key="childindex">
+          {{ childitem.type }}
+          <label :class="{ target: childitem.target }" v-if="childitem.errorTimes !== 9999">{{
+            childitem.errorTimes
+          }}</label>
+        </div>
+      </div>
+    </section>
 
-    <!-- <el-table
-      @current-change="handleCurrentChange($event)"
-      :data="tableData"
-      style="width: 100%; height: 880px"
-    >
-      <el-table-column prop="date" label="项目名称" width="300" align="center" />
-      <el-table-column prop="name" label="项目日期" width="220" align="center" />
-      <el-table-column prop="address" label="项目类型" align="center" width="120" />
-      <el-table-column prop="a" label="项目主体" align="center" />
-      <el-table-column prop="b" label="板块" align="center" width="120" />
-      <el-table-column prop="c" label="能耗总量(tce)" align="center" width="120" />
-      <el-table-column prop="d" label="核查机构" align="center" />
-      <el-table-column prop="e" label="项目描述" align="center" />
-    </el-table> -->
+    <section class="realTimeData-contain">
+      <div
+        class="realtime"
+        v-for="(item, index) in realTimeData"
+        :key="index"
+        :class="item.className"
+      >
+        {{ item.value }}
+        <label v-if="item.num !== undefined">{{ item?.num }}</label>
+      </div>
+    </section>
   </section>
 </template>
 
 <script setup>
-import { ref } from "vue";
+import { onMounted, ref } from "vue";
 
 import { debounce } from "@/utils/index.js";
 import axios from "axios";
-import { getMonkeyData } from "@/api/monkey.js";
+import { getMonkeyData, findRealTimeData } from "@/api/monkey.js";
 const tableData = [
   {
     date: "高模量对位芳纶纤维及其芳纶纸国产化项目",
@@ -57,9 +59,13 @@ const tableData = [
     e: ""
   }
 ];
+let El;
+let isSetScrollTop = true; //是否允许设置滚动距离
 // let originList = [];
 const originList = ref(null);
-const list = ref(null);
+const realTimeData = ref(null);
+
+const list = ref([]);
 
 const handleCurrentChange = debounce(function (event) {
   console.log("执行", event);
@@ -68,13 +74,17 @@ const handleCurrentChange = debounce(function (event) {
 const query = function () {
   //console.log(111);
   getMonkeyData().then(({ data }) => {
+    let i = 0;
     data.forEach((item) => {
       const numList = item.numValue.split(",");
       item.total = numList.reduce((sum, a) => {
         sum += Number(a);
         return sum;
       }, 0);
-
+      if ((i % 5 === 0 || i % 5 === 1) && item.errorTimes !== 9999) {
+        item.target = true;
+      }
+      if (item.errorTimes !== 9999) i++;
       item.type = isThreeSameNumber(numList) ? "same" : item.total >= 11 ? "big" : "small";
     });
     console.log(data);
@@ -95,9 +105,56 @@ const query = function () {
     list.value = data.filter((item) => {
       return item.errorTimes !== 9999;
     });
-    console.log(list.value);
+
+    function grouping(origin, lengthVal = 5) {
+      let i = 0;
+      return origin.reduce((total, item, index) => {
+        const arr = origin.slice(i, i + lengthVal);
+        i += lengthVal;
+        if (arr.length) total.push(arr);
+        return total;
+      }, []);
+    }
+
+    //console.log(list.value.map((item) => item.errorTimes));
+    const arrnew = list.value.map((item) => item.errorTimes);
+    console.log(arrnew, grouping(arrnew, 5));
   });
 };
+
+onMounted(() => {
+  query();
+  const obj = [
+    { value: "got", label: "命中" },
+    { value: "big small appear", label: "规则大小出现", class: "main-style" },
+    { value: "The rule big small does not appear", label: "规则大小没有出现" },
+    { value: "Buy big according to the rules", label: "按照规则买大" },
+    { value: "Buy small according to the rules", label: "按照规则买小" }
+  ];
+  const ws = new WebSocket(`${import.meta.env.VITE_APP_SOCKET}/getRealData`);
+  El = document.querySelector(".realTimeData-contain");
+
+  ws.onmessage = (res) => {
+    const originData = JSON.parse(res.data);
+    originData.forEach((item) => {
+      const findItem = obj.find((childitem) => childitem.value === item.value);
+      if (findItem) {
+        item.value = findItem.label;
+        item.className = findItem.class;
+      }
+    });
+    realTimeData.value = originData;
+
+    if (isSetScrollTop) El.scrollTop = El.scrollHeight - El.clientHeight;
+  };
+  El.addEventListener("mouseenter", () => {
+    isSetScrollTop = false;
+  });
+
+  El.addEventListener("mouseleave", () => {
+    isSetScrollTop = true;
+  });
+});
 
 function isThreeSameNumber(origin) {
   return origin.every((item, index) => {
@@ -107,16 +164,59 @@ function isThreeSameNumber(origin) {
 </script>
 
 <style lang="scss">
-.monkeyContain-style {
-  display: flex;
-  height: 200px;
-  .coloum {
-    border: 1px solid;
+.monkeyData-style {
+  padding-left: 10px;
+  .action {
     display: flex;
-    justify-content: flex-end;
-    flex-direction: column;
-    // .row {
-    // }
+    justify-content: flex-start;
+  }
+  .monkeyContainMap-style {
+    display: flex;
+    height: 200px;
+    .coloum {
+      border: 1px solid;
+      display: flex;
+      justify-content: flex-end;
+      flex-direction: column;
+      .row {
+        width: 50px;
+        height: 20px;
+        position: relative;
+        label {
+          background: rgba(84, 92, 100, 0.3);
+          position: absolute;
+          top: 0;
+          right: 0;
+        }
+        .target {
+          background: #e5470a;
+          border-radius: 10px;
+          width: 15px;
+          height: 15px;
+          line-height: 15px;
+          color: white;
+        }
+      }
+    }
+  }
+
+  .realTimeData-contain {
+    height: 400px;
+    overflow-y: auto;
+
+    .realtime {
+      width: 300px;
+      text-align: left;
+      padding: 5px;
+      &:nth-child(2n + 1) {
+        background: rgb(84, 92, 100, 0.3);
+      }
+    }
+  }
+
+  .main-style {
+    color: red;
+    font-weight: bold;
   }
 }
 </style>

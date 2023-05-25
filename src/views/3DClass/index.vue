@@ -4,6 +4,14 @@
     <largeScreenMain>
       <div ref="ThreeD" class="ThreeD"></div>
     </largeScreenMain>
+
+    <div v-if="loading" class="loadingStyle">
+      {{ inputValue }}
+      <div class="loadingStyle-progress">
+        <!-- <el-progress :percentage="inputValue" color="#409eff"></el-progress> -->
+        <el-progress :percentage="inputValue" />
+      </div>
+    </div>
   </div>
 </template>
 
@@ -44,7 +52,13 @@ export default defineComponent({
   },
   components: {},
   setup(props) {
-    const state = reactive({ ThreeD: null });
+    const state = reactive({
+      ThreeD: null,
+      inputValue: 0,
+      loading: true,
+      newThreeBasicVal: 0,
+      newThreeBasic: { progress: 0 }
+    });
 
     onBeforeMount(() => {
       // http
@@ -67,10 +81,23 @@ export default defineComponent({
       const newThreeBasic = new ThreeBasic({
         THREE,
         El: state.ThreeD,
-        url: "./threejs/1110small.glb",
+        url: "./threejs/3D-3-compress.glb",
         assistTools: true
       });
-      newThreeBasic.draw();
+      //console.log(state.newThreeBasic);
+      // newThreeBasic.draw();
+      // state.newThreeBasicVal = newThreeBasic;
+      // state.newThreeBasicVal = newThreeBasic;
+      // console.log(state.newThreeBasicVal.fullname);
+      // state.inputValue = newThreeBasic.loading;
+      // console.log(newThreeBasic.fullname);
+      //state.newThreeBasicVal = newThreeBasic.fullname;
+      const getProgress = setInterval(() => {
+        //  console.log(state.newThreeBasicVal.fullname);
+        state.inputValue = newThreeBasic.progress;
+        state.loading = newThreeBasic.loading;
+        if (newThreeBasic.progress === 100) clearInterval(getProgress);
+      }, 1000);
     });
     return { ...toRefs(state) };
   }
@@ -131,4 +158,19 @@ export default defineComponent({
 //     }
 //   }
 // }
+
+.loadingStyle {
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background-color: rgba(0, 0, 0, 0.8);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.loadingStyle-progress {
+  width: 200px;
+}
 </style>
