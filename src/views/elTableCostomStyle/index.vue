@@ -53,54 +53,55 @@ const handleCurrentChange = debounce(function (event) {
 <style lang="scss">
 .eltable-style {
   background-image: radial-gradient(rgb(0, 72, 140), rgb(0, 0, 38));
-}
-/**通用elementui样式 start*/
-.el-table {
-  //   background-color: #23272e;
-  background-color: transparent;
-  color: rgba(26, 204, 247, 1);
-  border-color: #63dfff;
-  .el-table__inner-wrapper {
-    &::before {
-      background: none;
-    }
-  }
-  thead tr,
-  thead th {
-    background: rgba(6, 63, 118, 1);
-    color: #00aaff;
-    border: 0px solid rgb(14, 44, 93);
-    &.el-table__cell {
-      background: none;
-    }
-  }
-  .el-table__body {
-    // font-family: PangMenZhengDaoBiao;
-    tr:hover {
-      td {
+
+  /**通用elementui样式 start*/
+  .el-table {
+    //   background-color: #23272e;
+    background-color: transparent;
+    color: rgba(26, 204, 247, 1);
+    border-color: #63dfff;
+    .el-table__inner-wrapper {
+      &::before {
         background: none;
       }
     }
-    tr:nth-child(2n-1) {
-      //   background: rgba(0, 64, 131, 0.8);
-      background: transparent;
-    }
-    tr:nth-child(2n) {
-      background: rgba(0, 80, 151, 0.5);
-    }
-    td {
-      //   border: 0px solid rgb(14, 44, 93);
-      border-bottom: 1px dashed #59707b;
-      &:first-child {
-        color: rgb(37, 179, 60);
+    thead tr,
+    thead th {
+      background: rgba(6, 63, 118, 1);
+      color: #00aaff;
+      border: 0px solid rgb(14, 44, 93);
+      &.el-table__cell {
+        background: none;
       }
     }
-  }
-  &::before {
-    height: 0;
-  }
-  & th.gutter {
-    display: table-cell !important;
+    .el-table__body {
+      // font-family: PangMenZhengDaoBiao;
+      tr:hover {
+        td {
+          background: none;
+        }
+      }
+      tr:nth-child(2n-1) {
+        //   background: rgba(0, 64, 131, 0.8);
+        background: transparent;
+      }
+      tr:nth-child(2n) {
+        background: rgba(0, 80, 151, 0.5);
+      }
+      td {
+        //   border: 0px solid rgb(14, 44, 93);
+        border-bottom: 1px dashed #59707b;
+        &:first-child {
+          color: rgb(37, 179, 60);
+        }
+      }
+    }
+    &::before {
+      height: 0;
+    }
+    & th.gutter {
+      display: table-cell !important;
+    }
   }
 }
 </style>

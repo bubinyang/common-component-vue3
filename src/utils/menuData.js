@@ -41,6 +41,10 @@ const menuList = [
   {
     name: "monkey历史数据查询",
     url: "/monkeyData/index"
+  },
+  {
+    name: "增删改查系列",
+    url: "/crudDemo/index"
   }
 ];
 export { menuList };

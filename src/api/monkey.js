@@ -15,3 +15,11 @@ export function findRealTimeData(query) {
     params: query
   });
 }
+
+export function getMonkeyDataPage(query) {
+  return request({
+    url: "/getMonkeyHisDataPage",
+    method: "get",
+    params: query
+  });
+}

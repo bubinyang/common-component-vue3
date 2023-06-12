@@ -33,10 +33,10 @@
 
 <script setup>
 import { onMounted, ref } from "vue";
-
+import http from "@/utils/request";
 import { debounce } from "@/utils/index.js";
 import axios from "axios";
-import { getMonkeyData, findRealTimeData } from "@/api/monkey.js";
+import { getMonkeyData, findRealTimeData, getMonkeyDataPage } from "@/api/monkey.js";
 const tableData = [
   {
     date: "高模量对位芳纶纤维及其芳纶纸国产化项目",
@@ -120,6 +120,13 @@ const query = function () {
     const arrnew = list.value.map((item) => item.errorTimes);
     console.log(arrnew, grouping(arrnew, 5));
   });
+
+  // http("/getMonkeyHisData", {}).then((res) => {
+  //   console.log(res, "http");
+  // });
+  // getMonkeyDataPage({ page: 1, total: 20 }).then((res) => {
+  //   console.log(res, "page");
+  // });
 };
 
 onMounted(() => {
