@@ -7,7 +7,7 @@
     <section class="layout-main" v-if="isRouterActive">
       <router-view v-slot="{ Component }">
         <keep-alive exclude="TreeMenu">
-          <component :is="Component"></component>
+          <component :key="route.fullPath" :is="Component"></component>
         </keep-alive>
       </router-view>
     </section>
@@ -15,11 +15,16 @@
 </template>
 
 <script>
+/**
+ * :key="route.fullPath" 可以防止tab切换不同路由报错
+ */
+
 import { lrdDrag, lrdDragSort } from "@/utils/utils.ts";
 import emits from "@/utils/emit.js";
 import BaseSlider from "@/layout/slider/base-slider.vue";
 import { useStore } from "vuex";
 import { reactive, provide, ref, nextTick } from "vue";
+import { useRoute } from "vue-router";
 
 export default {
   components: { BaseSlider },
@@ -30,6 +35,9 @@ export default {
     const state = reactive({ isShow: false });
     const isRouterActive = ref(true);
     state.isShow = true;
+
+    const route = useRoute();
+
     // setTimeout(() => {
     //   state.isShow = true;
     // }, 8000);
@@ -39,7 +47,7 @@ export default {
         isRouterActive.value = true;
       });
     });
-    return { state, isRouterActive };
+    return { route, state, isRouterActive };
   }
 };
 </script>
