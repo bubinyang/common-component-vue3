@@ -27,17 +27,48 @@
 
 //菜单
 .layout-slider{
-  background-color: blue;
+  background-color: $menuBg;
+  .el-menu{
+    background-color: $menuBg;
+    .el-sub-menu__title i{
+      color: white;
+    }
+  }
    .el-menu-item,.el-sub-menu__title{
     a{color:$mainFontColor}
    }
+
+   //有子菜单的情况
+   .el-sub-menu{
+    .el-menu{ //子菜单bg固定使用选中的颜色
+      background:$menuBgActiveColor 
+    }
+    &.is-active{//激活状态下
+      .el-sub-menu__title{//父节点的文字激活颜色
+        a{
+          color:$menuActiveColor
+        }
+      }
+      .el-menu-item.is-active{//子节点的文字激活颜色
+        a{
+         color:$menuActiveChildColor
+        }
+      }
+     }
+   }
+
+   //无子菜单的情况
+   .el-menu-item.is-active{//节点激活颜色
+      a{
+        color:$menuActiveColor
+      }
+   }
+
+   
   .el-menu-item:hover,.el-sub-menu__title:hover{ 
-      background: $menuActiveColor;
-      //color:$mainFontColorHover
-    //background-color: $menuActiveColor;
+      background: $menuBgActiveColor;
     a{
       color:$mainFontColorHover
-      
     }
     
   }

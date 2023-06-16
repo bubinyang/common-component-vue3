@@ -6,6 +6,7 @@ import widgetComponents from "@/packages/index.js";
 import moment from "moment";
 import ElementPlus from "element-plus";
 import "./style/base.scss";
+import "../public/style/base-light.scss";
 import "element-plus/dist/index.css";
 import "ant-design-vue/dist/antd.css";
 import Echarts from "vue-echarts";

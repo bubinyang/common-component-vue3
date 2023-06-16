@@ -70,8 +70,12 @@ export default {
   }
   .layout-slider {
     margin-top: 50px;
-    background: #263238;
     flex: 0 0 230px;
+    overflow: auto;
+    //隐藏滚动条轨道和按钮
+    &::-webkit-scrollbar {
+      display: none;
+    }
     .el-menu {
       border-right: 0;
     }
@@ -79,6 +83,7 @@ export default {
   .layout-main {
     margin-top: 30px;
     flex: 1;
+    overflow: hidden;
   }
 }
 </style>
