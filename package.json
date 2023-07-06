@@ -8,6 +8,7 @@
   },
   "dependencies": {
     "@easydarwin/easyplayer": "^4.1.4",
+    "@element-plus/icons-vue": "^2.1.0",
     "ant-design-vue": "^3.2.10",
     "axios": "^0.25.0",
     "echarts": "^5.3.3",

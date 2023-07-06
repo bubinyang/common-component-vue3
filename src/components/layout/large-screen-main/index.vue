@@ -1,3 +1,8 @@
+<!--
+全屏的时候需要将largeScreen-contain的高度设置成100vh，如果不设置，那么内容框完全是靠langScreen的  padding-bottom: 56.25进行
+撑开高度，那么会出现高度大于100vh，那么body会出现Y滚动条。 如果不希望body出现滚动条，那么largeScreen-contain设置100vh,overflow-y:auto
+-->
+
 <template>
   <div class="langScreen" :style="{ background: fullmodel ? 'rgb(4,9,61)' : 'initial' }">
     <ExpandButton @refresh="refresh" v-bind="$attrs" v-model="fullmodel"></ExpandButton>
@@ -47,8 +52,8 @@ export default {
       const El = document.querySelector(".main_box");
       El.style.width = "1920px";
       El.style.height = "1080px";
-      this.ratio = docEl.getBoundingClientRect().width / 1920;
-      El.style.transform = "scale(" + this.ratio + ")";
+      // this.ratio = docEl.getBoundingClientRect().width / 1920;
+      // El.style.transform = "scale(" + this.ratio + ")";
       El.style.transformOrigin = "left top";
       El.style.backgroundSize = "100%";
       // 如果largeScreen-contain高度小于内容高度，增加overflow:auto,需要重新计算一下scale

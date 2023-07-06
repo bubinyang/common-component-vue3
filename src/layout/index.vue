@@ -1,6 +1,11 @@
 <template>
   <div class="layout">
-    <section class="layout-header">头部</section>
+    <section class="layout-header">
+      <section class="log"></section>
+      <section class="head-operation"></section>
+    </section>
+    <!-- <div style="height: 50px"></div> -->
+
     <section class="layout-slider">
       <BaseSlider v-if="state.isShow"></BaseSlider>
     </section>
@@ -60,19 +65,26 @@ export default {
   width: 100vw;
   overflow: auto;
   display: flex;
-  // flex-wrap: wrap;
   .layout-header {
     height: 50px;
     position: absolute;
-    width: grid-width(5);
-    font-size: 16px;
-    // flex: 0 0 100%;
+    // width: grid-width(5);
+    width: 100%;
+    font-size: 16pxf;
+    display: flex;
+    .log {
+      flex: 0 0 230px;
+    }
+    .head-operation {
+      flex: 1;
+    }
   }
   .layout-slider {
-    margin-top: 50px;
+    text-align: left;
+    //margin-top: 50px;
     flex: 0 0 230px;
     overflow: auto;
-    //隐藏滚动条轨道和按钮
+    //隐藏滚动条轨道和按钮 实现无滚动条，但是可以滚动效果
     &::-webkit-scrollbar {
       display: none;
     }
@@ -81,9 +93,9 @@ export default {
     }
   }
   .layout-main {
-    margin-top: 30px;
+    margin-top: 50px;
     flex: 1;
-    overflow: hidden;
+    overflow: auto;
   }
 }
 </style>

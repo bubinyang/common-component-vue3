@@ -90,7 +90,6 @@ export default {
       height: 100%;
       background-size: contain;
       display: flex;
-      padding-top: 2px;
       justify-content: center;
       flex: 1;
     }
@@ -102,6 +101,7 @@ export default {
   .small-contain-contain {
     flex: 1;
     padding: 0 0.1rem;
+    display: flex;
   }
 }
 </style>
