@@ -905,7 +905,7 @@ export function timeTotal(value) {
   return `${hour}小时${minutes}分钟${showSecond}秒`;
 }
 
-/**
+/**背景:内容保存用的是下拉或者树结构下拉，查询的时候后台只给code，需要将code转成文字
  *
  * @param type 多级树结构类型/一级类型
  * @param value 源值
@@ -921,9 +921,12 @@ export function filterLabel({
   list
 }) {
   if (value === null || value === undefined) return "";
-  const originList = type === "treeType" ? spreadTrees(list, children) : list;
-  const values = Object.prototype.toString(value) === "[object Array]" ? value.split(",") : value;
-  const filterList = originList.filter((item) => values.includes(item[valueKey]));
+  const originList = type === "treeType" ? spreadTree(list, children) : list;
+  const inArr = Object.prototype.toString(value) === "[object Array]";
+  const values = inArr ? value.split(",") : value;
+  const filterList = originList.filter((item) => {
+    return inArr ? values.includes(item[valueKey]) : values === item[valueKey];
+  });
   return filterList.map((item) => item[labelKey]).join(",");
 }
 
@@ -1241,7 +1244,35 @@ export function createPointFood(min, max, times) {
 
   return result;
 }
-
+/**
+ *  过滤出null和undefined和''的数据。避免页面出现undefind和null奇怪符号
+ *  if(value !== null && value !== undefined && value !== ''){ //...}
+ *
+ *
+ *
+ */
+export function filterNullUndefind(val) {
+  if ((val ?? " ") !== "") {
+    return val;
+  } else {
+    return "";
+  }
+}
+/**
+ * 处理来源数据，过滤掉undefind null 同时保留N位小数
+ */
+export function setNumberFixed(val, decimal = 2) {
+  const filterNullUndefind = function (value) {
+    if ((value ?? " ") !== "") {
+      return value;
+    } else {
+      return "";
+    }
+  };
+  return Object.prototype.toString.apply(val) === "[object Number]"
+    ? val.toFixed(decimal)
+    : filterNullUndefind(val);
+}
 export default {
   // 时间类
   getTimeDataRange,

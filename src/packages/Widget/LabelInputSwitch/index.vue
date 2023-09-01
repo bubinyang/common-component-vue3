@@ -100,9 +100,9 @@ import moment from "moment";
 function getConfig() {
   return {
     datapicker: {
-      get: this.modelValue ? Number(this.modelValue) : "",
+      get: this.modelValue ? this.modelValue : "",
       set: function (val) {
-        return +new Date(val);
+        return val ? moment(val).format("YYYY-MM-DD HH:mm:ss") : "";
       },
       autoFocus: function () {
         this.$refs.dateRef.focus();
@@ -139,7 +139,7 @@ export default {
   components: {},
   props: {
     modelValue: {
-      type: [String, Number],
+      type: [String, Number, Date],
       default() {
         return "";
       }
@@ -186,13 +186,14 @@ export default {
       get() {
         const config = getConfig.apply(this);
         const { get } = config[this.type];
+        console.log(get, this.modelValue);
         return get ? get : this.modelValue;
       },
       set(val) {
         const config = getConfig.apply(this);
         const { set } = config[this.type];
         this.$emit("update:modelValue", set ? set(val) : val);
-        this.$emit("set", set ? set(val) : val);
+        // this.$emit("set", set ? set(val) : val);
       }
     },
 
@@ -209,7 +210,7 @@ export default {
   },
   methods: {
     setDateLabel(val) {
-      return val ? moment(Number(val)).format("YYYY-MM-DD HH:mm:ss") : "";
+      return val ? moment(val).format("YYYY-MM-DD HH:mm:ss") : "";
     },
     editBlur() {
       // this.change()
@@ -297,5 +298,14 @@ export default {
       padding: 12px 0 12px 0;
     }
   }
+
+  input::-webkit-outer-spin-button,
+  input::-webkit-inner-spin-button {
+    -webkit-appearance: none !important;
+  }
+
+  // input[type="number"] {
+  //   -moz-appearance: textfield; /* 此处写不写都可以 */
+  // }
 }
 </style>

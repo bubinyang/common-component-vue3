@@ -72,5 +72,13 @@ export default {
       return false;
     },
     state: "是否可以选择未来时间"
+  },
+
+  clear: {
+    type: Boolean,
+    default() {
+      return false;
+    },
+    state: "是否允许初始值显示为空"
   }
 };

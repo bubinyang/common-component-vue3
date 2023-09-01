@@ -12,8 +12,8 @@
     </ul>
 
     <div class="septalLine"></div>
-    <LabelInputSwitch v-model="color" type="select" :options="options" />
-
+    <!-- <LabelInputSwitch v-model="color" type="select" :options="options" /> -->
+    <LabelInputSwitch v-model="timeVal" @mousewheel.prevent @DOMMouseScroll.prevent type="number" />
     <!--图标不变形，正常显示-->
     <div class="septalLine"></div>
     <img
@@ -33,16 +33,20 @@
     <!--时钟-->
     <div class="septalLine"></div>
 
-    <Clock></Clock>
+    <div class="time-show">
+      <Clock></Clock>
+    </div>
+
     <!--时间控件-->
     <div class="septalLine"></div>
-
+    {{ dateOption }}
     <ChangeYearMonthDay
       v-model:dateOption="dateOption"
+      :clear="true"
       :addHours="0"
       :multiple="true"
       :increase="true"
-      :type-list="['year', 'allyear']"
+      :type-list="['year', 'realtime', 'allyear']"
       :typeListMutiple="['allyear']"
       :intervalTimeValue="{ realtime: 1, day: 1, month: 1, year: 1, allyear: 1 }"
     ></ChangeYearMonthDay>
@@ -115,15 +119,20 @@
       <a href="http://www.easydarwin.org/easyplayer/" target="_blank"> 在线演示</a>
     </p>
     <el-button class="player-button" size="mini" type="success" @click="player">播放</el-button> -->
+    {{ age }}
   </section>
 </template>
 <script>
 import EasyPlayer from "@easydarwin/easyplayer";
-import { reactive, ref, onMounted, nextTick, inject } from "vue";
+import { reactive, ref, onMounted, nextTick, inject, toRefs, watch } from "vue";
 import { list, lista, listb, originData } from "@/utils/test.js";
 import { grouping, criculationAction } from "@/utils/index.js";
 import { useStore } from "vuex";
+import { word } from "@/assets/data/index.js";
 console.log(useStore);
+let modifiedContent = word.trim().split("\n");
+
+console.log(modifiedContent);
 // const { dispatch } = useStore();
 export default {
   name: "Test",
@@ -131,8 +140,9 @@ export default {
   setup() {
     const store = useStore();
     console.log(store.state.userInfo);
-    const dateOption = ref({ dateOther: "", date: "", type: "year" });
+    const dateOption = ref({ dateOther: "", date: "", type: "realtime" });
     const color = ref("red");
+    const timeVal = ref("");
     const optionList = reactive({
       options: [
         { label: "红色", value: "red" },
@@ -409,14 +419,14 @@ export default {
       //  document.cookie=
       const time = new Date();
       time.setTime(+time + 10 * 10000);
-      const expires = `expires=${time.toGMTString()}`;
+      const expires = `expires=${time.toUTCString()}`;
       document.cookie = `username=John Doe; ${expires}`;
       console.log(document.cookie);
     };
     const deleteCookie = () => {
       const time = new Date();
       time.setTime(+time - 1);
-      const expires = `expires=${time.toGMTString()}`;
+      const expires = `expires=${time.toUTCString()}`;
       document.cookie = `username=; ${expires}`;
       console.log(document.cookie);
     };
@@ -436,13 +446,43 @@ export default {
     //定时创造dom，删除dome
 
     //随机生产日语
+    /** excellent
+     * the car is in  excellent condition
+     * she is happy mind of state
+     * the stuation at work is more stressful
+     * the project's status is currently in progress
+     *
+     */
     const japanes = [];
+
+    //测试vue3知识点
+    const testReactive = reactive({
+      name: "bby",
+      age: 12
+    });
+
+    const count = ref(1);
+    setTimeout(() => {
+      testReactive.age = 24;
+      testReactive.name = "kobe";
+    }, 2000);
+    watch(
+      [() => testReactive.age, () => testReactive.name],
+      ([age, name], [oldage, oldname]) => {
+        console.log(age, oldage);
+        console.log(name, oldname);
+      },
+      { immediate: true, deep: true }
+    );
+
     return {
+      ...toRefs(testReactive),
       playACheck,
       playBCheck,
       playMineCheck,
       dateOption,
       color,
+      timeVal,
       dataPoker,
       deleteCard,
       playChange,
@@ -677,6 +717,32 @@ export default {
     height: 40px;
     border-radius: 40px;
     background-image: linear-gradient(to bottom, #fb3d53, #da032b);
+  }
+}
+
+.time-show {
+  position: relative;
+  background: black;
+  color: white;
+  font-size: 15px;
+  &::after {
+    content: "";
+    display: block;
+    position: absolute;
+    top: 0;
+    width: 100%;
+    height: 60%;
+    background-image: linear-gradient(to bottom, rgba(255, 255, 255, 0) 60%, rgba(36, 66, 68, 0.5));
+  }
+  div {
+    &:nth-child(2) {
+      margin-left: 5px;
+    }
+    &:nth-child(3) {
+      font-family: impact;
+      font-size: 25px;
+      margin-left: 15px;
+    }
   }
 }
 </style>

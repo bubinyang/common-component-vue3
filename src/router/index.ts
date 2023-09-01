@@ -69,7 +69,7 @@ const routes: Array<RouteRecordRaw> = [
   {
     path: "/swiperDemo",
     name: "SwiperDemo",
-    component: laoyout,
+    component: () => import("@/views/swiperDemo/index.vue"),
     children: [
       {
         path: "/swiperDemo",
@@ -95,7 +95,7 @@ const routes: Array<RouteRecordRaw> = [
   {
     path: "/dragSort",
     name: "DragSort",
-    component: laoyout,
+    component: () => import("@/views/dragSort/index.vue"),
     children: [
       {
         path: "/dragSort",

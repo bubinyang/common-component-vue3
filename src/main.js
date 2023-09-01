@@ -5,7 +5,8 @@ import publicComponents from "@/components/publicCompoents.js";
 import widgetComponents from "@/packages/index.js";
 import moment from "moment";
 import ElementPlus from "element-plus";
-import "./style/base.scss";
+import "./style/base.scss"; //基础样式
+
 import "../public/style/base-light.scss";
 import "element-plus/dist/index.css";
 import "ant-design-vue/dist/antd.css";

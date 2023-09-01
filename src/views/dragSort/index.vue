@@ -163,20 +163,28 @@ export default {
       }
     });
 
-    let newLrdDrag = {};
+    let newLrdDrag;
     const draggableClick = function (record) {
       const { name } = record;
       newLrdDrag.name = name;
     };
 
-    onMounted(async () => {
-      await nextTick();
+    const init = function () {
       const containEl = document.querySelector(".aTable-style");
       const completeContentEl = document.querySelector(".aTable-style .ant-table");
       newLrdDrag = new lrdDragSort(containEl, {
         completeContentEl,
-        attributeKey: "data-row-key"
+        attributeKey: "data-row-key",
+        newObj: newLrdDrag
       });
+      newLrdDrag.mouseUpCallBack = function () {
+        console.log("抬起");
+        init();
+      };
+    };
+    onMounted(async () => {
+      await nextTick();
+      init();
 
       // newLrdDrag.moveAction = function () {
       //   console.log("我是你爸爸");

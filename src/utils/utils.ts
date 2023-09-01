@@ -191,12 +191,26 @@ export class lrdEchart {
     return Math.round(Number(val) * assistDec) / assistDec;
   }
 
-  complementData(origin: IObject[]): Array<number | string> {
-    const modelList = this.xAxisData.map((item) => {
+  // complementData(origin: IObject[]): Array<number | string> {
+  //   const modelList = this.xAxisData.map((item) => {
+  //     return moment(item).format(this.findValueKey);
+  //   });
+  //   return modelList.map((item) => {
+  //     const findItem = origin.find((childitem) => childitem.time === item);
+  //     return findItem ? this.setToFixed(findItem.value, this.decimalDigits) : "";
+  //   });
+  // }
+
+  complementData(
+    origin: IObject[],
+    xAxisData = this.xAxisData,
+    key = "time"
+  ): Array<number | string> {
+    const modelList = xAxisData.map((item) => {
       return moment(item).format(this.findValueKey);
     });
     return modelList.map((item) => {
-      const findItem = origin.find((childitem) => childitem.time === item);
+      const findItem = origin.find((childitem) => childitem[key] === item);
       return findItem ? this.setToFixed(findItem.value, this.decimalDigits) : "";
     });
   }
@@ -227,10 +241,10 @@ export class lrdEchart {
 export class lrdDrag {
   public completeContentEl: HTMLDivElement;
   constructor(public el: HTMLDivElement, options: IObject) {
-    const { completeContentEl } = options;
+    const { completeContentEl, newObj } = options;
     this.el = el;
     this.completeContentEl = completeContentEl;
-    this.eventSuspension();
+    if (!newObj) this.eventSuspension();
   }
   //位移事件
   moveAction(event: MouseEvent): void {

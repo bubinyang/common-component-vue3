@@ -184,6 +184,9 @@ const hooks = (externalStates: IViewHooksOptions, props: IObject): IObject => {
         }
         const a = document.createElement("a");
         const evt = document.createEvent("MouseEvents");
+        //如果要下载PDF需要执行以下代码. URL.createObjectURL(blob)
+        //const blob = new Blob([res], { type: "application/pdf" });
+
         evt.initEvent("click", false, false);
         a.download = fileName || new Date().getTime().toString();
         a.href = URL.createObjectURL(res.data);

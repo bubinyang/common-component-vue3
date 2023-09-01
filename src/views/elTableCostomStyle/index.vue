@@ -1,5 +1,5 @@
 <!--
-表格样式私有化定制+vue事件结合节流方法
+表格样式私有化定制+vue事件结合节流方法+elementui组件样式定制化
 -->
 <template>
   <section class="eltable-style">
@@ -10,18 +10,41 @@
     >
       <el-table-column prop="date" label="项目名称" width="300" align="center" />
       <el-table-column prop="name" label="项目日期" width="220" align="center" />
-      <el-table-column prop="address" label="项目类型" align="center" width="120" />
+      <el-table-column prop="address" label="项目ss类型" align="center" width="120" />
       <el-table-column prop="a" label="项目主体" align="center" />
       <el-table-column prop="b" label="板块" align="center" width="120" />
       <el-table-column prop="c" label="能耗总量(tce)" align="center" width="120" />
       <el-table-column prop="d" label="核查机构" align="center" />
       <el-table-column prop="e" label="项目描述" align="center" />
     </el-table>
+
+    <el-pagination
+      class="frond-style"
+      popper-class="frond-style"
+      v-model:current-page="currentPage4"
+      v-model:page-size="pageSize4"
+      :page-sizes="[100, 200, 300, 400]"
+      :small="small"
+      layout="total, sizes, prev, pager, next, jumper"
+      :total="400"
+      @size-change="handleSizeChange"
+      @current-change="handleCurrentChanges"
+    />
   </section>
 </template>
 
 <script setup>
 import { debounce } from "@/utils/index.js";
+import { ref } from "vue";
+
+// import zhCn from "element-plus/lib/locale/lang/zh-cn"; //vue组件中文化
+// const zhCn=zhCn;
+const handleSizeChange = function () {};
+const handleCurrentChanges = function () {};
+const small = ref(false);
+const currentPage4 = ref(4);
+const pageSize4 = ref(100);
+
 const tableData = [
   {
     date: "高模量对位芳纶纤维及其芳纶纸国产化项目",
@@ -101,6 +124,119 @@ const handleCurrentChange = debounce(function (event) {
     }
     & th.gutter {
       display: table-cell !important;
+    }
+  }
+}
+
+/**下拉，时间空间，分页等组件的定制化样式 */
+//elementui组件定制样式
+$bg: rgba(43, 63, 102, 0.5);
+.frond-style.el-picker__popper,
+.frond-style .el-picker-panel {
+  //background: #07355e !important;
+  background: $bg !important;
+  color: #fff;
+}
+
+.frond-style.el-picker__popper .el-icon {
+  color: rgb(64, 158, 255);
+}
+.frond-style.el-picker__popper {
+  .el-year-table td.disabled .cell,
+  .el-month-table td.disabled .cell {
+    background: $bg;
+  }
+}
+
+.frond-style.el-select__popper {
+  border: none !important;
+  background: $bg !important;
+  li {
+    // background: @bg!important;
+    color: #8c98a8 !important;
+    &:hover {
+      color: #fff !important;
+      background: $bg !important;
+    }
+  }
+}
+
+.frond-style.el-select-dropdown {
+  color: #fff !important;
+  border: none !important;
+}
+
+.frond-style {
+  .el-select-dropdown__item {
+    color: #fff !important;
+    &.hover {
+      background: none;
+    }
+    &:hover {
+      background: #0277d0 !important;
+    }
+    &.selected {
+      // background: #0277d0 !important;
+      color: #fff !important;
+    }
+  }
+}
+.frond-style {
+  background: $bg !important;
+  border: none !important;
+
+  .el-popper__arrow {
+    //--el-color-white: #07355e !important;
+    --el-color-white: #2b3f66 !important;
+    &:before {
+      background: #07355e !important;
+      //border-bottom-color: #07355e !important;
+      //border-right-color: #07355e !important;
+    }
+  }
+
+  .el-date-picker__header-label {
+    color: #00aaff !important;
+  }
+
+  .el-date-picker__header--bordered {
+    border-bottom: 1px solid #00aaff !important;
+  }
+
+  .el-picker-panel__content {
+    .cell {
+      color: #00aaff !important;
+    }
+    .current {
+      .cell {
+        color: #fff !important;
+      }
+    }
+  }
+
+  &.el-pagination {
+    button {
+      background: #07355e !important;
+      color: #fff !important;
+    }
+
+    li {
+      background: #07355e !important;
+      color: rgb(64, 158, 255) !important;
+    }
+
+    li.active {
+      background: none !important;
+    }
+    .el-input__inner {
+      background: none;
+      border: 1px solid #3b5369;
+    }
+  }
+
+  .el-popper__arrow {
+    &::before {
+      border: none !important;
     }
   }
 }
