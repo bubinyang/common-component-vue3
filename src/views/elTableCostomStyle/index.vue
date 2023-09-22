@@ -18,6 +18,27 @@
       <el-table-column prop="e" label="项目描述" align="center" />
     </el-table>
 
+    <el-select class="frond-style" popper-class="frond-style" v-model="values" placeholder="Select">
+      <el-option
+        v-for="item in [
+          { value: 1, label: 'option1' },
+          { value: 2, label: 'option2' }
+        ]"
+        :key="item.value"
+        :label="item.label"
+        :value="item.value"
+      />
+    </el-select>
+
+    <el-date-picker
+      class="frond-style"
+      popper-class="frond-style"
+      v-model="yearEnergyDate"
+      type="year"
+      placeholder=" "
+    >
+    </el-date-picker>
+
     <el-pagination
       class="frond-style"
       popper-class="frond-style"
@@ -45,6 +66,8 @@ const small = ref(false);
 const currentPage4 = ref(4);
 const pageSize4 = ref(100);
 
+const yearEnergyDate = ref(new Date());
+const values = ref(1);
 const tableData = [
   {
     date: "高模量对位芳纶纤维及其芳纶纸国产化项目",
@@ -131,76 +154,52 @@ const handleCurrentChange = debounce(function (event) {
 /**下拉，时间空间，分页等组件的定制化样式 */
 //elementui组件定制样式
 $bg: rgba(43, 63, 102, 0.5);
-.frond-style.el-picker__popper,
-.frond-style .el-picker-panel {
-  //background: #07355e !important;
-  background: $bg !important;
-  color: #fff;
-}
-
-.frond-style.el-picker__popper .el-icon {
-  color: rgb(64, 158, 255);
-}
-.frond-style.el-picker__popper {
-  .el-year-table td.disabled .cell,
-  .el-month-table td.disabled .cell {
-    background: $bg;
-  }
-}
-
-.frond-style.el-select__popper {
-  border: none !important;
-  background: $bg !important;
-  li {
-    // background: @bg!important;
-    color: #8c98a8 !important;
-    &:hover {
-      color: #fff !important;
-      background: $bg !important;
-    }
-  }
-}
-
-.frond-style.el-select-dropdown {
-  color: #fff !important;
-  border: none !important;
-}
-
+$has-border: true;
 .frond-style {
-  .el-select-dropdown__item {
-    color: #fff !important;
-    &.hover {
-      background: none;
-    }
-    &:hover {
-      background: #0277d0 !important;
-    }
-    &.selected {
-      // background: #0277d0 !important;
-      color: #fff !important;
+  background: none !important;
+  border: none !important;
+  /**input 框(包含所有空间) */
+  .el-input__inner {
+    background: none;
+    // border: 0;
+    box-shadow: none;
+    color: #00e3ff;
+    // border: 1px solid #3b5369;
+    @if $has-border {
+      border: 1px solid #3b5369;
+    } @else {
+      border: 0;
     }
   }
-}
-.frond-style {
-  background: $bg !important;
-  border: none !important;
-
   .el-popper__arrow {
-    //--el-color-white: #07355e !important;
+    &::before {
+      border: none !important;
+    }
+  }
+
+  /**时间控件 */
+  .el-picker-panel {
+    background: $bg !important;
+    color: #fff;
+  }
+
+  &.el-popper {
+    box-shadow: none;
+  }
+  .el-popper__arrow {
     --el-color-white: #2b3f66 !important;
     &:before {
       background: #07355e !important;
-      //border-bottom-color: #07355e !important;
-      //border-right-color: #07355e !important;
     }
   }
-
   .el-date-picker__header-label {
     color: #00aaff !important;
   }
-
   .el-date-picker__header--bordered {
     border-bottom: 1px solid #00aaff !important;
+  }
+  .el-picker-panel__icon-btn {
+    color: #00aaff !important;
   }
 
   .el-picker-panel__content {
@@ -214,6 +213,14 @@ $bg: rgba(43, 63, 102, 0.5);
     }
   }
 
+  &.el-picker__popper {
+    //disable
+    .el-year-table td.disabled .cell,
+    .el-month-table td.disabled .cell {
+      background: $bg;
+    }
+  }
+  /**分页 */
   &.el-pagination {
     button {
       background: #07355e !important;
@@ -228,15 +235,34 @@ $bg: rgba(43, 63, 102, 0.5);
     li.active {
       background: none !important;
     }
-    .el-input__inner {
-      background: none;
-      border: 1px solid #3b5369;
+  }
+
+  /**下拉 */
+
+  &.el-select__popper {
+    border: none !important;
+    background: $bg !important;
+    li {
+      // background: @bg!important;
+      color: #8c98a8 !important;
+      &:hover {
+        color: #fff !important;
+        background: $bg !important;
+      }
     }
   }
 
-  .el-popper__arrow {
-    &::before {
-      border: none !important;
+  .el-select-dropdown__item {
+    color: #fff !important;
+    &.hover {
+      background: none;
+    }
+    &:hover {
+      background: #0277d0 !important;
+    }
+    &.selected {
+      // background: #0277d0 !important;
+      color: #fff !important;
     }
   }
 }

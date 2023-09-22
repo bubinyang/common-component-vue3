@@ -1,6 +1,8 @@
 import { IViewHooksOptions, IViewHooks, IObject } from "@/types/interface";
 import { nextTick, onActivated, onMounted } from "vue";
 import http from "@/utils/request";
+import { ElMessageBox } from "element-plus";
+
 const hooks = (externalStates: IViewHooksOptions, props: IObject): IObject => {
   const defaultOptions = {
     createdIsNeed: true,
@@ -109,28 +111,34 @@ const hooks = (externalStates: IViewHooksOptions, props: IObject): IObject => {
       });
     },
     deleteHandle(id?: string) {
-      http
-        .post(
-          `${state.deleteURL}`, //为什么要用data作为关键key,那是开发规范，语义化更清晰，后端接的时候拿data
-          {
-            data: id
-              ? [id]
-              : state.dataListSelections.map((item: IObject) => item[state.deleteIsBatchKey])
-          }
+      ElMessageBox.confirm("Are you sure to delete this data?")
+        .then(() => {
+          http
+            .post(
+              `${state.deleteURL}`, //为什么要用data作为关键key,那是开发规范，语义化更清晰，后端接的时候拿data
+              {
+                data: id
+                  ? [id]
+                  : state.dataListSelections.map((item: IObject) => item[state.deleteIsBatchKey])
+              }
 
-          // state.deleteIsBatch //如果是批量，需要以body的形式传参，所以要data
-          //   ? {
-          //       data: id
-          //         ? [id]
-          //         : state.dataListSelections.map((item: IObject) => item[state.deleteIsBatchKey])
-          //     }
-          //   : {}
-        )
-        .then((res: any) => {
-          if (res.code !== 200) {
-            return console.log("删除失败");
-          }
-          viewFun.query();
+              // state.deleteIsBatch //如果是批量，需要以body的形式传参，所以要data
+              //   ? {
+              //       data: id
+              //         ? [id]
+              //         : state.dataListSelections.map((item: IObject) => item[state.deleteIsBatchKey])
+              //     }
+              //   : {}
+            )
+            .then((res: any) => {
+              if (res.code !== 200) {
+                return console.log("删除失败");
+              }
+              viewFun.query();
+            });
+        })
+        .catch(() => {
+          // catch error
         });
     },
     //下载文件

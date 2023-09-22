@@ -5,23 +5,36 @@
  *           air conditioner(空调)
  *           banana (香蕉)
  *           available(可用的 可访问的，单身的) available at baidu.com  访问baidu
+ *           break的过去式broke。 broke down 抛锚
  * 补充短语: currently in office 在职 currently in use 在使用中
  *           I walk in zhe park 我在公园散步(表达自己平时习惯性在公园散步)
  *           went for walk, went for dinner 
  *           reveal in file explorer 在文件资源管理器展示  reveal all 全部展示
  *           ask for 要求请求
  *           in case 防止，以防万一
+ *           abandon oneself to 沉溺于，完全投入于（好事）
+ *           in the distance 在远处
+ *           deciede to 决定去做
+ *   
+ *           
  * 补充长句:  before making a decision,it is important to keep in mind all factors that might affect the outcome
-              after finish the ames, she went for a long walk in the part for relax
-              the mountain in the distance appear father away than they actually are
+              after finishing the exams, she went for a long walk in the part for relax
+              the mountain in the distance appear farther away than they actually are
               I am not rush you, I just remembered in case you forget
+              nothing great in the word has been accomplished without passion
+              the system can monitor the energy use of enterprise
+              let me smile with wise,and feed with rich
+              easy doesn't enter into grown-up life
+              she abandon oneself to joy of moment and danced without inhibition
+              she spends her evenings reading novels
+              they spends their weekends hiking in the mountain
  * 一、situation status state condition 四个状态词的用法
   1.situation（情况，局势） 表示特定环境下的状态
   the situation at work is getting more stressful 工作情况越来越紧张
   2.status(地位，状态) 表示一个人在社会组织内的地位，身份。一般指物的进展或者阶段
    the project's status is currently in progress 项目正在进行中
   3.state(状态) 表示一个物或者一个人当前的情况状况。表示某个特定情况下状态。一般是固定状态
-   she is in a happy state of mind 她正处于开心的状态,心情愉快
+   she is in a happy state of mind 她正处于开心的状态,心情愉快/
   4.condition (状况) 描述事物或者人的健康，质量 ，状况
    The car is in excellent condition. 这辆车的状况非常好
   二、its,it's的区别 
@@ -59,10 +72,54 @@
   she asked for further information about the project
   2.farther 强调的是物理距离
   the mountain in the distance appear father away than they actually are
+  十、由 the system can monitor the energy use of enterprise联想的of概念
+   此处of属于描述性质
+   of有以下几种性质:
+   1.表属关系："of" 用于表示某物归属于或拥有者
+   the house of my parents
+   2.来源或者原因
+   The history of ancient civilizations
+   3.组成部分
+   a piece of cake
+   4.描述性质
+   a city of light
+   5.用于时间
+   end of the year
+   十一、doesn't和don't的区别
+   1.doesn't一般用在第三人称
+   She doesn't have a car.
+   2.don't第一人称和第二人称
+   I don't understand this math problem.
+   You don't need to worry.
+   十二、abandon oneself to 和addicted to 的区别
+   1.addicted to 强调上瘾，贬义
+   he is addicted to online gaming and spends all his free time playing
+   2.abandon oneself to 沉浸于，褒义
+   沉浸在当下的时光中，无拘无束的跳舞
+   十三、abandon, give up,waive 三种放弃的区别
+   1.abandon 主动放弃某人 某物，放弃责任
+    she had to abandon her car on the side of the road when it broke down
+   2. give up 停止做某事，戒掉坏习惯，放弃目标，不在努力
+   she decided to give up sweets in order to improve her health
+   3. waive 放弃合同 权力 比赛资格
+   The athlete decided to waive his right to compete in the upcoming tournament due to injury.
+   十四、could释义 可能 可以 能
+   一下4种情景
+   1.过去式，表示过去可以，能
+   I could swim when I five years old
+   2.请求是否可以 或者允许
+   could you pass the salt
+   3.表示可能性
+   you could hear the sound of train approaching the station in distance
+   4.表示建议
+   you could try calling them if they are at home
+
+
+
 
   */
 export let word = `a
-abandon
+abandon (v:抛弃，遗弃，终止 n:放任放纵)
 ability
 able
 abortion
@@ -1835,7 +1892,7 @@ note
 nothing
 notice
 notion
-novel
+novel (小说，novels复数)
 now
 nowhere
 n't

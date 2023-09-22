@@ -20,6 +20,7 @@
 <script>
 import { reactive, ref, onMounted, nextTick, toRefs, computed } from "vue";
 import http from "@/utils/request";
+import { ElNotification } from "element-plus";
 
 export default {
   props: {
@@ -38,17 +39,14 @@ export default {
         return props.visible;
       },
       set(value) {
-        console.log(value);
         ctx.emit("update:visible", value);
       }
     });
-    console.log(data.dataForm);
 
     const init = async function () {
       await nextTick();
       dataFormRef.value.resetFields();
       if (data.dataForm.id) {
-        console.log("查询");
         getInfo();
       }
     };
@@ -63,7 +61,14 @@ export default {
       http[!data.dataForm.id ? "post" : "put"]("/addMonkeyData", data.dataForm).then((res) => {
         if (res.code !== 200) {
           return console.log("error");
+        } else {
+          ElNotification({
+            title: "",
+            message: res.message,
+            type: "success"
+          });
         }
+
         ctx.emit("refresh", "");
 
         setVisible.value = false; //此处需要加value
