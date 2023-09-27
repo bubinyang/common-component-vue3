@@ -17,32 +17,39 @@ import moment from "moment";
 
 export class lrdEchart {
   public xAxisData: Array<number>; //xAxisData 横轴数据集合
-  public barChartData: Array<{ attrKey: string; name: string; list: Array<number | string> }>; //源数据
-  /**
-   *
-   * @param dateType 图表数据展示时间列表类型
-   * @param decimalDigits 数据保留小数位
-   * @param findValueKey 查找每条数据关键索引
-   * @param realTimeName 非用量情况下的能源名称
-   * @param findUnit 单位
-   */
-  constructor(
-    private dateType: string,
-    private decimalDigits: number = 2,
-    private findValueKey: string = "YYYY-MM-DD",
-    private realTimeName: string,
-    private findUnit?: string
-  ) {
+  public barChartData:
+    | Array<{ attrKey: string; name: string; list: Array<number | string> }>
+    | undefined; //源数据
+  public format: IObject; //横坐标筛选对应位置数据的date格式(按照位置查找数据的关键字段的格式类型)
+
+  currentDate = moment(new Date()).format("YYYY-MM"); //图表渲染数据的时间
+  dateType: string; //图表数据展示时间列表类型
+  findUnit: string; //单位
+  decimalDigits = 2; //数据保留小数位
+  frequency = 15; //24小时时间数组，循环间隔
+
+  constructor(param: {
+    currentDate?: string;
+    dateType: string;
+    findUnit: string;
+    decimalDigits?: number;
+    frequency?: number;
+  }) {
+    const { currentDate, dateType, decimalDigits, findUnit, frequency } = param;
+    if (currentDate !== undefined) this.currentDate = currentDate;
     this.dateType = dateType;
     this.findUnit = findUnit;
-    this.xAxisData = this.getTimeListUpdate(new Date(), dateType);
-    this.barChartData = [];
-    this.realTimeName = realTimeName;
+    if (decimalDigits !== undefined) this.decimalDigits = decimalDigits;
+    if (frequency !== undefined) this.frequency = frequency;
+    this.xAxisData = this.getTimeListUpdate(this.currentDate, dateType);
+    this.format = {
+      day: "HH",
+      month: "YYYY-MM-DD",
+      year: "YYYY-MM",
+      realtime: "YYYY-MM-DD HH:mm:ss",
+      randomtime: "YYYY-MM-DD HH:mm:ss"
+    };
   }
-  //设置xAxisData坐标list
-  // setPublicMethod(fn: (e?: any) => any): void {
-  //   this.getTimeListUpdate = fn;
-  // }
 
   getXAxisLabelBarFormatter(val: number): string {
     return (
@@ -55,11 +62,8 @@ export class lrdEchart {
     )[this.dateType];
   }
 
-  getTimeListUpdate(
-    time: string | Date,
-    type: string = this.dateType,
-    minute?: number
-  ): Array<any> {
+  getTimeListUpdate(time: string | Date, type: string, endTime?: string | Date): Array<any> {
+    if (!type) type = this.dateType;
     // 获取起始日期（月或者年）
     const starNum = moment(time)
       .startOf(type as any)
@@ -68,8 +72,8 @@ export class lrdEchart {
       {
         year: this.getYear(starNum),
         month: this.getMonth(time, starNum),
-        day: this.getTimeDataRange(time, minute),
-        realtime: this.getTimeDataRange(time, minute)
+        day: this.getTimeDataRange({ date: time, minute: this.frequency }), //自然天时间数组
+        realtime: this.getTimeDataRange({ date: time, minute: this.frequency, endTime }) //非自然天时间数组
       } as {
         [key: string]: Array<any>;
       }
@@ -96,19 +100,27 @@ export class lrdEchart {
     }
     return timeData;
   }
-
-  getTimeDataRange(date?: string | Date, minute = 60, star = 0, end = 1): Array<number> {
-    const time = +new Date(moment(date).format("YYYY-MM-DD 00:00:00"));
-
-    const starTime = time + star * 60 * 60 * 1000; // 起始时间点
-    const endTime = starTime + 24 * 60 * 60 * 1000 * end; // 结束时间点
-
+  /**
+   *
+   * @param date   从几点开始
+   * @param minute 间隔时间(单位分钟)
+   * @returns 24小时间隔为60分钟的时间组成的数组。可以实现跨天获取24小时的时间数组
+   */
+  getTimeDataRange({
+    date,
+    minute = 60,
+    endTime
+  }: {
+    date: string | Date;
+    minute: number;
+    endTime?: string | Date | undefined;
+  }): Array<number> {
+    const dateValue = moment(date).valueOf();
+    const endTimeValue = endTime ? moment(endTime).valueOf() : dateValue + 24 * 60 * 60 * 1000;
     const differ = minute * 60 * 1000;
-    const cycleIndex = Math.floor((endTime - starTime) / differ);
-
     const arr = [];
-    for (let i = 0; i < cycleIndex; i++) {
-      arr.push(starTime + differ * i);
+    for (let i = dateValue; i < endTimeValue; i += differ) {
+      arr.push(i);
     }
     return arr;
   }
@@ -117,40 +129,40 @@ export class lrdEchart {
     origin: IObject[],
     type: string
   ): () => Array<{ attrKey: string; name: string; list: Array<number | string> }> {
-    console.log(origin);
     return (
       {
         normal: () => {
           return origin.map((item, index) => {
-            const { attrKey, values } = item.data[0];
+            const { attrKey, values, name } = item.data[0];
             const list = Object.keys(values).map((key) => {
               return {
                 time: key,
                 value: attrKey === "A29" ? this.dealData(values[key]) : values[key][0][attrKey]
               };
             });
-            const sum = this.setEchartTotal(
-              list.map((item) => item.value),
-              this.findUnit ? this.findUnit : ""
-            );
+            console.log(list);
+            // const sum = this.setEchartTotal(
+            //   list.map((item) => item.value),
+            //   this.findUnit ? this.findUnit : ""
+            // );
             return {
               attrKey,
-              name: "用量",
+              name,
               list: this.complementData(list)
             };
           });
         },
         realTime: () => {
           return origin.map((item, index) => {
-            const { attrVals } = item.data;
-            const sum = this.setEchartTotal(
-              attrVals ? attrVals[0].list.map((item: any) => item.value) : [],
-              this.findUnit ? this.findUnit : ""
-            );
+            const { attrVals, name } = item.data;
+            // const sum = this.setEchartTotal(
+            //   attrVals ? attrVals[0].list.map((item: any) => item.value) : [],
+            //   this.findUnit ? this.findUnit : ""
+            // );
 
             return {
               attrKey: attrVals ? attrVals[0].key : "",
-              name: this.realTimeName,
+              name,
               list: attrVals ? this.complementData(attrVals[0].list) : []
             };
           });
@@ -177,7 +189,7 @@ export class lrdEchart {
       }
       return total;
     }, 0);
-    return `  (总量:${this.setToFixed(undefined, this.decimalDigits)}${unit})`;
+    return `  (总量:${this.setToFixed(sum, this.decimalDigits)}${this.findUnit})`;
   }
 
   setToFixed(val: string | number | undefined | null, num = 1): number | string {
@@ -191,23 +203,13 @@ export class lrdEchart {
     return Math.round(Number(val) * assistDec) / assistDec;
   }
 
-  // complementData(origin: IObject[]): Array<number | string> {
-  //   const modelList = this.xAxisData.map((item) => {
-  //     return moment(item).format(this.findValueKey);
-  //   });
-  //   return modelList.map((item) => {
-  //     const findItem = origin.find((childitem) => childitem.time === item);
-  //     return findItem ? this.setToFixed(findItem.value, this.decimalDigits) : "";
-  //   });
-  // }
-
   complementData(
     origin: IObject[],
     xAxisData = this.xAxisData,
     key = "time"
   ): Array<number | string> {
     const modelList = xAxisData.map((item) => {
-      return moment(item).format(this.findValueKey);
+      return moment(item).format(this.format[this.dateType]);
     });
     return modelList.map((item) => {
       const findItem = origin.find((childitem) => childitem[key] === item);

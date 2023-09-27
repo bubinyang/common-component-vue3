@@ -8,6 +8,7 @@ import Clock from "./tools/clock/index.vue";
 import treeStructure from "./tools/treeStructure/index.vue";
 
 import decorateEchart from "./tools/echart/index.vue";
+import decorateEchartY from "./tools/echart/LineBarChartsY.vue";
 
 import Editor from "./tools/editor/index.vue";
 import SideLayout from "@/components/layout/sideLayout/index.vue";
@@ -27,6 +28,7 @@ const components = [
   ContainLayout,
   largeScreenMain,
   decorateEchart,
+  decorateEchartY,
   treeStructure
   // ChangeYearMonthDay,
   // HourMinSecond

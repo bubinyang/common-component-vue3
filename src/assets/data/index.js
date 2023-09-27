@@ -6,6 +6,8 @@
  *           banana (香蕉)
  *           available(可用的 可访问的，单身的) available at baidu.com  访问baidu
  *           break的过去式broke。 broke down 抛锚
+ *           explorer 探险者 资源管理器
+ *           reveal 揭露，显示
  * 补充短语: currently in office 在职 currently in use 在使用中
  *           I walk in zhe park 我在公园散步(表达自己平时习惯性在公园散步)
  *           went for walk, went for dinner 
@@ -15,12 +17,13 @@
  *           abandon oneself to 沉溺于，完全投入于（好事）
  *           in the distance 在远处
  *           deciede to 决定去做
+ *           adjust to  调整适应于
  *   
  *           
  * 补充长句:  before making a decision,it is important to keep in mind all factors that might affect the outcome
               after finishing the exams, she went for a long walk in the part for relax
               the mountain in the distance appear farther away than they actually are
-              I am not rush you, I just remembered in case you forget
+              I am not rush you, I just remembered in case you forgot
               nothing great in the word has been accomplished without passion
               the system can monitor the energy use of enterprise
               let me smile with wise,and feed with rich
@@ -28,6 +31,7 @@
               she abandon oneself to joy of moment and danced without inhibition
               she spends her evenings reading novels
               they spends their weekends hiking in the mountain
+              she need time to adjust to her new job
  * 一、situation status state condition 四个状态词的用法
   1.situation（情况，局势） 表示特定环境下的状态
   the situation at work is getting more stressful 工作情况越来越紧张

@@ -5,7 +5,7 @@
 import { criculationActionSwitch, numShortens } from "@/utils/index";
 
 export default {
-  name: "decorateEchart",
+  name: "decorateEchartY",
   data() {
     return {
       seriesIndex: 0,
@@ -324,6 +324,7 @@ export default {
       //     item.areaStyle = this.areaStyleList[index];
       //   }
       // });
+      console.log(seriesList);
       return seriesList;
     },
     setChart(originData) {
@@ -364,10 +365,10 @@ export default {
         dataZoom: [
           {
             realtime: true,
-            type: "inside",
+            type: "inside"
 
-            startValue: this.zoomList.length ? String(this.zoomList[0]) : 0,
-            endValue: this.zoomList.length ? String(this.zoomList[1]) : 100
+            // startValue: this.zoomList.length ? String(this.zoomList[0]) : 0,
+            // endValue: this.zoomList.length ? String(this.zoomList[1]) : 100
           },
           {
             type: "slider",
@@ -416,36 +417,22 @@ export default {
         },
 
         xAxis: {
-          type: "category",
-          splitLine: { show: true, lineStyle: { color: ["#e8e8e8"] } },
-          axisLabel: {
-            color: this.axisLabelColor,
-            formatter: this.xAxisLabelFormatter
-          },
-          boundaryGap: false, //xAxis刻度值是否从最左边开始(图表或者折现是否贴着yXis开始)
-          axisLine: {
-            onZero: false,
-            lineStyle: { color: "#0c73a5", width: 2 }
-          },
-          ...this.xAxisParam,
-          data: this.xAxisData
-        },
-
-        yAxis: {
           type: "value",
           name: this.yAxisName,
-          nameGap: 36,
+          nameGap: 20,
           nameTextStyle: {
             padding: [0, 0, 0, 30]
           },
           min: function (value) {
+            // if (value.min > 0) return setToFixed(Math.floor(value.min * 0.8), 2);
+            // if (value.min < 0) return setToFixed(Math.floor(value.min * 1.2), 2);
             if (value.min > 0) return Math.floor(value.min * 0.8);
             if (value.min < 0) return Math.floor(value.min * 1.2);
           },
           axisLine: { show: true, lineStyle: { color: "#0c73a5", width: 5 } },
           axisTick: { show: false },
           axisLabel: {
-            color: this.axisLabelColor,
+            // color: this.axisLabelColor,
             width: 150,
             formatter(value) {
               if (value < 1) return value;
@@ -458,14 +445,47 @@ export default {
             show: false,
             areaStyle: { color: ["rgba(250,250,250,0.3)", "rgba(200,200,200,0.3)"] }
           },
-          max: (value) => {
-            if (value.max < this.average || 0) {
-              return this.average * 1.1;
-            }
-            return value.max;
-          },
+
           ...this.yAxisParam
         },
+
+        yAxis: [
+          {
+            type: "category",
+            splitLine: { show: true, lineStyle: { color: ["#e8e8e8"] } },
+            axisLabel: {
+              formatter: this.xAxisLabelFormatter
+            },
+            boundaryGap: false,
+            axisLine: {
+              onZero: false,
+              lineStyle: { color: "#0c73a5", width: 2 }
+            },
+            ...this.xAxisParam,
+            data: this.xAxisData
+          },
+          {
+            type: "category",
+            inverse: true,
+            axisTick: "none",
+            axisLine: "none",
+            show: true,
+            axisLabel: {
+              textStyle: {
+                color: "#ffffff",
+                fontSize: "12"
+              },
+              formatter(value) {
+                return `${value}`;
+              }
+            },
+            splitLine: { show: false },
+            data: originData[0]
+              ? originData[0].list.map((item) => numShortens(item.value, 1)).reverse()
+              : []
+          }
+        ],
+
         series: this.getSeries(originData)
       };
       return option;

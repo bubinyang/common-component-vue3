@@ -1,46 +1,84 @@
 <template>
   <decorateEchart
-    :data="newLrdEchartStep.barChartData"
-    :x-axis-label-formatter="newLrdEchartStep.getXAxisLabelBarFormatter.bind(newLrdEchartStep)"
-    :x-axis-data="newLrdEchartStep.xAxisData"
-    :chartType="'bar'"
-    :showDataZoom="false"
-    :colors="['rgba(9,255,192,0.5)']"
-    :grid="{ left: 10, right: 10, bottom: 10, top: 7 }"
+    :criculationShowTootipAction="true"
+    :data="newLrdEchartStep.barChartData || []"
+    :x-axis-label-formatter="
+      newLrdEchartStep.getXAxisLabelBarFormatter
+        ? newLrdEchartStep.getXAxisLabelBarFormatter.bind(newLrdEchartStep)
+        : () => {}
+    "
+    :x-axis-data="newLrdEchartStep.xAxisData || []"
+    :chartType="'line'"
+    :title="{
+      text: 'kWh',
+      top: '0',
+      left: '20',
+      textStyle: { color: '#00FFFF', fontSize: '12', fontWeight: 'normal' }
+    }"
+    :colors="['#0090FF', 'rgba(0,204,255,1)']"
+    :grid="{ left: 20, right: 10, bottom: 10, top: 30 }"
+    :average="0"
     :xAxisParam="{
-      splitLine: { show: false },
-
+      splitLine: { show: false, lineStyle: { type: 'solid', color: '#4B6BAA' } },
       axisLine: {
         onZero: false,
-        lineStyle: { color: '#707070', width: 2 }
+        lineStyle: { color: '#6080A8', width: 1 },
+        color: '#ffffff'
+      },
+      axisTick: { show: true, lineStyle: { color: '#0c73a5', width: 1 } },
+      boundaryGap: true,
+
+      axisLabel: {
+        color: '#7A8295',
+        formatter: newLrdEchartStep.getXAxisLabelBarFormatter
+          ? newLrdEchartStep.getXAxisLabelBarFormatter.bind(newLrdEchartStep)
+          : () => {}
       }
     }"
+    :yAxisName="''"
     :yAxisParam="{
-      axisLine: { show: false },
-      axisTick: { show: false },
-      splitLine: { show: true, lineStyle: { type: 'dashed', color: 'rgba(45,68,113)' } },
+      axisLine: { show: true, lineStyle: { color: '#3C5069', width: 1 } },
+      axisTick: { show: false, lineStyle: { color: '#0c73a5', width: 1 } },
+      splitLine: { show: false, lineStyle: { type: 'dashed', color: 'rgba(58,175,240,0.6)' } },
       min: function (value) {
         return 0;
       }
     }"
-    :markPointParam="{ data: [], itemStyle: { opacity: 0 } }"
-    :seriesParam="{ symbol: 'emptyCircle' }"
-    :legendShow="false"
-    :axisLineShow="false"
-    :axisLabelColor="'#AEAFB2'"
-    :seriesItemStyle="seriesItemStyle"
-    :tooltip="{
-      borderColor: 'rgba(0, 92, 255, 1)',
-      backgroundColor: 'rgba(11, 63, 156, 0.7)',
+    :seriesParam="{
+      symbolSize: 8,
+      symbol: 'circle',
+      smooth: true,
+      showSymbol: false,
+      stack: newLrdEchartStep.chartType === 'zzt' ? 'total' : false
+    }"
+    :markPointParam="{
+      itemStyle: {
+        opacity: 0
+      },
+      symbolSize: 0
+    }"
+    :legendParam="{
+      show: true,
+      right: '5%',
+      top: '2%',
+      bottom: '2%',
       textStyle: {
-        padding: 10,
-        color: 'white',
-        fontSize: '20'
+        color: 'auto'
       }
     }"
+    :axisLineShow="false"
+    :tooltip="{
+      borderColor: 'rgba(50, 50, 50, 0.7)',
+      backgroundColor: 'rgba(50, 50, 50, 0.7)',
+      textStyle: {
+        padding: 10,
+        color: '#00fefd',
+        fontSize: '12'
+      }
+    }"
+    :showDataZoom="false"
     style="height: calc(100%)"
   />
-  <!-- <v-chart ref="baseChart" :autoresize="true" :option="options"></v-chart> -->
 </template>
 
 <script>
@@ -81,7 +119,9 @@ export default {
       borderColor: "none"
     });
 
-    const newLrdEchartStep = ref(new lrdEchart("month", 4));
+    const newLrdEchartStep = ref(
+      new lrdEchart({ dateType: "month", decimalDigits: 4, currentDate: "2022-07" })
+    );
     const options = ref({});
     //  img1
     return {
@@ -236,7 +276,6 @@ export default {
       ]
     };
     this.newLrdEchartStep.barChartData = this.newLrdEchartStep.dealEchartList([res], "normal")();
-    console.log(this.newLrdEchartStep.barChartData);
   }
 };
 </script>

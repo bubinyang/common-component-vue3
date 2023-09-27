@@ -18,11 +18,15 @@
           </div>
 
           <div class="module-box">
-            <SmallContain :title="'综合能源消费量'" />
+            <SmallContain :title="'综合能源消费量'">
+              <one></one>
+            </SmallContain>
           </div>
 
           <div class="module-box">
-            <SmallContain :title="'综合能源消费量'" />
+            <SmallContain :title="'综合能源消费量'">
+              <two></two>
+            </SmallContain>
           </div>
         </section>
 
@@ -32,28 +36,56 @@
 
         <section class="screen-main-r">
           <div class="module-box">
-            <SmallContain :title="'综合能源消费量'" />
+            <SmallContain :title="'综合能源消费量'">
+              <three></three>
+            </SmallContain>
           </div>
 
           <div class="module-box">
-            <SmallContain :title="'综合能源消费量'" />
+            <SmallContain :title="'综合能源消费量'">
+              <four></four>
+            </SmallContain>
           </div>
 
           <div class="module-box">
-            <SmallContain :title="'综合能源消费量'" />
+            <SmallContain :title="'综合能源消费量'">
+              <five></five>
+            </SmallContain>
           </div>
         </section>
       </section>
     </largeScreenMain>
+  </section>
+
+  <section class="chart-demo">
+    <div class="contain">
+      <chartBar></chartBar>
+    </div>
+
+    <div class="contain">
+      <pie3D></pie3D>
+    </div>
+
+    <div class="contain">
+      <pie3Dtest></pie3Dtest>
+    </div>
   </section>
 </template>
 <script>
 import { getWeek } from "@/utils";
 import mapModule from "@/views/largeScreen/map.vue";
 import chartBar from "@/views/largeScreen/chartBar.vue";
+import one from "./one.vue";
+import two from "./two.vue";
+import three from "./three.vue";
+import four from "./four.vue";
+import five from "./five.vue";
+import pie3D from "./pie3D.vue";
+import pie3Dtest from "./pie3Dtest.vue";
+
 export default {
   name: "LargeScreen",
-  components: { mapModule, chartBar },
+  components: { mapModule, chartBar, one, two, three, four, five, pie3D, pie3Dtest },
   data() {
     return {
       timeVal: "",
@@ -170,6 +202,16 @@ export default {
       flex: 1;
       margin: 15px 0;
     }
+  }
+}
+
+.chart-demo {
+  background: rgba(3, 24, 25);
+  display: flex;
+  flex-wrap: wrap;
+  .contain {
+    flex: 0 0 300px;
+    height: 300px;
   }
 }
 </style>

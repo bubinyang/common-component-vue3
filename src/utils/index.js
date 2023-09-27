@@ -1,4 +1,90 @@
-import moment, { fn } from "moment";
+import moment from "moment";
+
+/**
+ * 数字缩短
+ * @returns {unit: string, num: string}
+ * @param params
+ */
+function numShorten(params) {
+  if (!isNum(params.num)) return "";
+  params.num = params.num - 0;
+  let units = [];
+  let dividend = "";
+  let size = "";
+  if ("en" === params.lang) {
+    units = ["", "K", "M", "G", "T"];
+    dividend = 1000;
+    size = 4;
+  } else {
+    units = ["", "万", "亿", "万亿"];
+    dividend = 10000;
+    size = 5;
+  }
+  let currentNum = params.num; // 转换数字
+  let currentUnit = units[0]; // 转换单位
+  for (let i = 0; i < units.length; i++) {
+    currentUnit = units[i];
+    if (strNumSize(currentNum) < size || i === units.length - 1) {
+      break;
+    }
+    currentNum = currentNum / dividend;
+  }
+  let result = {
+    num: currentNum.toFixed(params.precision),
+    unit: currentUnit
+  };
+  if (!params.flexible) result.num -= 0;
+  return result;
+}
+
+/**
+ * 获取小数点前的长度
+ * @param tempNum
+ * @returns {number}
+ */
+function strNumSize(tempNum) {
+  let stringNum = tempNum + "";
+  let index = stringNum.indexOf(".");
+  let newNum = stringNum;
+  if (index !== -1) {
+    newNum = stringNum.substring(0, index);
+  }
+  return newNum.length;
+}
+
+/**
+ * 判断是否为数字
+ */
+function isNum(value) {
+  let reg = /^-?[0-9]*\.?[0-9]+$/;
+  if (reg.test(value)) {
+    return true;
+  }
+  return false;
+}
+
+export function numShortens(num, precision = 2, lang = "zh-cn") {
+  let params = {
+    num: 0,
+    precision: 2,
+    flexible: false, // true: 固定小数位，false: 小数去零
+    lang: "zh-cn"
+  };
+  if ("object" === typeof num) {
+    params = { ...params, ...num };
+  } else if ("number" === typeof num) {
+    params = {
+      ...params,
+      ...{ num, precision, lang }
+    };
+  }
+
+  let objectNumberHumanized = numShorten(params);
+  objectNumberHumanized.toString = function () {
+    return this.num + this.unit;
+  };
+  return objectNumberHumanized;
+}
 
 /**
  * time 哪一天
@@ -1294,5 +1380,6 @@ export default {
   getTimeList,
   setGuid,
   grouping,
-  criculationAction
+  criculationAction,
+  numShortens
 };

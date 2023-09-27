@@ -12,6 +12,10 @@ import "element-plus/dist/index.css";
 import "ant-design-vue/dist/antd.css";
 import Echarts from "vue-echarts";
 import { Table } from "ant-design-vue";
+import highcharts from "highcharts";
+import highcharts3d from "highcharts/highcharts-3d";
+highcharts3d(highcharts);
+
 import store from "./store";
 const app = createApp(App);
 app.config.globalProperties.$moment = moment;
