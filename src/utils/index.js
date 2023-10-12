@@ -614,7 +614,7 @@ export function newSwpierSpecial(el, options) {
  *
  * @param  val 数据源
  * @param  num 保留的小数位数
- * @param standard 千分位，百分为
+ * @param standard 千分位，百分位的数字，3表示千分位，2表示百分位
  * 四舍五入保留小数位数
  */
 // export function setToFixed(val, num = 1) {
@@ -648,7 +648,12 @@ export function setToFixed({ val, num = 1, standard = 0 }) {
   const pointList = reverList.reduce((total, item, index) => {
     total.push(item);
     if (standard) {
-      if ((index + 1) % standard === 0 && !isNaN(item) && reverList.length > standard) {
+      if (
+        reverList.length !== index + 1 && // 防止100000出现 ,1000,000。index+1的位置如果正好等于长度，那么不进行添加","
+        (index + 1) % standard === 0 && //standard位置的时候插入1个","
+        !isNaN(item) &&
+        reverList.length > standard
+      ) {
         total.push(",");
       }
     }

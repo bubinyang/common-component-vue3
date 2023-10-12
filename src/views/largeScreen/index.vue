@@ -62,8 +62,10 @@
       <chartBar></chartBar>
     </div>
 
-    <div class="contain">
-      <pie3D></pie3D>
+    <div class="contain contain-3D">
+      <SmallContain :title="'综合能源消费量'">
+        <pie3D></pie3D>
+      </SmallContain>
     </div>
 
     <div class="contain">
@@ -212,6 +214,25 @@ export default {
   .contain {
     flex: 0 0 300px;
     height: 300px;
+  }
+
+  .contain-3D {
+    .small-contain {
+      .small-contain-title {
+        // flex: 0 0 40px;
+        padding-left: 36px;
+
+        .title {
+          background: linear-gradient(45deg, #ffffff 0%, #88d7f7 30.044921875%);
+          -webkit-background-clip: text;
+          -webkit-text-fill-color: transparent;
+          justify-content: flex-start;
+          font-size: 21px;
+          position: relative;
+          font-weight: bold;
+        }
+      }
+    }
   }
 }
 </style>
