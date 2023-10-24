@@ -100,6 +100,7 @@ const query = function () {
       if (type === item.type) arr.push(item);
       return total;
     }, []);
+    originList.value = originList.value.splice(-1000);
     console.log(originList.value);
 
     list.value = data.filter((item) => {

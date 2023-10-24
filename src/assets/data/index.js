@@ -8,9 +8,11 @@
  *           break的过去式broke。 broke down 抛锚
  *           explorer 探险者 资源管理器
  *           reveal 揭露，显示
+ *           deactivate 遣散 使不活动 使无效
+ *           automatically 自然地 自动地
  * 补充短语: currently in office 在职 currently in use 在使用中
  *           I walk in zhe park 我在公园散步(表达自己平时习惯性在公园散步)
- *           went for walk, went for dinner 
+ *           went for walk, went for dinner 某人前去某个地方进行某个活动
  *           reveal in file explorer 在文件资源管理器展示  reveal all 全部展示
  *           ask for 要求请求
  *           in case 防止，以防万一
@@ -86,7 +88,7 @@
    3.组成部分
    a piece of cake
    4.描述性质
-   a city of light
+   a city of light 灯火辉煌的城市
    5.用于时间
    end of the year
    十一、doesn't和don't的区别

@@ -439,7 +439,7 @@ export default {
             padding: [0, 0, 0, 30]
           },
           min: function (value) {
-            if (value.min > 0) return Math.floor(value.min * 0.8);
+            if (value.min > 0) return Math.floor(value.min);
             if (value.min < 0) return Math.floor(value.min * 1.2);
           },
           axisLine: { show: true, lineStyle: { color: "#0c73a5", width: 5 } },

@@ -94,13 +94,13 @@ export default {
       flex: 1;
     }
     label {
-      display: block;
+      // display: block;
       color: black;
     }
   }
   .small-contain-contain {
     flex: 1;
-    padding: 0 0.1rem;
+    // padding: 0 0.1rem;
     display: flex;
   }
 }

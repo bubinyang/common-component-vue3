@@ -11,23 +11,72 @@
 
       <section class="screen-main-content">
         <section class="screen-main-l">
-          <div class="module-box">
-            <SmallContain :title="'综合能源消费量'">
-              <chartBar></chartBar>
-            </SmallContain>
-          </div>
+          <SmallContain :title="'综合能源消费量'">
+            <template #action>
+              <el-select
+                style="width: 90px"
+                class="frond-style"
+                popper-class="frond-style"
+                filterable
+                clearable
+                v-model="waterpumpValueA"
+                placeholder=" "
+              >
+                <el-option
+                  v-for="item in waterpumpA"
+                  :key="item.dictValue"
+                  :label="item.dictLabel"
+                  :value="item.dictValue"
+                />
+              </el-select>
+            </template>
 
-          <div class="module-box">
-            <SmallContain :title="'综合能源消费量'">
-              <one></one>
-            </SmallContain>
-          </div>
+            <chartBar></chartBar>
+          </SmallContain>
 
-          <div class="module-box">
-            <SmallContain :title="'综合能源消费量'">
-              <two></two>
-            </SmallContain>
-          </div>
+          <SmallContain :title="'综合能源消费量'">
+            <template #action>
+              <el-date-picker
+                style="width: 90px"
+                class="frond-style"
+                popper-class="frond-style"
+                v-model="rankDate"
+                type="year"
+                placeholder=" "
+              >
+              </el-date-picker>
+              <el-select
+                style="width: 90px"
+                class="frond-style"
+                popper-class="frond-style"
+                filterable
+                clearable
+                v-model="waterpumpValueA"
+                placeholder=" "
+              >
+                <el-option
+                  v-for="item in waterpumpA"
+                  :key="item.dictValue"
+                  :label="item.dictLabel"
+                  :value="item.dictValue"
+                />
+              </el-select>
+            </template>
+            <one></one>
+          </SmallContain>
+
+          <SmallContain :title="'综合能源消费量'">
+            <template #action>
+              <el-radio-group v-model="energyType">
+                <el-radio-button label="水" />
+                <el-radio-button label="电" />
+                <el-radio-button label="汽" />
+              </el-radio-group>
+              <label>kwh</label>
+            </template>
+
+            <two></two>
+          </SmallContain>
         </section>
 
         <section class="screen-main-center">
@@ -35,23 +84,17 @@
         </section>
 
         <section class="screen-main-r">
-          <div class="module-box">
-            <SmallContain :title="'综合能源消费量'">
-              <three></three>
-            </SmallContain>
-          </div>
+          <SmallContain :title="'综合能源消费量'">
+            <three></three>
+          </SmallContain>
 
-          <div class="module-box">
-            <SmallContain :title="'综合能源消费量'">
-              <four></four>
-            </SmallContain>
-          </div>
+          <SmallContain :title="'综合能源消费量'">
+            <four></four>
+          </SmallContain>
 
-          <div class="module-box">
-            <SmallContain :title="'综合能源消费量'">
-              <five></five>
-            </SmallContain>
-          </div>
+          <SmallContain :title="'综合能源消费量'">
+            <five></five>
+          </SmallContain>
         </section>
       </section>
     </largeScreenMain>
@@ -92,7 +135,14 @@ export default {
     return {
       timeVal: "",
       top_bg: "",
-      ratio: 2
+      ratio: 2,
+      waterpumpValueA: "A",
+      energyType: "电",
+      waterpumpA: [
+        { dictValue: "A", dictLabel: "电" },
+        { dictValue: "W", dictLabel: "水" }
+      ],
+      rankDate: ""
     };
   },
   created() {
@@ -121,7 +171,7 @@ export default {
   width: 100%;
   // height: 500px;
   .screen-top {
-    height: 160px;
+    height: 80px;
     display: flex;
     color: #0dc9ff;
     position: absolute;
@@ -136,16 +186,12 @@ export default {
     }
 
     .screen-top-title {
-      background: url("@/assets/logo.png");
-      background-repeat: no-repeat;
-      background-size: contain;
-      background-position: center;
-      width: 1043px;
-      display: flex;
-      justify-content: center;
-      padding-top: 15px;
-      font-size: 30px;
-      letter-spacing: 5px;
+      background: linear-gradient(180deg, #ffffff 30%, #0091f6 100.044921875%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      font-size: 52px;
+      position: relative;
+      bottom: 5px;
     }
     .screen-top-title-l,
     .screen-top-title-r {
@@ -158,10 +204,8 @@ export default {
   .screen-main-content {
     flex: 1;
     display: flex;
-    // padding:28px;
     justify-content: space-between;
     position: relative;
-    // margin-top: 84px;
 
     .screen-main-l {
       position: absolute;
@@ -198,11 +242,173 @@ export default {
     .screen-main-l,
     .screen-main-r {
       width: 450px;
+
+      .small-contain {
+        flex: 1;
+        margin: 15px 0;
+        .small-contain-title {
+          .title {
+            background: linear-gradient(45deg, #ffffff 0%, #88d7f7 30.044921875%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            justify-content: flex-start;
+            font-size: 21px;
+            position: relative;
+            // top: 13px;
+            // left: 5px;
+            font-weight: bold;
+          }
+          label {
+            color: white;
+            position: relative;
+            // top: 10px;
+            // right: 10px;
+          }
+        }
+      }
     }
-    .module-box {
+  }
+
+  .el-radio-group {
+    right: 30px;
+    position: absolute;
+    .el-radio-button {
+      margin: 0 5px;
+    }
+    .el-radio-button__inner {
+      padding: 0;
+      height: 21px;
+      width: 47px;
+      border-radius: 4px;
       display: flex;
-      flex: 1;
-      margin: 15px 0;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      background: #0277d0;
+      //background: url("@/assets/images/home/unselected.png") no-repeat;
+    }
+
+    .el-radio-button__original-radio:checked + .el-radio-button__inner {
+      border: 1px solid white;
+      // background: url("@/assets/images/home/selected.png") no-repeat;
+      background-color: initial;
+      border: 0;
+      box-shadow: none;
+    }
+  }
+}
+
+//elementui控件
+$bg: rgba(43, 63, 102, 0.5);
+$has-border: true;
+.frond-style {
+  background: none !important;
+  border: none !important;
+  /**input 框(包含所有空间) */
+  .el-input__inner {
+    background: none;
+    // border: 0;
+    box-shadow: none;
+    color: #00e3ff;
+    // border: 1px solid #3b5369;
+    @if $has-border {
+      border: 1px solid #3b5369;
+    } @else {
+      border: 0;
+    }
+  }
+  .el-popper__arrow {
+    &::before {
+      border: none !important;
+    }
+  }
+
+  /**时间控件 */
+  .el-picker-panel {
+    background: $bg !important;
+    color: #fff;
+  }
+
+  &.el-popper {
+    box-shadow: none;
+  }
+  .el-popper__arrow {
+    --el-color-white: #2b3f66 !important;
+    &:before {
+      background: #07355e !important;
+    }
+  }
+  .el-date-picker__header-label {
+    color: #00aaff !important;
+  }
+  .el-date-picker__header--bordered {
+    border-bottom: 1px solid #00aaff !important;
+  }
+  .el-picker-panel__icon-btn {
+    color: #00aaff !important;
+  }
+
+  .el-picker-panel__content {
+    .cell {
+      color: #00aaff !important;
+    }
+    .current {
+      .cell {
+        color: #fff !important;
+      }
+    }
+  }
+
+  &.el-picker__popper {
+    //disable
+    .el-year-table td.disabled .cell,
+    .el-month-table td.disabled .cell {
+      background: $bg;
+    }
+  }
+  /**分页 */
+  &.el-pagination {
+    button {
+      background: #07355e !important;
+      color: #fff !important;
+    }
+
+    li {
+      background: #07355e !important;
+      color: rgb(64, 158, 255) !important;
+    }
+
+    li.active {
+      background: none !important;
+    }
+  }
+
+  /**下拉 */
+
+  &.el-select__popper {
+    border: none !important;
+    background: $bg !important;
+    li {
+      // background: @bg!important;
+      color: #8c98a8 !important;
+      &:hover {
+        color: #fff !important;
+        background: $bg !important;
+      }
+    }
+  }
+
+  .el-select-dropdown__item {
+    color: #fff !important;
+    &.hover {
+      background: none;
+    }
+    &:hover {
+      background: #0277d0 !important;
+    }
+    &.selected {
+      // background: #0277d0 !important;
+      color: #fff !important;
     }
   }
 }
