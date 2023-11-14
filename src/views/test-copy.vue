@@ -1,11 +1,11 @@
 <template>
   <section id="stageContain">
-    <a class="btn" href="#">平安夜</a>
+    <a class="btn" @click="exportToVueFile" href="#">平安夜</a>
     <div class="btn-shadow">
       <label></label>
     </div>
 
-    <ul class="lineheight">
+    <ul ref="el" class="lineheight">
       <li>图标不变形，正常显示</li>
       <li>文字倒着反向展示</li>
       <li>设置和删除cookie</li>
@@ -475,6 +475,31 @@ export default {
       { immediate: true, deep: true }
     );
 
+    const el = ref(null);
+    //下载一个vue文件
+    const exportToVueFile = () => {
+      // 获取拖拽元素的内容
+      const divContent = el.value;
+
+      // 生成一个包含 divContent 的 Vue 文件内容
+      const vueFileContent = `<template>${divContent}</template>`;
+
+      // 创建一个 Blob 对象并提供下载链接
+      const blob = new Blob([vueFileContent], { type: "text/plain" });
+      const url = window.URL.createObjectURL(blob);
+
+      // 创建一个 <a> 元素用于下载
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = "exported.vue";
+
+      // 模拟点击下载链接
+      a.click();
+
+      // 释放 URL 对象
+      window.URL.revokeObjectURL(url);
+    };
+
     return {
       ...toRefs(testReactive),
       playACheck,
@@ -497,7 +522,8 @@ export default {
       deleteCookie,
       refresh,
       refreshAll,
-      refreshRoute
+      refreshRoute,
+      exportToVueFile
     };
   },
   data() {

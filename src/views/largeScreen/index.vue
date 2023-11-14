@@ -101,19 +101,25 @@
   </section>
 
   <section class="chart-demo">
-    <div class="contain">
-      <chartBar></chartBar>
-    </div>
+    <SmallContain :title="'综合能源消费量'">
+      <pie3D></pie3D>
+    </SmallContain>
 
-    <div class="contain contain-3D">
-      <SmallContain :title="'综合能源消费量'">
-        <pie3D></pie3D>
-      </SmallContain>
-    </div>
+    <SmallContain :title="'综合能源消费量'">
+      <meterOne></meterOne>
+    </SmallContain>
 
-    <div class="contain">
+    <SmallContain :title="'今日用能'">
+      <chart1></chart1>
+    </SmallContain>
+
+    <SmallContain :title="'排行'">
+      <chart2></chart2>
+    </SmallContain>
+
+    <!-- <div class="contain">
       <pie3Dtest></pie3Dtest>
-    </div>
+    </div> -->
   </section>
 </template>
 <script>
@@ -126,11 +132,15 @@ import three from "./three.vue";
 import four from "./four.vue";
 import five from "./five.vue";
 import pie3D from "./pie3D.vue";
+import meterOne from "./meter.vue";
+import chart1 from "./chart-1.vue";
+import chart2 from "./chart-2.vue";
+
 import pie3Dtest from "./pie3Dtest.vue";
 
 export default {
   name: "LargeScreen",
-  components: { mapModule, chartBar, one, two, three, four, five, pie3D, pie3Dtest },
+  components: { mapModule, chartBar, one, two, three, four, five, pie3D, meterOne, chart1, chart2 },
   data() {
     return {
       timeVal: "",
@@ -417,26 +427,22 @@ $has-border: true;
   background: rgba(3, 24, 25);
   display: flex;
   flex-wrap: wrap;
-  .contain {
+
+  .small-contain {
     flex: 0 0 300px;
-    height: 300px;
-  }
+    height: 400px;
+    .small-contain-title {
+      // flex: 0 0 40px;
+      padding-left: 36px;
 
-  .contain-3D {
-    .small-contain {
-      .small-contain-title {
-        // flex: 0 0 40px;
-        padding-left: 36px;
-
-        .title {
-          background: linear-gradient(45deg, #ffffff 0%, #88d7f7 30.044921875%);
-          -webkit-background-clip: text;
-          -webkit-text-fill-color: transparent;
-          justify-content: flex-start;
-          font-size: 21px;
-          position: relative;
-          font-weight: bold;
-        }
+      .title {
+        background: linear-gradient(45deg, #ffffff 0%, #88d7f7 30.044921875%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        justify-content: flex-start;
+        font-size: 21px;
+        position: relative;
+        font-weight: bold;
       }
     }
   }

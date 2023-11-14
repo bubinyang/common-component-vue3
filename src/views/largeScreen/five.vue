@@ -7,7 +7,7 @@ import { lrdEchart } from "@/utils/utils.ts";
 // import LineBarCharts from "@/components/chart/LineBarCharts.vue";
 import * as echarts from "echarts";
 import moment from "moment";
-import makeup from "./images/makeup.png";
+import makeup from "./images/circlebg.png";
 
 // import { getMonthRange } from "@/utils/utils.ts";
 function criculationActionSwitch(fn, ms) {
@@ -194,11 +194,37 @@ export default {
               z: 3,
               style: {
                 image: makeup,
-                width: 120,
-                height: 120
+                width: 80,
+                height: 80
               },
               //   top: "center",
-              position: [170, 90]
+              left: "center",
+              top: "center",
+
+              keyframeAnimation: [
+                {
+                  // 平移动画
+                  duration: 15000,
+                  loop: true,
+                  keyframes: [
+                    {
+                      // percent为关键帧的位置,0为第一个,1为最后一个
+                      percent: 0,
+                      easing: "linear",
+                      rotation: 0,
+                      transition: ["rotation"]
+                    },
+                    {
+                      percent: 1,
+                      easing: "linear",
+                      // 旋转角度采用弧度值
+                      rotation: Math.PI * 2,
+                      transition: ["rotation"]
+                    }
+                  ]
+                }
+              ],
+              origin: [40, 40]
             }
           ]
         },
@@ -305,8 +331,19 @@ export default {
             },
             data: getdata
           }
-        ]
+        ],
+        animation: {
+          duration: 2000, // 动画持续时间
+          easing: "linear" // 线性动画
+        }
       };
+
+      // option.animation.onFrame = function (percent) {
+      //   // 根据时间百分比设置旋转角度
+      //   option.graphic[0].style.rotation = percent * 360 * (Math.PI / 180); // 转换为弧度
+      //   return option;
+      // };
+
       myChart = echarts.init(energyMakeUpRef.value);
       myChart.setOption(option);
     };

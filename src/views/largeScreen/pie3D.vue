@@ -1,5 +1,5 @@
 <template>
-  <div style="width: 436px; height: 352px" id="containers"></div>
+  <div style="width: 300px; height: 352px" id="containers"></div>
 </template>
 <script setup>
 // [{"name":"电用量","unit":"万kWh","y":220000,"h":0,"valueY":22},{"name":"水用量","unit":"m³","y":4873.6,"h":5,"valueY":4873.6},{"name":"蒸汽用量","unit":"m³","y":3966.9,"h":10,"valueY":3966.9}]
@@ -76,7 +76,6 @@ let option = ref({
     floating: true,
     y: -240
   },
-  //   colors: ["#E7E129", "#E8724C", "#D653F0", "#05BBB7", "#1C8DEB", "#0D4BEB", "#F53659", "#63E561"],
   tooltip: {
     animation: true,
     // pointFormat: `<b>{series.name}<br/>电用量:{point.y} <br/>占比:{point.percentage:.1f}%</b>`,
@@ -90,7 +89,8 @@ let option = ref({
 
     style: {
       color: "#1DFFFF",
-      padding: "24px"
+      padding: "12px",
+      fontSize: "12px"
     }
   },
   credits: {
@@ -222,47 +222,7 @@ onMounted(() => {
 });
 
 const getEnergyMonth = () => {
-  //   baseService
-  //     .get("/board/energy/industry", {
-  //       year: moment(new Date(), "YYYY-MM-DD").startOf("month").format("YYYY-MM-DD HH:mm:ss")
-  //     })
-  //     .then((res) => {
-  //       if (res.code !== 0) {
-  //         return console.error(res.msg);
-  //       }
-
-  //       const result = res.data.map((item, index) => {
-  //         return {
-  //           name: item.industryTypeName,
-  //           y: item.value1 === null ? 0 : item.value1,
-  //           h: 5 * index,
-  //           prence: item.value2
-  //         };
-  //       });
-
-  //       option.value.series[0].data = result;
-  //       if (option.value.series[0].data.every((item) => (item.prence ?? "") === "")) {
-  //         return;
-  //       }
-  //       initChart();
-
-  //       //轮播
-  //       let index = 0;
-  //       caiculationObj = criculationActionSwitch(() => {
-  //         if (index > chart.series[0].data.length - 1) index = 0;
-  //         chart.tooltip.refresh([chart.series[0].data[index]]);
-  //         index++;
-  //       }, 4000);
-  //       caiculationObj.action();
-  //       document.querySelector("#container").addEventListener("mouseover", function () {
-  //         caiculationObj.isAction = false;
-  //       });
-  //       document.querySelector("#container").addEventListener("mouseout", function () {
-  //         caiculationObj.isAction = true;
-  //       });
-  //     });
-
-  option.value.series[0].data = [
+  const list = [
     {
       name: "Firefox",
       y: 30.0,
@@ -288,6 +248,15 @@ const getEnergyMonth = () => {
       color: "rgba(5,187,183,0.5)"
     }
   ];
+  list.sort((a, b) => {
+    return b.y - a.y;
+  });
+  const hs = [5, 15, 20, 30];
+  list.forEach((item, index) => {
+    item.h = hs[index];
+  });
+
+  option.value.series[0].data = list;
 
   nextTick(() => {
     initChart();

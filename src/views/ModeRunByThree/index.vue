@@ -358,93 +358,93 @@ export default {
         setTotip();
 
         //加载GLB模型
-        const loaderGLTF = new THREE.GLTFLoader();
-        const dracoLoader = new DRACOLoader();
-        dracoLoader.setDecoderPath("./threejs/draco/gltf/");
-        loaderGLTF.setDRACOLoader(dracoLoader);
-        console.log(loaderGLTF.loadAsync);
-        //localhost:8001/one_compress.glb
-        loaderGLTF.load("./threejs/night_pipeline.glb", function (mesh) {
-          let glfItem;
-          flower = mesh.scene;
-          //放大缩小模型
-          console.log(flower);
-          flower.scale.set(1, 1, 1);
-          flower.position.set(0, 0, 0);
-          //遍历模型里面的各种小部件
+        // const loaderGLTF = new THREE.GLTFLoader();
+        // const dracoLoader = new DRACOLoader();
+        // dracoLoader.setDecoderPath("./threejs/draco/gltf/");
+        // loaderGLTF.setDRACOLoader(dracoLoader);
+        // console.log(loaderGLTF.loadAsync);
+        // //localhost:8001/one_compress.glb
+        // loaderGLTF.load("./threejs/night_pipeline.glb", function (mesh) {
+        //   let glfItem;
+        //   flower = mesh.scene;
+        //   //放大缩小模型
+        //   console.log(flower);
+        //   flower.scale.set(1, 1, 1);
+        //   flower.position.set(0, 0, 0);
+        //   //遍历模型里面的各种小部件
 
-          flower.traverse((item, index) => {
-            if (item.name === "一次泵018") {
-              glfItem = item;
-              console.log(item, index);
-            }
-          });
-          //flower.scale.copy(new THREE.Vector3(50, 50, 50)); //通过copy放大50倍
-          // flower.scale.set(1, 1, 1); //通过set放大50倍
-          console.log(glfItem);
-          // glfItem.material.color.set("red"); //模型外表设置颜色为黄色 material外观材质
-          //打印glfColor.material.constructor你会发现它的类型就是MeshStandardMaterial，颜色可以通过color.set进行设置
-          //为什么flower可以直接使用set方法设置scale和position等属性，因为flower的constructor看到的scene,包含了Objec3D基础对象类，
-          //基础对象类有position和scale这些属性，而这些属性又是三维向量Vector3的类型，Vector3具有set等方法
-
-          //可以拿到模型中的某一个几何体,并进行多边形物体类创建
-          // const geometry = mesh.scene.children[2].geometry;
-          // var flowertest = new THREE.Mesh(
-          //   geometry,
-          //   new THREE.MeshLambertMaterial({ color: new THREE.Color("rgb(35, 78, 176)") })
-          // );
-          // flowertest.scale.copy(new THREE.Vector3(4000, 4000, 4000)); //glb模型放大*/
-          scene.add(flower);
-          loaderGLTF.load("./threejs/arrow.glb", function (arrow) {
-            arrowData = arrow;
-            getArrowSetLine();
-          });
-        });
-        // 加载FBX模型
-        var loader = new THREE.FBXLoader();
-
-        // 加载路面
-
-        // 加载图标
-        const modeZ = 150;
-        console.log("加载");
-
-        // 加载建筑
-        // loader.load("./threejs/factory1.fbx", function (mesh) {
-        //   // 添加骨骼辅助
-        //   // meshHelper = new THREE.SkeletonHelper(mesh);
-        //   // scene.add(meshHelper);
-
-        //   // 设置模型的每个部位都可以投影
-        //   mesh.traverse(function (child) {
-        //     if (child.isMesh) {
-        //       child.castShadow = true;
-        //       child.receiveShadow = true;
+        //   flower.traverse((item, index) => {
+        //     if (item.name === "一次泵018") {
+        //       glfItem = item;
+        //       console.log(item, index);
         //     }
         //   });
-        //   mesh.position.z += modeZ;
-        //   mesh.position.y -= 0;
+        //   //flower.scale.copy(new THREE.Vector3(50, 50, 50)); //通过copy放大50倍
+        //   // flower.scale.set(1, 1, 1); //通过set放大50倍
+        //   console.log(glfItem);
+        //   // glfItem.material.color.set("red"); //模型外表设置颜色为黄色 material外观材质
+        //   //打印glfColor.material.constructor你会发现它的类型就是MeshStandardMaterial，颜色可以通过color.set进行设置
+        //   //为什么flower可以直接使用set方法设置scale和position等属性，因为flower的constructor看到的scene,包含了Objec3D基础对象类，
+        //   //基础对象类有position和scale这些属性，而这些属性又是三维向量Vector3的类型，Vector3具有set等方法
 
-        //   console.log(mesh);
-        //   scene.add(mesh);
-        //   that.loading = false;
+        //   //可以拿到模型中的某一个几何体,并进行多边形物体类创建
+        //   // const geometry = mesh.scene.children[2].geometry;
+        //   // var flowertest = new THREE.Mesh(
+        //   //   geometry,
+        //   //   new THREE.MeshLambertMaterial({ color: new THREE.Color("rgb(35, 78, 176)") })
+        //   // );
+        //   // flowertest.scale.copy(new THREE.Vector3(4000, 4000, 4000)); //glb模型放大*/
+        //   scene.add(flower);
+        //   loaderGLTF.load("./threejs/arrow.glb", function (arrow) {
+        //     arrowData = arrow;
+        //     getArrowSetLine();
+        //   });
         // });
-        El.addEventListener("click", onMouseClick, false);
-        El.addEventListener("mousemove", onMouseover, false);
-        // El.addEventListener('mousemove', debounce(
-        //   function(){console.log('移动')}
-        // ), false)
-        El.onmousemove = debounce(function () {
-          that.itemContentShow = false;
-        }, 500);
-        // El.addEventListener('contextmenu', function(event) {
-        // resetSign();
-        // that.show = false;
-        // }, false);
-        // El.addEventListener('mousemove', function(e) {
-        // resetSign();
-        // that.show = false;
-        // });
+        // // 加载FBX模型
+        // var loader = new THREE.FBXLoader();
+
+        // // 加载路面
+
+        // // 加载图标
+        // const modeZ = 150;
+        // console.log("加载");
+
+        // // 加载建筑
+        // // loader.load("./threejs/factory1.fbx", function (mesh) {
+        // //   // 添加骨骼辅助
+        // //   // meshHelper = new THREE.SkeletonHelper(mesh);
+        // //   // scene.add(meshHelper);
+
+        // //   // 设置模型的每个部位都可以投影
+        // //   mesh.traverse(function (child) {
+        // //     if (child.isMesh) {
+        // //       child.castShadow = true;
+        // //       child.receiveShadow = true;
+        // //     }
+        // //   });
+        // //   mesh.position.z += modeZ;
+        // //   mesh.position.y -= 0;
+
+        // //   console.log(mesh);
+        // //   scene.add(mesh);
+        // //   that.loading = false;
+        // // });
+        // El.addEventListener("click", onMouseClick, false);
+        // El.addEventListener("mousemove", onMouseover, false);
+        // // El.addEventListener('mousemove', debounce(
+        // //   function(){console.log('移动')}
+        // // ), false)
+        // El.onmousemove = debounce(function () {
+        //   that.itemContentShow = false;
+        // }, 500);
+        // // El.addEventListener('contextmenu', function(event) {
+        // // resetSign();
+        // // that.show = false;
+        // // }, false);
+        // // El.addEventListener('mousemove', function(e) {
+        // // resetSign();
+        // // that.show = false;
+        // // });
       }
 
       function onMouseClick(event) {

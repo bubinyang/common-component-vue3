@@ -98,6 +98,8 @@ import {
 } from "@/utils/threeUtils.js";
 import { max } from "moment";
 import { onActivated, onDeactivated } from "vue";
+import { RGBELoader } from "three/addons/loaders/RGBELoader.js";
+import itAreaTip from "@/assets/img/home/steam.png";
 // import app from "@/constants/app";
 // import { Flow } from "three/addons/modifiers/CurveModifier.js";
 // import { Flow } from "https://threejs.org/examples/jsm/modifiers/CurveModifier.js";
@@ -272,12 +274,16 @@ export default {
       const signMeshs = [];
       const activeColor = 0xff0000;
       var clock = new THREE.Clock();
-
+      let glowRing;
       function initRender() {
+        /**antialias 抗锯齿，画面平滑  alpha 创建一个具有透明背景的渲染器*/
         renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
         renderer.setPixelRatio(window.devicePixelRatio);
         renderer.setSize(width, height);
-        // renderer.setClearColor(0xb9d3ff, 1)
+        // renderer.setClearColor(0xb9d3ff, 0.5);
+        // renderer.setClearColor(0xb9d3ff, 0.5); //调节透明度自行对比
+        renderer.outputEncoding = THREE.sRGBEncoding;
+        renderer.physicallyCorrectLights = true;
         renderer.shadowMap.enabled = true;
         // 告诉渲染器需要阴影效果
         document.querySelector(".ThreeD").appendChild(renderer.domElement);
@@ -300,7 +306,7 @@ export default {
 
       function initScene() {
         scene = new THREE.Scene();
-        //scene.background = new THREE.Color(0x010e31);
+        //  scene.background = new THREE.Color(0x010e31);
         // scene.fog = new THREE.Fog(0xa0a0a0, 200, 1000);
       }
 
@@ -309,18 +315,25 @@ export default {
          * 常规增加光照
          */
         // scene.add(new THREE.AmbientLight(0x444444, 1.0)); //环境光
-
         // light = new THREE.DirectionalLight(0xffffff, 1.0); //平行光
         // light.position.set(0.5, 1, 0.5);
         // // 告诉平行光需要开启阴影投射
         // light.castShadow = true;
         // scene.add(light);
         /**
-         * 模拟室内光(模型导入)
+         * 模拟室内光(模型导入) 3D环境，墙面各有一个灯光照射
          */
-        const pmremGenerator = new THREE.PMREMGenerator(renderer);
-        pmremGenerator.compileEquirectangularShader();
-        scene.environment = pmremGenerator.fromScene(new THREE.RoomEnvironment(), 0.5).texture;
+        // const pmremGenerator = new THREE.PMREMGenerator(renderer);
+        // pmremGenerator.compileEquirectangularShader();
+        // scene.environment = pmremGenerator.fromScene(new THREE.RoomEnvironment(), 0.5).texture;
+
+        /**高清贴图照射在环境中，并通过environment把贴图光反射在物体上 */
+        new RGBELoader()
+          .setPath("threejs/equirectangular/")
+          .load("quarry_01_1k.hdr", function (texture) {
+            texture.mapping = THREE.EquirectangularReflectionMapping;
+            scene.environment = texture;
+          });
       }
 
       // function getFitScaleValue(obj) {
@@ -340,8 +353,8 @@ export default {
         // // 地板
         const meshColor = new THREE.Color("rgb(35, 78, 176)");
         var mesh = new THREE.Mesh(
-          new THREE.PlaneBufferGeometry(2000, 2000),
-          new THREE.ShadowMaterial({ opacity: 0.2 })
+          new THREE.PlaneBufferGeometry(200, 200),
+          new THREE.ShadowMaterial({ opacity: 1 })
         );
         mesh.rotation.x = -Math.PI / 2;
         mesh.receiveShadow = true;
@@ -350,14 +363,26 @@ export default {
         scene.add(mesh);
 
         // 添加地板割线
-        var grid = new THREE.GridHelper(20000, 100);
+        var grid = new THREE.GridHelper(1, 10); //size(每个格子大小)  divisions(10x10的容器，100个格子)
         grid.material.opacity = 0.2;
-        grid.material.transparent = true;
+        grid.material.transparent = false;
         scene.add(grid);
 
         //加载CSS2DRenderer
         labelRenderer = getLabelRenderer({ width, height });
         setTotip();
+
+        // const geometry = new THREE.SphereGeometry(1, 32, 32);
+        // const material = new THREE.MeshPhongMaterial({ color: 0x2194ce });
+
+        // const material = new THREE.MeshStandardMaterial({
+        //   color: 0xdddddd, // 金属的颜色 new THREE.Color("rgb(35, 78, 176)")
+        //   metalness: 0.8, // 金属度
+        //   roughness: 0.1 // 表面粗糙度
+        // });
+
+        // const model = new THREE.Mesh(geometry, material);
+        // scene.add(model);
 
         //加载GLB模型
         const loaderGLTF = new THREE.GLTFLoader();
@@ -371,7 +396,7 @@ export default {
           flower = mesh.scene;
           //放大缩小模型
           console.log(flower);
-          flower.scale.set(1, 1, 1);
+          flower.scale.set(10, 10, 10);
           flower.position.set(0, 0, 0);
           //遍历模型里面的各种小部件
 
@@ -379,9 +404,19 @@ export default {
             console.log(item.name);
             if (item.name === "一次泵018") {
               glfItem = item;
-              item.scale.set(0.5, 0.5, 0.5);
+              item.scale.set(2.5, 2.5, 2.5);
               item.position.y += 0.05;
+
               console.log(item, index);
+            } else if (item.name === "中温冷冻机-底座007") {
+              const material = new THREE.MeshStandardMaterial({
+                color: new THREE.Color("rgb(8, 54, 166)"), // 金属的颜色 new THREE.Color("rgb(35, 78, 176)")
+                metalness: 1, // 金属度
+                roughness: 0.2 // 表面粗糙度
+              });
+              // material.emissive = new THREE.Color("rgb(63,107,214)"); // 自发光颜色
+              // material.emissiveIntensity = 0.5; // 自发光强度
+              item.material = material;
             }
           });
           //flower.scale.copy(new THREE.Vector3(50, 50, 50)); //通过copy放大50倍
@@ -455,6 +490,7 @@ export default {
       function onMouseClick(event) {
         //点击展示设备 位置弹出框
         var intersects = getIntersects({ El, event, mouse, camera, scene, raycaster });
+        console.log(intersects);
         if (intersects[0]) {
           console.log(intersects[0].object);
           let domDialog = document.createElement("div");
@@ -465,7 +501,7 @@ export default {
             position: intersects[0].object.position,
             id: 11
           });
-          console.log(result);
+          // console.log(result);
           //  scene.add(result);
         }
       }
@@ -475,7 +511,7 @@ export default {
         const currentItem = intersects[0] ? intersects[0].object.name : false;
         //鼠标位移到某个模型组件上，增加选中颜色.离开恢复原来的颜色
         if (intersects[0]) {
-          console.log(intersects[0]);
+          console.log(intersects[0].object.name);
           if (["一次泵018", "一次泵017"].includes(intersects[0].object.name)) {
             // intersects[0].object.position.x += 0.05;
             gsap.fromTo(

@@ -85,60 +85,60 @@ import { lrdEchart } from "@/utils/utils.ts";
 import * as echarts from "echarts";
 
 const originData = [
-  // {
-  //   attrKey: "A29",
-  //   list: [100, 44, 76, 88, 44, 55, 66, 33, 89],
-  //   name: "用电量",
-  //   seriesParam: {
-  //     type: "bar",
-  //     barWidth: 10,
-  //     barGap: "-100%",
-  //     z: 11,
-  //     itemStyle: {
-  //       //lenged文本
-  //       opacity: 0.9,
-  //       color: function (params) {
-  //         return new echarts.graphic.LinearGradient(0, 0, 0, 1, [
-  //           {
-  //             offset: 0,
-  //             color: "rgba(59,109,150,0.8)"
-  //           },
-  //           {
-  //             offset: 0.3,
-  //             color: "rgba(61,130,182,1)"
-  //           },
-  //           {
-  //             offset: 1,
-  //             color: "rgba(57,158,236,1)"
-  //           }
-  //         ]);
-  //       }
-  //     }
-  //   }
-  // },
-  // {
-  //   attrKey: "",
-  //   list: [100, 44, 76, 88, 44, 55, 66, 33, 89],
-  //   name: "",
-  //   seriesParam: {
-  //     type: "pictorialBar",
-  //     symbolSize: [10, 5],
-  //     symbolOffset: [0, -5],
-  //     z: 9999,
-  //     symbolPosition: "end",
-  //     label: {
-  //       show: true,
-  //       position: "top",
-  //       fontSize: 10,
-  //       color: "#fff"
-  //     },
-  //     itemStyle: {
-  //       //lenged文本
-  //       opacity: 0.7,
-  //       color: "rgba(66,159,215,0.9)"
-  //     }
-  //   }
-  // },
+  {
+    attrKey: "A29",
+    list: [100, 44, 76, 88, 44, 55, 66, 33, 89],
+    name: "用电量",
+    seriesParam: {
+      type: "bar",
+      barWidth: 10,
+      barGap: "-100%",
+      z: 11,
+      itemStyle: {
+        //lenged文本
+        opacity: 0.9,
+        color: function (params) {
+          return new echarts.graphic.LinearGradient(0, 0, 0, 1, [
+            {
+              offset: 0,
+              color: "rgba(59,109,150,0.8)"
+            },
+            {
+              offset: 0.3,
+              color: "rgba(61,130,182,1)"
+            },
+            {
+              offset: 1,
+              color: "rgba(57,158,236,1)"
+            }
+          ]);
+        }
+      }
+    }
+  },
+  {
+    attrKey: "",
+    list: [100, 44, 76, 88, 44, 55, 66, 33, 89],
+    name: "",
+    seriesParam: {
+      type: "pictorialBar",
+      symbolSize: [10, 5],
+      symbolOffset: [0, -5],
+      z: 9999,
+      symbolPosition: "end",
+      label: {
+        show: true,
+        position: "top",
+        fontSize: 10,
+        color: "#fff"
+      },
+      itemStyle: {
+        //lenged文本
+        opacity: 0.7,
+        color: "rgba(66,159,215,0.9)"
+      }
+    }
+  },
   {
     attrKey: "",
     list: [1, 1, 1, 1, 1, 1, 1, 1, 1],

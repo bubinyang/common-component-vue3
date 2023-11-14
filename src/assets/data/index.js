@@ -1,4 +1,4 @@
-/**
+/** 
  * 补充单词: quato(定额，对事，属性，指标)
  *           centralized(集权，集中)
  *           specialized hospital(专科医院)
@@ -10,16 +10,20 @@
  *           reveal 揭露，显示
  *           deactivate 遣散 使不活动 使无效
  *           automatically 自然地 自动地
+ *           roughness 表面粗糙的
+ *           environment 自然环境
+ *           metalness 金属度
  * 补充短语: currently in office 在职 currently in use 在使用中
- *           I walk in zhe park 我在公园散步(表达自己平时习惯性在公园散步)
+ *           I walk in the park 我在公园散步(表达自己平时习惯性在公园散步)
  *           went for walk, went for dinner 某人前去某个地方进行某个活动
  *           reveal in file explorer 在文件资源管理器展示  reveal all 全部展示
  *           ask for 要求请求
  *           in case 防止，以防万一
  *           abandon oneself to 沉溺于，完全投入于（好事）
  *           in the distance 在远处
- *           deciede to 决定去做
+ *           decided to 决定去做
  *           adjust to  调整适应于
+ *           had to 不得不
  *   
  *           
  * 补充长句:  before making a decision,it is important to keep in mind all factors that might affect the outcome
@@ -34,6 +38,8 @@
               she spends her evenings reading novels
               they spends their weekends hiking in the mountain
               she need time to adjust to her new job
+              the technician had to deactivate the faulty software to prevent further system errors
+              to ensure safety,remember to deactivate all electronic devices on the airplane during takeoff and landing
  * 一、situation status state condition 四个状态词的用法
   1.situation（情况，局势） 表示特定环境下的状态
   the situation at work is getting more stressful 工作情况越来越紧张
@@ -161,7 +167,7 @@ activity
 actor
 actress
 actual
-actually
+actually  事实上
 ad
 adapt
 add
@@ -269,14 +275,14 @@ appeal
 appear
 appearance
 apple
-application
+application (应用程序)
 apply
 appoint
 appointment
 appreciate
 approach
 appropriate
-approval
+approval (批准)
 approve
 approximately
 Arab

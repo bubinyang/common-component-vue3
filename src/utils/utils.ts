@@ -1008,6 +1008,7 @@ export class ThreeBasic {
     this.renderer.outputEncoding = this.THREE.sRGBEncoding; //让模型看上去更真实,模型更亮
     this.renderer.toneMapping = this.THREE.ACESFilmicToneMapping;
     this.renderer.toneMappingExposure = 1;
+    // this.renderer.physicallyCorrectLights = true;
 
     this.El.appendChild(this.renderer.domElement);
   }
@@ -1176,7 +1177,7 @@ export class ThreeBasic {
       cubeCamera.update(this.renderer, virtualScene);
       requestAnimationFrame(virtualRender);
     };
-    virtualRender();
+    // virtualRender();
   }
 
   // initModel() {}
@@ -1248,7 +1249,7 @@ export class ThreeBasic {
     loaderGLTF.load(this.url, (gltf: any) => {
       const model = gltf.scene;
       console.log(model);
-      model.scale.set(0.01, 0.01, 0.01);
+      model.scale.set(10, 10, 10);
       model.position.set(0, 0, 0);
       model.traverse((item: any, index: any) => {
         console.log(item);

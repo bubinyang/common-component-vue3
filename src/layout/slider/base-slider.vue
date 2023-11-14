@@ -64,6 +64,7 @@ export default {
     );
 
     console.log(route.path);
+    console.log(route.query);
     return {
       ...toRefs(state),
       handleOpen,

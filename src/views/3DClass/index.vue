@@ -76,24 +76,15 @@ export default defineComponent({
       //   });
     });
     onMounted(() => {
-      console.log(state.ThreeD);
       //   gsap.fromTo("#box", { x: 10 }, { duration: 2, yoyo: true, delay: 1, repeat: -1, x: 300 });
       const newThreeBasic = new ThreeBasic({
         THREE,
         El: state.ThreeD,
-        url: "./threejs/3D-3-compress.glb",
+        url: "./threejs/1110small.glb",
         assistTools: true
       });
-      //console.log(state.newThreeBasic);
-      // newThreeBasic.draw();
-      // state.newThreeBasicVal = newThreeBasic;
-      // state.newThreeBasicVal = newThreeBasic;
-      // console.log(state.newThreeBasicVal.fullname);
-      // state.inputValue = newThreeBasic.loading;
-      // console.log(newThreeBasic.fullname);
-      //state.newThreeBasicVal = newThreeBasic.fullname;
+
       const getProgress = setInterval(() => {
-        //  console.log(state.newThreeBasicVal.fullname);
         state.inputValue = newThreeBasic.progress;
         state.loading = newThreeBasic.loading;
         if (newThreeBasic.progress === 100) clearInterval(getProgress);

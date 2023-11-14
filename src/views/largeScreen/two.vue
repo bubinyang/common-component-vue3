@@ -112,8 +112,26 @@ const originData = [
     list: [],
     name: "当月",
     seriesParam: {
+      label: { show: true, position: "right" },
       // barWidth: 10,
       showBackground: true,
+
+      /**如果柱子要在一个框里显示，此处代码设置好，再把itemStyle设置一下即可 */
+      // backgroundStyle: {
+      //   color: "none",
+      //   borderColor: "#0096FF",
+      //   borderWidth: 1
+      // },
+
+      // itemStyle: {
+      //   normal: {
+      //     // barBorderRadius: 30
+      //     borderColor: "rgba(2,241,233,0)",
+      //     borderWidth: 5
+      //   }
+      // }
+      /*end*/
+
       backgroundStyle: {
         barBorderRadius: 30
       },

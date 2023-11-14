@@ -17,6 +17,7 @@ export default {
         state.layout = app.fullscreen.includes(path) ? pageLayout.fullscreen : pageLayout.page;
       }
     );
+
     return {
       state,
       page: pageLayout.fullscreen
