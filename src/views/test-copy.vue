@@ -747,10 +747,11 @@ export default {
 }
 
 .time-show {
+  --280ef0a1: 25px;
   position: relative;
   background: black;
   color: white;
-  font-size: 15px;
+  font-size: var(--280ef0a1);
   &::after {
     content: "";
     display: block;

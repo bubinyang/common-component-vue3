@@ -145,7 +145,7 @@ export default defineComponent({
         // });
 
         new RGBELoader()
-          .setPath("http://192.168.8.98:8080/examples/textures/equirectangular/")
+          .setPath("http://192.168.8.55:8080/examples/textures/equirectangular/")
           .load("royal_esplanade_1k.hdr", function (texture) {
             texture.mapping = THREE.EquirectangularReflectionMapping;
 

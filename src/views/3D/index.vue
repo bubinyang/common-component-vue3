@@ -384,6 +384,23 @@ export default {
         // const model = new THREE.Mesh(geometry, material);
         // scene.add(model);
 
+        const geometry = new THREE.BoxGeometry(1, 1, 1);
+
+        // 加载光滑度贴图
+        const roughnessMap = new THREE.TextureLoader().load(itAreaTip);
+
+        // 创建材质，使用光滑度贴图
+        const material = new THREE.MeshStandardMaterial({
+          roughnessMap: roughnessMap,
+          metalness: 1 // 使表面看起来更像金属
+        });
+
+        // 创建一个模型
+        const model = new THREE.Mesh(geometry, material);
+
+        // 将模型添加到场景
+        scene.add(model);
+
         //加载GLB模型
         const loaderGLTF = new THREE.GLTFLoader();
         const dracoLoader = new DRACOLoader();

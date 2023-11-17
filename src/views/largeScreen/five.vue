@@ -244,6 +244,7 @@ export default {
           }
         },
         legend: {
+          show: false,
           icon: "roundRect",
           orient: "vertical",
           // x: 'left',

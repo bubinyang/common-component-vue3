@@ -510,97 +510,97 @@ export default {
     padding-top: 10px;
     overflow: auto;
     // background: #012f7a;
-    :deep() {
-      .el-tree-node__expand-icon.expanded {
-        -webkit-transform: rotate(0deg);
-        transform: rotate(0deg);
-      }
-      .el-icon-caret-right {
-        font-family: "iconfont" !important;
-        font-size: 16px;
-        font-style: normal;
-        fill: currentColor;
-        -webkit-font-smoothing: antialiased;
-        -moz-osx-font-smoothing: grayscale;
-      }
-      .el-icon-caret-right:before {
-        // content: "\e783";
-        content: "\e624";
+    // :deep() {
+    //   .el-tree-node__expand-icon.expanded {
+    //     -webkit-transform: rotate(0deg);
+    //     transform: rotate(0deg);
+    //   }
+    //   .el-icon-caret-right {
+    //     font-family: "iconfont" !important;
+    //     font-size: 16px;
+    //     font-style: normal;
+    //     fill: currentColor;
+    //     -webkit-font-smoothing: antialiased;
+    //     -moz-osx-font-smoothing: grayscale;
+    //   }
+    //   .el-icon-caret-right:before {
+    //     // content: "\e783";
+    //     content: "\e624";
 
-        font-size: 18px;
-        color: #4386c6;
-      }
-      .el-tree-node__expand-icon.expanded.el-icon-caret-right:before {
-        // content: "\e781";
-        content: "\e625";
-        font-size: 18px;
-        color: #4386c6;
-      }
-      .el-tree > .el-tree-node:after {
-        border-top: none;
-      }
-      .el-tree-node {
-        position: relative;
-        padding-left: 16px;
-      }
-      .el-tree-node__content > .el-tree-node__expand-icon {
-        padding: 0px;
-        margin-right: 5px;
-      }
-      .el-tree-node__content {
-        padding-left: 6px !important;
-      }
-      //节点有间隙，隐藏掉展开按钮就好了,如果觉得空隙没事可以删掉
-      .el-tree-node__expand-icon.is-leaf {
-        display: none;
-      }
-      .el-tree-node__children {
-        padding-left: 16px;
-      }
+    //     font-size: 18px;
+    //     color: #4386c6;
+    //   }
+    //   .el-tree-node__expand-icon.expanded.el-icon-caret-right:before {
+    //     // content: "\e781";
+    //     content: "\e625";
+    //     font-size: 18px;
+    //     color: #4386c6;
+    //   }
+    //   .el-tree > .el-tree-node:after {
+    //     border-top: none;
+    //   }
+    //   .el-tree-node {
+    //     position: relative;
+    //     padding-left: 16px;
+    //   }
+    //   .el-tree-node__content > .el-tree-node__expand-icon {
+    //     padding: 0px;
+    //     margin-right: 5px;
+    //   }
+    //   .el-tree-node__content {
+    //     padding-left: 6px !important;
+    //   }
+    //   //节点有间隙，隐藏掉展开按钮就好了,如果觉得空隙没事可以删掉
+    //   .el-tree-node__expand-icon.is-leaf {
+    //     display: none;
+    //   }
+    //   .el-tree-node__children {
+    //     padding-left: 16px;
+    //   }
 
-      .el-tree-node :last-child:before {
-        height: 38px;
-      }
+    //   .el-tree-node :last-child:before {
+    //     height: 38px;
+    //   }
 
-      .el-tree > .el-tree-node:before {
-        border-left: none;
-      }
+    //   .el-tree > .el-tree-node:before {
+    //     border-left: none;
+    //   }
 
-      .el-tree > .el-tree-node:after {
-        border-top: none;
-      }
+    //   .el-tree > .el-tree-node:after {
+    //     border-top: none;
+    //   }
 
-      .el-tree-node:before {
-        content: "";
-        left: -4px;
-        position: absolute;
-        right: auto;
-        border-width: 1px;
-      }
+    //   .el-tree-node:before {
+    //     content: "";
+    //     left: -4px;
+    //     position: absolute;
+    //     right: auto;
+    //     border-width: 1px;
+    //   }
 
-      .el-tree-node:after {
-        content: "";
-        left: -4px;
-        position: absolute;
-        right: auto;
-        border-width: 1px;
-      }
+    //   .el-tree-node:after {
+    //     content: "";
+    //     left: -4px;
+    //     position: absolute;
+    //     right: auto;
+    //     border-width: 1px;
+    //   }
 
-      .el-tree-node:before {
-        border-left: 1px solid #4386c6;
-        bottom: 0px;
-        height: 100%;
-        top: -26px;
-        width: 1px;
-      }
+    //   .el-tree-node:before {
+    //     border-left: 1px solid #4386c6;
+    //     bottom: 0px;
+    //     height: 100%;
+    //     top: -26px;
+    //     width: 1px;
+    //   }
 
-      .el-tree-node:after {
-        border-top: 1px solid #4386c6;
-        height: 20px;
-        top: 12px;
-        width: 24px;
-      }
-    }
+    //   .el-tree-node:after {
+    //     border-top: 1px solid #4386c6;
+    //     height: 20px;
+    //     top: 12px;
+    //     width: 24px;
+    //   }
+    // }
   }
   .mytree.noCheckBox {
     .el-tree-node.is-current > .el-tree-node__content {
