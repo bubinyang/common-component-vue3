@@ -99,28 +99,6 @@
       </section>
     </largeScreenMain>
   </section>
-
-  <section class="chart-demo">
-    <SmallContain :title="'综合能源消费量'">
-      <pie3D></pie3D>
-    </SmallContain>
-
-    <SmallContain :title="'综合能源消费量'">
-      <meterOne></meterOne>
-    </SmallContain>
-
-    <SmallContain :title="'今日用能'">
-      <chart1></chart1>
-    </SmallContain>
-
-    <SmallContain :title="'排行'">
-      <chart2></chart2>
-    </SmallContain>
-
-    <!-- <div class="contain">
-      <pie3Dtest></pie3Dtest>
-    </div> -->
-  </section>
 </template>
 <script>
 import { getWeek } from "@/utils";
@@ -131,16 +109,10 @@ import two from "./two.vue";
 import three from "./three.vue";
 import four from "./four.vue";
 import five from "./five.vue";
-import pie3D from "./pie3D.vue";
-import meterOne from "./meter.vue";
-import chart1 from "./chart-1.vue";
-import chart2 from "./chart-2.vue";
-
-import pie3Dtest from "./pie3Dtest.vue";
 
 export default {
   name: "LargeScreen",
-  components: { mapModule, chartBar, one, two, three, four, five, pie3D, meterOne, chart1, chart2 },
+  components: { mapModule, chartBar, one, two, three, four, five },
   data() {
     return {
       timeVal: "",

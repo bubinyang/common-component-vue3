@@ -1,14 +1,5 @@
 <template>
   <div class="layout">
-    <section class="layout-header">
-      <section class="log"></section>
-      <section class="head-operation"></section>
-    </section>
-    <!-- <div style="height: 50px"></div> -->
-
-    <section class="layout-slider">
-      <BaseSlider v-if="state.isShow"></BaseSlider>
-    </section>
     <section class="layout-main" v-if="isRouterActive">
       <router-view v-slot="{ Component }">
         <keep-alive exclude="TreeMenu">
@@ -93,7 +84,6 @@ export default {
     }
   }
   .layout-main {
-    margin-top: 50px;
     flex: 1;
     overflow: auto;
   }
