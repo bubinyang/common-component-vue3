@@ -2244,7 +2244,7 @@ pursue
 push
 put
 qualify
-quality
+quality 质量
 quarter
 quarterback
 question

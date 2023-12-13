@@ -9,6 +9,7 @@ import treeStructure from "./tools/treeStructure/index.vue";
 
 import decorateEchart from "./tools/echart/index.vue";
 import decorateEchartY from "./tools/echart/LineBarChartsY.vue";
+import decorateEchartY01 from "./tools/echart/LineBarChartsY-01.vue";
 
 import Editor from "./tools/editor/index.vue";
 import SideLayout from "@/components/layout/sideLayout/index.vue";
@@ -29,6 +30,7 @@ const components = [
   largeScreenMain,
   decorateEchart,
   decorateEchartY,
+  decorateEchartY01,
   treeStructure
   // ChangeYearMonthDay,
   // HourMinSecond

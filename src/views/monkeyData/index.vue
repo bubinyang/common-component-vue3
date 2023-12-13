@@ -7,14 +7,14 @@
       <el-button type="primary" @click="query()">查询</el-button>
     </div>
     <section class="monkeyContainMap-style">
-      <div class="coloum" v-for="(item, index) in originList" :key="index">
+      <!-- <div class="coloum" v-for="(item, index) in originList" :key="index">
         <div class="row" v-for="(childitem, childindex) in item" :key="childindex">
           {{ childitem.type }}
           <label :class="{ target: childitem.target }" v-if="childitem.errorTimes !== 9999">{{
             childitem.errorTimes
           }}</label>
         </div>
-      </div>
+      </div> -->
     </section>
 
     <section class="realTimeData-contain">

@@ -1,6 +1,6 @@
 <!--
 常规排行，标题显示在内部或者外部(左侧外部放开axisLabel)
-数字显示在右侧(多个yAxis)
+数字显示在右上侧(单个yAxis)
 -->
 <template>
   <v-chart ref="baseChart" :autoresize="true" :option="options"></v-chart>
@@ -9,7 +9,7 @@
 import { criculationActionSwitch, numShortens } from "@/utils/index";
 
 export default {
-  name: "decorateEchartY",
+  name: "decorateEchartY01",
   data() {
     return {
       seriesIndex: 0,
@@ -375,7 +375,7 @@ export default {
       const sliceEnd = sliceStart + this.updateDataZoomConfig.maxLength;
 
       this.currentIndex = sliceStart;
-
+      console.log(originData[0].list);
       // 指定图表的配置项和数据
       const option = {
         itemStyle: {
@@ -416,7 +416,7 @@ export default {
           right: 30,
           bottom: 40,
           top: 82,
-          // containLabel: true,
+          containLabel: true,
           ...this.grid
         },
 
@@ -493,33 +493,28 @@ export default {
             },
             ...this.xAxisParam,
             data: this.xAxisData
-          },
-          {
-            type: "category",
-            axisTick: "none",
-            axisLine: "none",
-            show: true,
-            axisLabel: {
-              verticalAlign: "bottom",
-              lineHeight: 40,
-              padding: [0, 50, 0, 0],
-              align: "center",
-
-              textStyle: {
-                color: "#ffffff",
-                fontSize: "12"
-              },
-              formatter(value) {
-                return `${value}`;
-              }
-            },
-            splitLine: { show: false },
-            data: originData[0]
-              ? originData[0].list
-                  .map((item) => numShortens(item.value, 1))
-                  .slice(sliceStart, sliceEnd)
-              : []
           }
+          // {
+          //   type: "category",
+          //   axisTick: "none",
+          //   axisLine: "none",
+          //   show: true,
+          //   axisLabel: {
+          //     textStyle: {
+          //       color: "#ffffff",
+          //       fontSize: "12"
+          //     },
+          //     formatter(value) {
+          //       return `${value}`;
+          //     }
+          //   },
+          //   splitLine: { show: false },
+          //   data: originData[0]
+          //     ? originData[0].list
+          //         .map((item) => numShortens(item.value, 1))
+          //         .slice(sliceStart, sliceEnd)
+          //     : []
+          // }
         ],
 
         series: this.getSeries(originData)

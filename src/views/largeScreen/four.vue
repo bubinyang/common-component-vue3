@@ -84,6 +84,7 @@ import { lrdEchart } from "@/utils/utils.ts";
 // import { getRealData } from "@/request/compair.js";
 import * as echarts from "echarts";
 
+/**风格1  灰色柱子*/
 const originData = [
   {
     attrKey: "A29",
@@ -169,6 +170,87 @@ const originData = [
             false
           );
         }
+      }
+    }
+  }
+];
+/**风格2 蓝色渐变柱子*/
+const originDatas = [
+  {
+    attrKey: "A29",
+    list: [100, 44, 76, 88, 44, 55, 66, 33, 89],
+    name: "用电量",
+    seriesParam: {
+      type: "bar",
+      barWidth: 10,
+      barGap: "-100%",
+      z: 11,
+      showBackground: true,
+      backgroundStyle: {
+        color: "rgba(180, 180, 180, 0.1)",
+        borderRadius: [15, 15, 0, 0]
+      },
+
+      itemStyle: {
+        //lenged文本
+        opacity: 0.9,
+        color: function (params) {
+          return new echarts.graphic.LinearGradient(0, 0, 0, 1, [
+            {
+              offset: 0,
+              color: "rgba(31,113,224,1)"
+            },
+            {
+              offset: 0.3,
+              color: "rgba(30,150,233,1)"
+            },
+            {
+              offset: 1,
+              color: "rgba(27,223,252,1)"
+            }
+          ]);
+        }
+      }
+    }
+  },
+  {
+    attrKey: "",
+    list: [100, 44, 76, 88, 44, 55, 66, 33, 89],
+    name: "",
+    seriesParam: {
+      type: "pictorialBar",
+      symbolSize: [10, 5],
+      symbolOffset: [0, -5],
+      z: 9999,
+      symbolPosition: "end",
+      label: {
+        show: true,
+        position: "top",
+        fontSize: 10,
+        color: "#fff",
+        formatter(item) {
+          return item.value;
+        }
+      },
+      itemStyle: {
+        //lenged文本
+        opacity: 1,
+        color: "rgba(66,159,215,0.9)"
+      }
+    }
+  },
+  {
+    attrKey: "",
+    list: [1, 1, 1, 1, 1, 1, 1, 1, 1],
+    name: "",
+    seriesParam: {
+      type: "pictorialBar",
+      symbolSize: [10, 5],
+      symbolOffset: [0, 5],
+      z: 2,
+      itemStyle: {
+        opacity: 1,
+        color: "rgba(23,119,228,1)"
       }
     }
   }

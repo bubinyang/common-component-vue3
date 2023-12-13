@@ -57,24 +57,24 @@ function mapTrafficWay(trafficWay = []) {
             shadowColor: colors[i].bg
           }
         }
+      },
+      {
+        value: 240,
+        name: "",
+        itemStyle: {
+          normal: {
+            label: {
+              show: false
+            },
+            labelLine: {
+              show: false
+            },
+            color: "rgba(0, 0, 0, 0)",
+            borderColor: "rgba(0, 0, 0, 0)",
+            borderWidth: 0
+          }
+        }
       }
-      // {
-      //   value: 60,
-      //   name: "",
-      //   itemStyle: {
-      //     normal: {
-      //       label: {
-      //         show: false
-      //       },
-      //       labelLine: {
-      //         show: false
-      //       },
-      //       color: "rgba(0, 0, 0, 0)",
-      //       borderColor: "rgba(0, 0, 0, 0)",
-      //       borderWidth: 0
-      //     }
-      //   }
-      // }
     );
   }
 }
@@ -173,6 +173,7 @@ export default {
       ];
       getdata = [];
       mapTrafficWay(data);
+      console.log(getdata);
       // seriesOption[0].data = getdata;
       const option = {
         color: colors.map((item) => item.bg),
@@ -244,7 +245,7 @@ export default {
           }
         },
         legend: {
-          show: false,
+          show: true,
           icon: "roundRect",
           orient: "vertical",
           // x: 'left',

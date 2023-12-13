@@ -1,6 +1,6 @@
 <template>
-  <decorateEchartRow
-    :criculationShowTootipAction="true"
+  <decorateEchartY01
+    :criculationShowTootipAction="false"
     :data="newLrdEchartStep.barChartData || []"
     :x-axis-label-formatter="
       newLrdEchartStep.getXAxisLabelBarFormatter
@@ -62,7 +62,7 @@
       },
 
       max: (value) => {
-        return value.max * 1.2;
+        return value.max;
       }
     }"
     :seriesParam="{
@@ -87,6 +87,7 @@
     }"
     :axisLineShow="false"
     :tooltip="{
+      show: false,
       borderColor: 'rgba(50, 50, 50, 0.7)',
       backgroundColor: 'rgba(50, 50, 50, 0.7)',
       textStyle: {
@@ -110,114 +111,127 @@ import decorateEchartRow from "@/components/tools/echart/LineBarChartRow.vue";
 const originData = [
   {
     attrKey: "A29",
-    list: [],
+    list: [1789, 1245, 2645, 2315, 2251],
     name: "当月",
     seriesParam: {
-      label: {
-        formatter: function (param) {
-          return param.name;
-        },
-        right: "3%",
-        show: true,
-        offset: [4, -17],
-        textStyle: {
-          fontWeight: 400,
-          fontSize: 15,
-          color: "#4984d5"
-        },
-
-        position: "topLeft"
-      },
-
-      // label: { show: false, position: "right" },
-      barWidth: 10,
+      type: "bar",
+      barWidth: 30,
       showBackground: true,
 
-      backgroundStyle: {
-        barBorderRadius: 30
-      },
-      itemStyle: {
+      // itemStyle: {
+      //   normal: {
+      //     barBorderRadius: 0,
+      //     color: "transparent"
+      //   }
+      // },
+      label: {
         normal: {
-          barBorderRadius: 30
+          show: true,
+          position: ["100%", "-10"],
+          textStyle: {
+            fontSize: 14,
+            color: "#62E6F6",
+            lineHeight: -20
+          },
+          formatter: function (data) {
+            return data.name;
+          },
+          rich: {
+            blue: {
+              fontSize: 14,
+              lineHeight: 5,
+              color: "#62E6F6"
+            },
+            mr: {
+              padding: [0, 0, 0, 10],
+              fontSize: 14,
+              color: "#fff"
+            }
+          }
         }
       }
     }
+  },
+
+  {
+    attrKey: "A29",
+    list: [300, 300, 300],
+    name: "当月",
+    seriesParam: {
+      name: "外框",
+      type: "bar",
+      itemStyle: {
+        normal: {
+          barBorderRadius: 10,
+          color: "rgba(24,64,96,0.14)" //rgba设置透明度0.14
+        }
+      },
+      label: {
+        normal: {
+          show: true,
+          textStyle: {
+            color: "#00DEFF",
+            fontSize: 14,
+            lineHeight: 0
+          },
+          position: ["95%", "-50%"],
+          rich: {
+            blue: {
+              fontSize: 14,
+              lineHeight: 5,
+              color: "#62E6F6"
+            }
+          }
+        }
+      },
+      barGap: "-100%",
+      z: 0,
+      barWidth: 15
+    }
   }
 
-  //   {
-  //     name: "销售金额",
-  //     //top: 120,
-  //     color: "#00A6FC",
-  //     type: "bar",
-  //     // stack: "总量",
-  //     // barCategoryGap: 2,
-  //     list: [2000, 1000],
-  //     seriesParam: {
-  //       itemStyle: {
-  //         //通常情况下：
-  //         normal: {
-  //           barBorderRadius: 8,
-  //           //每个柱子的颜色即为colorList数组里的每一项，如果柱子数目多于colorList的长度，则柱子颜色循环使用该数组
-  //           color: function (params) {
-  //             var colorList = [
-  //               ["#18579e", "#07eef2"],
-  //               ["#77633c", "#ebe485"],
-  //               ["#815529", "#ef7e14"],
-  //               ["#0d3247", "#42dc8b"],
-  //               ["#551384", "#810dfc"],
-  //               ["#734040", "#fb7070"],
-  //               ["#131d54", "#0141fa"]
-  //             ];
-  //             var index = params.dataIndex;
-  //             if (params.dataIndex >= colorList.length) {
-  //               index = params.dataIndex;
-  //             }
-  //             return new echarts.graphic.LinearGradient(1, 0, 0, 0, [
-  //               {
-  //                 offset: 0,
-  //                 color: colorList[index][1]
-  //               },
-  //               {
-  //                 offset: 1,
-  //                 color: colorList[index][0]
-  //               }
-  //             ]);
-  //           }
-  //         }
+  // {
+  //   attrKey: "A29",
+  //   list: [],
+  //   name: "当月",
+  //   seriesParam: {
+  //     label: {
+  //       formatter: function (param) {
+  //         return param.name;
   //       },
-  //       label: {
-  //         //   formatter: function (param) {
-  //         //     // for (let i = 0; i < category.length; i++) {
-  //         //     //   if (param.dataIndex == i) {
-  //         //     //     return category[i];
-  //         //     //   }
-  //         //     // }
-  //         //     return '名字'
-  //         //   },
-  //         right: "3%",
-  //         show: true,
-  //         offset: [4, -17],
-  //         textStyle: {
-  //           fontWeight: 400,
-  //           fontSize: 15,
-  //           color: "#4984d5"
-  //         },
+  //       right: "3%",
+  //       show: true,
+  //       offset: [4, -17],
+  //       textStyle: {
+  //         fontWeight: 400,
+  //         fontSize: 15,
+  //         color: "#4984d5"
+  //       },
 
-  //         position: "topLeft"
-  //       },
-  //       //设置柱的宽度
-  //       barWidth: 15
+  //       position: "topLeft"
+  //     },
+
+  //     // label: { show: false, position: "right" },
+  //     barWidth: 10,
+  //     showBackground: true,
+
+  //     backgroundStyle: {
+  //       barBorderRadius: 30
+  //     },
+  //     itemStyle: {
+  //       normal: {
+  //         barBorderRadius: 30
+  //       }
   //     }
-
-  //     //  height:'70%',
   //   }
+  // }
 ];
 
 export default {
-  components: {
-    decorateEchartRow
-    //LineBarCharts
-  },
+  // components: {
+  //   decorateEchartRow
+  //   //LineBarCharts
+  // },
   props: {},
   setup() {
     const refresAllDayPoint = ref(false);
@@ -269,8 +283,8 @@ export default {
       originData[0].list = data.reverse().map((item, index) => {
         return {
           name: item.name,
-          value: item.value,
-          itemStyle: { color: color[index] }
+          value: item.value
+          // itemStyle: { color: color[index] }
         };
       });
 

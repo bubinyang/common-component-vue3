@@ -1,6 +1,8 @@
+<!--
+1.originData数据源要从小到大排列
+-->
 <template>
   <decorateEchartY
-    :criculationShowTootipAction="true"
     :data="newLrdEchartStep.barChartData || []"
     :x-axis-label-formatter="
       newLrdEchartStep.getXAxisLabelBarFormatter
@@ -25,7 +27,7 @@
       '#9661BC',
       '#F19D9D'
     ]"
-    :grid="{ left: 20, right: 10, bottom: 10, top: 30 }"
+    :grid="{ left: 20, right: 20, bottom: 10, top: 30 }"
     :average="0"
     :xAxisParam="{
       splitLine: { show: false, lineStyle: { type: 'solid' } },
@@ -39,6 +41,7 @@
       boundaryGap: true,
 
       axisLabel: {
+        show: false,
         color: '#7A8295'
       }
     }"
@@ -58,10 +61,6 @@
           return numShorten(value, 1);
         },
         rich: {}
-      },
-
-      max: (value) => {
-        return value.max * 1.2;
       }
     }"
     :seriesParam="{
@@ -86,6 +85,7 @@
     }"
     :axisLineShow="false"
     :tooltip="{
+      show: false,
       borderColor: 'rgba(50, 50, 50, 0.7)',
       backgroundColor: 'rgba(50, 50, 50, 0.7)',
       textStyle: {
@@ -95,6 +95,7 @@
       }
     }"
     :showDataZoom="false"
+    :dataZoom="dataZoom"
     style="height: calc(100%)"
   />
 </template>
@@ -112,7 +113,20 @@ const originData = [
     list: [],
     name: "当月",
     seriesParam: {
-      label: { show: true, position: "right" },
+      label: {
+        formatter: function (param) {
+          return param.name;
+        },
+        show: true,
+        offset: [0, -2],
+        textStyle: {
+          fontSize: 12,
+          color: "white"
+        },
+        position: "insideBottomLeft"
+      },
+
+      // label: { show: true, position: "right" },
       // barWidth: 10,
       showBackground: true,
 
@@ -153,7 +167,8 @@ export default {
     const refresAllDayPoint = ref(false);
 
     const state = reactive({
-      newLrdEchartStep: {}
+      newLrdEchartStep: {},
+      dataZoom: []
     });
 
     const seriesItemStyle = ref({
@@ -188,18 +203,18 @@ export default {
       });
 
       state.newLrdEchartStep.xAxisData = [
-        "张三",
+        "six",
         "李四",
         "one",
         "two",
         "three",
         "four",
         "five",
-        "six"
+        "张三"
       ];
       originData[0].list = [
         {
-          value: 2000,
+          value: 900,
           itemStyle: { color: "rgba(27, 105, 208, 1)" }
         },
         {
@@ -207,30 +222,45 @@ export default {
           itemStyle: { color: "rgba(11, 197, 197, 1)" }
         },
         {
-          value: 1000,
+          value: 1100,
           itemStyle: { color: "rgba(11, 197, 197, 1)" }
         },
         {
-          value: 1000,
+          value: 1200,
           itemStyle: { color: "rgba(11, 197, 197, 1)" }
         },
         {
-          value: 1000,
+          value: 1300,
           itemStyle: { color: "rgba(11, 197, 197, 1)" }
         },
         {
-          value: 1000,
+          value: 1400,
           itemStyle: { color: "rgba(11, 197, 197, 1)" }
         },
         {
-          value: 1000,
+          value: 1500,
           itemStyle: { color: "rgba(11, 197, 197, 1)" }
         },
         {
-          value: 1000,
+          value: 2000,
           itemStyle: { color: "rgba(11, 197, 197, 1)" }
         }
       ];
+
+      if (originData[0].list.length >= 6) {
+        //startValue 必须是从高到低数据，相当于要拿最后6条数据，所以要减6
+        state.dataZoom = [
+          {
+            yAxisIndex: 0,
+            show: false,
+            type: "inside",
+            startValue: originData[0].list.length - 6,
+            endValue: originData[0].list.length - 1,
+            zoomLock: true //禁止鼠标滚动数据
+          }
+        ];
+        // console.log({ yAxisIndex: 0, show: false, type: "inside", startValue: originData[0].list.length - 6, endValue: originData[0].list.length - 1 });
+      }
 
       state.newLrdEchartStep.barChartData = originData;
       //let { data } = await baseService.get("/energy/board/getMonthEnergy");

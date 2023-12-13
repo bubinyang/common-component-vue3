@@ -88,7 +88,7 @@
             <three></three>
           </SmallContain>
 
-          <SmallContain :title="'综合能源消费量'">
+          <SmallContain :title="'综合能源消费量11'">
             <four></four>
           </SmallContain>
 
