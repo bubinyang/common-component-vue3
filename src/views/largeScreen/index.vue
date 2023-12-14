@@ -79,7 +79,9 @@
           </SmallContain> -->
         </section>
 
-        <section class="screen-main-bottom"></section>
+        <section class="screen-main-bottom">
+          <three></three>
+        </section>
 
         <section class="screen-main-center">
           <!-- <mapModule :ratio="ratio" /> -->
@@ -116,7 +118,7 @@ import orders from "./orders.vue";
 
 export default {
   name: "LargeScreen",
-  components: { two, orders, deviceError },
+  components: { two, orders, deviceError, three },
   data() {
     return {
       timeVal: "",

@@ -104,7 +104,15 @@ const originData = [
             offset: 1,
             color: "rgba(0, 20, 79, 0)"
           }
-        ])
+        ]),
+        normal: {
+          barBorderRadius: 30
+        }
+      },
+      showBackground: true,
+
+      backgroundStyle: {
+        barBorderRadius: 30
       }
     }
   }
