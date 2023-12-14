@@ -1,6 +1,6 @@
 <template>
   <decorateEchart
-    :criculationShowTootipAction="true"
+    :criculationShowTootipAction="false"
     :data="newLrdEchartStep.barChartData || []"
     :x-axis-label-formatter="newLrdEchartStep.getXAxisLabelBarFormatter"
     :x-axis-data="newLrdEchartStep.xAxisData || []"
@@ -15,29 +15,33 @@
     :grid="{ left: 20, right: 10, bottom: 10, top: 30 }"
     :average="0"
     :xAxisParam="{
-      splitLine: { show: false, lineStyle: { type: 'solid', color: '#4B6BAA' } },
+      splitLine: { show: false, lineStyle: { type: 'solid', color: 'rgb(186,201,250)' } },
       axisLine: {
         onZero: false,
-        lineStyle: { color: '#6080A8', width: 1 },
-        color: '#ffffff'
+        lineStyle: { color: 'rgb(186,201,250)', width: 1 },
+        color: 'rgb(186,201,250)'
       },
-      axisTick: { show: true, lineStyle: { color: '#0c73a5', width: 1 } },
+      axisTick: { show: true, lineStyle: { color: 'rgb(186,201,250)', width: 1 } },
       boundaryGap: true,
 
       axisLabel: {
-        color: '#7A8295',
-        formatter: newLrdEchartStep.getXAxisLabelBarFormatter
-          ? newLrdEchartStep.getXAxisLabelBarFormatter.bind(newLrdEchartStep)
-          : () => {}
+        color: 'rgb(186,201,250)',
+        formatter: (val) => {
+          return val;
+        }
       }
     }"
     :yAxisName="''"
     :yAxisParam="{
-      axisLine: { show: true, lineStyle: { color: '#3C5069', width: 1 } },
+      axisLine: { show: true, lineStyle: { color: 'rgb(186,201,250)', width: 1 } },
       axisTick: { show: false, lineStyle: { color: '#0c73a5', width: 1 } },
       splitLine: { show: false, lineStyle: { type: 'dashed', color: 'rgba(58,175,240,0.6)' } },
       min: function (value) {
         return 0;
+      },
+      axisLabel: {
+        show: true,
+        color: 'rgb(186,201,250)'
       }
     }"
     :seriesParam="{
@@ -54,7 +58,7 @@
       symbolSize: 0
     }"
     :legendParam="{
-      show: true,
+      show: false,
       right: '5%',
       top: '2%',
       bottom: '2%',
@@ -64,6 +68,7 @@
     }"
     :axisLineShow="false"
     :tooltip="{
+      show: false,
       borderColor: 'rgba(50, 50, 50, 0.7)',
       backgroundColor: 'rgba(50, 50, 50, 0.7)',
       textStyle: {
@@ -111,7 +116,9 @@ const originData = [
       },
       showBackground: true,
       backgroundStyle: {
-        borderRadius: 30
+        borderRadius: 30,
+        borderColor: "rgb(230, 230, 254)",
+        borderWidth: 2
       },
       barWidth: 30
     }

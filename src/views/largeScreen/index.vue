@@ -80,7 +80,9 @@
         </section>
 
         <section class="screen-main-bottom">
-          <three></three>
+          <SmallContain :title="'设备利用率'">
+            <three></three>
+          </SmallContain>
         </section>
 
         <section class="screen-main-center">
@@ -159,7 +161,7 @@ export default {
 <style lang="scss">
 .largeScreen-contain {
   width: 100%;
-  // height: 500px;
+  background: url("@/assets/img/home/bg.png");
   .screen-top {
     height: 80px;
     display: flex;
@@ -234,13 +236,17 @@ export default {
       height: 317px;
       width: 100%;
       bottom: 0;
+      background: rgba(36, 38, 110, 0.9);
+      display: flex;
     }
 
     .screen-main-l,
-    .screen-main-r {
-      width: 450px;
-
+    .screen-main-r,
+    .screen-main-bottom {
       .small-contain {
+        // background: rgba(37, 42, 162, 0.8);
+        background: rgba(36, 38, 110, 0.9);
+        border: 0;
         flex: 1;
         margin: 15px 0;
         .small-contain-title {
@@ -249,11 +255,16 @@ export default {
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             justify-content: flex-start;
-            font-size: 21px;
+            font-size: 18px;
             position: relative;
+            top: 10px;
+            left: 10px;
             // top: 13px;
             // left: 5px;
+            color: rgb(119, 141, 241);
             font-weight: bold;
+            border-left: 8px solid rgb(17, 184, 236);
+            padding: 3px 0 0 10px;
           }
           label {
             color: white;
@@ -296,142 +307,4 @@ export default {
 }
 
 //elementui控件
-$bg: rgba(43, 63, 102, 0.5);
-$has-border: true;
-.frond-style {
-  background: none !important;
-  border: none !important;
-  /**input 框(包含所有空间) */
-  .el-input__inner {
-    background: none;
-    // border: 0;
-    box-shadow: none;
-    color: #00e3ff;
-    // border: 1px solid #3b5369;
-    @if $has-border {
-      border: 1px solid #3b5369;
-    } @else {
-      border: 0;
-    }
-  }
-  .el-popper__arrow {
-    &::before {
-      border: none !important;
-    }
-  }
-
-  /**时间控件 */
-  .el-picker-panel {
-    background: $bg !important;
-    color: #fff;
-  }
-
-  &.el-popper {
-    box-shadow: none;
-  }
-  .el-popper__arrow {
-    --el-color-white: #2b3f66 !important;
-    &:before {
-      background: #07355e !important;
-    }
-  }
-  .el-date-picker__header-label {
-    color: #00aaff !important;
-  }
-  .el-date-picker__header--bordered {
-    border-bottom: 1px solid #00aaff !important;
-  }
-  .el-picker-panel__icon-btn {
-    color: #00aaff !important;
-  }
-
-  .el-picker-panel__content {
-    .cell {
-      color: #00aaff !important;
-    }
-    .current {
-      .cell {
-        color: #fff !important;
-      }
-    }
-  }
-
-  &.el-picker__popper {
-    //disable
-    .el-year-table td.disabled .cell,
-    .el-month-table td.disabled .cell {
-      background: $bg;
-    }
-  }
-  /**分页 */
-  &.el-pagination {
-    button {
-      background: #07355e !important;
-      color: #fff !important;
-    }
-
-    li {
-      background: #07355e !important;
-      color: rgb(64, 158, 255) !important;
-    }
-
-    li.active {
-      background: none !important;
-    }
-  }
-
-  /**下拉 */
-
-  &.el-select__popper {
-    border: none !important;
-    background: $bg !important;
-    li {
-      // background: @bg!important;
-      color: #8c98a8 !important;
-      &:hover {
-        color: #fff !important;
-        background: $bg !important;
-      }
-    }
-  }
-
-  .el-select-dropdown__item {
-    color: #fff !important;
-    &.hover {
-      background: none;
-    }
-    &:hover {
-      background: #0277d0 !important;
-    }
-    &.selected {
-      // background: #0277d0 !important;
-      color: #fff !important;
-    }
-  }
-}
-
-.chart-demo {
-  background: rgba(3, 24, 25);
-  display: flex;
-  flex-wrap: wrap;
-
-  .small-contain {
-    flex: 0 0 300px;
-    height: 400px;
-    .small-contain-title {
-      // flex: 0 0 40px;
-      padding-left: 36px;
-
-      .title {
-        background: linear-gradient(45deg, #ffffff 0%, #88d7f7 30.044921875%);
-        -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
-        justify-content: flex-start;
-        font-size: 21px;
-        position: relative;
-        font-weight: bold;
-      }
-    }
-  }
-}
 </style>
