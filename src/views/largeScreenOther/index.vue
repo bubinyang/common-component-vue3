@@ -1,5 +1,5 @@
 <template>
-  <section class="largeScreen-contain">
+  <section class="largeScreen-contain largeScreen-contain-device">
     <largeScreenMain :bg="{ backgroundImage: `url(${top_bg})` }" @emitRatio="emitRatio">
       <div class="screen-top">
         <!-- <div class="time-show">{{ timeVal }}</div>
@@ -9,7 +9,9 @@
         <div class="screen-top-title-r" /> -->
       </div>
 
-      <section class="screen-main-content">111</section>
+      <section class="screen-main-content">
+        <div></div>
+      </section>
     </largeScreenMain>
   </section>
 </template>
@@ -36,11 +38,9 @@ export default {
       ratio: 2,
       waterpumpValueA: "A",
       energyType: "电",
-      waterpumpA: [
-        { dictValue: "A", dictLabel: "电" },
-        { dictValue: "W", dictLabel: "水" }
-      ],
-      rankDate: ""
+
+      rankDate: "",
+      list:[{Device:'name',Quantity:''100}]
     };
   },
   created() {
@@ -65,7 +65,7 @@ export default {
 };
 </script>
 <style lang="scss">
-.largeScreen-contain {
+.largeScreen-contain-device {
   width: 100%;
   // height: 500px;
   .screen-top {
