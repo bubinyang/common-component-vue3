@@ -493,33 +493,33 @@ export default {
             },
             ...this.xAxisParam,
             data: this.xAxisData
-          },
-          {
-            type: "category",
-            axisTick: "none",
-            axisLine: "none",
-            show: true,
-            axisLabel: {
-              verticalAlign: "bottom",
-              lineHeight: 40,
-              padding: [0, 50, 0, 0],
-              align: "center",
-
-              textStyle: {
-                color: "#ffffff",
-                fontSize: "12"
-              },
-              formatter(value) {
-                return `${value}`;
-              }
-            },
-            splitLine: { show: false },
-            data: originData[0]
-              ? originData[0].list
-                  .map((item) => numShortens(item.value, 1))
-                  .slice(sliceStart, sliceEnd)
-              : []
           }
+          // {
+          //   type: "category",
+          //   axisTick: "none",
+          //   axisLine: "none",
+          //   show: true,
+          //   axisLabel: {
+          //     verticalAlign: "bottom",
+          //     lineHeight: 40,
+          //     padding: [0, 50, 0, 0],
+          //     align: "center",
+
+          //     textStyle: {
+          //       color: "#ffffff",
+          //       fontSize: "12"
+          //     },
+          //     formatter(value) {
+          //       return `${value}`;
+          //     }
+          //   },
+          //   splitLine: { show: false },
+          //   data: originData[0]
+          //     ? originData[0].list
+          //         .map((item) => numShortens(item.value, 1))
+          //         .slice(sliceStart, sliceEnd)
+          //     : []
+          // }
         ],
 
         series: this.getSeries(originData)

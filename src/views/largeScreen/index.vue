@@ -11,9 +11,22 @@
 
       <section class="screen-main-content">
         <section class="screen-main-l">
-          <SmallContain :title="'综合能源消费量'">
+          <SmallContain :title="'设备状态'">
+            <!-- <template #action>
+              <el-radio-group v-model="energyType">
+                <el-radio-button label="水" />
+                <el-radio-button label="电" />
+                <el-radio-button label="汽" />
+              </el-radio-group>
+              <label>kwh</label>
+            </template> -->
+
+            <two></two>
+          </SmallContain>
+
+          <SmallContain :title="'设备异常'">
             <template #action>
-              <el-select
+              <!-- <el-select
                 style="width: 90px"
                 class="frond-style"
                 popper-class="frond-style"
@@ -28,13 +41,13 @@
                   :label="item.dictLabel"
                   :value="item.dictValue"
                 />
-              </el-select>
+              </el-select> -->
             </template>
 
-            <chartBar></chartBar>
+            <deviceError></deviceError>
           </SmallContain>
 
-          <SmallContain :title="'综合能源消费量'">
+          <!-- <SmallContain :title="'设备利用率'">
             <template #action>
               <el-date-picker
                 style="width: 90px"
@@ -63,38 +76,27 @@
               </el-select>
             </template>
             <one></one>
-          </SmallContain>
-
-          <SmallContain :title="'综合能源消费量'">
-            <template #action>
-              <el-radio-group v-model="energyType">
-                <el-radio-button label="水" />
-                <el-radio-button label="电" />
-                <el-radio-button label="汽" />
-              </el-radio-group>
-              <label>kwh</label>
-            </template>
-
-            <two></two>
-          </SmallContain>
+          </SmallContain> -->
         </section>
 
+        <section class="screen-main-bottom"></section>
+
         <section class="screen-main-center">
-          <mapModule :ratio="ratio" />
+          <!-- <mapModule :ratio="ratio" /> -->
         </section>
 
         <section class="screen-main-r">
-          <SmallContain :title="'综合能源消费量'">
-            <three></three>
+          <SmallContain :title="'订单完成'">
+            <orders></orders>
           </SmallContain>
 
-          <SmallContain :title="'综合能源消费量11'">
+          <!-- <SmallContain :title="'综合能源消费量11'">
             <four></four>
           </SmallContain>
 
           <SmallContain :title="'综合能源消费量'">
             <five></five>
-          </SmallContain>
+          </SmallContain> -->
         </section>
       </section>
     </largeScreenMain>
@@ -109,10 +111,12 @@ import two from "./two.vue";
 import three from "./three.vue";
 import four from "./four.vue";
 import five from "./five.vue";
+import deviceError from "./deviceError.vue";
+import orders from "./orders.vue";
 
 export default {
   name: "LargeScreen",
-  components: { mapModule, chartBar, one, two, three, four, five },
+  components: { two, orders, deviceError },
   data() {
     return {
       timeVal: "",
@@ -191,7 +195,7 @@ export default {
 
     .screen-main-l {
       position: absolute;
-      height: 100%;
+      height: calc(100% - 317px);
       width: 450px;
       display: flex;
       z-index: 2;
@@ -217,8 +221,15 @@ export default {
       top: 0;
       bottom: 0;
       right: 0;
-      background: url("@/assets/img/home/zybg.jpg");
+      //background: url("@/assets/img/home/zybg.jpg");
       z-index: 1;
+    }
+
+    .screen-main-bottom {
+      position: absolute;
+      height: 317px;
+      width: 100%;
+      bottom: 0;
     }
 
     .screen-main-l,

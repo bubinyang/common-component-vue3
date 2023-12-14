@@ -2,98 +2,33 @@
 1.originData数据源要从小到大排列
 -->
 <template>
-  <decorateEchartY
-    :data="newLrdEchartStep.barChartData || []"
-    :x-axis-label-formatter="() => {}"
-    :x-axis-data="newLrdEchartStep.xAxisData || []"
-    :chartType="'bar'"
-    :title="{
-      text: 'kWh',
-      top: '0',
-      left: '20',
-      textStyle: { color: '#00FFFF', fontSize: '12', fontWeight: 'normal' }
-    }"
-    :colors="[
-      '#5B8FF9',
-      '#61DDAA',
-      '#65789B',
-      '#61DDAA',
-      '#65789B',
-      '#2FC25B',
-      '#9661BC',
-      '#F19D9D'
-    ]"
-    :grid="{ left: 50, right: 20, bottom: 10, top: 30 }"
-    :average="0"
-    :xAxisParam="{
-      splitLine: { show: false, lineStyle: { type: 'solid' } },
-      axisLine: {
-        show: true,
-        onZero: false,
-        lineStyle: { color: '#3AAFF0', width: 2 },
-        color: '#ffffff'
-      },
-      axisTick: { show: true, lineStyle: { color: '#0c73a5', width: 1 } },
-      boundaryGap: true,
+  <section class="two">
+    <div class="content-container">
+      <div class="top">
+        <section>
+          <div>单号</div>
+          <div>预产量</div>
+          <div>实际产量</div>
+          <div>完成率</div>
+        </section>
+      </div>
 
-      axisLabel: {
-        show: true,
-        color: '#7A8295'
-      }
-    }"
-    :yAxisParam="{
-      axisLine: { show: false, lineStyle: { color: '#3AAFF0', width: 2 } },
-      axisTick: { show: false, lineStyle: { color: '#0c73a5', width: 1 } },
-      splitLine: { show: false, lineStyle: { type: 'dashed', color: 'rgba(58,175,240,0.6)' } },
-      min: function (value) {
-        return 0;
-      },
-      axisLabel: {
-        show: false,
-        color: '#7A8295',
-        width: 150,
-        formatter(value) {
-          if (value < 1) return value;
-          return numShorten(value, 1);
-        },
-        rich: {}
-      }
-    }"
-    :seriesParam="{
-      symbol: 'none',
-      smooth: true,
-      showSymbol: false,
-      stack: 'total'
-    }"
-    :markPointParam="{
-      itemStyle: {
-        opacity: newLrdEchartStep.markPointParam ? 0 : 0
-      },
-      label: {
-        color: '#ffffff'
-      }
-    }"
-    :legendShow="false"
-    :legend="{
-      textStyle: {
-        color: '#ffffff'
-      }
-    }"
-    :axisLineShow="false"
-    :tooltip="{
-      show: false,
-      borderColor: 'rgba(50, 50, 50, 0.7)',
-      backgroundColor: 'rgba(50, 50, 50, 0.7)',
-      textStyle: {
-        padding: 10,
-        color: '#00fefd',
-        fontSize: '12'
-      }
-    }"
-    :showDataZoom="false"
-    :dataZoom="dataZoom"
-    style="height: calc(100%)"
-  />
+      <div class="center">
+        <div class="box-contain">
+          <section class="content" v-for="(item, key) in dataRight" :key="key">
+            <!-- <div>1#</div> -->
+            <section>
+              <div>{{ item.name }}</div>
+              <div>{{ item.content }}</div>
+              <div>
+                {{ item.time }}
+              </div>
+            </section>
+          </section>
+        </div>
+      </div>
+    </div>
+  </section>
 </template>
 
 <script>
@@ -213,7 +148,8 @@ export default {
 
     const state = reactive({
       newLrdEchartStep: {},
-      dataZoom: []
+      dataZoom: [],
+      dataRight: [{ name: "1" }]
     });
 
     const seriesItemStyle = ref({
@@ -237,7 +173,7 @@ export default {
 
     onMounted(() => {
       console.log("onMounted");
-      init();
+      // init();
     });
 
     const init = async (device) => {
@@ -354,3 +290,69 @@ export default {
   }
 };
 </script>
+
+<style lang="scss">
+.top {
+  // width: calc(100% - 10px);
+  color: #00ffff;
+  & > section {
+    flex: 1;
+    display: flex;
+    // padding-right: 10px;
+    // @include clearfix(#0a3358, rgba(0, 97, 255, 0.8), #00d1ff);
+
+    div {
+      @include contentCenter;
+      flex: 1;
+      height: 40px;
+
+      &:first-child,
+      &:last-child {
+        flex: 0 0 100px;
+      }
+    }
+  }
+  svg {
+    position: relative;
+    right: 10px;
+  }
+}
+.center {
+  display: block;
+  height: 300px;
+  overflow: hidden;
+  .content {
+    & > section {
+      display: flex;
+      flex: 1;
+      div {
+        flex: 1;
+        // border-bottom: 1px solid #00a3ff;
+        height: 50px;
+        @include contentCenter;
+
+        &:first-child,
+        &:last-child {
+          flex: 0 0 100px;
+        }
+      }
+    }
+  }
+}
+
+.two {
+  flex: 1;
+  .content-container {
+    height: 100%;
+
+    // background: rgba(34, 229, 229, 0.05);
+    // background: url("@/assets/images/box-bg.png") no-repeat;
+    // background-size: 747px 416px;
+    // padding: 11px 23px 14px 23px;
+    h1 {
+      font-size: 20px;
+      color: #00ffff;
+    }
+  }
+}
+</style>
