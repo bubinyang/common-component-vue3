@@ -10,7 +10,30 @@
       </div>
 
       <section class="screen-main-content">
-        <div></div>
+        <div class="dialog-style" v-for="(item, index) in list" :key="index">
+          <h3>{{ item.title }}</h3>
+          <div>
+            <p>电</p>
+            <b>{{ item.value }}</b>
+            <label>N*m</label>
+          </div>
+
+          <div>
+            <p>水</p>
+            <b>{{ item.value }}</b>
+            <label>min</label>
+          </div>
+
+          <div>
+            <p>图号</p>
+            <b>{{ item.value }}</b>
+          </div>
+
+          <div>
+            <p>工作令</p>
+            <b>{{ item.value }}</b>
+          </div>
+        </div>
       </section>
     </largeScreenMain>
   </section>
@@ -201,143 +224,79 @@ export default {
       box-shadow: none;
     }
   }
-}
 
-//elementui控件
-$bg: rgba(43, 63, 102, 0.5);
-$has-border: true;
-.frond-style {
-  background: none !important;
-  border: none !important;
-  /**input 框(包含所有空间) */
-  .el-input__inner {
-    background: none;
-    // border: 0;
-    box-shadow: none;
-    color: #00e3ff;
-    // border: 1px solid #3b5369;
-    @if $has-border {
-      border: 1px solid #3b5369;
-    } @else {
-      border: 0;
-    }
-  }
-  .el-popper__arrow {
-    &::before {
-      border: none !important;
-    }
-  }
+  .dialog-style {
+    width: 218px;
+    height: 219px;
+    background-image: url("@/assets/images/board3D/dialog.png");
+    background-repeat: no-repeat;
+    background-size: contain;
+    backface-visibility: hidden;
 
-  /**时间控件 */
-  .el-picker-panel {
-    background: $bg !important;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
     color: #fff;
-  }
-
-  &.el-popper {
-    box-shadow: none;
-  }
-  .el-popper__arrow {
-    --el-color-white: #2b3f66 !important;
-    &:before {
-      background: #07355e !important;
+    justify-content: space-around;
+    flex: 1;
+    h3 {
+      width: 100%;
+      color: white;
+      background-image: url("@/assets/images/board3D/节点.png");
+      background-position: 5px;
+      background-repeat: no-repeat;
+      text-indent: 40px;
+      font-weight: bold;
     }
-  }
-  .el-date-picker__header-label {
-    color: #00aaff !important;
-  }
-  .el-date-picker__header--bordered {
-    border-bottom: 1px solid #00aaff !important;
-  }
-  .el-picker-panel__icon-btn {
-    color: #00aaff !important;
-  }
+    & > div {
+      height: 22px;
+      // background-size: contain;
+      // background-position: left 100%;
+      display: flex;
+      align-items: center;
+      width: 218px;
+      // border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+      background-repeat: no-repeat;
+      background-position: 15px;
+      padding: 0 8px 0 2px;
 
-  .el-picker-panel__content {
-    .cell {
-      color: #00aaff !important;
-    }
-    .current {
-      .cell {
-        color: #fff !important;
-      }
-    }
-  }
-
-  &.el-picker__popper {
-    //disable
-    .el-year-table td.disabled .cell,
-    .el-month-table td.disabled .cell {
-      background: $bg;
-    }
-  }
-  /**分页 */
-  &.el-pagination {
-    button {
-      background: #07355e !important;
-      color: #fff !important;
-    }
-
-    li {
-      background: #07355e !important;
-      color: rgb(64, 158, 255) !important;
-    }
-
-    li.active {
-      background: none !important;
-    }
-  }
-
-  /**下拉 */
-
-  &.el-select__popper {
-    border: none !important;
-    background: $bg !important;
-    li {
-      // background: @bg!important;
-      color: #8c98a8 !important;
-      &:hover {
-        color: #fff !important;
-        background: $bg !important;
-      }
-    }
-  }
-
-  .el-select-dropdown__item {
-    color: #fff !important;
-    &.hover {
-      background: none;
-    }
-    &:hover {
-      background: #0277d0 !important;
-    }
-    &.selected {
-      // background: #0277d0 !important;
-      color: #fff !important;
-    }
-  }
-}
-
-.chart-demo {
-  background: rgba(3, 24, 25);
-  display: flex;
-  flex-wrap: wrap;
-
-  .small-contain {
-    flex: 0 0 300px;
-    height: 400px;
-    .small-contain-title {
-      // flex: 0 0 40px;
-      padding-left: 36px;
-
-      .title {
-        background: linear-gradient(45deg, #ffffff 0%, #88d7f7 30.044921875%);
-        -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
-        justify-content: flex-start;
-        font-size: 21px;
+      img {
         position: relative;
+        left: 0px;
+        width: 27px;
+      }
+      p {
+        width: 80px;
+        margin-bottom: 0;
+        text-indent: 30px;
         font-weight: bold;
+        color: #27d5e9;
+        font-size: 10px;
+      }
+      b {
+        flex: 1;
+        // text-align: right;
+        text-indent: 20px;
+        font-size: 17px;
+        color: rgb(252, 253, 222);
+        font-weight: 400;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        text-shadow: rgb(255, 255, 255) 0px 0px 2px;
+        em {
+          font-style: normal;
+          color: #809ec1;
+          font-size: 13px;
+          padding: 0 8px;
+        }
+        // border: 1px solid;
+      }
+      label {
+        flex: 0 0 40px;
+        text-align: left;
+        text-indent: 5px;
+        font-size: 10px;
+        color: #809ec1;
       }
     }
   }
