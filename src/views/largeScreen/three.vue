@@ -6,7 +6,7 @@
     :x-axis-data="newLrdEchartStep.xAxisData || []"
     :chartType="'bar'"
     :title="{
-      text: 'kWh',
+      text: '',
       top: '0',
       left: '20',
       textStyle: { color: '#00FFFF', fontSize: '12', fontWeight: 'normal' }
@@ -110,10 +110,10 @@ const originData = [
         }
       },
       showBackground: true,
-
       backgroundStyle: {
-        barBorderRadius: 30
-      }
+        borderRadius: 30
+      },
+      barWidth: 30
     }
   }
   //   {
@@ -179,7 +179,16 @@ export default {
         decimalDigits: 4,
         frequency: 15
       });
-      console.log(state.newLrdEchartStep);
+      state.newLrdEchartStep.xAxisData = [
+        "six",
+        "李四",
+        "one",
+        "two",
+        "three",
+        "four",
+        "five",
+        "张三"
+      ];
       originData[0].list = [300, 200, 300, 400, 800];
       //originData[1].list = [200, 250, 400, 700, 400];
 

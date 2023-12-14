@@ -2,7 +2,7 @@ import axios from "axios";
 // import { Message } from "element-plus";
 // import url from '@/config'
 const service = axios.create({
-  baseURL: `${import.meta.env.VITE_APP_API}/vi`,
+  baseURL: `${import.meta.env.VITE_APP_API}`,
   timeout: 500000
 });
 

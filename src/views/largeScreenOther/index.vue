@@ -9,99 +9,7 @@
         <div class="screen-top-title-r" /> -->
       </div>
 
-      <section class="screen-main-content">
-        <section class="screen-main-l">
-          <SmallContain :title="'设备状态'">
-            <!-- <template #action>
-              <el-radio-group v-model="energyType">
-                <el-radio-button label="水" />
-                <el-radio-button label="电" />
-                <el-radio-button label="汽" />
-              </el-radio-group>
-              <label>kwh</label>
-            </template> -->
-
-            <two></two>
-          </SmallContain>
-
-          <SmallContain :title="'设备异常'">
-            <template #action>
-              <!-- <el-select
-                style="width: 90px"
-                class="frond-style"
-                popper-class="frond-style"
-                filterable
-                clearable
-                v-model="waterpumpValueA"
-                placeholder=" "
-              >
-                <el-option
-                  v-for="item in waterpumpA"
-                  :key="item.dictValue"
-                  :label="item.dictLabel"
-                  :value="item.dictValue"
-                />
-              </el-select> -->
-            </template>
-
-            <deviceError></deviceError>
-          </SmallContain>
-
-          <!-- <SmallContain :title="'设备利用率'">
-            <template #action>
-              <el-date-picker
-                style="width: 90px"
-                class="frond-style"
-                popper-class="frond-style"
-                v-model="rankDate"
-                type="year"
-                placeholder=" "
-              >
-              </el-date-picker>
-              <el-select
-                style="width: 90px"
-                class="frond-style"
-                popper-class="frond-style"
-                filterable
-                clearable
-                v-model="waterpumpValueA"
-                placeholder=" "
-              >
-                <el-option
-                  v-for="item in waterpumpA"
-                  :key="item.dictValue"
-                  :label="item.dictLabel"
-                  :value="item.dictValue"
-                />
-              </el-select>
-            </template>
-            <one></one>
-          </SmallContain> -->
-        </section>
-
-        <section class="screen-main-bottom">
-          <three></three>
-        </section>
-
-        <section class="screen-main-center">
-          <!-- <mapModule :ratio="ratio" /> -->
-          <device></device>
-        </section>
-
-        <section class="screen-main-r">
-          <SmallContain :title="'订单完成'">
-            <orders></orders>
-          </SmallContain>
-
-          <!-- <SmallContain :title="'综合能源消费量11'">
-            <four></four>
-          </SmallContain>
-
-          <SmallContain :title="'综合能源消费量'">
-            <five></five>
-          </SmallContain> -->
-        </section>
-      </section>
+      <section class="screen-main-content">111</section>
     </largeScreenMain>
   </section>
 </template>
@@ -109,18 +17,18 @@
 import { getWeek } from "@/utils";
 import mapModule from "@/views/largeScreen/map.vue";
 import chartBar from "@/views/largeScreen/chartBar.vue";
-import one from "./one.vue";
-import two from "./two.vue";
-import three from "./three.vue";
-import four from "./four.vue";
-import five from "./five.vue";
-import deviceError from "./deviceError.vue";
-import orders from "./orders.vue";
-import device from "./devices.vue";
+// import one from "./one.vue";
+// import two from "./two.vue";
+// import three from "./three.vue";
+// import four from "./four.vue";
+// import five from "./five.vue";
+// import deviceError from "./deviceError.vue";
+// import orders from "./orders.vue";
+// import device from "./devices.vue";
 
 export default {
-  name: "LargeScreen",
-  components: { two, orders, deviceError, three, device },
+  name: "LargeScreenOther",
+  components: {},
   data() {
     return {
       timeVal: "",

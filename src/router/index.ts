@@ -27,6 +27,13 @@ const routes: Array<RouteRecordRaw> = [
     name: "LargeScreen",
     component: () => import("@/views/largeScreen/index.vue")
   },
+
+  {
+    path: "/largeScreenOther",
+    name: "LargeScreenOther",
+    component: () => import("@/views/largeScreenOther/index.vue")
+  },
+
   //threejs 沿着路线运动demo
   // {
   //   path: "/modeRunByThree",
@@ -137,17 +144,17 @@ const routes: Array<RouteRecordRaw> = [
     ]
   },
   //看板外壳
-  {
-    path: "/largeScreen",
-    name: "LargeScreen",
-    component: () => import("@/views/largeScreen/index.vue"),
-    children: [
-      {
-        path: "/largeScreen",
-        component: () => import("@/views/largeScreen/index.vue")
-      }
-    ]
-  },
+  // {
+  //   path: "/largeScreen",
+  //   name: "LargeScreen",
+  //   component: () => import("@/views/largeScreen/index.vue"),
+  //   children: [
+  //     {
+  //       path: "/largeScreen",
+  //       component: () => import("@/views/largeScreen/index.vue")
+  //     }
+  //   ]
+  // },
 
   //svg标尺
   {

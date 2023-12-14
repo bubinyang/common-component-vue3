@@ -2,7 +2,7 @@
 1.originData数据源要从小到大排列
 -->
 <template>
-  <section class="two">
+  <section class="orders-style">
     <div class="content-container">
       <div class="top">
         <section>
@@ -33,8 +33,17 @@
 
 <script>
 // import { reactive, toRefs, onMounted, watch } from "vue";
-import { ref, reactive, toRefs, onMounted, watch } from "vue";
+import { ref, reactive, toRefs, onMounted, watch, onUnmounted } from "vue";
 import { lrdEchart } from "@/utils/utils.ts";
+import { scrollItem } from "@/utils/index.js";
+import http from "@/utils/request";
+
+//        oneInterval = scrollItem({ contentEl: document.querySelector(".one .box-contain"), speed: 0.5, orient: "vertical" });
+// onUnmounted(() => {
+//       cancelAnimationFrame(oneInterval);
+//       cancelAnimationFrame(twoInterval);
+//     });
+
 // import { getRealData } from "@/request/compair.js";
 import * as echarts from "echarts";
 
@@ -137,7 +146,7 @@ const originData = [
     }
   }
 ];
-
+let oneInterval;
 export default {
   components: {
     //LineBarCharts
@@ -149,7 +158,7 @@ export default {
     const state = reactive({
       newLrdEchartStep: {},
       dataZoom: [],
-      dataRight: [{ name: "1" }]
+      dataRight: [{ name: "1" }, { name: "2" }, { name: "3" }, { name: "4" }, { name: "5" }]
     });
 
     const seriesItemStyle = ref({
@@ -173,113 +182,21 @@ export default {
 
     onMounted(() => {
       console.log("onMounted");
-      // init();
+
+      oneInterval = scrollItem({
+        contentEl: document.querySelector(".orders-style .box-contain"),
+        speed: 0.5,
+        orient: "vertical"
+      });
+      init();
+    });
+
+    onUnmounted(() => {
+      cancelAnimationFrame(oneInterval);
     });
 
     const init = async (device) => {
-      state.newLrdEchartStep = new lrdEchart({
-        dateType: "month",
-        decimalDigits: 4,
-        frequency: 15
-      });
-
-      state.newLrdEchartStep.xAxisData = [
-        "six",
-        "李四",
-        "one",
-        "two",
-        "three",
-        "four",
-        "five",
-        "张三"
-      ];
-      originData[0].list = [
-        {
-          value: 900,
-          itemStyle: { color: "rgba(27, 105, 208, 1)" }
-        },
-        {
-          value: 1000,
-          itemStyle: { color: "rgba(11, 197, 197, 1)" }
-        },
-        {
-          value: 1100,
-          itemStyle: { color: "rgba(11, 197, 197, 1)" }
-        },
-        {
-          value: 1200,
-          itemStyle: { color: "rgba(11, 197, 197, 1)" }
-        },
-        {
-          value: 1300,
-          itemStyle: { color: "rgba(11, 197, 197, 1)" }
-        },
-        {
-          value: 1400,
-          itemStyle: { color: "rgba(11, 197, 197, 1)" }
-        },
-        {
-          value: 1500,
-          itemStyle: { color: "rgba(11, 197, 197, 1)" }
-        },
-        {
-          value: 2000,
-          itemStyle: { color: "rgba(11, 197, 197, 1)" }
-        }
-      ];
-
-      originData[1].list = [
-        {
-          value: 200,
-          itemStyle: { color: "blue" }
-        },
-        {
-          value: 500,
-          itemStyle: { color: "blue" }
-        },
-        {
-          value: 550,
-          itemStyle: { color: "blue" }
-        },
-        {
-          value: 600,
-          itemStyle: { color: "blue" }
-        },
-        {
-          value: 650,
-          itemStyle: { color: "blue" }
-        },
-        {
-          value: 700,
-          itemStyle: { color: "blue" }
-        },
-        {
-          value: 750,
-          itemStyle: { color: "blue" }
-        },
-        {
-          value: 1000,
-          itemStyle: { color: "blue" }
-        }
-      ];
-
-      if (originData[0].list.length >= 6) {
-        //startValue 必须是从高到低数据，相当于要拿最后6条数据，所以要减6
-        state.dataZoom = [
-          {
-            yAxisIndex: 0,
-            show: false,
-            type: "inside",
-            startValue: originData[0].list.length - 6,
-            endValue: originData[0].list.length - 1,
-            zoomLock: true //禁止鼠标滚动数据
-          }
-        ];
-        // console.log({ yAxisIndex: 0, show: false, type: "inside", startValue: originData[0].list.length - 6, endValue: originData[0].list.length - 1 });
-      }
-
-      state.newLrdEchartStep.barChartData = originData;
-      //let { data } = await baseService.get("/energy/board/getMonthEnergy");
+      http.post("/api/screen1", { ID: "1" }).then((res) => {});
     };
 
     return {
@@ -292,55 +209,7 @@ export default {
 </script>
 
 <style lang="scss">
-.top {
-  // width: calc(100% - 10px);
-  color: #00ffff;
-  & > section {
-    flex: 1;
-    display: flex;
-    // padding-right: 10px;
-    // @include clearfix(#0a3358, rgba(0, 97, 255, 0.8), #00d1ff);
-
-    div {
-      @include contentCenter;
-      flex: 1;
-      height: 40px;
-
-      &:first-child,
-      &:last-child {
-        flex: 0 0 100px;
-      }
-    }
-  }
-  svg {
-    position: relative;
-    right: 10px;
-  }
-}
-.center {
-  display: block;
-  height: 300px;
-  overflow: hidden;
-  .content {
-    & > section {
-      display: flex;
-      flex: 1;
-      div {
-        flex: 1;
-        // border-bottom: 1px solid #00a3ff;
-        height: 50px;
-        @include contentCenter;
-
-        &:first-child,
-        &:last-child {
-          flex: 0 0 100px;
-        }
-      }
-    }
-  }
-}
-
-.two {
+.orders-style {
   flex: 1;
   .content-container {
     height: 100%;
@@ -349,9 +218,53 @@ export default {
     // background: url("@/assets/images/box-bg.png") no-repeat;
     // background-size: 747px 416px;
     // padding: 11px 23px 14px 23px;
-    h1 {
-      font-size: 20px;
-      color: #00ffff;
+  }
+
+  .top {
+    // width: calc(100% - 10px);
+    color: #00ffff;
+    & > section {
+      flex: 1;
+      display: flex;
+      // padding-right: 10px;
+      // @include clearfix(#0a3358, rgba(0, 97, 255, 0.8), #00d1ff);
+
+      div {
+        @include contentCenter;
+        flex: 1;
+        height: 40px;
+
+        &:first-child,
+        &:last-child {
+          flex: 0 0 100px;
+        }
+      }
+    }
+    svg {
+      position: relative;
+      right: 10px;
+    }
+  }
+  .center {
+    display: block;
+    height: 300px;
+    overflow: hidden;
+    .content {
+      & > section {
+        display: flex;
+        flex: 1;
+        div {
+          flex: 1;
+          // border-bottom: 1px solid #00a3ff;
+          height: 50px;
+          @include contentCenter;
+
+          &:first-child,
+          &:last-child {
+            flex: 0 0 100px;
+          }
+        }
+      }
     }
   }
 }
