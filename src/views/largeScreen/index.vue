@@ -2,106 +2,58 @@
   <section class="largeScreen-contain">
     <largeScreenMain :bg="{ backgroundImage: `url(${top_bg})` }" @emitRatio="emitRatio">
       <div class="screen-top">
-        <!-- <div class="time-show">{{ timeVal }}</div>
+        <div>
+          <h1>运行</h1>
+          <label>{{ topData.Running }}</label>
+        </div>
 
-        <div class="screen-top-title-l" />
-        <div class="screen-top-title">看板标题</div>
-        <div class="screen-top-title-r" /> -->
+        <div>
+          <h1>待机</h1>
+          <label>{{ topData.Standby }}</label>
+        </div>
+
+        <div>
+          <h1>调试</h1>
+          <label>{{ topData.Debugging }}</label>
+        </div>
+        <div>
+          <h1>报警</h1>
+          <label>{{ topData.Alarm }}</label>
+        </div>
+        <div>
+          <h1>离线</h1>
+          <label>{{ topData.Offline }}</label>
+        </div>
       </div>
 
       <section class="screen-main-content">
         <section class="screen-main-l">
           <SmallContain :title="'设备状态'">
-            <!-- <template #action>
-              <el-radio-group v-model="energyType">
-                <el-radio-button label="水" />
-                <el-radio-button label="电" />
-                <el-radio-button label="汽" />
-              </el-radio-group>
-              <label>kwh</label>
-            </template> -->
-
-            <two></two>
+            <two v-if="refresAllDayPoint"></two>
           </SmallContain>
 
           <SmallContain :title="'设备异常'">
-            <template #action>
-              <!-- <el-select
-                style="width: 90px"
-                class="frond-style"
-                popper-class="frond-style"
-                filterable
-                clearable
-                v-model="waterpumpValueA"
-                placeholder=" "
-              >
-                <el-option
-                  v-for="item in waterpumpA"
-                  :key="item.dictValue"
-                  :label="item.dictLabel"
-                  :value="item.dictValue"
-                />
-              </el-select> -->
-            </template>
+            <template #action> </template>
 
-            <deviceError></deviceError>
+            <deviceError v-if="refresAllDayPoint"></deviceError>
           </SmallContain>
-
-          <!-- <SmallContain :title="'设备利用率'">
-            <template #action>
-              <el-date-picker
-                style="width: 90px"
-                class="frond-style"
-                popper-class="frond-style"
-                v-model="rankDate"
-                type="year"
-                placeholder=" "
-              >
-              </el-date-picker>
-              <el-select
-                style="width: 90px"
-                class="frond-style"
-                popper-class="frond-style"
-                filterable
-                clearable
-                v-model="waterpumpValueA"
-                placeholder=" "
-              >
-                <el-option
-                  v-for="item in waterpumpA"
-                  :key="item.dictValue"
-                  :label="item.dictLabel"
-                  :value="item.dictValue"
-                />
-              </el-select>
-            </template>
-            <one></one>
-          </SmallContain> -->
         </section>
 
         <section class="screen-main-bottom">
           <SmallContain :title="'设备利用率'">
-            <three></three>
+            <three v-if="refresAllDayPoint"></three>
           </SmallContain>
         </section>
 
         <section class="screen-main-center">
           <!-- <mapModule :ratio="ratio" /> -->
-          <device></device>
+          <device v-if="refresAllDayPoint"></device>
         </section>
 
         <section class="screen-main-r">
           <SmallContain :title="'订单完成'">
-            <orders></orders>
+            <orders v-if="refresAllDayPoint"></orders>
           </SmallContain>
-
-          <!-- <SmallContain :title="'综合能源消费量11'">
-            <four></four>
-          </SmallContain>
-
-          <SmallContain :title="'综合能源消费量'">
-            <five></five>
-          </SmallContain> -->
         </section>
       </section>
     </largeScreenMain>
@@ -119,6 +71,7 @@ import five from "./five.vue";
 import deviceError from "./deviceError.vue";
 import orders from "./orders.vue";
 import device from "./devices.vue";
+import http from "@/utils/request";
 
 export default {
   name: "LargeScreen",
@@ -134,7 +87,9 @@ export default {
         { dictValue: "A", dictLabel: "电" },
         { dictValue: "W", dictLabel: "水" }
       ],
-      rankDate: ""
+      rankDate: "",
+      topData: {},
+      refresAllDayPoint: false
     };
   },
   created() {
@@ -143,7 +98,12 @@ export default {
     // }, 1000);
   },
   mounted() {
-    console.log("largreen 执行");
+    const updateData = () => {
+      this.refreshComponent();
+      this.init();
+      setTimeout(updateData, 300000);
+    };
+    updateData();
   },
   methods: {
     setTime() {
@@ -154,6 +114,18 @@ export default {
     },
     emitRatio(data) {
       this.ratio = data;
+    },
+    init() {
+      http.post("/api/screen2/device/state", { ID: "1" }).then((res) => {
+        this.topData = res.Data;
+      });
+    },
+
+    refreshComponent() {
+      this.refresAllDayPoint = false;
+      this.$nextTick(() => {
+        this.refresAllDayPoint = true;
+      });
     }
   }
 };
@@ -165,10 +137,18 @@ export default {
   .screen-top {
     height: 80px;
     display: flex;
-    color: #0dc9ff;
+    color: #e6e6fe;
     position: absolute;
     z-index: 2;
-    width: 100%;
+    left: 450px;
+    right: 450px;
+    /* right: 450px; */
+    h1 {
+      color: #e6e6fe;
+    }
+    & > div {
+      flex: 1;
+    }
     .time-show {
       position: absolute;
       left: 28px;

@@ -18,13 +18,13 @@ service.interceptors.request.use(
 service.interceptors.response.use(
   (config) => {
     const res = config.data;
-    if (res.code !== 200) {
+    if (res.Code !== 0) {
       //   Message({
       //     message: res.message,
       //     type: "error"
       //   });
-      console.error(res.message);
-      return Promise.reject(new Error(res.msg || "Error"));
+      // console.error(res.message);
+      return Promise.reject("error");
     } else {
       return res;
     }

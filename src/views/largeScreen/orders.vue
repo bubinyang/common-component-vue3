@@ -1,12 +1,21 @@
 <!--
 1.originData数据源要从小到大排列
+
+"MOCode" /*生产订单号*/: "2302066677",
+            "InvName" /*产品名称*/: "输出行星架1",
+            "Device" /*设备名称*/: "B-056",
+            "Procedure" /*工序名称*/: "平面磨",
+            "Quantity" /*任务数量*/: 10,
+            "Completed" /*完成数量*/: 0,
+            "Rate" /*完成率 %*/: 0
+
 -->
 <template>
   <section class="orders-style">
     <div class="content-container">
       <div class="top">
         <section>
-          <div>订单号</div>
+          <div>单号</div>
           <div>预产量</div>
           <div>实际产量</div>
           <div>完成率</div>
@@ -15,15 +24,15 @@
 
       <div class="center">
         <div class="box-contain">
-          <section class="content" v-for="(item, key) in dataRight" :key="key">
+          <section class="content" v-for="(item, key) in originData" :key="key">
             <!-- <div>1#</div> -->
             <section>
               <div>{{ item.MOCode }}</div>
               <div>{{ item.Quantity }}</div>
-              <div>{{ item.Completed }}</div>
               <div>
-                {{ item.Rate }}
+                {{ item.Completed }}
               </div>
+              <div>{{ item.Rate }}%</div>
             </section>
           </section>
         </div>
@@ -34,18 +43,11 @@
 
 <script>
 // import { reactive, toRefs, onMounted, watch } from "vue";
-import { ref, reactive, toRefs, onMounted, watch, onUnmounted } from "vue";
+import { ref, reactive, toRefs, onMounted, watch, onUnmounted, onBeforeMount, nextTick } from "vue";
 import { lrdEchart } from "@/utils/utils.ts";
 import { scrollItem } from "@/utils/index.js";
 import http from "@/utils/request";
 
-//        oneInterval = scrollItem({ contentEl: document.querySelector(".one .box-contain"), speed: 0.5, orient: "vertical" });
-// onUnmounted(() => {
-//       cancelAnimationFrame(oneInterval);
-//       cancelAnimationFrame(twoInterval);
-//     });
-
-// import { getRealData } from "@/request/compair.js";
 import * as echarts from "echarts";
 
 const originData = [
@@ -64,37 +66,7 @@ const originData = [
           fontSize: 12,
           color: "white"
         }
-        // position: "insideBottomLeft"
       }
-
-      // label: { show: true, position: "right" },
-      // barWidth: 10,
-      //showBackground: true
-
-      /**如果柱子要在一个框里显示，此处代码设置好，再把itemStyle设置一下即可 */
-      // backgroundStyle: {
-      //   color: "none",
-      //   borderColor: "#0096FF",
-      //   borderWidth: 1
-      // },
-
-      // itemStyle: {
-      //   normal: {
-      //     // barBorderRadius: 30
-      //     borderColor: "rgba(2,241,233,0)",
-      //     borderWidth: 5
-      //   }
-      // }
-      /*end*/
-
-      // backgroundStyle: {
-      //   barBorderRadius: 30
-      // },
-      // itemStyle: {
-      //   normal: {
-      //     barBorderRadius: 30
-      //   }
-      // }
     }
   },
 
@@ -115,35 +87,6 @@ const originData = [
         },
         position: "insideBottomLeft"
       }
-
-      // label: { show: true, position: "right" },
-      // barWidth: 10,
-      //  showBackground: true
-
-      /**如果柱子要在一个框里显示，此处代码设置好，再把itemStyle设置一下即可 */
-      // backgroundStyle: {
-      //   color: "none",
-      //   borderColor: "#0096FF",
-      //   borderWidth: 1
-      // },
-
-      // itemStyle: {
-      //   normal: {
-      //     // barBorderRadius: 30
-      //     borderColor: "rgba(2,241,233,0)",
-      //     borderWidth: 5
-      //   }
-      // }
-      /*end*/
-
-      // backgroundStyle: {
-      //   barBorderRadius: 30
-      // },
-      // itemStyle: {
-      //   normal: {
-      //     barBorderRadius: 30
-      //   }
-      // }
     }
   }
 ];
@@ -159,10 +102,8 @@ export default {
     const state = reactive({
       newLrdEchartStep: {},
       dataZoom: [],
-      dataRight: [
-        { MOCode: "1", Quantity: "10", Completed: "1", Rate: 40 },
-        { MOCode: "2", Quantity: "10", Completed: "1", Rate: 40 }
-      ]
+      dataRight: [{ name: "1" }, { name: "2" }, { name: "3" }, { name: "4" }, { name: "5" }],
+      originData: []
     });
 
     const seriesItemStyle = ref({
@@ -180,19 +121,14 @@ export default {
       borderColor: "none"
     });
 
-    // const newLrdEchartStep = ref(
-    //   new lrdEchart({ dateType: "month", decimalDigits: 4, currentDate: "2022-07" })
-    // );
-
-    onMounted(() => {
-      console.log("onMounted");
-
+    onMounted(async () => {
+      await init();
+      await nextTick();
       oneInterval = scrollItem({
         contentEl: document.querySelector(".orders-style .box-contain"),
         speed: 0.5,
         orient: "vertical"
       });
-      init();
     });
 
     onUnmounted(() => {
@@ -200,7 +136,9 @@ export default {
     });
 
     const init = async (device) => {
-      http.post("/api/screen1", { ID: "1" }).then((res) => {});
+      return http.post("/api/screen2/task/list", { ID: "1" }).then((res) => {
+        state.originData = res.Data;
+      });
     };
 
     return {
@@ -217,7 +155,6 @@ export default {
   flex: 1;
   .content-container {
     height: 100%;
-    color: rgb(186, 201, 250);
 
     // background: rgba(34, 229, 229, 0.05);
     // background: url("@/assets/images/box-bg.png") no-repeat;
@@ -227,8 +164,7 @@ export default {
 
   .top {
     // width: calc(100% - 10px);
-    color: rgb(186, 201, 250);
-
+    color: #00ffff;
     & > section {
       flex: 1;
       display: flex;
@@ -253,10 +189,9 @@ export default {
   }
   .center {
     display: block;
-    height: 300px;
+    height: 600px;
     overflow: hidden;
-    color: rgb(230, 230, 254);
-
+    color: #e6e6fe;
     .content {
       & > section {
         display: flex;

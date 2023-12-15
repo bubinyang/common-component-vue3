@@ -382,6 +382,7 @@ export function scrollItem({ contentEl, speed = 20, orient = "horizontal" }) {
 
   // const boxSizeVal = boxEl.getBoundingClientRect()[types[orient].sizeLabel]
   const contentSizeVal = contentEl.getBoundingClientRect()[types[orient].sizeLabel];
+  console.log(contentSizeVal);
   let distance = 0;
   let action = true;
 

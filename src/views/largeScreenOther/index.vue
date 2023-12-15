@@ -6,32 +6,51 @@
 
         <div class="screen-top-title-l" />
         <div class="screen-top-title">看板标题</div>
-        <div class="screen-top-title-r" /> -->
+        <div class="screen-top-title-r" /> 
+        
+        TotalQuantity" /*总任务数量*/: 4015,
+        "TotalCompleted"
+
+ "Procedure" /*工序名称*/: "硬车孔",
+                "Device" /*设备名称*/: "A-047",
+                "Quantity" /*任务数量*/: 1053,
+                "Completed" /*完成数量*/: 4,
+                "State" /*状态 0：待机；1运行；2：调试；3：报警；4：离线 */: "0"
+        -->
+        <section>
+          <h1>预产量</h1>
+          <label>{{ originData.TotalQuantity }}</label>
+        </section>
+
+        <section>
+          <h1>实际产量</h1>
+          <label>{{ originData.TotalCompleted }}</label>
+        </section>
       </div>
 
       <section class="screen-main-content">
-        <div class="dialog-style" v-for="(item, index) in list" :key="index">
-          <h3>{{ item.title }}</h3>
+        <div class="dialog-style" v-for="(item, index) in originData.Items" :key="index">
+          <h3>{{ item.Procedure }}</h3>
           <div>
-            <p>电</p>
-            <b>{{ item.value }}</b>
-            <label>N*m</label>
+            <p>设备名称</p>
+            <b>{{ item.Device }}</b>
+            <!-- <label>N*m</label> -->
           </div>
 
           <div>
-            <p>水</p>
-            <b>{{ item.value }}</b>
-            <label>min</label>
+            <p>任务数量</p>
+            <b>{{ item.Quantity }}</b>
+            <!-- <label>min</label> -->
           </div>
 
           <div>
-            <p>图号</p>
-            <b>{{ item.value }}</b>
+            <p>完成数量</p>
+            <b>{{ item.Completed }}</b>
           </div>
 
           <div>
-            <p>工作令</p>
-            <b>{{ item.value }}</b>
+            <p>状态</p>
+            <b>{{ item.State }}</b>
           </div>
         </div>
       </section>
@@ -42,6 +61,9 @@
 import { getWeek } from "@/utils";
 import mapModule from "@/views/largeScreen/map.vue";
 import chartBar from "@/views/largeScreen/chartBar.vue";
+import http from "@/utils/request";
+import { scrollItem } from "@/utils/index.js";
+
 // import one from "./one.vue";
 // import two from "./two.vue";
 // import three from "./three.vue";
@@ -63,16 +85,27 @@ export default {
       energyType: "电",
 
       rankDate: "",
-      list:[{Device:'name',Quantity:''100}]
+      list: [{ Device: "name", Quantity: "100" }],
+      originData: {}
     };
   },
+
   created() {
-    // setInterval(() => {
-    //   this.setTime();
-    // }, 1000);
+    const updateData = () => {
+      this.init();
+      setTimeout(updateData, 300000);
+    };
+    updateData();
   },
+
   mounted() {
-    console.log("largreen 执行");
+    if (this.originData.Items.length > 32) {
+      scrollItem({
+        contentEl: document.querySelector(".largeScreen-contain-device .screen-main-content"),
+        speed: 0.5,
+        orient: "vertical"
+      });
+    }
   },
   methods: {
     setTime() {
@@ -83,6 +116,14 @@ export default {
     },
     emitRatio(data) {
       this.ratio = data;
+    },
+    init(device) {
+      http.post("/api/screen1", { ID: "1" }).then((res) => {
+        this.originData = res.Data;
+        this.originData.Items.push(...res.Data.Items);
+        this.originData.Items.push(...res.Data.Items);
+        this.originData.Items.push(...res.Data.Items);
+      });
     }
   }
 };
@@ -92,12 +133,18 @@ export default {
   width: 100%;
   // height: 500px;
   .screen-top {
-    height: 80px;
+    height: 180px;
     display: flex;
     color: #0dc9ff;
     position: absolute;
     z-index: 2;
     width: 100%;
+    display: flex;
+    justify-content: space-around;
+    & > section {
+      // flex: 1;
+      flex: 0 0 300px;
+    }
     .time-show {
       position: absolute;
       left: 28px;
@@ -124,77 +171,11 @@ export default {
 
   .screen-main-content {
     flex: 1;
-    display: flex;
-    justify-content: space-between;
+    // display: flex;
+    // justify-content: space-between;
     position: relative;
-
-    .screen-main-l {
-      position: absolute;
-      height: calc(100% - 317px);
-      width: 450px;
-      display: flex;
-      z-index: 2;
-      left: 0;
-      flex-direction: column;
-      padding: 20px;
-    }
-
-    .screen-main-r {
-      position: absolute;
-      height: calc(100% - 317px);
-      width: 450px;
-      display: flex;
-      z-index: 2;
-      right: 0;
-      flex-direction: column;
-      padding: 20px;
-    }
-
-    .screen-main-center {
-      position: absolute;
-      left: 0;
-      top: 0;
-      bottom: 0;
-      right: 0;
-      //background: url("@/assets/img/home/zybg.jpg");
-      z-index: 1;
-    }
-
-    .screen-main-bottom {
-      position: absolute;
-      height: 317px;
-      width: 100%;
-      bottom: 0;
-    }
-
-    .screen-main-l,
-    .screen-main-r {
-      width: 450px;
-
-      .small-contain {
-        flex: 1;
-        margin: 15px 0;
-        .small-contain-title {
-          .title {
-            background: linear-gradient(45deg, #ffffff 0%, #88d7f7 30.044921875%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            justify-content: flex-start;
-            font-size: 21px;
-            position: relative;
-            // top: 13px;
-            // left: 5px;
-            font-weight: bold;
-          }
-          label {
-            color: white;
-            position: relative;
-            // top: 10px;
-            // right: 10px;
-          }
-        }
-      }
-    }
+    margin: 180px 16px 0 16px;
+    overflow: hidden;
   }
 
   .el-radio-group {
@@ -226,19 +207,21 @@ export default {
   }
 
   .dialog-style {
-    width: 218px;
+    width: 220px;
     height: 219px;
-    background-image: url("@/assets/images/board3D/dialog.png");
-    background-repeat: no-repeat;
-    background-size: contain;
+    margin: 8px 8px;
+    // background-image: url("@/assets/images/board3D/dialog.png");
+    // background-repeat: no-repeat;
+    // background-size: contain;
     backface-visibility: hidden;
-
+    // background: darkred;
     display: flex;
     flex-direction: column;
     align-items: center;
     color: #fff;
     justify-content: space-around;
     flex: 1;
+    float: left;
     h3 {
       width: 100%;
       color: white;

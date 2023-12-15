@@ -1,3 +1,19 @@
+<!--
+URL：/api/screen2/device/availability
+{
+    "Code": 0,
+    "Data": [
+        {
+            "Name" /*设备名称*/: "A-047",
+            "Rate" /*利用率*/: 0
+        },
+        {
+            "Name" /*设备名称*/: "B-056",
+            "Rate" /*利用率*/: 0
+        }
+    ]
+}
+-->
 <template>
   <decorateEchart
     :criculationShowTootipAction="false"
@@ -88,6 +104,7 @@ import { ref, reactive, toRefs, onMounted, watch } from "vue";
 import { lrdEchart } from "@/utils/utils.ts";
 // import { getRealData } from "@/request/compair.js";
 import * as echarts from "echarts";
+import http from "@/utils/request";
 
 const originData = [
   {
@@ -186,24 +203,22 @@ export default {
         decimalDigits: 4,
         frequency: 15
       });
-      state.newLrdEchartStep.xAxisData = [
-        "six",
-        "李四",
-        "one",
-        "two",
-        "three",
-        "four",
-        "five",
-        "张三"
-      ];
+      // state.newLrdEchartStep.xAxisData = [
+      //   "six",
+      //   "李四",
+      //   "one",
+      //   "two",
+      //   "three",
+      //   "four",
+      //   "five",
+      //   "张三"
+      // ];
       originData[0].list = [300, 200, 300, 400, 800];
-      //originData[1].list = [200, 250, 400, 700, 400];
-
-      //   state.newLrdEchartStep.getXAxisLabelBarFormatter = (val) => {
-      //     return val + "马丁";
-      //   };
-      state.newLrdEchartStep.barChartData = originData;
-      //let { data } = await baseService.get("/energy/board/getMonthEnergy");
+      http.post("/api/screen2/device/availability", { ID: "1" }).then((res) => {
+        state.newLrdEchartStep.xAxisData = res.Data.map((item) => item.Name);
+        originData[0].list = res.Data.map((item) => item.Rate);
+        state.newLrdEchartStep.barChartData = originData;
+      });
     };
 
     return {

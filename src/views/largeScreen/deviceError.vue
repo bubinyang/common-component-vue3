@@ -2,7 +2,7 @@
 1.originData数据源要从小到大排列
 -->
 <template>
-  <section class="two">
+  <section class="two deviceError">
     <div class="content-container">
       <div class="top">
         <section>
@@ -14,7 +14,7 @@
 
       <div class="center">
         <div class="box-contain">
-          <section class="content" v-for="(item, key) in dataRight" :key="key">
+          <section class="content" v-for="(item, key) in originData" :key="key">
             <!-- <div>1#</div> -->
             <section>
               <div>{{ item.Name }}</div>
@@ -32,10 +32,11 @@
 
 <script>
 // import { reactive, toRefs, onMounted, watch } from "vue";
-import { ref, reactive, toRefs, onMounted, watch } from "vue";
+import { ref, reactive, toRefs, onMounted, watch, nextTick } from "vue";
 import { lrdEchart } from "@/utils/utils.ts";
-// import { getRealData } from "@/request/compair.js";
 import * as echarts from "echarts";
+import http from "@/utils/request";
+import { scrollItem } from "@/utils/index.js";
 
 const originData = [
   {
@@ -55,35 +56,6 @@ const originData = [
         }
         // position: "insideBottomLeft"
       }
-
-      // label: { show: true, position: "right" },
-      // barWidth: 10,
-      //showBackground: true
-
-      /**如果柱子要在一个框里显示，此处代码设置好，再把itemStyle设置一下即可 */
-      // backgroundStyle: {
-      //   color: "none",
-      //   borderColor: "#0096FF",
-      //   borderWidth: 1
-      // },
-
-      // itemStyle: {
-      //   normal: {
-      //     // barBorderRadius: 30
-      //     borderColor: "rgba(2,241,233,0)",
-      //     borderWidth: 5
-      //   }
-      // }
-      /*end*/
-
-      // backgroundStyle: {
-      //   barBorderRadius: 30
-      // },
-      // itemStyle: {
-      //   normal: {
-      //     barBorderRadius: 30
-      //   }
-      // }
     }
   },
 
@@ -104,35 +76,6 @@ const originData = [
         },
         position: "insideBottomLeft"
       }
-
-      // label: { show: true, position: "right" },
-      // barWidth: 10,
-      //  showBackground: true
-
-      /**如果柱子要在一个框里显示，此处代码设置好，再把itemStyle设置一下即可 */
-      // backgroundStyle: {
-      //   color: "none",
-      //   borderColor: "#0096FF",
-      //   borderWidth: 1
-      // },
-
-      // itemStyle: {
-      //   normal: {
-      //     // barBorderRadius: 30
-      //     borderColor: "rgba(2,241,233,0)",
-      //     borderWidth: 5
-      //   }
-      // }
-      /*end*/
-
-      // backgroundStyle: {
-      //   barBorderRadius: 30
-      // },
-      // itemStyle: {
-      //   normal: {
-      //     barBorderRadius: 30
-      //   }
-      // }
     }
   }
 ];
@@ -153,7 +96,8 @@ export default {
         { Name: "A-047", Alarm: "2", Time: "2023-12-11 17:00:35" },
         { Name: "A-047", Alarm: "3", Time: "2023-12-11 17:00:35" },
         { Name: "A-047", Alarm: "4", Time: "2023-12-11 17:00:35" }
-      ]
+      ],
+      originData: []
     });
 
     const seriesItemStyle = ref({
@@ -174,116 +118,32 @@ export default {
     // const newLrdEchartStep = ref(
     //   new lrdEchart({ dateType: "month", decimalDigits: 4, currentDate: "2022-07" })
     // );
-
-    onMounted(() => {
-      console.log("onMounted");
-      // init();
+    onMounted(async () => {
+      await init();
+      await nextTick();
+      if (state.originData.length > 6) {
+        scrollItem({
+          contentEl: document.querySelector(".deviceError .box-contain"),
+          speed: 0.5,
+          orient: "vertical"
+        });
+      }
     });
 
     const init = async (device) => {
-      state.newLrdEchartStep = new lrdEchart({
-        dateType: "month",
-        decimalDigits: 4,
-        frequency: 15
+      //  URL：/api/screen2/device/alarm
+
+      return http.post("/api/screen2/device/alarm", { ID: "1" }).then((res) => {
+        state.originData = res.Data;
+        state.originData.push(
+          ...[
+            { Name: "A-047", Alarm: "1", Time: "2023-12-11 17:00:35" },
+            { Name: "A-047", Alarm: "2", Time: "2023-12-11 17:00:35" },
+            { Name: "A-047", Alarm: "3", Time: "2023-12-11 17:00:35" },
+            { Name: "A-047", Alarm: "4", Time: "2023-12-11 17:00:35" }
+          ]
+        );
       });
-
-      state.newLrdEchartStep.xAxisData = [
-        "six",
-        "李四",
-        "one",
-        "two",
-        "three",
-        "four",
-        "five",
-        "张三"
-      ];
-      originData[0].list = [
-        {
-          value: 900,
-          itemStyle: { color: "rgba(27, 105, 208, 1)" }
-        },
-        {
-          value: 1000,
-          itemStyle: { color: "rgba(11, 197, 197, 1)" }
-        },
-        {
-          value: 1100,
-          itemStyle: { color: "rgba(11, 197, 197, 1)" }
-        },
-        {
-          value: 1200,
-          itemStyle: { color: "rgba(11, 197, 197, 1)" }
-        },
-        {
-          value: 1300,
-          itemStyle: { color: "rgba(11, 197, 197, 1)" }
-        },
-        {
-          value: 1400,
-          itemStyle: { color: "rgba(11, 197, 197, 1)" }
-        },
-        {
-          value: 1500,
-          itemStyle: { color: "rgba(11, 197, 197, 1)" }
-        },
-        {
-          value: 2000,
-          itemStyle: { color: "rgba(11, 197, 197, 1)" }
-        }
-      ];
-
-      originData[1].list = [
-        {
-          value: 200,
-          itemStyle: { color: "blue" }
-        },
-        {
-          value: 500,
-          itemStyle: { color: "blue" }
-        },
-        {
-          value: 550,
-          itemStyle: { color: "blue" }
-        },
-        {
-          value: 600,
-          itemStyle: { color: "blue" }
-        },
-        {
-          value: 650,
-          itemStyle: { color: "blue" }
-        },
-        {
-          value: 700,
-          itemStyle: { color: "blue" }
-        },
-        {
-          value: 750,
-          itemStyle: { color: "blue" }
-        },
-        {
-          value: 1000,
-          itemStyle: { color: "blue" }
-        }
-      ];
-
-      if (originData[0].list.length >= 6) {
-        //startValue 必须是从高到低数据，相当于要拿最后6条数据，所以要减6
-        state.dataZoom = [
-          {
-            yAxisIndex: 0,
-            show: false,
-            type: "inside",
-            startValue: originData[0].list.length - 6,
-            endValue: originData[0].list.length - 1,
-            zoomLock: true //禁止鼠标滚动数据
-          }
-        ];
-        // console.log({ yAxisIndex: 0, show: false, type: "inside", startValue: originData[0].list.length - 6, endValue: originData[0].list.length - 1 });
-      }
-
-      state.newLrdEchartStep.barChartData = originData;
-      //let { data } = await baseService.get("/energy/board/getMonthEnergy");
     };
 
     return {

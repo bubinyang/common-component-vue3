@@ -101,6 +101,7 @@ import { ref, reactive, toRefs, onMounted, watch } from "vue";
 import { lrdEchart } from "@/utils/utils.ts";
 // import { getRealData } from "@/request/compair.js";
 import * as echarts from "echarts";
+import http from "@/utils/request";
 
 const originData = [
   {
@@ -152,7 +153,7 @@ const originData = [
   {
     attrKey: "A29",
     list: [],
-    name: "故障",
+    name: "报警",
     seriesParam: {
       label: {
         formatter: function (param) {
@@ -193,6 +194,29 @@ const originData = [
         color: "rgb(242,197,140)"
       }
     }
+  },
+
+  {
+    attrKey: "A29",
+    list: [],
+    name: "调试",
+    seriesParam: {
+      label: {
+        formatter: function (param) {
+          return param.name;
+        },
+        show: false,
+        offset: [0, -2],
+        textStyle: {
+          fontSize: 12,
+          color: "white"
+        },
+        position: "insideBottomLeft"
+      },
+      itemStyle: {
+        color: "yellow"
+      }
+    }
   }
 ];
 
@@ -224,12 +248,7 @@ export default {
       borderColor: "none"
     });
 
-    // const newLrdEchartStep = ref(
-    //   new lrdEchart({ dateType: "month", decimalDigits: 4, currentDate: "2022-07" })
-    // );
-
     onMounted(() => {
-      console.log("onMounted");
       init();
     });
 
@@ -240,89 +259,20 @@ export default {
         frequency: 15
       });
 
-      state.newLrdEchartStep.xAxisData = [
-        "six",
-        "李四",
-        "one",
-        "two",
-        "three",
-        "four",
-        "five",
-        "张三"
-      ];
-      originData[0].list = [900, 500, 100];
-      originData[1].list = [900, 500, 100];
-      originData[2].list = [900, 500, 100];
-      originData[3].list = [900, 500, 100];
-      // originData[0].list = [
-      //   {
-      //     value: 900,
-      //     itemStyle: { color: "rgba(27, 105, 208, 1)" }
-      //   },
-      //   {
-      //     value: 1000,
-      //     itemStyle: { color: "rgba(11, 197, 197, 1)" }
-      //   },
-      //   {
-      //     value: 1100,
-      //     itemStyle: { color: "rgba(11, 197, 197, 1)" }
-      //   },
-      //   {
-      //     value: 1200,
-      //     itemStyle: { color: "rgba(11, 197, 197, 1)" }
-      //   },
-      //   {
-      //     value: 1300,
-      //     itemStyle: { color: "rgba(11, 197, 197, 1)" }
-      //   },
-      //   {
-      //     value: 1400,
-      //     itemStyle: { color: "rgba(11, 197, 197, 1)" }
-      //   },
-      //   {
-      //     value: 1500,
-      //     itemStyle: { color: "rgba(11, 197, 197, 1)" }
-      //   },
-      //   {
-      //     value: 2000,
-      //     itemStyle: { color: "rgba(11, 197, 197, 1)" }
-      //   }
+      // state.newLrdEchartStep.xAxisData = [
+      //   "six",
+      //   "李四",
+      //   "one",
+      //   "two",
+      //   "three",
+      //   "four",
+      //   "five",
+      //   "张三"
       // ];
-
-      // originData[1].list = [
-      //   {
-      //     value: 200,
-      //     itemStyle: { color: "blue" }
-      //   },
-      //   {
-      //     value: 500,
-      //     itemStyle: { color: "blue" }
-      //   },
-      //   {
-      //     value: 550,
-      //     itemStyle: { color: "blue" }
-      //   },
-      //   {
-      //     value: 600,
-      //     itemStyle: { color: "blue" }
-      //   },
-      //   {
-      //     value: 650,
-      //     itemStyle: { color: "blue" }
-      //   },
-      //   {
-      //     value: 700,
-      //     itemStyle: { color: "blue" }
-      //   },
-      //   {
-      //     value: 750,
-      //     itemStyle: { color: "blue" }
-      //   },
-      //   {
-      //     value: 1000,
-      //     itemStyle: { color: "blue" }
-      //   }
-      // ];
+      // originData[0].list = [900, 500, 100];
+      // originData[1].list = [900, 500, 100];
+      // originData[2].list = [900, 500, 100];
+      // originData[3].list = [900, 500, 100];
 
       if (originData[0].list.length >= 6) {
         //startValue 必须是从高到低数据，相当于要拿最后6条数据，所以要减6
@@ -340,6 +290,16 @@ export default {
       }
 
       state.newLrdEchartStep.barChartData = originData;
+
+      http.post("/api/screen2/device/state/time", { ID: "1" }).then((res) => {
+        originData[0].list = res.Data.map((item) => item.Offline);
+        originData[1].list = res.Data.map((item) => item.Running);
+        originData[2].list = res.Data.map((item) => item.Alarm);
+        originData[3].list = res.Data.map((item) => item.Standby);
+        originData[4].list = res.Data.map((item) => item.Debugging);
+        state.newLrdEchartStep.xAxisData = res.Data.map((item) => item.Name);
+      });
+
       //let { data } = await baseService.get("/energy/board/getMonthEnergy");
     };
 

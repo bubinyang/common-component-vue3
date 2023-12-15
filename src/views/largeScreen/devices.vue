@@ -129,10 +129,10 @@ export default {
   .dialog-style {
     width: 218px;
     height: 219px;
-    background-image: url("@/assets/images/board3D/dialog.png");
-    background-repeat: no-repeat;
-    background-size: contain;
-    backface-visibility: hidden;
+    // background-image: url("@/assets/images/board3D/dialog.png");
+    // background-repeat: no-repeat;
+    // background-size: contain;
+    // backface-visibility: hidden;
 
     display: flex;
     flex-direction: column;
@@ -143,9 +143,9 @@ export default {
     h3 {
       width: 100%;
       color: white;
-      background-image: url("@/assets/images/board3D/节点.png");
-      background-position: 5px;
-      background-repeat: no-repeat;
+      //   background-image: url("@/assets/images/board3D/节点.png");
+      //   background-position: 5px;
+      //   background-repeat: no-repeat;
       text-indent: 40px;
       font-weight: bold;
     }
