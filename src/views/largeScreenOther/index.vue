@@ -59,8 +59,6 @@
 </template>
 <script>
 import { getWeek } from "@/utils";
-import mapModule from "@/views/largeScreen/map.vue";
-import chartBar from "@/views/largeScreen/chartBar.vue";
 import http from "@/utils/request";
 import { scrollItem } from "@/utils/index.js";
 
@@ -225,9 +223,7 @@ export default {
     h3 {
       width: 100%;
       color: white;
-      background-image: url("@/assets/images/board3D/节点.png");
-      background-position: 5px;
-      background-repeat: no-repeat;
+
       text-indent: 40px;
       font-weight: bold;
     }

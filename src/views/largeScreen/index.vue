@@ -61,7 +61,6 @@
 </template>
 <script>
 import { getWeek } from "@/utils";
-import mapModule from "@/views/largeScreen/map.vue";
 import chartBar from "@/views/largeScreen/chartBar.vue";
 import one from "./one.vue";
 import two from "./two.vue";

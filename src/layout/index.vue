@@ -15,7 +15,6 @@
  * :key="route.fullPath" 可以防止tab切换不同路由报错
  */
 
-import { lrdDrag, lrdDragSort } from "@/utils/utils.ts";
 import emits from "@/utils/emit.js";
 import BaseSlider from "@/layout/slider/base-slider.vue";
 import { useStore } from "vuex";

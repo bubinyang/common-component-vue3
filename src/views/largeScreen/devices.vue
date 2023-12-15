@@ -43,7 +43,6 @@
 </template>
 
 <script>
-import { newSetDialogPosition } from "@/utils";
 import { hourseList } from "./hourse";
 const styleSvg = {
   fill: "transparent",
@@ -88,26 +87,7 @@ export default {
       //   this.itemContentShow = false;
       //   this.currentOutLine = null;
     },
-    clickHorse(e) {
-      if (!this.isShow) return;
 
-      this.itemContentShow = false;
-      this.$nextTick(() => {
-        const position = newSetDialogPosition(".largeScreen-map-style", {
-          eventItem: e,
-          dialogElName: ".item-content",
-          isTransform: { containElWidth: 1920, dialogElWidth: 244 }
-        });
-        console.log(this.ratio);
-        Object.keys(position).forEach((key) => {
-          if (position[key] !== undefined) {
-            this.positionStyle[key] = `${position[key] / this.ratio + 5}px`;
-          }
-        });
-        this.itemContentShow = true;
-        this.isShow = false;
-      });
-    },
     closeDiaglog() {
       this.itemContentShow = false;
       this.currentOutLine = null;
