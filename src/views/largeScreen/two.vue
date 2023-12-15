@@ -8,7 +8,7 @@
     :x-axis-data="newLrdEchartStep.xAxisData || []"
     :chartType="'bar'"
     :title="{
-      text: 'kWh',
+      text: '',
       top: '0',
       left: '20',
       textStyle: { color: '#00FFFF', fontSize: '12', fontWeight: 'normal' }
@@ -23,38 +23,37 @@
       '#9661BC',
       '#F19D9D'
     ]"
-    :grid="{ left: 50, right: 20, bottom: 10, top: 30 }"
+    :grid="{ left: 50, right: 20, bottom: 30, top: 30 }"
     :average="0"
     :xAxisParam="{
       splitLine: { show: false, lineStyle: { type: 'solid' } },
       axisLine: {
         show: true,
         onZero: false,
-        lineStyle: { color: '#3AAFF0', width: 2 },
-        color: '#ffffff'
+        lineStyle: { color: 'rgb(186,201,250)', width: 2 },
+        color: 'rgb(186,201,250)'
       },
-      axisTick: { show: true, lineStyle: { color: '#0c73a5', width: 1 } },
+      axisTick: { show: true, lineStyle: { color: 'rgb(186,201,250)', width: 1 } },
       boundaryGap: true,
 
       axisLabel: {
         show: true,
-        color: '#7A8295'
+        color: 'rgb(186,201,250)'
       }
     }"
     :yAxisParam="{
-      axisLine: { show: false, lineStyle: { color: '#3AAFF0', width: 2 } },
-      axisTick: { show: false, lineStyle: { color: '#0c73a5', width: 1 } },
+      axisLine: { show: true, lineStyle: { color: '#3AAFF0', width: 2 } },
+      axisTick: { show: true, lineStyle: { color: '#0c73a5', width: 1 } },
       splitLine: { show: false, lineStyle: { type: 'dashed', color: 'rgba(58,175,240,0.6)' } },
       min: function (value) {
         return 0;
       },
       axisLabel: {
-        show: false,
-        color: '#7A8295',
+        show: true,
+        color: 'rgb(186,201,250)',
         width: 150,
         formatter(value) {
-          if (value < 1) return value;
-          return numShorten(value, 1);
+          return value;
         },
         rich: {}
       }
@@ -73,8 +72,8 @@
         color: '#ffffff'
       }
     }"
-    :legendShow="false"
-    :legend="{
+    :legendShow="true"
+    :legendParam="{
       textStyle: {
         color: '#ffffff'
       }
@@ -107,56 +106,30 @@ const originData = [
   {
     attrKey: "A29",
     list: [],
-    name: "当月",
+    name: "离线",
     seriesParam: {
       label: {
         formatter: function (param) {
           return param.name;
         },
-        show: true,
+        show: false,
         // offset: [0, -2],
         textStyle: {
           fontSize: 12,
           color: "white"
         }
         // position: "insideBottomLeft"
+      },
+      itemStyle: {
+        color: "rgb(74,104,247)"
       }
-
-      // label: { show: true, position: "right" },
-      // barWidth: 10,
-      //showBackground: true
-
-      /**如果柱子要在一个框里显示，此处代码设置好，再把itemStyle设置一下即可 */
-      // backgroundStyle: {
-      //   color: "none",
-      //   borderColor: "#0096FF",
-      //   borderWidth: 1
-      // },
-
-      // itemStyle: {
-      //   normal: {
-      //     // barBorderRadius: 30
-      //     borderColor: "rgba(2,241,233,0)",
-      //     borderWidth: 5
-      //   }
-      // }
-      /*end*/
-
-      // backgroundStyle: {
-      //   barBorderRadius: 30
-      // },
-      // itemStyle: {
-      //   normal: {
-      //     barBorderRadius: 30
-      //   }
-      // }
     }
   },
 
   {
     attrKey: "A29",
     list: [],
-    name: "当月",
+    name: "运行",
     seriesParam: {
       label: {
         formatter: function (param) {
@@ -169,36 +142,56 @@ const originData = [
           color: "white"
         },
         position: "insideBottomLeft"
+      },
+      itemStyle: {
+        color: "rgb(157,201,148)"
       }
+    }
+  },
 
-      // label: { show: true, position: "right" },
-      // barWidth: 10,
-      //  showBackground: true
+  {
+    attrKey: "A29",
+    list: [],
+    name: "故障",
+    seriesParam: {
+      label: {
+        formatter: function (param) {
+          return param.name;
+        },
+        show: false,
+        offset: [0, -2],
+        textStyle: {
+          fontSize: 12,
+          color: "white"
+        },
+        position: "insideBottomLeft"
+      },
+      itemStyle: {
+        color: "rgb(244,109,150)"
+      }
+    }
+  },
 
-      /**如果柱子要在一个框里显示，此处代码设置好，再把itemStyle设置一下即可 */
-      // backgroundStyle: {
-      //   color: "none",
-      //   borderColor: "#0096FF",
-      //   borderWidth: 1
-      // },
-
-      // itemStyle: {
-      //   normal: {
-      //     // barBorderRadius: 30
-      //     borderColor: "rgba(2,241,233,0)",
-      //     borderWidth: 5
-      //   }
-      // }
-      /*end*/
-
-      // backgroundStyle: {
-      //   barBorderRadius: 30
-      // },
-      // itemStyle: {
-      //   normal: {
-      //     barBorderRadius: 30
-      //   }
-      // }
+  {
+    attrKey: "A29",
+    list: [],
+    name: "待机",
+    seriesParam: {
+      label: {
+        formatter: function (param) {
+          return param.name;
+        },
+        show: false,
+        offset: [0, -2],
+        textStyle: {
+          fontSize: 12,
+          color: "white"
+        },
+        position: "insideBottomLeft"
+      },
+      itemStyle: {
+        color: "rgb(242,197,140)"
+      }
     }
   }
 ];
@@ -257,75 +250,79 @@ export default {
         "five",
         "张三"
       ];
-      originData[0].list = [
-        {
-          value: 900,
-          itemStyle: { color: "rgba(27, 105, 208, 1)" }
-        },
-        {
-          value: 1000,
-          itemStyle: { color: "rgba(11, 197, 197, 1)" }
-        },
-        {
-          value: 1100,
-          itemStyle: { color: "rgba(11, 197, 197, 1)" }
-        },
-        {
-          value: 1200,
-          itemStyle: { color: "rgba(11, 197, 197, 1)" }
-        },
-        {
-          value: 1300,
-          itemStyle: { color: "rgba(11, 197, 197, 1)" }
-        },
-        {
-          value: 1400,
-          itemStyle: { color: "rgba(11, 197, 197, 1)" }
-        },
-        {
-          value: 1500,
-          itemStyle: { color: "rgba(11, 197, 197, 1)" }
-        },
-        {
-          value: 2000,
-          itemStyle: { color: "rgba(11, 197, 197, 1)" }
-        }
-      ];
+      originData[0].list = [900, 500, 100];
+      originData[1].list = [900, 500, 100];
+      originData[2].list = [900, 500, 100];
+      originData[3].list = [900, 500, 100];
+      // originData[0].list = [
+      //   {
+      //     value: 900,
+      //     itemStyle: { color: "rgba(27, 105, 208, 1)" }
+      //   },
+      //   {
+      //     value: 1000,
+      //     itemStyle: { color: "rgba(11, 197, 197, 1)" }
+      //   },
+      //   {
+      //     value: 1100,
+      //     itemStyle: { color: "rgba(11, 197, 197, 1)" }
+      //   },
+      //   {
+      //     value: 1200,
+      //     itemStyle: { color: "rgba(11, 197, 197, 1)" }
+      //   },
+      //   {
+      //     value: 1300,
+      //     itemStyle: { color: "rgba(11, 197, 197, 1)" }
+      //   },
+      //   {
+      //     value: 1400,
+      //     itemStyle: { color: "rgba(11, 197, 197, 1)" }
+      //   },
+      //   {
+      //     value: 1500,
+      //     itemStyle: { color: "rgba(11, 197, 197, 1)" }
+      //   },
+      //   {
+      //     value: 2000,
+      //     itemStyle: { color: "rgba(11, 197, 197, 1)" }
+      //   }
+      // ];
 
-      originData[1].list = [
-        {
-          value: 200,
-          itemStyle: { color: "blue" }
-        },
-        {
-          value: 500,
-          itemStyle: { color: "blue" }
-        },
-        {
-          value: 550,
-          itemStyle: { color: "blue" }
-        },
-        {
-          value: 600,
-          itemStyle: { color: "blue" }
-        },
-        {
-          value: 650,
-          itemStyle: { color: "blue" }
-        },
-        {
-          value: 700,
-          itemStyle: { color: "blue" }
-        },
-        {
-          value: 750,
-          itemStyle: { color: "blue" }
-        },
-        {
-          value: 1000,
-          itemStyle: { color: "blue" }
-        }
-      ];
+      // originData[1].list = [
+      //   {
+      //     value: 200,
+      //     itemStyle: { color: "blue" }
+      //   },
+      //   {
+      //     value: 500,
+      //     itemStyle: { color: "blue" }
+      //   },
+      //   {
+      //     value: 550,
+      //     itemStyle: { color: "blue" }
+      //   },
+      //   {
+      //     value: 600,
+      //     itemStyle: { color: "blue" }
+      //   },
+      //   {
+      //     value: 650,
+      //     itemStyle: { color: "blue" }
+      //   },
+      //   {
+      //     value: 700,
+      //     itemStyle: { color: "blue" }
+      //   },
+      //   {
+      //     value: 750,
+      //     itemStyle: { color: "blue" }
+      //   },
+      //   {
+      //     value: 1000,
+      //     itemStyle: { color: "blue" }
+      //   }
+      // ];
 
       if (originData[0].list.length >= 6) {
         //startValue 必须是从高到低数据，相当于要拿最后6条数据，所以要减6

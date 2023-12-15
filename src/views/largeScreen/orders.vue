@@ -6,7 +6,7 @@
     <div class="content-container">
       <div class="top">
         <section>
-          <div>单号</div>
+          <div>订单号</div>
           <div>预产量</div>
           <div>实际产量</div>
           <div>完成率</div>
@@ -18,10 +18,11 @@
           <section class="content" v-for="(item, key) in dataRight" :key="key">
             <!-- <div>1#</div> -->
             <section>
-              <div>{{ item.name }}</div>
-              <div>{{ item.content }}</div>
+              <div>{{ item.MOCode }}</div>
+              <div>{{ item.Quantity }}</div>
+              <div>{{ item.Completed }}</div>
               <div>
-                {{ item.time }}
+                {{ item.Rate }}
               </div>
             </section>
           </section>
@@ -158,7 +159,10 @@ export default {
     const state = reactive({
       newLrdEchartStep: {},
       dataZoom: [],
-      dataRight: [{ name: "1" }, { name: "2" }, { name: "3" }, { name: "4" }, { name: "5" }]
+      dataRight: [
+        { MOCode: "1", Quantity: "10", Completed: "1", Rate: 40 },
+        { MOCode: "2", Quantity: "10", Completed: "1", Rate: 40 }
+      ]
     });
 
     const seriesItemStyle = ref({
@@ -213,6 +217,7 @@ export default {
   flex: 1;
   .content-container {
     height: 100%;
+    color: rgb(186, 201, 250);
 
     // background: rgba(34, 229, 229, 0.05);
     // background: url("@/assets/images/box-bg.png") no-repeat;
@@ -222,7 +227,8 @@ export default {
 
   .top {
     // width: calc(100% - 10px);
-    color: #00ffff;
+    color: rgb(186, 201, 250);
+
     & > section {
       flex: 1;
       display: flex;
@@ -249,6 +255,8 @@ export default {
     display: block;
     height: 300px;
     overflow: hidden;
+    color: rgb(230, 230, 254);
+
     .content {
       & > section {
         display: flex;
