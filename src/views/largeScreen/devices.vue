@@ -1,7 +1,8 @@
 <template>
   <section class="largeScreen-map-style">
-    <svg id="svgEl" width="100%" height="100%" version="1.1">
-      <!-- <polygon
+    <div class="contain">
+      <svg id="svgEl" width="100%" height="100%" version="1.1">
+        <!-- <polygon
         @click="clickHorse"
         :index="index"
         @mouseleave="hideHouseOutline"
@@ -13,30 +14,26 @@
         :points="item.points"
         :style="item.style"
       /> -->
-      <line x1="50" y1="50" x2="150" y2="150" stroke="black" stroke-width="2" />
-    </svg>
-    <div class="dialog-style" v-for="(item, index) in list" :key="index">
-      <h3>{{ item.title }}</h3>
-      <div>
-        <p>电</p>
-        <b>{{ item.value }}</b>
-        <label>N*m</label>
-      </div>
+        <line x1="50" y1="50" x2="150" y2="150" stroke="black" stroke-width="2" />
+      </svg>
+      <div
+        class="dialog-style"
+        v-for="(item, index) in originList"
+        :key="index"
+        :style="{ left: item.position.left, top: item.position.top }"
+      >
+        <h3>{{ item.title }}</h3>
+        <div>
+          <p>主轴负载</p>
+          <b>{{ item.cncSload }}</b>
+          <!-- <label>N*m</label> -->
+        </div>
 
-      <div>
-        <p>水</p>
-        <b>{{ item.value }}</b>
-        <label>min</label>
-      </div>
-
-      <div>
-        <p>图号</p>
-        <b>{{ item.value }}</b>
-      </div>
-
-      <div>
-        <p>工作令</p>
-        <b>{{ item.value }}</b>
+        <div>
+          <p>主轴倍率</p>
+          <b>{{ item.cncSrate }}</b>
+          <!-- <label>min</label> -->
+        </div>
       </div>
     </div>
   </section>
@@ -44,11 +41,19 @@
 
 <script>
 import { hourseList } from "./hourse";
+import http from "@/utils/request";
+
 const styleSvg = {
   fill: "transparent",
   stroke: "#00ffff",
   strokeWidth: 0
 };
+const list = [
+  { name: "A-047", position: { left: "100px", top: "100px" } },
+  { name: "B-056", position: { left: "200px", top: "200px" } },
+  { name: "H-210", position: { left: "300px", top: "300px" } },
+  { name: "H-320", position: { left: "400px", top: "400px" } }
+];
 export default {
   props: {
     origin: {
@@ -67,7 +72,8 @@ export default {
       positionStyle: {},
       itemContentShow: false,
       isShow: true,
-      list: [{ title: "A" }, { title: "A" }, { title: "A" }]
+
+      originList: []
     };
   },
   created() {
@@ -77,8 +83,24 @@ export default {
     // });
   },
   computed: {},
-  mounted() {},
+  mounted() {
+    this.init();
+  },
   methods: {
+    init() {
+      http.post("/api/screen2/device/list", { ID: "1" }).then((res) => {
+        this.originList = list.map((item) => {
+          const findItem = res.Data.find((childitem) => childitem.device_name === item.name);
+          return {
+            cncSload: findItem ? findItem.cnc_sload : "--",
+            cncSrate: findItem ? findItem.cnc_srate : "--",
+            title: item.name,
+            position: item.position
+          };
+        });
+        console.log(this.originList);
+      });
+    },
     showHouseOutline(item) {
       //this.itemContentShow = false;
       if (this.isShow) this.currentOutLine = item;
@@ -100,33 +122,47 @@ export default {
 <style rel="stylesheet/scss" lang="scss">
 .largeScreen-map-style {
   position: absolute;
+  padding: 130px;
   left: 450px;
   right: 450px;
   top: 80px;
   border: 1px solid;
   height: 680px;
-
+  display: flex;
+  .contain {
+    flex: 1;
+    position: relative;
+    background: url("@/assets/img/home/device.png");
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: 40% 20%;
+  }
   .dialog-style {
-    width: 218px;
-    height: 219px;
+    width: 150px;
+    height: 100px;
+    position: absolute;
     // background-image: url("@/assets/images/board3D/dialog.png");
     // background-repeat: no-repeat;
     // background-size: contain;
     // backface-visibility: hidden;
-
+    background: rgb(23, 29, 115);
     display: flex;
     flex-direction: column;
     align-items: center;
     color: #fff;
     justify-content: space-around;
+    padding: 10px;
     flex: 1;
+    box-shadow: 0px 0px 20px yellow;
+    border-radius: 10px;
     h3 {
       width: 100%;
       color: white;
       //   background-image: url("@/assets/images/board3D/节点.png");
       //   background-position: 5px;
       //   background-repeat: no-repeat;
-      text-indent: 40px;
+      margin-bottom: 0;
+      text-align: center;
       font-weight: bold;
     }
     & > div {
