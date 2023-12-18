@@ -1,19 +1,3 @@
-<!--
-URL：/api/screen2/device/availability
-{
-    "Code": 0,
-    "Data": [
-        {
-            "Name" /*设备名称*/: "A-047",
-            "Rate" /*利用率*/: 0
-        },
-        {
-            "Name" /*设备名称*/: "B-056",
-            "Rate" /*利用率*/: 0
-        }
-    ]
-}
--->
 <template>
   <decorateEchart
     :criculationShowTootipAction="false"
@@ -49,6 +33,7 @@ URL：/api/screen2/device/availability
     }"
     :yAxisName="''"
     :yAxisParam="{
+      max: 100,
       axisLine: { show: true, lineStyle: { color: 'rgb(186,201,250)', width: 1 } },
       axisTick: { show: false, lineStyle: { color: '#0c73a5', width: 1 } },
       splitLine: { show: false, lineStyle: { type: 'dashed', color: 'rgba(58,175,240,0.6)' } },

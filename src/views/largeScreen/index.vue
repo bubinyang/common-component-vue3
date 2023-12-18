@@ -132,7 +132,8 @@ export default {
 <style lang="scss">
 .largeScreen-contain {
   width: 100%;
-  background: url("@/assets/img/home/bg.png");
+  background: url("@/assets/img/home/bg1.jpg");
+  background-size: contain;
   .screen-top {
     height: 80px;
     display: flex;
@@ -141,12 +142,24 @@ export default {
     z-index: 2;
     left: 450px;
     right: 450px;
+    top: 10px;
+    justify-content: space-between;
     /* right: 450px; */
     h1 {
       color: #e6e6fe;
     }
     & > div {
-      flex: 1;
+      flex: 0 0 195px;
+      background: rgba(36, 38, 110, 0.9);
+      display: flex;
+      flex-direction: column;
+      padding: 10px;
+      label {
+        flex: 1;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
     }
     .time-show {
       position: absolute;
@@ -186,7 +199,7 @@ export default {
       z-index: 2;
       left: 0;
       flex-direction: column;
-      padding: 20px;
+      padding: 5px 10px;
     }
 
     .screen-main-r {
@@ -197,7 +210,7 @@ export default {
       z-index: 2;
       right: 0;
       flex-direction: column;
-      padding: 20px;
+      padding: 5px 10px;
     }
 
     .screen-main-center {
@@ -213,10 +226,11 @@ export default {
     .screen-main-bottom {
       position: absolute;
       height: 317px;
-      width: 100%;
       bottom: 0;
-      background: rgba(36, 38, 110, 0.9);
       display: flex;
+      right: 10px;
+      left: 10px;
+      bottom: 5px;
     }
 
     .screen-main-l,
@@ -227,7 +241,7 @@ export default {
         background: rgba(36, 38, 110, 0.9);
         border: 0;
         flex: 1;
-        margin: 15px 0;
+        margin: 5px 0;
         .small-contain-title {
           .title {
             background: linear-gradient(45deg, #ffffff 0%, #88d7f7 30.044921875%);

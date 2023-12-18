@@ -1,22 +1,8 @@
 <template>
   <section class="largeScreen-contain largeScreen-contain-device">
     <largeScreenMain :bg="{ backgroundImage: `url(${top_bg})` }" @emitRatio="emitRatio">
+      <Clock></Clock>
       <div class="screen-top">
-        <!-- <div class="time-show">{{ timeVal }}</div>
-
-        <div class="screen-top-title-l" />
-        <div class="screen-top-title">看板标题</div>
-        <div class="screen-top-title-r" /> 
-        
-        TotalQuantity" /*总任务数量*/: 4015,
-        "TotalCompleted"
-
- "Procedure" /*工序名称*/: "硬车孔",
-                "Device" /*设备名称*/: "A-047",
-                "Quantity" /*任务数量*/: 1053,
-                "Completed" /*完成数量*/: 4,
-                "State" /*状态 0：待机；1运行；2：调试；3：报警；4：离线 */: "0"
-        -->
         <section>
           <h1>预产量</h1>
           <label>{{ originData.TotalQuantity }}</label>
@@ -27,33 +13,34 @@
           <label>{{ originData.TotalCompleted }}</label>
         </section>
       </div>
+      <div class="box">
+        <section class="screen-main-content">
+          <div class="dialog-style" v-for="(item, index) in originData.Items" :key="index">
+            <h3>{{ item.Procedure }}</h3>
+            <div>
+              <p>设备名称</p>
+              <b>{{ item.Device }}</b>
+              <!-- <label>N*m</label> -->
+            </div>
 
-      <section class="screen-main-content">
-        <div class="dialog-style" v-for="(item, index) in originData.Items" :key="index">
-          <h3>{{ item.Procedure }}</h3>
-          <div>
-            <p>设备名称</p>
-            <b>{{ item.Device }}</b>
-            <!-- <label>N*m</label> -->
-          </div>
+            <div>
+              <p>任务数量</p>
+              <b>{{ item.Quantity }}</b>
+              <!-- <label>min</label> -->
+            </div>
 
-          <div>
-            <p>任务数量</p>
-            <b>{{ item.Quantity }}</b>
-            <!-- <label>min</label> -->
-          </div>
+            <div>
+              <p>完成数量</p>
+              <b>{{ item.Completed }}</b>
+            </div>
 
-          <div>
-            <p>完成数量</p>
-            <b>{{ item.Completed }}</b>
+            <div>
+              <p>状态</p>
+              <b>{{ item.State }}</b>
+            </div>
           </div>
-
-          <div>
-            <p>状态</p>
-            <b>{{ item.State }}</b>
-          </div>
-        </div>
-      </section>
+        </section>
+      </div>
     </largeScreenMain>
   </section>
 </template>
@@ -84,7 +71,7 @@ export default {
 
       rankDate: "",
       list: [{ Device: "name", Quantity: "100" }],
-      originData: {}
+      originData: { Items: [] }
     };
   },
 
@@ -97,13 +84,15 @@ export default {
   },
 
   mounted() {
-    if (this.originData.Items.length > 32) {
-      scrollItem({
-        contentEl: document.querySelector(".largeScreen-contain-device .screen-main-content"),
-        speed: 0.5,
-        orient: "vertical"
-      });
-    }
+    setTimeout(() => {
+      if (this.originData.Items.length > 132) {
+        scrollItem({
+          contentEl: document.querySelector(".largeScreen-contain-device .screen-main-content"),
+          speed: 0.5,
+          orient: "vertical"
+        });
+      }
+    }, 1000);
   },
   methods: {
     setTime() {
@@ -129,9 +118,17 @@ export default {
 <style lang="scss">
 .largeScreen-contain-device {
   width: 100%;
+  // background: rgb(198, 208, 239);
   // height: 500px;
+  .clock-style {
+    color: rgba(0, 0, 0, 1);
+    height: 50px;
+    font-size: 25px;
+    position: relative;
+    left: 30px;
+  }
   .screen-top {
-    height: 180px;
+    height: 120px;
     display: flex;
     color: #0dc9ff;
     position: absolute;
@@ -139,9 +136,27 @@ export default {
     width: 100%;
     display: flex;
     justify-content: space-around;
+    top: 50px;
     & > section {
       // flex: 1;
+      border: 1px solid rgb(228, 231, 237);
       flex: 0 0 300px;
+      padding: 0 10px;
+      box-shadow: rgba(0, 0, 0, 0.12) 0px 0px 12px 0px;
+      background: rgb(245 245 245);
+      display: flex;
+      flex-direction: column;
+      h1 {
+        font-size: 30px;
+        margin-bottom: 0;
+      }
+      label {
+        flex: 1;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-size: 30px;
+      }
     }
     .time-show {
       position: absolute;
@@ -166,14 +181,20 @@ export default {
       background-size: cover;
     }
   }
-
-  .screen-main-content {
+  .box {
     flex: 1;
-    // display: flex;
-    // justify-content: space-between;
+
     position: relative;
-    margin: 180px 16px 0 16px;
+    margin: 130px 16px 10px 16px;
     overflow: hidden;
+    display: flex;
+  }
+  .screen-main-content {
+    // flex: 1;
+
+    // position: relative;
+    // margin: 180px 16px 10px 16px;
+    // overflow: hidden;
   }
 
   .el-radio-group {
@@ -206,11 +227,13 @@ export default {
 
   .dialog-style {
     width: 220px;
-    height: 219px;
-    margin: 8px 8px;
+    height: 210px;
+    margin: 6px 8px;
+    box-shadow: rgba(0, 0, 0, 0.8) 0px 0px 4px 0px;
     // background-image: url("@/assets/images/board3D/dialog.png");
     // background-repeat: no-repeat;
     // background-size: contain;
+    background: rgb(53, 169, 49);
     backface-visibility: hidden;
     // background: darkred;
     display: flex;
@@ -223,8 +246,7 @@ export default {
     h3 {
       width: 100%;
       color: white;
-
-      text-indent: 40px;
+      font-size: 20px;
       font-weight: bold;
     }
     & > div {
@@ -247,10 +269,9 @@ export default {
       p {
         width: 80px;
         margin-bottom: 0;
-        text-indent: 30px;
         font-weight: bold;
-        color: #27d5e9;
-        font-size: 10px;
+        color: rgb(30, 77, 76);
+        font-size: 15px;
       }
       b {
         flex: 1;
