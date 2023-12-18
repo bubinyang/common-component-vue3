@@ -14,7 +14,10 @@
         :points="item.points"
         :style="item.style"
       /> -->
-        <line x1="50" y1="50" x2="150" y2="150" stroke="black" stroke-width="2" />
+        <line x1="40" y1="150" x2="100" y2="290" stroke="white" stroke-width="2" />
+        <line x1="240" y1="300" x2="340" y2="490" stroke="white" stroke-width="2" />
+        <line x1="240" y1="50" x2="340" y2="150" stroke="white" stroke-width="2" />
+        <line x1="440" y1="250" x2="640" y2="400" stroke="white" stroke-width="2" />
       </svg>
       <div
         class="dialog-style"
@@ -49,10 +52,10 @@ const styleSvg = {
   strokeWidth: 0
 };
 const list = [
-  { name: "A-047", position: { left: "100px", top: "100px" } },
-  { name: "B-056", position: { left: "200px", top: "200px" } },
-  { name: "H-210", position: { left: "300px", top: "300px" } },
-  { name: "H-320", position: { left: "400px", top: "400px" } }
+  { name: "A-047", position: { left: "0px", top: "100px" } },
+  { name: "B-056", position: { left: "250px", top: "420px" } },
+  { name: "H-210", position: { left: "200px", top: "0px" } },
+  { name: "H-320", position: { left: "500px", top: "350px" } }
 ];
 export default {
   props: {
