@@ -105,7 +105,7 @@ export default {
       this.ratio = data;
     },
     init(device) {
-      http.post("/api/screen1", { ID: "1" }).then((res) => {
+      http.post("/api/screen1", { ID: this.$route.query.id || "1" }).then((res) => {
         this.originData = res.Data;
         this.originData.Items.push(...res.Data.Items);
         this.originData.Items.push(...res.Data.Items);

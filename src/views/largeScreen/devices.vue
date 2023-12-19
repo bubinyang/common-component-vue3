@@ -91,12 +91,12 @@ export default {
   },
   methods: {
     init() {
-      http.post("/api/screen2/device/list", { ID: "1" }).then((res) => {
+      http.post("/api/screen2/device/list", { ID: this.$route.query.id || "1" }).then((res) => {
         this.originList = list.map((item) => {
           const findItem = res.Data.find((childitem) => childitem.device_name === item.name);
           return {
-            cncSload: findItem ? findItem.cnc_sload : "--",
-            cncSrate: findItem ? findItem.cnc_srate : "--",
+            cncSload: findItem ? Number(findItem.cnc_sload).toFixed(2) : "--",
+            cncSrate: findItem ? Number(findItem.cnc_srate).toFixed(2) : "--",
             title: item.name,
             position: item.position
           };

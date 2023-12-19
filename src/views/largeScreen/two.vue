@@ -102,6 +102,7 @@ import { lrdEchart } from "@/utils/utils.ts";
 // import { getRealData } from "@/request/compair.js";
 import * as echarts from "echarts";
 import http from "@/utils/request";
+import { useRoute } from "vue-router";
 
 const originData = [
   {
@@ -227,6 +228,7 @@ export default {
   props: {},
   setup() {
     const refresAllDayPoint = ref(false);
+    const route = useRoute();
 
     const state = reactive({
       newLrdEchartStep: {},
@@ -291,7 +293,7 @@ export default {
 
       state.newLrdEchartStep.barChartData = originData;
 
-      http.post("/api/screen2/device/state/time", { ID: "1" }).then((res) => {
+      http.post("/api/screen2/device/state/time", { ID: route.query.id || "1" }).then((res) => {
         originData[0].list = res.Data.map((item) => item.Offline);
         originData[1].list = res.Data.map((item) => item.Running);
         originData[2].list = res.Data.map((item) => item.Alarm);

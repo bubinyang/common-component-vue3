@@ -88,7 +88,8 @@ export default {
       ],
       rankDate: "",
       topData: {},
-      refresAllDayPoint: false
+      refresAllDayPoint: false,
+      name: ""
     };
   },
   created() {
@@ -103,6 +104,10 @@ export default {
       setTimeout(updateData, 300000);
     };
     updateData();
+
+    http.post("/api/line/name", { ID: this.$route.query.id || "1" }).then((res) => {
+      this.name = res.Data;
+    });
   },
   methods: {
     setTime() {
@@ -115,7 +120,7 @@ export default {
       this.ratio = data;
     },
     init() {
-      http.post("/api/screen2/device/state", { ID: "1" }).then((res) => {
+      http.post("/api/screen2/device/state", { ID: this.$route.query.id || "1" }).then((res) => {
         this.topData = res.Data;
       });
     },

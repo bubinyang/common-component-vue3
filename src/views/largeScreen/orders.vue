@@ -1,15 +1,3 @@
-<!--
-1.originData数据源要从小到大排列
-
-"MOCode" /*生产订单号*/: "2302066677",
-            "InvName" /*产品名称*/: "输出行星架1",
-            "Device" /*设备名称*/: "B-056",
-            "Procedure" /*工序名称*/: "平面磨",
-            "Quantity" /*任务数量*/: 10,
-            "Completed" /*完成数量*/: 0,
-            "Rate" /*完成率 %*/: 0
-
--->
 <template>
   <section class="orders-style">
     <div class="content-container">
@@ -47,6 +35,7 @@ import { ref, reactive, toRefs, onMounted, watch, onUnmounted, onBeforeMount, ne
 import { lrdEchart } from "@/utils/utils.ts";
 import { scrollItem } from "@/utils/index.js";
 import http from "@/utils/request";
+import { useRoute } from "vue-router";
 
 import * as echarts from "echarts";
 
@@ -98,6 +87,7 @@ export default {
   props: {},
   setup() {
     const refresAllDayPoint = ref(false);
+    const route = useRoute();
 
     const state = reactive({
       newLrdEchartStep: {},
@@ -122,7 +112,7 @@ export default {
     });
 
     onMounted(async () => {
-      await init();
+      const result = await init();
       await nextTick();
       oneInterval = scrollItem({
         contentEl: document.querySelector(".orders-style .box-contain"),
@@ -136,8 +126,11 @@ export default {
     });
 
     const init = async (device) => {
-      return http.post("/api/screen2/task/list", { ID: "1" }).then((res) => {
-        state.originData = res.Data;
+      return new Promise((resolve) => {
+        http.post("/api/screen2/task/list", { ID: route.query.id || "1" }).then((res) => {
+          state.originData = res.Data;
+          resolve(res.Data);
+        });
       });
     };
 

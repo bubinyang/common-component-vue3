@@ -90,6 +90,7 @@ import { lrdEchart } from "@/utils/utils.ts";
 // import { getRealData } from "@/request/compair.js";
 import * as echarts from "echarts";
 import http from "@/utils/request";
+import { useRoute } from "vue-router";
 
 const originData = [
   {
@@ -153,6 +154,7 @@ export default {
   props: {},
   setup() {
     const refresAllDayPoint = ref(false);
+    const route = useRoute();
 
     const state = reactive({
       newLrdEchartStep: {}
@@ -198,8 +200,8 @@ export default {
       //   "five",
       //   "张三"
       // ];
-      originData[0].list = [300, 200, 300, 400, 800];
-      http.post("/api/screen2/device/availability", { ID: "1" }).then((res) => {
+      // originData[0].list = [300, 200, 300, 400, 800];
+      http.post("/api/screen2/device/availability", { ID: route.query.id || "1" }).then((res) => {
         state.newLrdEchartStep.xAxisData = res.Data.map((item) => item.Name);
         originData[0].list = res.Data.map((item) => item.Rate);
         state.newLrdEchartStep.barChartData = originData;

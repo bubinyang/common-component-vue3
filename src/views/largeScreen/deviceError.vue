@@ -37,6 +37,7 @@ import { lrdEchart } from "@/utils/utils.ts";
 import * as echarts from "echarts";
 import http from "@/utils/request";
 import { scrollItem } from "@/utils/index.js";
+import { useRoute } from "vue-router";
 
 const originData = [
   {
@@ -87,6 +88,7 @@ export default {
   props: {},
   setup() {
     const refresAllDayPoint = ref(false);
+    const route = useRoute();
 
     const state = reactive({
       newLrdEchartStep: {},
@@ -132,8 +134,7 @@ export default {
 
     const init = async (device) => {
       //  URL：/api/screen2/device/alarm
-
-      return http.post("/api/screen2/device/alarm", { ID: "1" }).then((res) => {
+      return http.post("/api/screen2/device/alarm", { ID: route.query.id || "1" }).then((res) => {
         state.originData = res.Data;
         state.originData.push(
           ...[
