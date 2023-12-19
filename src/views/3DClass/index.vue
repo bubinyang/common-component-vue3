@@ -1,22 +1,24 @@
 <template>
   <div class="largeScreen-contain largeScreen-contain-style">
-    <div id="box" style="width: 150px; height: 150px; background: red"></div>
+    <!-- <div id="box" style="width: 150px; height: 150px; background: red"></div> -->
     <largeScreenMain>
       <div ref="ThreeD" class="ThreeD"></div>
     </largeScreenMain>
 
-    <div v-if="loading" class="loadingStyle">
+    <!-- <div v-if="loading" class="loadingStyle">
       {{ inputValue }}
       <div class="loadingStyle-progress">
-        <!-- <el-progress :percentage="inputValue" color="#409eff"></el-progress> -->
         <el-progress :percentage="inputValue" />
       </div>
-    </div>
+    </div> -->
   </div>
 </template>
 
 <script>
-const { LBTcamera, THREE, Stats } = window;
+import * as THREE from "three";
+import { DRACOLoader } from "three/addons/loaders/DRACOLoader.js";
+import { GLTFLoader } from "three/addons/loaders/GLTFLoader.js";
+// const { LBTcamera, THREE, Stats } = window;
 // import http from "@/service/baseService";
 // import useThreeHooks from "@/views/board3D/oneMediumTemperatureCHW/useThreeHooks.js";
 import {
@@ -31,18 +33,6 @@ import {
   defineComponent
 } from "vue";
 import { ThreeBasic } from "@/utils/utils.ts";
-// import { ThreeBasic } from "@/utils/chartDateFormatting.ts";
-//import oneMediumTemperatureCHW from "./oneMdeiumTest/index.vue";
-// import Swiper from "swiper";
-// import one from "@/assets/images/temPoraryDemo/001.jpg";
-// import two from "@/assets/images/temPoraryDemo/002.jpg";
-// import three from "@/assets/images/temPoraryDemo/003.jpg";
-// import five from "@/assets/images/temPoraryDemo/005.jpg";
-// import six from "@/assets/images/temPoraryDemo/006.jpg";
-// import seven from "@/assets/images/temPoraryDemo/007.jpg";
-// import eight from "@/assets/images/temPoraryDemo/008.jpg";
-// import nine from "@/assets/images/temPoraryDemo/9.jpg";
-// import ten from "@/assets/images/temPoraryDemo/10.jpg";
 import gsap from "gsap";
 
 export default defineComponent({
@@ -80,7 +70,7 @@ export default defineComponent({
       const newThreeBasic = new ThreeBasic({
         THREE,
         El: state.ThreeD,
-        url: "./threejs/1110small.glb",
+        url: "./new.glb",
         assistTools: true
       });
 

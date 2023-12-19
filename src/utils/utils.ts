@@ -924,7 +924,9 @@ function criculationActionSwitch(fn: any, ms: number) {
 
 //three3D创建类
 import { Depth, LayerMaterial } from "lamina/vanilla";
-
+import { DRACOLoader } from "three/examples/jsm/loaders/DRACOLoader.js";
+import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader.js";
+import { OrbitControls } from "three/examples/jsm/controls/OrbitControls.js";
 // import gsap from "gsap";
 export class ThreeBasic {
   THREE: IObject;
@@ -932,7 +934,7 @@ export class ThreeBasic {
   renderer: IObject; //构造器
   width: number; //容器宽
   height: number; //容器高
-  camera: IObject; //相机
+  camera: any; //相机
   scene: IObject; //场景
   light: IObject; //灯光
   raycaster: IObject; //光线投射
@@ -981,7 +983,7 @@ export class ThreeBasic {
 
     this.load3DModel();
     this.initControls();
-    this.setRaycaster();
+    // this.setRaycaster();
 
     const animate = () => {
       // 更新控制器
@@ -1066,7 +1068,7 @@ export class ThreeBasic {
     // pmremGenerator.compileEquirectangularShader();
     // scene.environment = pmremGenerator.fromScene(new THREE.RoomEnvironment(), 0.5).texture;
     //环境光
-    const ambientLight = new this.THREE.AmbientLight(0x404040); //环境光 无阴影
+    const ambientLight = new this.THREE.AmbientLight(0xffffff); //环境光 无阴影
     ambientLight.intensity = 1;
     this.scene.add(ambientLight);
 
@@ -1134,12 +1136,12 @@ export class ThreeBasic {
       target: [0, 0, 0]
     });
 
-    virtualScene.add(topLight);
-    virtualScene.add(leftTopLight);
-    virtualScene.add(leftBottomLight);
-    virtualScene.add(rightTopLight);
-    virtualScene.add(floatLight);
-    virtualScene.add(floatLightOther);
+    // virtualScene.add(topLight);
+    // virtualScene.add(leftTopLight);
+    // virtualScene.add(leftBottomLight);
+    // virtualScene.add(rightTopLight);
+    // virtualScene.add(floatLight);
+    // virtualScene.add(floatLightOther);
 
     this.scene.environment = fbo.texture;
 
@@ -1161,9 +1163,9 @@ export class ThreeBasic {
 
     const geometry = new this.THREE.SphereGeometry(1, 64, 64);
 
-    const virtualBackgroundMesh = new this.THREE.Mesh(geometry, materials);
-    virtualBackgroundMesh.scale.set(100, 100, 100);
-    virtualScene.add(virtualBackgroundMesh);
+    // const virtualBackgroundMesh = new this.THREE.Mesh(geometry, materials);
+    // virtualBackgroundMesh.scale.set(100, 100, 100);
+    // virtualScene.add(virtualBackgroundMesh);
 
     //模拟threejs/editor 实现光照
     // const peremGenerator = new this.THREE.PMREMGenerator(this.renderer);
@@ -1238,18 +1240,16 @@ export class ThreeBasic {
         this.loading = false;
       }
     };
-
     //加载gltf配置
-    console.log(this.THREE.DRACOLoader);
-    const dracoLoader = new this.THREE.DRACOLoader();
-    dracoLoader.setDecoderPath("./threejs/draco/gltf/");
-    const loaderGLTF = new this.THREE.GLTFLoader(manager);
+    const dracoLoader = new DRACOLoader();
+    dracoLoader.setDecoderPath("./three/draco/gltf/");
+    const loaderGLTF = new GLTFLoader(manager);
     loaderGLTF.setDRACOLoader(dracoLoader);
 
     loaderGLTF.load(this.url, (gltf: any) => {
       const model = gltf.scene;
       console.log(model);
-      model.scale.set(10, 10, 10);
+      model.scale.set(0.01, 0.01, 0.01);
       model.position.set(0, 0, 0);
       model.traverse((item: any, index: any) => {
         console.log(item);
@@ -1263,14 +1263,12 @@ export class ThreeBasic {
 
   //添加光线投射，以便点击找到对应模型
   setRaycaster(): void {
-    console.log(this);
     this.raycaster = new this.THREE.Raycaster();
     this.mouse = new this.THREE.Vector2();
   }
 
   initControls(): void {
-    console.log(this);
-    this.controls = new this.THREE.OrbitControls(this.camera, this.renderer.domElement);
+    this.controls = new OrbitControls(this.camera, this.renderer.domElement);
     this.controls.maxPolarAngle = 1.5;
     this.controls.enableDamping = false; //旋转是否由惯性
     this.controls.enableZoom = true; //缩放

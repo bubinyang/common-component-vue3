@@ -16,6 +16,8 @@
  *           describe 描述
  *           prompt box提示框
  *           tutorial 教程
+ *           repository 储存库
+ *           restore 恢复
  * 补充短语: currently in office 在职 currently in use 在使用中
  *           I walk in the park 我在公园散步(表达自己平时习惯性在公园散步)
  *           went for walk, went for dinner 某人前去某个地方进行某个活动
@@ -27,7 +29,7 @@
  *           decided to 决定去做
  *           adjust to  调整适应于
  *           had to 不得不
- *   
+ *           possible to 可能
  *           
  * 补充长句:  before making a decision,it is important to keep in mind all factors that might affect the outcome
               after finishing the exams, she went for a long walk in the part for relax
@@ -2378,7 +2380,7 @@ responsibility
 responsible
 rest
 restaurant
-restore
+restore   恢复
 restriction
 result
 retain
