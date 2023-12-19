@@ -1,6 +1,7 @@
 <template>
-  <section class="largeScreen-contain">
+  <section class="largeScreen-contain largeScreen-containone">
     <largeScreenMain :bg="{ backgroundImage: `url(${top_bg})` }" @emitRatio="emitRatio">
+      <div class="titles">{{ name }}</div>
       <div class="screen-top">
         <div>
           <h1>运行</h1>
@@ -135,10 +136,22 @@ export default {
 };
 </script>
 <style lang="scss">
-.largeScreen-contain {
+.largeScreen-containone {
   width: 100%;
   background: url("@/assets/img/home/bg1.jpg");
   background-size: contain;
+  .titles {
+    height: 70px;
+    display: flex;
+    left: 450px;
+    right: 450px;
+    position: absolute;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 40px;
+    background: rgba(36, 38, 110, 0.9);
+  }
   .screen-top {
     height: 80px;
     display: flex;
@@ -147,7 +160,7 @@ export default {
     z-index: 2;
     left: 450px;
     right: 450px;
-    top: 10px;
+    top: 80px;
     justify-content: space-between;
     /* right: 450px; */
     h1 {

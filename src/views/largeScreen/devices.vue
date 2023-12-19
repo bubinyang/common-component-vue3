@@ -95,8 +95,16 @@ export default {
         this.originList = list.map((item) => {
           const findItem = res.Data.find((childitem) => childitem.device_name === item.name);
           return {
-            cncSload: findItem ? Number(findItem.cnc_sload).toFixed(2) : "--",
-            cncSrate: findItem ? Number(findItem.cnc_srate).toFixed(2) : "--",
+            cncSload: findItem
+              ? findItem.cnc_sload
+                ? Number(findItem.cnc_sload).toFixed(2)
+                : "- -"
+              : "- -",
+            cncSrate: findItem
+              ? findItem.cnc_srate
+                ? Number(findItem.cnc_srate).toFixed(2)
+                : "- -"
+              : "- -",
             title: item.name,
             position: item.position
           };

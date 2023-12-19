@@ -114,11 +114,13 @@ export default {
     onMounted(async () => {
       const result = await init();
       await nextTick();
-      oneInterval = scrollItem({
-        contentEl: document.querySelector(".orders-style .box-contain"),
-        speed: 0.5,
-        orient: "vertical"
-      });
+      if (state.originData.length > 32) {
+        oneInterval = scrollItem({
+          contentEl: document.querySelector(".orders-style .box-contain"),
+          speed: 0.5,
+          orient: "vertical"
+        });
+      }
     });
 
     onUnmounted(() => {
