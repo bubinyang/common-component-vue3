@@ -13,6 +13,9 @@
  *           roughness 表面粗糙的
  *           environment 自然环境
  *           metalness 金属度
+ *           describe 描述
+ *           prompt box提示框
+ *           tutorial 教程
  * 补充短语: currently in office 在职 currently in use 在使用中
  *           I walk in the park 我在公园散步(表达自己平时习惯性在公园散步)
  *           went for walk, went for dinner 某人前去某个地方进行某个活动
@@ -859,7 +862,7 @@ depression
 depth
 deputy
 derive
-describe
+describe   描述
 description
 desert
 deserve
@@ -1290,7 +1293,7 @@ gender
 gene
 general
 generally
-generate
+generate  生成
 generation
 genetic
 gentleman
