@@ -150,7 +150,7 @@ export default {
     justify-content: center;
     color: white;
     font-size: 40px;
-    background: rgba(36, 38, 110, 0.9);
+    background: rgba(36, 38, 110, 0.7);
   }
   .screen-top {
     height: 80px;
@@ -168,7 +168,7 @@ export default {
     }
     & > div {
       flex: 0 0 195px;
-      background: rgba(36, 38, 110, 0.9);
+      background: rgba(36, 38, 110, 0.7);
       display: flex;
       flex-direction: column;
       padding: 10px;
@@ -256,7 +256,7 @@ export default {
     .screen-main-bottom {
       .small-contain {
         // background: rgba(37, 42, 162, 0.8);
-        background: rgba(36, 38, 110, 0.9);
+        background: rgba(36, 38, 110, 0.7);
         border: 0;
         flex: 1;
         margin: 5px 0;

@@ -136,14 +136,14 @@ export default {
       //  URL：/api/screen2/device/alarm
       return http.post("/api/screen2/device/alarm", { ID: route.query.id || "1" }).then((res) => {
         state.originData = res.Data;
-        state.originData.push(
-          ...[
-            { Name: "A-047", Alarm: "1", Time: "2023-12-11 17:00:35" },
-            { Name: "A-047", Alarm: "2", Time: "2023-12-11 17:00:35" },
-            { Name: "A-047", Alarm: "3", Time: "2023-12-11 17:00:35" },
-            { Name: "A-047", Alarm: "4", Time: "2023-12-11 17:00:35" }
-          ]
-        );
+        // state.originData.push(
+        //   ...[
+        //     { Name: "A-047", Alarm: "1", Time: "2023-12-11 17:00:35" },
+        //     { Name: "A-047", Alarm: "2", Time: "2023-12-11 17:00:35" },
+        //     { Name: "A-047", Alarm: "3", Time: "2023-12-11 17:00:35" },
+        //     { Name: "A-047", Alarm: "4", Time: "2023-12-11 17:00:35" }
+        //   ]
+        // );
       });
     };
 
