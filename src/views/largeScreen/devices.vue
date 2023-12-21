@@ -26,7 +26,7 @@
         :style="{
           left: item.position.left,
           top: item.position.top,
-          boxShadow: `0px 0px 30px ${colorlist[item.cnc_runstatus]}`
+          boxShadow: `0px 10px 30px ${colorlist[item.cnc_runstatus]}`
         }"
       >
         <h3>{{ item.title }}</h3>
