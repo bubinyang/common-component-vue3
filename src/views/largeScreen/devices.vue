@@ -23,7 +23,11 @@
         class="dialog-style"
         v-for="(item, index) in originList"
         :key="index"
-        :style="{ left: item.position.left, top: item.position.top }"
+        :style="{
+          left: item.position.left,
+          top: item.position.top,
+          boxShadow: `0px 0px 30px ${colorlist[item.cnc_runstatus]}`
+        }"
       >
         <h3>{{ item.title }}</h3>
         <div>
@@ -45,6 +49,14 @@
 <script>
 import { hourseList } from "./hourse";
 import http from "@/utils/request";
+
+const colorlist = {
+  0: "rgb(100,239,104)",
+  1: "rgb(246,225,21)",
+  2: "rgb(46,188,226)",
+  3: "rgb(222,84,57)",
+  4: "rgb(148,148,148)"
+};
 
 const styleSvg = {
   fill: "transparent",
@@ -75,7 +87,7 @@ export default {
       positionStyle: {},
       itemContentShow: false,
       isShow: true,
-
+      colorlist,
       originList: []
     };
   },
@@ -105,6 +117,7 @@ export default {
                 ? Number(findItem.cnc_srate).toFixed(2)
                 : "- -"
               : "- -",
+            cnc_runstatus: findItem ? findItem.cnc_runstatus : "0",
             title: item.name,
             position: item.position
           };
@@ -164,7 +177,7 @@ export default {
     justify-content: space-around;
     padding: 10px;
     flex: 1;
-    box-shadow: 0px 0px 20px yellow;
+    // box-shadow: 0px 0px 20px yellow;
     border-radius: 10px;
     h3 {
       width: 100%;

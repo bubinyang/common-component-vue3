@@ -30,7 +30,8 @@
       <section class="screen-main-content">
         <section class="screen-main-l">
           <SmallContain :title="'设备状态'">
-            <two v-if="refresAllDayPoint"></two>
+            <twoNew></twoNew>
+            <!-- <two v-if="refresAllDayPoint"></two> -->
           </SmallContain>
 
           <SmallContain :title="'设备异常'">
@@ -52,7 +53,7 @@
         </section>
 
         <section class="screen-main-r">
-          <SmallContain :title="'订单完成'">
+          <SmallContain :title="'加工任务信息'">
             <orders v-if="refresAllDayPoint"></orders>
           </SmallContain>
         </section>
@@ -72,10 +73,11 @@ import deviceError from "./deviceError.vue";
 import orders from "./orders.vue";
 import device from "./devices.vue";
 import http from "@/utils/request";
+import twoNew from "./twoNew.vue";
 
 export default {
   name: "LargeScreen",
-  components: { two, orders, deviceError, three, device },
+  components: { two, orders, deviceError, three, device, twoNew },
   data() {
     return {
       timeVal: "",
@@ -150,7 +152,7 @@ export default {
     justify-content: center;
     color: white;
     font-size: 40px;
-    background: rgba(36, 38, 110, 0.7);
+    background: rgba(36, 38, 110, 0.6);
   }
   .screen-top {
     height: 80px;
@@ -168,7 +170,7 @@ export default {
     }
     & > div {
       flex: 0 0 195px;
-      background: rgba(36, 38, 110, 0.7);
+      background: rgba(36, 38, 110, 0.6);
       display: flex;
       flex-direction: column;
       padding: 10px;
@@ -256,7 +258,7 @@ export default {
     .screen-main-bottom {
       .small-contain {
         // background: rgba(37, 42, 162, 0.8);
-        background: rgba(36, 38, 110, 0.7);
+        background: rgba(36, 38, 110, 0.6);
         border: 0;
         flex: 1;
         margin: 5px 0;

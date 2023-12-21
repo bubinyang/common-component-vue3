@@ -203,6 +203,9 @@ export default {
           }
         }
       }
+      &:nth-child(2n + 2) {
+        background: rgba(183, 162, 162, 0.3);
+      }
     }
   }
 }
