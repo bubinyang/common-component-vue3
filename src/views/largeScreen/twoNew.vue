@@ -571,13 +571,14 @@ export default {
     color: rgb(186, 201, 250);
     div {
       width: 75px;
-      height: 20px;
+      height: 15px;
       display: flex;
       align-items: center;
       label {
-        flex: 0 0 35px;
+        flex: 0 0 30px;
         height: 100%;
-        border-radius: 5px;
+        border-radius: 3px;
+        margin-right: 5px;
       }
       &:nth-child(1) label {
         background: rgb(100, 239, 104);

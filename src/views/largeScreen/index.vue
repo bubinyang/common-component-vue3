@@ -104,7 +104,7 @@ export default {
     const updateData = () => {
       this.refreshComponent();
       this.init();
-      setTimeout(updateData, 10000);
+      setTimeout(updateData, 300000);
     };
     updateData();
 
