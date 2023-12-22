@@ -30,7 +30,7 @@
       <section class="screen-main-content">
         <section class="screen-main-l">
           <SmallContain :title="'设备状态'">
-            <twoNew></twoNew>
+            <twoNew v-if="refresAllDayPoint"></twoNew>
             <!-- <two v-if="refresAllDayPoint"></two> -->
           </SmallContain>
 

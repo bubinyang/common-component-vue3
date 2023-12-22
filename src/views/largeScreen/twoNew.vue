@@ -18,6 +18,7 @@
       <i></i>
       <i></i>
       <i></i>
+      <i></i>
     </div>
 
     <div class="xAxis">
@@ -35,18 +36,28 @@
     <div class="xAxisList">
       <div v-for="(item, index) in xAxisList" :key="index">{{ item }}</div>
     </div>
-
-    <section class="bar" v-for="(item, index) in originList" :key="index">
-      <div class="bar-content" v-for="(a, b) in item.State" :key="b">
-        <b
-          v-for="(c, d) in a.minus"
-          :key="d"
-          :style="{ background: colorlist[a.State], width: barItemWidth + 'px' }"
-        ></b>
-      </div>
-    </section>
-    <!-- <section class="bar"></section>
-    <section class="bar"></section> -->
+    <div
+      style="
+        display: flex;
+        position: absolute;
+        left: 50px;
+        right: 20px;
+        top: 30px;
+        bottom: 30px;
+        flex-direction: column;
+        justify-content: space-around;
+      "
+    >
+      <section class="bar" v-for="(item, index) in originList" :key="index">
+        <div class="bar-content" v-for="(a, b) in item.State" :key="b">
+          <b
+            v-for="(c, d) in a.minus"
+            :key="d"
+            :style="{ background: colorlist[a.State], width: barItemWidth + 'px' }"
+          ></b>
+        </div>
+      </section>
+    </div>
   </section>
 </template>
 
@@ -396,24 +407,27 @@ export default {
         top: 0;
       }
       &:nth-child(2) {
-        top: 44.5px;
+        top: 38px;
       }
       &:nth-child(3) {
-        top: 89px;
+        top: 76px;
       }
-
       &:nth-child(4) {
-        top: 133.5px;
-      }
-      &:nth-child(5) {
-        top: 178px;
+        top: 114px;
       }
 
-      &:nth-child(6) {
-        top: 222.5px;
+      &:nth-child(5) {
+        top: 152px;
       }
+      &:nth-child(6) {
+        top: 190px;
+      }
+
       &:nth-child(7) {
-        bottom: 0px;
+        top: 228px;
+      }
+      &:nth-child(8) {
+        top: 266px;
       }
     }
   }
@@ -423,7 +437,7 @@ export default {
     // height: 100%;
     background: white;
     position: relative;
-    bottom: 2px;
+    bottom: 1px;
     i {
       height: 10px;
       display: block;
@@ -460,7 +474,7 @@ export default {
     height: 30px;
     width: 350px;
     // background: white;
-    position: absolute;
+    // position: absolute;
 
     display: flex;
     .bar-content {
@@ -482,19 +496,19 @@ export default {
     }
 
     &:nth-of-type(2) {
-      top: 80px;
+      top: 72px;
     }
 
     &:nth-of-type(3) {
-      top: 125px;
+      top: 110px;
     }
 
     &:nth-of-type(4) {
-      top: 170px;
+      top: 150px;
     }
 
     &:nth-of-type(5) {
-      top: 215px;
+      top: 187px;
     }
 
     &:nth-of-type(6) {
@@ -513,7 +527,7 @@ export default {
     bottom: 30px;
     left: 0px;
     div {
-      height: 47px;
+      height: 37px;
       display: flex;
       align-items: center;
     }
@@ -559,13 +573,14 @@ export default {
     color: rgb(186, 201, 250);
     div {
       width: 75px;
-      height: 20px;
+      height: 15px;
       display: flex;
       align-items: center;
       label {
-        flex: 0 0 35px;
+        flex: 0 0 30px;
         height: 100%;
-        border-radius: 5px;
+        border-radius: 3px;
+        margin-right: 5px;
       }
       &:nth-child(1) label {
         background: rgb(100, 239, 104);
