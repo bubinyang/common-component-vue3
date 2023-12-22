@@ -1,16 +1,17 @@
 <template>
   <div class="largeScreen-contain largeScreen-contain-style">
     <!-- <div id="box" style="width: 150px; height: 150px; background: red"></div> -->
+    <div @click="rotate()">旋转</div>
     <largeScreenMain>
       <div ref="ThreeD" class="ThreeD"></div>
     </largeScreenMain>
 
-    <!-- <div v-if="loading" class="loadingStyle">
+    <div v-if="loading" class="loadingStyle">
       {{ inputValue }}
       <div class="loadingStyle-progress">
         <el-progress :percentage="inputValue" />
       </div>
-    </div> -->
+    </div>
   </div>
 </template>
 
@@ -34,7 +35,7 @@ import {
 } from "vue";
 import { ThreeBasic } from "@/utils/utils.ts";
 import gsap from "gsap";
-
+let newThreeBasic;
 export default defineComponent({
   name: "3DClass",
   props: {
@@ -67,10 +68,11 @@ export default defineComponent({
     });
     onMounted(() => {
       //   gsap.fromTo("#box", { x: 10 }, { duration: 2, yoyo: true, delay: 1, repeat: -1, x: 300 });
-      const newThreeBasic = new ThreeBasic({
+      newThreeBasic = new ThreeBasic({
         THREE,
         El: state.ThreeD,
-        url: "./new.glb",
+        // url: "./new.glb",
+        url: "./threejs/two_compress_edit.glb",
         assistTools: true
       });
 
@@ -80,7 +82,11 @@ export default defineComponent({
         if (newThreeBasic.progress === 100) clearInterval(getProgress);
       }, 1000);
     });
-    return { ...toRefs(state) };
+
+    const rotate = function () {
+      newThreeBasic.controls.autoRotate = true;
+    };
+    return { ...toRefs(state), rotate };
   }
 });
 </script>
@@ -91,6 +97,14 @@ export default defineComponent({
   top: 0;
   bottom: 0;
   right: 0;
+}
+.largeScreen-contain-style {
+  // background: rgba(1, 14, 50, 1);
+  .title-remark {
+    background: url("@/assets/img/home/item_bg.png");
+    background-size: contain;
+    color: white;
+  }
 }
 // .largeScreen-contain-style {
 //   position: relative;

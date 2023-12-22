@@ -306,19 +306,19 @@ export default {
         /**
          * 常规增加光照
          */
-        // scene.add(new THREE.AmbientLight(0x444444, 1.0)); //环境光
-
-        // light = new THREE.DirectionalLight(0xffffff, 1.0); //平行光
-        // light.position.set(0.5, 1, 0.5);
-        // // 告诉平行光需要开启阴影投射
-        // light.castShadow = true;
-        // scene.add(light);
+        light = new THREE.DirectionalLight(0xffffff, 1.0); //平行光
+        light.position.set(60, 100, 40);
+        // 告诉平行光需要开启阴影投射
+        light.castShadow = true;
+        scene.add(light);
+        //0x444444 稍微自然暗淡点的光
+        scene.add(new THREE.AmbientLight(0x444444, 1.0)); //环境光
         /**
          * 模拟室内光(模型导入)
          */
-        const pmremGenerator = new THREE.PMREMGenerator(renderer);
-        pmremGenerator.compileEquirectangularShader();
-        scene.environment = pmremGenerator.fromScene(new THREE.RoomEnvironment(), 0.5).texture;
+        // const pmremGenerator = new THREE.PMREMGenerator(renderer);
+        // pmremGenerator.compileEquirectangularShader();
+        // scene.environment = pmremGenerator.fromScene(new THREE.RoomEnvironment(), 0.5).texture;
       }
 
       // function getFitScaleValue(obj) {
@@ -358,48 +358,48 @@ export default {
         setTotip();
 
         //加载GLB模型
-        // const loaderGLTF = new THREE.GLTFLoader();
-        // const dracoLoader = new DRACOLoader();
-        // dracoLoader.setDecoderPath("./threejs/draco/gltf/");
-        // loaderGLTF.setDRACOLoader(dracoLoader);
-        // console.log(loaderGLTF.loadAsync);
-        // //localhost:8001/one_compress.glb
-        // loaderGLTF.load("./threejs/night_pipeline.glb", function (mesh) {
-        //   let glfItem;
-        //   flower = mesh.scene;
-        //   //放大缩小模型
-        //   console.log(flower);
-        //   flower.scale.set(1, 1, 1);
-        //   flower.position.set(0, 0, 0);
-        //   //遍历模型里面的各种小部件
+        const loaderGLTF = new THREE.GLTFLoader();
+        const dracoLoader = new DRACOLoader();
+        dracoLoader.setDecoderPath("./threejs/draco/gltf/");
+        loaderGLTF.setDRACOLoader(dracoLoader);
+        console.log(loaderGLTF.loadAsync);
+        //localhost:8001/one_compress.glb
+        loaderGLTF.load("./new.glb", function (mesh) {
+          let glfItem;
+          flower = mesh.scene;
+          //放大缩小模型
+          console.log(flower);
+          flower.scale.set(1, 1, 1);
+          flower.position.set(0, 0, 0);
+          //遍历模型里面的各种小部件
 
-        //   flower.traverse((item, index) => {
-        //     if (item.name === "一次泵018") {
-        //       glfItem = item;
-        //       console.log(item, index);
-        //     }
-        //   });
-        //   //flower.scale.copy(new THREE.Vector3(50, 50, 50)); //通过copy放大50倍
-        //   // flower.scale.set(1, 1, 1); //通过set放大50倍
-        //   console.log(glfItem);
-        //   // glfItem.material.color.set("red"); //模型外表设置颜色为黄色 material外观材质
-        //   //打印glfColor.material.constructor你会发现它的类型就是MeshStandardMaterial，颜色可以通过color.set进行设置
-        //   //为什么flower可以直接使用set方法设置scale和position等属性，因为flower的constructor看到的scene,包含了Objec3D基础对象类，
-        //   //基础对象类有position和scale这些属性，而这些属性又是三维向量Vector3的类型，Vector3具有set等方法
+          flower.traverse((item, index) => {
+            if (item.name === "一次泵018") {
+              glfItem = item;
+              console.log(item, index);
+            }
+          });
+          //flower.scale.copy(new THREE.Vector3(50, 50, 50)); //通过copy放大50倍
+          // flower.scale.set(1, 1, 1); //通过set放大50倍
+          console.log(glfItem);
+          // glfItem.material.color.set("red"); //模型外表设置颜色为黄色 material外观材质
+          //打印glfColor.material.constructor你会发现它的类型就是MeshStandardMaterial，颜色可以通过color.set进行设置
+          //为什么flower可以直接使用set方法设置scale和position等属性，因为flower的constructor看到的scene,包含了Objec3D基础对象类，
+          //基础对象类有position和scale这些属性，而这些属性又是三维向量Vector3的类型，Vector3具有set等方法
 
-        //   //可以拿到模型中的某一个几何体,并进行多边形物体类创建
-        //   // const geometry = mesh.scene.children[2].geometry;
-        //   // var flowertest = new THREE.Mesh(
-        //   //   geometry,
-        //   //   new THREE.MeshLambertMaterial({ color: new THREE.Color("rgb(35, 78, 176)") })
-        //   // );
-        //   // flowertest.scale.copy(new THREE.Vector3(4000, 4000, 4000)); //glb模型放大*/
-        //   scene.add(flower);
-        //   loaderGLTF.load("./threejs/arrow.glb", function (arrow) {
-        //     arrowData = arrow;
-        //     getArrowSetLine();
-        //   });
-        // });
+          //可以拿到模型中的某一个几何体,并进行多边形物体类创建
+          // const geometry = mesh.scene.children[2].geometry;
+          // var flowertest = new THREE.Mesh(
+          //   geometry,
+          //   new THREE.MeshLambertMaterial({ color: new THREE.Color("rgb(35, 78, 176)") })
+          // );
+          // flowertest.scale.copy(new THREE.Vector3(4000, 4000, 4000)); //glb模型放大*/
+          scene.add(flower);
+          loaderGLTF.load("./threejs/arrow.glb", function (arrow) {
+            arrowData = arrow;
+            getArrowSetLine();
+          });
+        });
         // // 加载FBX模型
         // var loader = new THREE.FBXLoader();
 

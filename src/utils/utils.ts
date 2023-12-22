@@ -927,6 +927,9 @@ import { Depth, LayerMaterial } from "lamina/vanilla";
 import { DRACOLoader } from "three/examples/jsm/loaders/DRACOLoader.js";
 import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader.js";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls.js";
+import { domTag } from "@/utils/threeTools";
+import { CSS3DRenderer } from "three/examples/jsm/renderers/CSS3DRenderer";
+
 // import gsap from "gsap";
 export class ThreeBasic {
   THREE: IObject;
@@ -940,6 +943,8 @@ export class ThreeBasic {
   raycaster: IObject; //光线投射
   mouse: IObject; //光线投射鼠标
   controls: IObject; //控制器对象
+  labelRendererAction: IObject; //插入dom的CSS3DRenderer盒子
+  tooltipDoms: Array;
 
   url: string; //基础模型路径
   assistTools: boolean; //是否显示辅助工具
@@ -963,6 +968,8 @@ export class ThreeBasic {
     this.assistTools = param.assistTools;
     this.loading = true;
     this.progress = 0;
+    this.labelRendererAction = {};
+    this.tooltipDoms = [];
     this.draw();
   }
 
@@ -980,7 +987,7 @@ export class ThreeBasic {
       this.setAxesHelper();
       this.setGridHelper();
     }
-
+    this.getLabelRenderer();
     this.load3DModel();
     this.initControls();
     // this.setRaycaster();
@@ -988,12 +995,19 @@ export class ThreeBasic {
     const animate = () => {
       // 更新控制器
       this.render();
+      const angle = Math.atan2(-this.camera.position.z, this.camera.position.x);
+      if (this.tooltipDoms.length) {
+        this.tooltipDoms.forEach((label: any, index: any) => {
+          if (label) {
+            label.rotation.y = angle;
+          }
+        });
+      }
 
       // 更新性能插件
       //stats.update();
-
       this.renderer.render(this.scene, this.camera);
-
+      if (this.labelRendererAction) this.labelRendererAction.render(this.scene, this.camera);
       requestAnimationFrame(animate);
     };
     animate();
@@ -1004,8 +1018,8 @@ export class ThreeBasic {
     this.renderer = new this.THREE.WebGLRenderer({ antialias: true, alpha: true });
     this.renderer.setPixelRatio(window.devicePixelRatio);
     this.renderer.setSize(this.width, this.height);
-    this.renderer.setClearColor(0xaaaaaa);
-    // renderer.setClearColor(0xb9d3ff, 1)
+    //this.renderer.setClearColor(0xaaaaaa);
+    // this.renderer.setClearColor(0xb9d3ff, 1);
     this.renderer.shadowMap.enabled = true;
     this.renderer.outputEncoding = this.THREE.sRGBEncoding; //让模型看上去更真实,模型更亮
     this.renderer.toneMapping = this.THREE.ACESFilmicToneMapping;
@@ -1062,7 +1076,7 @@ export class ThreeBasic {
     this.light.position.set(60, 100, 40);
     this.light.castShadow = true;
     //   light = new THREE.HemisphereLight(0xffffbb, 0x080820, 2.2);
-    //scene.add(light);
+    this.scene.add(this.light);
     //更亮的室内环境光，模拟threejs官方在线编辑界面
     // const pmremGenerator = new THREE.PMREMGenerator(renderer);
     // pmremGenerator.compileEquirectangularShader();
@@ -1136,12 +1150,19 @@ export class ThreeBasic {
       target: [0, 0, 0]
     });
 
-    // virtualScene.add(topLight);
-    // virtualScene.add(leftTopLight);
-    // virtualScene.add(leftBottomLight);
-    // virtualScene.add(rightTopLight);
-    // virtualScene.add(floatLight);
-    // virtualScene.add(floatLightOther);
+    // this.scene.add(topLight);
+    // this.scene.add(leftTopLight);
+    // this.scene.add(leftBottomLight);
+    // this.scene.add(rightTopLight);
+    // this.scene.add(floatLight);
+    // this.scene.add(floatLightOther);
+
+    virtualScene.add(topLight);
+    virtualScene.add(leftTopLight);
+    virtualScene.add(leftBottomLight);
+    virtualScene.add(rightTopLight);
+    virtualScene.add(floatLight);
+    virtualScene.add(floatLightOther);
 
     this.scene.environment = fbo.texture;
 
@@ -1163,9 +1184,9 @@ export class ThreeBasic {
 
     const geometry = new this.THREE.SphereGeometry(1, 64, 64);
 
-    // const virtualBackgroundMesh = new this.THREE.Mesh(geometry, materials);
-    // virtualBackgroundMesh.scale.set(100, 100, 100);
-    // virtualScene.add(virtualBackgroundMesh);
+    const virtualBackgroundMesh = new this.THREE.Mesh(geometry, materials);
+    virtualBackgroundMesh.scale.set(100, 100, 100);
+    //virtualScene.add(virtualBackgroundMesh);
 
     //模拟threejs/editor 实现光照
     // const peremGenerator = new this.THREE.PMREMGenerator(this.renderer);
@@ -1179,7 +1200,7 @@ export class ThreeBasic {
       cubeCamera.update(this.renderer, virtualScene);
       requestAnimationFrame(virtualRender);
     };
-    // virtualRender();
+    virtualRender();
   }
 
   // initModel() {}
@@ -1246,18 +1267,20 @@ export class ThreeBasic {
     const loaderGLTF = new GLTFLoader(manager);
     loaderGLTF.setDRACOLoader(dracoLoader);
 
-    loaderGLTF.load(this.url, (gltf: any) => {
+    loaderGLTF.load(this.url, async (gltf: any) => {
       const model = gltf.scene;
-      console.log(model);
-      model.scale.set(0.01, 0.01, 0.01);
-      model.position.set(0, 0, 0);
+      // model.scale.set(100, 100, 100);
+      // model.position.set(0, -20, 35);
       model.traverse((item: any, index: any) => {
-        console.log(item);
-        if (item.material && item.material.name === "材质.3") {
-          item.material.color.set("#099595");
-        }
+        // if (item.material && item.material.name === "材质.3") {
+        //   item.material.color.set("#099595");
+        // }
+        // if (item.name === "底") {
+        //   item.material.color.set("#010712");
+        // }
       });
       this.scene.add(model);
+      await this.setTotip();
     });
   }
 
@@ -1303,6 +1326,75 @@ export class ThreeBasic {
     this.controls.update();
   }
 
+  //弹出框
+  setTotip(): Promise<any> {
+    const dialogTip = [
+      {
+        id: "SLCHP-01",
+        label: "管理中心",
+        remark: "",
+        position: { x: 0, y: 0.05, z: 0 }
+      }
+      // {
+      //   id: "SLCHP-02",
+      //   label: "24#大棚",
+      //   remark: "",
+      //   position: { x: -0.1362, y: 0.2017, z: 0.5539 }
+      // }
+    ];
+    return new Promise((resolve) => {
+      let domDialog;
+      dialogTip.forEach((item, index) => {
+        domDialog = document.createElement("div");
+        domDialog.id = item.id;
+        domDialog.style.position = "absolute";
+        domDialog.style.pointerEvents = "auto";
+
+        if (!item.position) return;
+        domDialog.innerHTML = `<div class="title-remark">${
+          item.label || ""
+        }</div><div class="title-active"></div>`;
+
+        domDialog.addEventListener("click", function (e) {
+          const tootipList = document.querySelectorAll(".title-remark");
+          const tootipListActive = document.querySelectorAll(".title-active");
+        });
+
+        const { x, y, z } = item.position;
+        const dom = domTag({
+          dom: domDialog,
+          position: { x, y: y, z: z },
+          id: item.id
+        });
+        dom.scale.set(0.0015, 0.0015, 0.0015);
+        this.tooltipDoms.push(dom);
+        this.scene.add(dom);
+      });
+
+      resolve("");
+    });
+  }
+
+  //弹出框盒子
+  getLabelRenderer(): void {
+    const labelRenderer = new CSS3DRenderer();
+    const width = this.El.offsetWidth;
+    const height = this.El.offsetHeight;
+    // labelRenderer.antialias = true;
+    labelRenderer.setSize(width, height);
+    labelRenderer.domElement.className = "dialog-contain";
+    labelRenderer.domElement.style.transformOrigin = "left top";
+    labelRenderer.domElement.style.position = "absolute";
+    labelRenderer.domElement.style.top = "0px";
+    labelRenderer.domElement.style.left = "0px";
+    labelRenderer.domElement.style.pointerEvents = "none";
+    this.El.appendChild(labelRenderer.domElement);
+    //return labelRenderer;
+    this.labelRendererAction = labelRenderer;
+  }
+
+  //
+
   // animate(): void {
   //   // 更新控制器
   //   console.log(this);
@@ -1311,40 +1403,5 @@ export class ThreeBasic {
   //   //stats.update();
   //   this.renderer.render(this.scene, this.camera);
   //   // requestAnimationFrame(this.animate);
-  // }
-
-  //管理加载进度
-
-  // setLoading(): void {
-  //   const manager = new this.THREE.LoadingManager();
-  //   manager.onProgress = async (url: any, loaded: any, total: any) => {
-  //     if (Math.floor((loaded / total) * 100) === 100) {
-  //       this.setState({ loadingProcess: Math.floor((loaded / total) * 100) });
-  //       Animations.animateCamera(
-  //         camera,
-  //         controls,
-  //         { x: 0, y: 40, z: 140 },
-  //         { x: 0, y: 0, z: 0 },
-  //         4000,
-  //         () => {
-  //           this.setState({ sceneReady: true });
-  //         }
-  //       );
-  //     } else {
-  //       this.setState({ loadingProcess: Math.floor((loaded / total) * 100) });
-  //     }
-  //   };
-  //   const loader = new GLTFLoader(manager);
-  //   loader.load(islandModel, (mesh) => {
-  //     mesh.scene.traverse((child) => {
-  //       if (child.isMesh) {
-  //         child.material.metalness = 0.4;
-  //         child.material.roughness = 0.6;
-  //       }
-  //     });
-  //     mesh.scene.position.set(0, -2, 0);
-  //     mesh.scene.scale.set(33, 33, 33);
-  //     scene.add(mesh.scene);
-  //   });
   // }
 }
