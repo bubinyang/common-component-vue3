@@ -49,6 +49,10 @@ const menuList = [
   {
     name: "增删改查系列",
     url: "/crudDemo/index"
+  },
+  {
+    name: "elementui的Table合并展示",
+    url: "/elTableMerge/index"
   }
 ];
 export { menuList };
