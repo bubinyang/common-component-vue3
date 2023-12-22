@@ -457,7 +457,7 @@ export default {
     }
   }
   .bar {
-    height: 35px;
+    height: 30px;
     width: 350px;
     // background: white;
     position: absolute;
@@ -466,7 +466,9 @@ export default {
     .bar-content {
       display: flex;
       position: relative;
-      //   label{position: absolute;right: ;}
+      justify-content: space-between;
+      border-radius: 2px;
+      overflow: hidden;
 
       b {
         display: block;
