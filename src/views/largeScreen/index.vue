@@ -180,6 +180,22 @@ export default {
         align-items: center;
         justify-content: center;
       }
+
+      &:nth-child(1) {
+        box-shadow: 0px 0px 30px rgb(100, 239, 104);
+      }
+      &:nth-child(2) {
+        box-shadow: 0px 0px 30px rgb(246, 225, 21);
+      }
+      &:nth-child(3) {
+        box-shadow: 0px 0px 30px rgb(46, 188, 226);
+      }
+      &:nth-child(4) {
+        box-shadow: 0px 0px 30px rgb(222, 84, 57);
+      }
+      &:nth-child(5) {
+        box-shadow: 0px 0px 30px rgb(148, 148, 148);
+      }
     }
     .time-show {
       position: absolute;
