@@ -30,6 +30,7 @@
  *           adjust to  调整适应于
  *           had to 不得不
  *           possible to 可能
+ *           subscribe to 订阅  subsribe for 带着目的性订阅，为了某个东西订阅
  *           
  * 补充长句:  before making a decision,it is important to keep in mind all factors that might affect the outcome
               after finishing the exams, she went for a long walk in the part for relax
