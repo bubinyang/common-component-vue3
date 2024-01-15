@@ -18,6 +18,8 @@
  *           tutorial 教程
  *           repository 储存库
  *           restore 恢复
+ *           patient 病人
+ *           explanation 解释
  * 补充短语: currently in office 在职 currently in use 在使用中
  *           I walk in the park 我在公园散步(表达自己平时习惯性在公园散步)
  *           went for walk, went for dinner 某人前去某个地方进行某个活动
@@ -30,7 +32,7 @@
  *           adjust to  调整适应于
  *           had to 不得不
  *           possible to 可能
- *           subscribe to 订阅  subsribe for 带着目的性订阅，为了某个东西订阅
+ *           subscribe to 订阅  subscribe for 带着目的性订阅，为了某个东西订阅
  *           
  * 补充长句:  before making a decision,it is important to keep in mind all factors that might affect the outcome
               after finishing the exams, she went for a long walk in the part for relax
@@ -46,6 +48,8 @@
               she need time to adjust to her new job
               the technician had to deactivate the faulty software to prevent further system errors
               to ensure safety,remember to deactivate all electronic devices on the airplane during takeoff and landing
+              the patient is in the process of recovery after surgery
+              explanation of the height of status bar
  * 一、situation status state condition 四个状态词的用法
   1.situation（情况，局势） 表示特定环境下的状态
   the situation at work is getting more stressful 工作情况越来越紧张
@@ -131,9 +135,10 @@
    you could hear the sound of train approaching the station in distance
    4.表示建议
    you could try calling them if they are at home
-
-
-
+   十五、recovery 和 restore的区别
+   recovery 是从某种损失，伤害，困境中逐步恢复。过程是逐步的
+   restore 强调事物恢复到之前的状态，修复恢复重建，可以是系统，文件，建筑
+   they are working to restore the historical building to its original condition
 
   */
 export let word = `a
@@ -2037,7 +2042,7 @@ passion
 past
 patch
 path
-patient
+patient   病人 患者
 pattern
 pause
 pay
