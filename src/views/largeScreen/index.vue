@@ -117,6 +117,14 @@
       <chart2></chart2>
     </SmallContain>
 
+    <SmallContain :title="'饼图'">
+      <pie></pie>
+    </SmallContain>
+
+    <SmallContain :title="'比例图，有细线'">
+      <pie1></pie1>
+    </SmallContain>
+
     <!-- <div class="contain">
       <pie3Dtest></pie3Dtest>
     </div> -->
@@ -135,12 +143,28 @@ import pie3D from "./pie3D.vue";
 import meterOne from "./meter.vue";
 import chart1 from "./chart-1.vue";
 import chart2 from "./chart-2.vue";
+import pie from "./pie.vue";
+import pie1 from "./pie-1.vue";
 
 import pie3Dtest from "./pie3Dtest.vue";
 
 export default {
   name: "LargeScreen",
-  components: { mapModule, chartBar, one, two, three, four, five, pie3D, meterOne, chart1, chart2 },
+  components: {
+    mapModule,
+    chartBar,
+    one,
+    two,
+    three,
+    four,
+    five,
+    pie3D,
+    meterOne,
+    chart1,
+    chart2,
+    pie,
+    pie1
+  },
   data() {
     return {
       timeVal: "",
