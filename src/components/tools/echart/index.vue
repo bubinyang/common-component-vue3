@@ -174,7 +174,7 @@ export default {
   },
   mounted() {
     if (this.showDefaultTipAction) this.showDefaultTip();
-    this.criculationShowTootip();
+    //this.criculationShowTootip();
   },
   methods: {
     //自动循环展示tootip

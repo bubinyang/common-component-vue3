@@ -21,7 +21,7 @@
         lineStyle: { color: 'rgb(186,201,250)', width: 1 },
         color: 'rgb(186,201,250)'
       },
-      axisTick: { show: true, lineStyle: { color: 'rgb(186,201,250)', width: 1 } },
+      axisTick: { show: true, lineStyle: { color: 'rgb(199,214,235)', width: 1 } },
       boundaryGap: true,
 
       axisLabel: {
@@ -33,10 +33,12 @@
     }"
     :yAxisName="''"
     :yAxisParam="{
-      max: 100,
-      axisLine: { show: true, lineStyle: { color: 'rgb(186,201,250)', width: 1 } },
+      axisLine: { show: false, lineStyle: { color: 'rgb(186,201,250)', width: 1 } },
       axisTick: { show: false, lineStyle: { color: '#0c73a5', width: 1 } },
-      splitLine: { show: false, lineStyle: { type: 'dashed', color: 'rgba(58,175,240,0.6)' } },
+      splitLine: {
+        show: true,
+        lineStyle: { type: 'solid', color: 'rgba(189,198,215,0.6)', width: 2 }
+      },
       min: function (value) {
         return 0;
       },
@@ -119,11 +121,12 @@ const originData = [
       },
       showBackground: true,
       backgroundStyle: {
-        borderRadius: 30,
-        borderColor: "rgb(230, 230, 254)",
-        borderWidth: 2
+        color: "rgba(230, 230, 254, 0.4)",
+        borderRadius: 10,
+        borderColor: "rgb(230, 230, 254)"
+        // borderWidth: 2
       },
-      barWidth: 30
+      barWidth: 10
     }
   }
   //   {
@@ -190,22 +193,23 @@ export default {
         decimalDigits: 4,
         frequency: 15
       });
-      // state.newLrdEchartStep.xAxisData = [
-      //   "six",
-      //   "李四",
-      //   "one",
-      //   "two",
-      //   "three",
-      //   "four",
-      //   "five",
-      //   "张三"
-      // ];
-      // originData[0].list = [300, 200, 300, 400, 800];
-      http.post("/api/screen2/device/availability", { ID: route.query.id || "1" }).then((res) => {
-        state.newLrdEchartStep.xAxisData = res.Data.map((item) => item.Name);
-        originData[0].list = res.Data.map((item) => item.Rate);
-        state.newLrdEchartStep.barChartData = originData;
-      });
+      state.newLrdEchartStep.xAxisData = [
+        "six",
+        "李四",
+        "one",
+        "two",
+        "three",
+        "four",
+        "five",
+        "张三"
+      ];
+      originData[0].list = [300, 200, 300, 400, 800];
+      state.newLrdEchartStep.barChartData = originData;
+      // http.post("/api/screen2/device/availability", { ID: route.query.id || "1" }).then((res) => {
+      //   state.newLrdEchartStep.xAxisData = res.Data.map((item) => item.Name);
+      //   originData[0].list = res.Data.map((item) => item.Rate);
+      //   state.newLrdEchartStep.barChartData = originData;
+      // });
     };
 
     return {

@@ -1,26 +1,34 @@
 <template>
   <section class="orders-style">
     <div class="content-container">
-      <div class="top">
+      <!-- <div class="top">
         <section>
-          <div>单号</div>
-          <div>预产量</div>
-          <div>实际产量</div>
-          <div>完成率</div>
+          <div></div>
+          <div></div>
+          <div></div>
+          <div></div>
         </section>
-      </div>
+      </div> -->
 
       <div class="center">
         <div class="box-contain">
-          <section class="content" v-for="(item, key) in originData" :key="key">
-            <!-- <div>1#</div> -->
+          <section class="content" v-for="(item, key) in 4" :key="key">
             <section>
-              <div>{{ item.MOCode }}</div>
-              <div>{{ item.Quantity }}</div>
+              <i>10</i>
               <div>
-                {{ item.Completed }}
+                <h1>工位:</h1>
+                <label class="position">OP150</label>
+                <h1>报修类型:</h1>
+                <label>电气维修</label>
               </div>
-              <div>{{ item.Rate }}%</div>
+              <div>
+                <h1>时间:</h1>
+                2023-12-22 15:23:47
+              </div>
+              <div>
+                <h1>报修内容:</h1>
+                无
+              </div>
             </section>
           </section>
         </div>
@@ -112,15 +120,21 @@ export default {
     });
 
     onMounted(async () => {
-      const result = await init();
+      // const result = await init();
       await nextTick();
-      if (state.originData.length > 32) {
-        oneInterval = scrollItem({
-          contentEl: document.querySelector(".orders-style .box-contain"),
-          speed: 0.5,
-          orient: "vertical"
-        });
-      }
+      // if (state.originData.length > 32) {
+      //   oneInterval = scrollItem({
+      //     contentEl: document.querySelector(".orders-style .box-contain"),
+      //     speed: 0.5,
+      //     orient: "vertical"
+      //   });
+      // }
+
+      // oneInterval = scrollItem({
+      //   contentEl: document.querySelector(".orders-style .box-contain"),
+      //   speed: 0.5,
+      //   orient: "vertical"
+      // });
     });
 
     onUnmounted(() => {
@@ -128,12 +142,12 @@ export default {
     });
 
     const init = async (device) => {
-      return new Promise((resolve) => {
-        http.post("/api/screen2/task/list", { ID: route.query.id || "1" }).then((res) => {
-          state.originData = res.Data;
-          resolve(res.Data);
-        });
-      });
+      // return new Promise((resolve) => {
+      //   http.post("/api/screen2/task/list", { ID: route.query.id || "1" }).then((res) => {
+      //     state.originData = res.Data;
+      //     resolve(res.Data);
+      //   });
+      // });
     };
 
     return {
@@ -184,22 +198,32 @@ export default {
   }
   .center {
     display: block;
-    height: 600px;
+    // height: 600px;
     overflow: hidden;
     color: #e6e6fe;
+    h1 {
+      margin-bottom: 0;
+    }
     .content {
       & > section {
-        display: flex;
-        flex: 1;
-        div {
-          flex: 1;
-          // border-bottom: 1px solid #00a3ff;
-          height: 50px;
-          @include contentCenter;
-
-          &:first-child,
-          &:last-child {
-            flex: 0 0 100px;
+        position: relative;
+        padding-left: 50px;
+        margin-bottom: 20px;
+        i {
+          font-style: normal;
+          position: absolute;
+          left: 20px;
+          top: 20px;
+        }
+        & > div {
+          display: flex;
+          align-items: center;
+          .position {
+            color: rgb(133, 180, 230);
+          }
+          h1 {
+            color: rgb(158, 165, 175);
+            margin-right: 10px;
           }
         }
       }

@@ -73,7 +73,7 @@ export default {
   flex-direction: column;
   flex: 1;
   border-radius: 4px;
-  border: 1px solid #ebeef5;
+  // border: 1px solid #ebeef5;
   // background-color: #fff;
 
   .small-contain-title {

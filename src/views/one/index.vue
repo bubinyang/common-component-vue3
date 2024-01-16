@@ -2,59 +2,47 @@
   <section class="largeScreen-contain largeScreen-containone">
     <largeScreenMain :bg="{ backgroundImage: `url(${top_bg})` }" @emitRatio="emitRatio">
       <div class="titles">{{ name }}</div>
-      <div class="screen-top">
-        <div>
-          <h1>运行</h1>
-          <label>{{ topData.Running }}</label>
-        </div>
-
-        <div>
-          <h1>待机</h1>
-          <label>{{ topData.Standby }}</label>
-        </div>
-
-        <div>
-          <h1>调试</h1>
-          <label>{{ topData.Debugging }}</label>
-        </div>
-        <div>
-          <h1>报警</h1>
-          <label>{{ topData.Alarm }}</label>
-        </div>
-        <div>
-          <h1>离线</h1>
-          <label>{{ topData.Offline }}</label>
-        </div>
-      </div>
 
       <section class="screen-main-content">
         <section class="screen-main-l">
           <SmallContain :title="'设备状态'">
-            <twoNew v-if="refresAllDayPoint"></twoNew>
-            <!-- <two v-if="refresAllDayPoint"></two> -->
+            <!-- <twoNew v-if="refresAllDayPoint"></twoNew> -->
+            <chartBar></chartBar>
           </SmallContain>
 
           <SmallContain :title="'设备异常'">
             <template #action> </template>
-
-            <deviceError v-if="refresAllDayPoint"></deviceError>
-          </SmallContain>
-        </section>
-
-        <section class="screen-main-bottom">
-          <SmallContain :title="'设备利用率'">
             <three v-if="refresAllDayPoint"></three>
           </SmallContain>
         </section>
 
+        <!-- <section class="screen-main-bottom">
+          <SmallContain :title="'设备利用率'">
+            <three v-if="refresAllDayPoint"></three>
+          </SmallContain>
+        </section> -->
+
         <section class="screen-main-center">
-          <!-- <mapModule :ratio="ratio" /> -->
-          <device v-if="refresAllDayPoint"></device>
+          <div class="center-contain">
+            <SmallContain :title="'设备状态'">
+              <!-- <twoNew v-if="refresAllDayPoint"></twoNew> -->
+            </SmallContain>
+
+            <SmallContain :title="'设备状态'">
+              <!-- <twoNew v-if="refresAllDayPoint"></twoNew> -->
+              <chartBar1></chartBar1>
+            </SmallContain>
+          </div>
         </section>
 
         <section class="screen-main-r">
           <SmallContain :title="'加工任务信息'">
             <orders v-if="refresAllDayPoint"></orders>
+          </SmallContain>
+
+          <SmallContain :title="'设备状态'">
+            <!-- <twoNew v-if="refresAllDayPoint"></twoNew> -->
+            <chartBar2></chartBar2>
           </SmallContain>
         </section>
       </section>
@@ -63,7 +51,10 @@
 </template>
 <script>
 import { getWeek } from "@/utils";
-import chartBar from "@/views/largeScreen/chartBar.vue";
+import chartBar from "./chartBar.vue";
+import chartBar1 from "./chartBar1.vue";
+import chartBar2 from "./chartBar2.vue";
+
 import one from "./one.vue";
 import two from "./two.vue";
 import three from "./three.vue";
@@ -77,7 +68,7 @@ import twoNew from "./twoNew.vue";
 
 export default {
   name: "LargeScreen",
-  components: { two, orders, deviceError, three, device, twoNew },
+  components: { two, orders, deviceError, three, device, twoNew, chartBar, chartBar1, chartBar2 },
   data() {
     return {
       timeVal: "",
@@ -213,8 +204,8 @@ export default {
 
     .screen-main-l {
       position: absolute;
-      height: calc(100% - 317px);
-      width: 450px;
+      height: 100%;
+      width: 520px;
       display: flex;
       z-index: 2;
       left: 0;
@@ -224,8 +215,8 @@ export default {
 
     .screen-main-r {
       position: absolute;
-      height: calc(100% - 317px);
-      width: 450px;
+      height: 100%;
+      width: 520px;
       display: flex;
       z-index: 2;
       right: 0;
@@ -241,6 +232,17 @@ export default {
       right: 0;
       //background: url("@/assets/img/home/zybg.jpg");
       z-index: 1;
+      .center-contain {
+        width: 850px;
+        height: 100%;
+        border: 1px solid white;
+        position: absolute;
+        left: 50%;
+        transform: translateX(-50%);
+        padding: 5px 10px;
+        display: flex;
+        flex-direction: column;
+      }
     }
 
     .screen-main-bottom {
