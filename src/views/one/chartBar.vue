@@ -18,10 +18,10 @@
       splitLine: { show: false, lineStyle: { type: 'solid', color: '#4B6BAA' } },
       axisLine: {
         onZero: false,
-        lineStyle: { color: 'rgb(186,201,250)', width: 1 },
+        lineStyle: { color: '#00afed', width: 1 },
         color: '#ffffff'
       },
-      axisTick: { show: true, lineStyle: { color: 'rgb(199,214,235)', width: 1 } },
+      axisTick: { show: true, lineStyle: { color: '#00afed', width: 1 } },
       boundaryGap: true,
 
       axisLabel: {
@@ -33,11 +33,11 @@
     }"
     :yAxisName="''"
     :yAxisParam="{
-      axisLine: { show: true, lineStyle: { color: 'rgb(186,201,250)', width: 1 } },
+      axisLine: { show: true, lineStyle: { color: '#00afed', width: 1 } },
       axisTick: { show: false, lineStyle: { color: '#0c73a5', width: 1 } },
       splitLine: {
         show: true,
-        lineStyle: { type: 'solid', color: 'rgba(189,198,215,0.6)', width: 2 }
+        lineStyle: { type: 'solid', color: '#00afed', width: 1 }
       },
       min: function (value) {
         return 0;

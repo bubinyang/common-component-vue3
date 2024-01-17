@@ -106,7 +106,7 @@ export default {
         { color: "#1C8A33", color1: "#B7FF81" },
         { color: "#76027E", color1: "#F71780" },
         { color: "#F23200", color1: "#DCFF19" },
-        { color: "#2660D6", color1: "#E2569F" },
+        { color: "#2660D6", color1: "#04B8F8" },
         { color: "#0E4B90", color1: "#04B8F8" },
         { color: "#952037", color1: "#ECB5CF" }
       ]
@@ -234,7 +234,7 @@ export default {
     .screen-main-l {
       position: absolute;
       height: 100%;
-      width: 520px;
+      width: 540px;
       display: flex;
       z-index: 2;
       left: 0;
@@ -245,7 +245,7 @@ export default {
     .screen-main-r {
       position: absolute;
       height: 100%;
-      width: 520px;
+      width: 540px;
       display: flex;
       z-index: 2;
       right: 0;
@@ -320,11 +320,11 @@ export default {
             font-size: 18px;
             position: relative;
             top: 10px;
-            left: 10px;
+            left: 30px;
             // top: 13px;
             // left: 5px;
             color: rgb(119, 141, 241);
-            border-left: 8px solid rgb(17, 184, 236);
+            // border-left: 8px solid rgb(17, 184, 236);
             padding: 3px 0 0 10px;
             font-family: PangMenZhengDaoBiao;
           }
@@ -334,6 +334,9 @@ export default {
             // top: 10px;
             // right: 10px;
           }
+        }
+        .small-contain-contain {
+          padding: 20px;
         }
       }
     }
