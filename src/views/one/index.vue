@@ -24,8 +24,13 @@
 
         <section class="screen-main-center">
           <div class="center-contain">
-            <SmallContain :title="'设备状态'">
+            <SmallContain class="pie1" :title="'设备状态'">
               <!-- <twoNew v-if="refresAllDayPoint"></twoNew> -->
+              <div class="pie1-contain">
+                <div class="pie1-box" v-for="(item, index) in 6" :key="index">
+                  <pie1></pie1>
+                </div>
+              </div>
             </SmallContain>
 
             <SmallContain :title="'设备状态'">
@@ -63,12 +68,25 @@ import five from "./five.vue";
 import deviceError from "./deviceError.vue";
 import orders from "./orders.vue";
 import device from "./devices.vue";
+import pie1 from "./pie1.vue";
+
 import http from "@/utils/request";
 import twoNew from "./twoNew.vue";
 
 export default {
   name: "LargeScreen",
-  components: { two, orders, deviceError, three, device, twoNew, chartBar, chartBar1, chartBar2 },
+  components: {
+    two,
+    orders,
+    deviceError,
+    three,
+    device,
+    twoNew,
+    chartBar,
+    chartBar1,
+    chartBar2,
+    pie1
+  },
   data() {
     return {
       timeVal: "",
@@ -242,6 +260,23 @@ export default {
         padding: 5px 10px;
         display: flex;
         flex-direction: column;
+      }
+      .pie1 {
+        .pie1-contain {
+          flex: 1;
+          display: flex;
+          flex-wrap: wrap;
+        }
+
+        .small-contain-contain {
+          padding: 50px;
+        }
+        .pie1-box {
+          flex: 0 0 33%;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+        }
       }
     }
 
