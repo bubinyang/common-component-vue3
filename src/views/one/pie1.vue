@@ -1,5 +1,5 @@
 <template>
-  <div class="energyMakeUp" ref="energyMakeUpRef" style="width: 100%; height: 278px"></div>
+  <div class="energyMakeUp" ref="energyMakeUpRef" style="width: 100%; height: 108px"></div>
 </template>
 <script>
 import { reactive, toRefs, onMounted, ref, watch } from "vue";
@@ -284,7 +284,7 @@ export default {
             // },
             coordinateSystem: "polar",
             roundCap: false,
-            barWidth: 30,
+            barWidth: 10,
             z: 999,
             itemStyle: {
               normal: {

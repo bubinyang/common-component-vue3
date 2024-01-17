@@ -13,23 +13,21 @@
       <div class="center">
         <div class="box-contain">
           <section class="content" v-for="(item, key) in 4" :key="key">
-            <section>
-              <i>10</i>
-              <div>
-                <h1>工位:</h1>
-                <label class="position">OP150</label>
-                <h1>报修类型:</h1>
-                <label>电气维修</label>
-              </div>
-              <div>
-                <h1>时间:</h1>
-                2023-12-22 15:23:47
-              </div>
-              <div>
-                <h1>报修内容:</h1>
-                无
-              </div>
-            </section>
+            <i>10</i>
+            <div>
+              <h1>工位:</h1>
+              <label class="position">OP150</label>
+              <h1>报修类型:</h1>
+              <label>电气维修</label>
+            </div>
+            <div>
+              <h1>时间:</h1>
+              2023-12-22 15:23:47
+            </div>
+            <div>
+              <h1>报修内容:</h1>
+              无
+            </div>
           </section>
         </div>
       </div>
@@ -205,31 +203,44 @@ export default {
       margin-bottom: 0;
     }
     .content {
-      & > section {
-        position: relative;
-        padding-left: 50px;
-        margin-bottom: 20px;
-        i {
-          font-style: normal;
-          position: absolute;
-          left: 20px;
-          top: 20px;
+      position: relative;
+      padding-left: 50px;
+      margin-right: 10px;
+      margin-bottom: 20px;
+      border-bottom: 2px solid;
+      border-image: linear-gradient(90deg, rgba(0, 216, 247, 0) 0%, #00afed 100%) 2 2 2 2;
+
+      i {
+        font-style: normal;
+        position: absolute;
+        left: 20px;
+        top: 20px;
+      }
+      & > div {
+        display: flex;
+        align-items: center;
+        .position {
+          color: rgb(133, 180, 230);
         }
-        & > div {
-          display: flex;
-          align-items: center;
-          .position {
-            color: rgb(133, 180, 230);
-          }
-          h1 {
-            color: rgb(158, 165, 175);
-            margin-right: 10px;
-          }
+        h1 {
+          color: rgb(158, 165, 175);
+          margin-right: 10px;
         }
       }
-      &:nth-child(2n + 2) {
-        background: rgba(183, 162, 162, 0.3);
-      }
+      // .boardBottom {
+      //   //  width: 101px;
+      //   width: 100%;
+      //   position: absolute;
+      //   bottom: 0;
+      //   left: 0;
+      //   border-top: 5px dotted #fff; // dotted这个会密一点
+      //   background: linear-gradient(to right, #3498db, #e74c3c);
+      //   background-origin: border-box;
+      // }
+
+      // &:nth-child(2n + 2) {
+      //   background: rgba(183, 162, 162, 0.3);
+      // }
     }
   }
 }

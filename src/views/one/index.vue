@@ -27,8 +27,8 @@
             <SmallContain class="pie1" :title="'设备状态'">
               <!-- <twoNew v-if="refresAllDayPoint"></twoNew> -->
               <div class="pie1-contain">
-                <div class="pie1-box" v-for="(item, index) in 6" :key="index">
-                  <pie1></pie1>
+                <div class="pie1-box" v-for="(item, index) in list" :key="index">
+                  <pie1 :color="item.color" :color1="item.color1"></pie1>
                 </div>
               </div>
             </SmallContain>
@@ -101,7 +101,15 @@ export default {
       rankDate: "",
       topData: {},
       refresAllDayPoint: false,
-      name: ""
+      name: "",
+      list: [
+        { color: "#1C8A33", color1: "#B7FF81" },
+        { color: "#76027E", color1: "#F71780" },
+        { color: "#F23200", color1: "#DCFF19" },
+        { color: "#2660D6", color1: "#E2569F" },
+        { color: "#0E4B90", color1: "#04B8F8" },
+        { color: "#952037", color1: "#ECB5CF" }
+      ]
     };
   },
   created() {
@@ -149,19 +157,21 @@ export default {
 <style lang="scss">
 .largeScreen-containone {
   width: 100%;
-  background: url("@/assets/img/home/bg1.jpg");
+  background: url("@/assets/img/home/board_bg.png");
   background-size: contain;
   .titles {
-    height: 70px;
+    height: 77px;
+    width: 100%;
     display: flex;
-    left: 450px;
-    right: 450px;
     position: absolute;
     align-items: center;
     justify-content: center;
     color: white;
     font-size: 40px;
-    background: rgba(36, 38, 110, 0.6);
+    background: url("@/assets/img/home/board_head.png");
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-size: contain;
   }
   .screen-top {
     height: 80px;
@@ -219,6 +229,7 @@ export default {
     display: flex;
     justify-content: space-between;
     position: relative;
+    margin-top: 100px;
 
     .screen-main-l {
       position: absolute;
@@ -253,7 +264,6 @@ export default {
       .center-contain {
         width: 850px;
         height: 100%;
-        border: 1px solid white;
         position: absolute;
         left: 50%;
         transform: translateX(-50%);
@@ -292,16 +302,18 @@ export default {
 
     .screen-main-l,
     .screen-main-r,
-    .screen-main-bottom {
+    .screen-main-center {
       .small-contain {
         // background: rgba(37, 42, 162, 0.8);
-        background: rgba(36, 38, 110, 0.6);
+        // background: rgba(36, 38, 110, 0.6);
+        background: url("@/assets/img/home/box_bg.png") no-repeat;
+        background-size: 100% 100%;
         border: 0;
         flex: 1;
-        margin: 5px 0;
+        margin: 15px 0;
         .small-contain-title {
           .title {
-            background: linear-gradient(45deg, #ffffff 0%, #88d7f7 30.044921875%);
+            background: linear-gradient(45deg, #ffffff 0%, #88d7f7 15.044921875%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             justify-content: flex-start;
@@ -312,9 +324,9 @@ export default {
             // top: 13px;
             // left: 5px;
             color: rgb(119, 141, 241);
-            font-weight: bold;
             border-left: 8px solid rgb(17, 184, 236);
             padding: 3px 0 0 10px;
+            font-family: PangMenZhengDaoBiao;
           }
           label {
             color: white;
