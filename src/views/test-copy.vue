@@ -1,5 +1,8 @@
 <template>
   <section id="stageContain">
+    渐变虚线
+    <div class="gradient-dashed-border"></div>
+
     <a class="btn" @click="exportToVueFile" href="#">平安夜</a>
     <div class="btn-shadow">
       <label></label>
@@ -552,6 +555,14 @@ export default {
 // a {
 //   color: #42b983;
 // }
+
+.gradient-dashed-border {
+  width: 101px;
+  border-top: 1px dotted #fff; // dotted这个会密一点
+  background: linear-gradient(to right, #3498db, #e74c3c);
+  background-origin: border-box;
+}
+
 .css-style {
   font-variant: small-caps;
   unicode-bidi: bidi-override;
