@@ -12,21 +12,21 @@
 
       <div class="center">
         <div class="box-contain">
-          <section class="content" v-for="(item, key) in 4" :key="key">
+          <section class="content" v-for="(item, key) in originData" :key="key">
             <i>10</i>
             <div>
               <h1>工位:</h1>
-              <label class="position">OP150</label>
+              <label class="position">{{ item.wsCode }}</label>
               <h1>报修类型:</h1>
-              <label>电气维修</label>
+              <label>{{ item.major }}</label>
             </div>
             <div>
               <h1>时间:</h1>
-              2023-12-22 15:23:47
+              {{ item.createTime }}
             </div>
             <div>
               <h1>报修内容:</h1>
-              无
+              {{ item.question || "无" }}
             </div>
           </section>
         </div>
@@ -40,8 +40,8 @@
 import { ref, reactive, toRefs, onMounted, watch, onUnmounted, onBeforeMount, nextTick } from "vue";
 import { lrdEchart } from "@/utils/utils.ts";
 import { scrollItem } from "@/utils/index.js";
-import http from "@/utils/request";
 import { useRoute } from "vue-router";
+import http from "@/utils/requestone";
 
 import * as echarts from "echarts";
 
@@ -99,7 +99,8 @@ export default {
       newLrdEchartStep: {},
       dataZoom: [],
       dataRight: [{ name: "1" }, { name: "2" }, { name: "3" }, { name: "4" }, { name: "5" }],
-      originData: []
+      originData: [],
+      list: []
     });
 
     const seriesItemStyle = ref({
@@ -118,21 +119,15 @@ export default {
     });
 
     onMounted(async () => {
-      // const result = await init();
+      const result = await init();
       await nextTick();
-      // if (state.originData.length > 32) {
-      //   oneInterval = scrollItem({
-      //     contentEl: document.querySelector(".orders-style .box-contain"),
-      //     speed: 0.5,
-      //     orient: "vertical"
-      //   });
-      // }
-
-      // oneInterval = scrollItem({
-      //   contentEl: document.querySelector(".orders-style .box-contain"),
-      //   speed: 0.5,
-      //   orient: "vertical"
-      // });
+      if (state.originData.length > 115) {
+        oneInterval = scrollItem({
+          contentEl: document.querySelector(".orders-style .box-contain"),
+          speed: 0.5,
+          orient: "vertical"
+        });
+      }
     });
 
     onUnmounted(() => {
@@ -140,12 +135,19 @@ export default {
     });
 
     const init = async (device) => {
-      // return new Promise((resolve) => {
-      //   http.post("/api/screen2/task/list", { ID: route.query.id || "1" }).then((res) => {
-      //     state.originData = res.Data;
-      //     resolve(res.Data);
-      //   });
-      // });
+      return new Promise((resolve) => {
+        http
+          .get("/kb/workorderlist", {
+            params: {
+              pageNum: 1,
+              pageSize: 50
+            }
+          })
+          .then((res) => {
+            state.originData = res.rows;
+            resolve(res);
+          });
+      });
     };
 
     return {
@@ -159,7 +161,10 @@ export default {
 
 <style lang="scss">
 .orders-style {
-  flex: 1;
+  height: 418px;
+  width: 100%;
+  overflow: hidden;
+
   .content-container {
     height: 100%;
 
@@ -207,9 +212,11 @@ export default {
       padding-left: 50px;
       margin-right: 10px;
       margin-bottom: 20px;
-      border-bottom: 2px solid;
-      border-image: linear-gradient(90deg, rgba(0, 216, 247, 0) 0%, #00afed 100%) 2 2 2 2;
-
+      // border-bottom: 2px solid;
+      // border-image: linear-gradient(90deg, rgba(0, 216, 247, 0) 0%, #00afed 100%) 2 2 2 2;
+      background: url("@/assets/img/home/zuo_xuxian.png");
+      background-repeat: no-repeat;
+      // background
       i {
         font-style: normal;
         position: absolute;

@@ -26,9 +26,9 @@
 
       axisLabel: {
         color: 'rgb(186,201,250)',
-        formatter: newLrdEchartStep.getXAxisLabelBarFormatter
-          ? newLrdEchartStep.getXAxisLabelBarFormatter.bind(newLrdEchartStep)
-          : () => {}
+        formatter: (val) => {
+          return val;
+        }
       }
     }"
     :yAxisName="''"
@@ -61,7 +61,7 @@
       symbolSize: 0
     }"
     :legendParam="{
-      show: true,
+      show: false,
       right: '5%',
       top: '2%',
       bottom: '2%',
@@ -90,6 +90,8 @@ import { ref, reactive, toRefs, onMounted, watch } from "vue";
 import { lrdEchart } from "@/utils/utils.ts";
 // import { getRealData } from "@/request/compair.js";
 import * as echarts from "echarts";
+import http from "@/utils/requestone";
+import moment from "moment";
 
 const originData = [
   {
@@ -166,8 +168,25 @@ export default {
       //   state.newLrdEchartStep.getXAxisLabelBarFormatter = (val) => {
       //     return val + "马丁";
       //   };
-      state.newLrdEchartStep.barChartData = originData;
+      // state.newLrdEchartStep.barChartData = originData;
       //let { data } = await baseService.get("/energy/board/getMonthEnergy");
+
+      http
+        .get("/system/passone/list/rejectRatioData", {
+          params: {
+            pageNum: 1,
+            pageSize: 50,
+            beginTime: moment().subtract(30, "days").format("YYYY-MM-DD"),
+            endTime: moment().startOf("day").format("YYYY-MM-DD")
+          }
+        })
+        .then((res) => {
+          state.newLrdEchartStep.xAxisData = res.rows.map((item) => item.date);
+          originData[0].list = res.rows.map((item) =>
+            item.percent > 0 ? item.percent.toFixed(2) : item.percent
+          );
+          state.newLrdEchartStep.barChartData = originData;
+        });
     };
 
     return {

@@ -6,7 +6,7 @@
     :x-axis-data="newLrdEchartStep.xAxisData || []"
     :chartType="'line'"
     :title="{
-      text: 'kWh',
+      text: '',
       top: '0',
       left: '20',
       textStyle: { color: '#00FFFF', fontSize: '12', fontWeight: 'normal' }
@@ -26,9 +26,9 @@
 
       axisLabel: {
         color: 'rgb(186,201,250)',
-        formatter: newLrdEchartStep.getXAxisLabelBarFormatter
-          ? newLrdEchartStep.getXAxisLabelBarFormatter.bind(newLrdEchartStep)
-          : () => {}
+        formatter: (val) => {
+          return val;
+        }
       }
     }"
     :yAxisName="''"
@@ -61,7 +61,7 @@
       symbolSize: 0
     }"
     :legendParam="{
-      show: true,
+      show: false,
       right: '5%',
       top: '2%',
       bottom: '2%',
@@ -90,7 +90,8 @@ import { ref, reactive, toRefs, onMounted, watch } from "vue";
 import { lrdEchart } from "@/utils/utils.ts";
 // import { getRealData } from "@/request/compair.js";
 import * as echarts from "echarts";
-
+import http from "@/utils/requestone";
+import moment from "moment";
 const originData = [
   {
     attrKey: "A29",
@@ -166,8 +167,30 @@ export default {
       //   state.newLrdEchartStep.getXAxisLabelBarFormatter = (val) => {
       //     return val + "马丁";
       //   };
-      state.newLrdEchartStep.barChartData = originData;
-      //let { data } = await baseService.get("/energy/board/getMonthEnergy");
+      // state.newLrdEchartStep.barChartData = originData;
+
+      // http
+      //   .get("/system/passone/list/rejectRatioQmData", {
+      //     beginTime: "2023-12-29",
+      //     endTime: "2024-01-19"
+      //   })
+      //   .then((res) => {
+      //     console.log(res, 111111111111111);
+      //   });
+      http
+        .get("/system/passone/list/rejectRatioQmData", {
+          params: {
+            beginTime: moment().subtract(20, "days").format("YYYY-MM-DD"),
+            endTime: moment().add(1, "days").format("YYYY-MM-DD")
+          }
+        })
+        .then((res) => {
+          state.newLrdEchartStep.xAxisData = res.rows.map((item) => item.date);
+          originData[0].list = res.rows.map((item) =>
+            item.percent > 0 ? item.percent.toFixed(2) : item.percent
+          );
+          state.newLrdEchartStep.barChartData = originData;
+        });
     };
 
     return {

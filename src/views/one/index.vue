@@ -5,12 +5,12 @@
 
       <section class="screen-main-content">
         <section class="screen-main-l">
-          <SmallContain :title="'设备状态'">
+          <SmallContain :title="'一次气密不良'">
             <!-- <twoNew v-if="refresAllDayPoint"></twoNew> -->
             <chartBar></chartBar>
           </SmallContain>
 
-          <SmallContain :title="'设备异常'">
+          <SmallContain :title="'启动力矩'">
             <template #action> </template>
             <three v-if="refresAllDayPoint"></three>
           </SmallContain>
@@ -24,7 +24,7 @@
 
         <section class="screen-main-center">
           <div class="center-contain">
-            <SmallContain class="pie1" :title="'设备状态'">
+            <SmallContain class="pie1" :title="'生产总览'">
               <!-- <twoNew v-if="refresAllDayPoint"></twoNew> -->
               <div class="pie1-contain">
                 <div class="pie1-box" v-for="(item, index) in list" :key="index">
@@ -33,7 +33,7 @@
               </div>
             </SmallContain>
 
-            <SmallContain :title="'设备状态'">
+            <SmallContain :title="'一次校验不合格率'">
               <!-- <twoNew v-if="refresAllDayPoint"></twoNew> -->
               <chartBar1></chartBar1>
             </SmallContain>
@@ -41,11 +41,11 @@
         </section>
 
         <section class="screen-main-r">
-          <SmallContain :title="'加工任务信息'">
+          <SmallContain :title="'报修清单'">
             <orders v-if="refresAllDayPoint"></orders>
           </SmallContain>
 
-          <SmallContain :title="'设备状态'">
+          <SmallContain :title="'一次下线合格率'">
             <!-- <twoNew v-if="refresAllDayPoint"></twoNew> -->
             <chartBar2></chartBar2>
           </SmallContain>
@@ -70,7 +70,7 @@ import orders from "./orders.vue";
 import device from "./devices.vue";
 import pie1 from "./pie1.vue";
 
-import http from "@/utils/request";
+import http from "@/utils/requestone";
 import twoNew from "./twoNew.vue";
 
 export default {
@@ -124,10 +124,9 @@ export default {
       setTimeout(updateData, 300000);
     };
     updateData();
-
-    http.post("/api/line/name", { ID: this.$route.query.id || "1" }).then((res) => {
-      this.name = res.Data;
-    });
+    // http.post("/api/line/name", { ID: this.$route.query.id || "1" }).then((res) => {
+    //   this.name = res.Data;
+    // });
   },
   methods: {
     setTime() {
@@ -140,9 +139,9 @@ export default {
       this.ratio = data;
     },
     init() {
-      http.post("/api/screen2/device/state", { ID: this.$route.query.id || "1" }).then((res) => {
-        this.topData = res.Data;
-      });
+      // http.get("/kb/kb1").then((res) => {
+      //   console.log(res, 110);
+      // });
     },
 
     refreshComponent() {

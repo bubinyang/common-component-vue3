@@ -91,7 +91,7 @@ import { ref, reactive, toRefs, onMounted, watch } from "vue";
 import { lrdEchart } from "@/utils/utils.ts";
 // import { getRealData } from "@/request/compair.js";
 import * as echarts from "echarts";
-import http from "@/utils/request";
+import http from "@/utils/requestone";
 import { useRoute } from "vue-router";
 
 const originData = [
@@ -121,12 +121,12 @@ const originData = [
       },
       showBackground: true,
       backgroundStyle: {
-        color: "rgba(230, 230, 254, 0.4)",
+        color: "rgba(180, 180, 180, 0.2)",
         borderRadius: 10,
         borderColor: "rgb(230, 230, 254)"
         // borderWidth: 2
-      },
-      barWidth: 10
+      }
+      //barWidth: 10
     }
   }
   //   {
@@ -205,11 +205,15 @@ export default {
       ];
       originData[0].list = [300, 200, 300, 400, 800];
       state.newLrdEchartStep.barChartData = originData;
-      // http.post("/api/screen2/device/availability", { ID: route.query.id || "1" }).then((res) => {
-      //   state.newLrdEchartStep.xAxisData = res.Data.map((item) => item.Name);
-      //   originData[0].list = res.Data.map((item) => item.Rate);
-      //   state.newLrdEchartStep.barChartData = originData;
-      // });
+      http
+        .get("/system/qualityresult/list210", { params: { pageNum: 1, pageSize: 50 } })
+        .then((res) => {
+          state.newLrdEchartStep.xAxisData = res.rows.map((item) => item.qrId);
+          originData[0].list = res.rows.map((item) =>
+            item.finalValue > 0 ? item.finalValue.toFixed(2) : item.finalValue
+          );
+          state.newLrdEchartStep.barChartData = originData;
+        });
     };
 
     return {
