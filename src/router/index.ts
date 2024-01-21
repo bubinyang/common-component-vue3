@@ -33,12 +33,20 @@ const routes: Array<RouteRecordRaw> = [
     name: "LargeScreenOther",
     component: () => import("@/views/largeScreenOther/index.vue")
   },
-
+/**装配看板 */
   {
     path: "/one",
     name: "One",
     component: () => import("@/views/one/index.vue")
   },
+
+  /**装配看板2 */
+  {
+    path: "/two",
+    name: "Two",
+    component: () => import("@/views/two/index.vue")
+  },
+
 
   // 点击某个元素，展示弹出框，弹出框位置根据内容框决定位置
 

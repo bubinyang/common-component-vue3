@@ -10,6 +10,14 @@
     align-items: center;
     justify-content: center;
 }
+
+@mixin labelEllipsis{
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+
 /**菜单样式**/
 $menuBg:#002B49;
 $menuBgActiveColor: #042338;

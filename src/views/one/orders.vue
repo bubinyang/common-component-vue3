@@ -18,7 +18,7 @@
               <h1>工位:</h1>
               <label class="position">{{ item.wsCode }}</label>
               <h1>报修类型:</h1>
-              <label>{{ item.major }}</label>
+              <label class="type">{{ item.major }}</label>
             </div>
             <div>
               <h1>时间:</h1>
@@ -161,7 +161,7 @@ export default {
 
 <style lang="scss">
 .orders-style {
-  height: 418px;
+  height: 382px;
   width: 100%;
   overflow: hidden;
 
@@ -206,26 +206,39 @@ export default {
     color: #e6e6fe;
     h1 {
       margin-bottom: 0;
+      flex: 0 0 60px;
+      font-size: 14px;
     }
     .content {
       position: relative;
-      padding-left: 50px;
-      margin-right: 10px;
-      margin-bottom: 20px;
+      padding: 10px 0 10px 50px;
+      margin: 0 20px;
+      font-size: 16px;
+      .position {
+        width: 100px;
+        @include labelEllipsis;
+        text-align: left;
+      }
+      h1:nth-of-type(2) {
+        margin-left: 10px;
+      }
+      // margin-bottom: 20px;
       // border-bottom: 2px solid;
       // border-image: linear-gradient(90deg, rgba(0, 216, 247, 0) 0%, #00afed 100%) 2 2 2 2;
-      background: url("@/assets/img/home/zuo_xuxian.png");
-      background-repeat: no-repeat;
+      // background: url("@/assets/img/home/zuo_xuxian.png");
+      // background-repeat: no-repeat;
       // background
       i {
         font-style: normal;
         position: absolute;
-        left: 20px;
-        top: 20px;
+        left: 10px;
+        top: 50%;
+        transform: translateY(-50%);
       }
       & > div {
         display: flex;
-        align-items: center;
+        // align-items: center;
+        text-align: left;
         .position {
           color: rgb(133, 180, 230);
         }
@@ -233,6 +246,17 @@ export default {
           color: rgb(158, 165, 175);
           margin-right: 10px;
         }
+      }
+      &::after {
+        content: "";
+        width: 100%;
+        position: absolute;
+        bottom: 0;
+        height: 2px;
+        left: 0;
+        background: url("@/assets/img/home/zuo_xuxian.png");
+        background-size: cover;
+        background-repeat: no-repeat;
       }
       // .boardBottom {
       //   //  width: 101px;

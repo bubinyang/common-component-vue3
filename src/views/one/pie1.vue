@@ -213,7 +213,7 @@ export default {
         }
       }
 
-      let getvalue = ["75"];
+      let getvalue = ["50"];
       const option = {
         angleAxis: {
           max: props.maxValue,
@@ -295,7 +295,7 @@ export default {
 
             label: {
               normal: {
-                position: "inside",
+                position: ["55%", "40%"],
                 show: true,
                 textStyle: {
                   fontSize: "30",

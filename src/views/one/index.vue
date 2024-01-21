@@ -1,18 +1,18 @@
 <template>
   <section class="largeScreen-contain largeScreen-containone">
     <largeScreenMain :bg="{ backgroundImage: `url(${top_bg})` }" @emitRatio="emitRatio">
-      <div class="titles">{{ name }}</div>
+      <div class="titles"><label>240减速器线</label></div>
 
       <section class="screen-main-content">
         <section class="screen-main-l">
-          <SmallContain :title="'一次气密不良'">
-            <!-- <twoNew v-if="refresAllDayPoint"></twoNew> -->
-            <chartBar></chartBar>
-          </SmallContain>
-
           <SmallContain :title="'启动力矩'">
             <template #action> </template>
             <three v-if="refresAllDayPoint"></three>
+          </SmallContain>
+
+          <SmallContain :title="'一次气密不良'">
+            <!-- <twoNew v-if="refresAllDayPoint"></twoNew> -->
+            <chartBar></chartBar>
           </SmallContain>
         </section>
 
@@ -29,6 +29,7 @@
               <div class="pie1-contain">
                 <div class="pie1-box" v-for="(item, index) in list" :key="index">
                   <pie1 :color="item.color" :color1="item.color1"></pie1>
+                  <label :style="{ color: item.color }">{{ item.label }}</label>
                 </div>
               </div>
             </SmallContain>
@@ -103,12 +104,12 @@ export default {
       refresAllDayPoint: false,
       name: "",
       list: [
-        { color: "#1C8A33", color1: "#B7FF81" },
-        { color: "#76027E", color1: "#F71780" },
-        { color: "#F23200", color1: "#DCFF19" },
-        { color: "#2660D6", color1: "#04B8F8" },
-        { color: "#0E4B90", color1: "#04B8F8" },
-        { color: "#952037", color1: "#ECB5CF" }
+        { color: "#1C8A33", color1: "#B7FF81", label: "当月上线数" },
+        { color: "#76027E", color1: "#F71780", label: "当月产量" },
+        { color: "#F23200", color1: "#DCFF19", label: " 当月返修数" },
+        { color: "#2660D6", color1: "#04B8F8", label: "一次交检合格数" },
+        { color: "#0E4B90", color1: "#04B8F8", label: "一次扭矩合格数" },
+        { color: "#952037", color1: "#ECB5CF", label: "一次下线合格数" }
       ]
     };
   },
@@ -171,6 +172,14 @@ export default {
     background-repeat: no-repeat;
     background-position: center center;
     background-size: contain;
+    font-family: PangMenZhengDaoBiao;
+    label {
+      background: linear-gradient(45deg, #ffffff 0%, #c5d9e0 15.044921875%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      position: relative;
+      top: 8px;
+    }
   }
   .screen-top {
     height: 80px;
@@ -275,6 +284,19 @@ export default {
           flex: 1;
           display: flex;
           flex-wrap: wrap;
+          .pie1-box {
+            position: relative;
+            label {
+              position: absolute;
+              bottom: 0;
+              left: 50%;
+              transform: translateX(-50%);
+              color: #c5d9e0;
+              width: 100%;
+              font-weight: bold;
+              font-size: 20px;
+            }
+          }
         }
 
         .small-contain-contain {
@@ -316,7 +338,7 @@ export default {
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             justify-content: flex-start;
-            font-size: 18px;
+            font-size: 25px;
             position: relative;
             top: 10px;
             left: 30px;
