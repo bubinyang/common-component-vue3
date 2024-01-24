@@ -1,5 +1,9 @@
 <template>
   <section id="stageContain">
+    <el-button @click="playWarningSound" type="primary">点击发声</el-button>
+
+    <div class="septalLine"></div>
+
     渐变虚线
     <div class="gradient-dashed-border"></div>
 
@@ -132,6 +136,8 @@ import { list, lista, listb, originData } from "@/utils/test.js";
 import { grouping, criculationAction } from "@/utils/index.js";
 import { useStore } from "vuex";
 import { word } from "@/assets/data/index.js";
+import warningSound from "@/assets/audio/warning.wav";
+
 console.log(useStore);
 let modifiedContent = word.trim().split("\n");
 
@@ -502,6 +508,11 @@ export default {
       // 释放 URL 对象
       window.URL.revokeObjectURL(url);
     };
+    //控制声音
+    const playWarningSound = () => {
+      const audio = new Audio(warningSound);
+      audio.play();
+    };
 
     return {
       ...toRefs(testReactive),
@@ -526,7 +537,8 @@ export default {
       refresh,
       refreshAll,
       refreshRoute,
-      exportToVueFile
+      exportToVueFile,
+      playWarningSound
     };
   },
   data() {
