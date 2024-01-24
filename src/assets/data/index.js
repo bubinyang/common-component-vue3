@@ -20,6 +20,9 @@
  *           restore 恢复
  *           patient 病人
  *           explanation 解释
+ *           intense 激情
+ *           emotion 情感
+ *           reach 到达
  * 补充短语: currently in office 在职 currently in use 在使用中
  *           I walk in the park 我在公园散步(表达自己平时习惯性在公园散步)
  *           went for walk, went for dinner 某人前去某个地方进行某个活动
