@@ -1,12 +1,14 @@
 <template>
-  <section class="largeScreen-contain largeScreen-contain-device">
+  <section class="largeScreen-contain largeScreen-contain-device-tree">
     <largeScreenMain
       :bg="{ backgroundImage: `url(${top_bg})` }"
       @emitRatio="emitRatio"
       @change="expand"
     >
       <!-- <Clock></Clock> -->
-      <div class="screen-top"></div>
+      <div class="screen-top">
+        <Clock></Clock>
+      </div>
       <!-- <el-button ref="audioRef" v-show="false" @click="playAudio" type="primary"
         >点击发声</el-button
       > -->
@@ -14,6 +16,50 @@
       <audio ref="audioRef" controls autoplay>
         <source :src="videoSource" type="audio/mpeg" />
       </audio>
+
+      <div class="screen-top-titles">
+        <div class="title-data title-data-left">
+          <div class="repair">
+            <label>报修</label>
+            <dataNumber :origin="111"></dataNumber>
+          </div>
+          <i></i>
+          <div class="revised">
+            <label>已修</label>
+            <dataNumber :origin="222"></dataNumber>
+          </div>
+        </div>
+        <div class="title-data title-data-right">
+          <div class="repair">
+            <label>报修</label>
+            <dataNumber :origin="111"></dataNumber>
+          </div>
+          <i></i>
+          <div class="revised">
+            <label>已修</label>
+            <dataNumber :origin="222"></dataNumber>
+          </div>
+        </div>
+      </div>
+
+      <div class="screen-table">
+        <div class="top">
+          <label>工位</label>
+          <label>故障</label>
+          <label>维修开始</label>
+          <label>维修结束</label>
+          <label>创建时间</label>
+        </div>
+        <section class="screen-main-contents">
+          <div class="content" v-for="(item, index) in 10" :key="index">
+            <label>OP140</label>
+            <label>电气维修</label>
+            <label>--</label>
+            <label>--</label>
+            <label>2023-12-22 10:10:10</label>
+          </div>
+        </section>
+      </div>
 
       <div class="screen-top-title">
         <div class="title">
@@ -87,7 +133,7 @@ import { getWeek } from "@/utils";
 import http from "@/utils/request";
 import { scrollItem } from "@/utils/index.js";
 import warningSound from "@/assets/warning.wav";
-
+import dataNumber from "@/components/tools/dataNumber/index.vue";
 // import one from "./one.vue";
 // import two from "./two.vue";
 // import three from "./three.vue";
@@ -99,7 +145,7 @@ import warningSound from "@/assets/warning.wav";
 
 export default {
   name: "LargeScreenOther",
-  components: {},
+  components: { dataNumber },
   data() {
     return {
       videoSource: warningSound,
@@ -127,7 +173,9 @@ export default {
     setTimeout(() => {
       if (this.originData.Items.length > 132) {
         scrollItem({
-          contentEl: document.querySelector(".largeScreen-contain-device .screen-main-content"),
+          contentEl: document.querySelector(
+            ".largeScreen-contain-device-tree .screen-main-contents"
+          ),
           speed: 0.5,
           orient: "vertical"
         });
@@ -167,18 +215,21 @@ export default {
 };
 </script>
 <style lang="scss">
-.largeScreen-contain-device {
+.largeScreen-contain-device-tree {
   width: 100%;
   background: #000f1b;
   // height: 500px;
   .clock-style {
-    color: rgba(0, 0, 0, 1);
+    color: #2affff;
     height: 50px;
     font-size: 25px;
-    position: relative;
-    left: 30px;
+    position: absolute;
+    right: 130px;
+    top: 50%;
+    transform: translateY(-50%);
   }
   .screen-top {
+    position: relative;
     display: flex;
     color: #0dc9ff;
     // position: absolute;
@@ -304,6 +355,116 @@ export default {
       }
       .top::before {
         background: url("@/assets/img/home/two/icon_ycxxhgs.png");
+      }
+    }
+  }
+
+  .screen-top-titles {
+    display: flex;
+    justify-content: space-between;
+    margin: 30px 59px 22px 59px;
+    .title-data {
+      width: 884px;
+      height: 160px;
+      background: linear-gradient(360deg, rgba(0, 174, 242, 0.09) 0%, rgba(0, 118, 238, 0.3) 100%);
+      position: relative;
+      display: flex;
+      align-items: center;
+      & > div {
+        flex: 1;
+        display: flex;
+        justify-content: center;
+        label {
+          width: 60px;
+          font-size: 24px;
+          color: #ffffff;
+          @include contentCenter;
+        }
+        .data-number-style {
+          display: flex;
+          & > div {
+            width: 60px;
+            height: 80px;
+            background: #00274a;
+            border-radius: 4px;
+            font-size: 56px;
+            margin: 0 10px;
+            @include contentCenter;
+          }
+        }
+      }
+      i {
+        width: 2px;
+        height: 96px;
+        background: url("@/assets/img/home/three/line.png");
+        background-repeat: no-repeat;
+      }
+      .repair {
+        .data-number-style {
+          color: #d13c27;
+        }
+      }
+      .revised {
+        .data-number-style {
+          color: #29d127;
+        }
+      }
+      //   display: flex;
+      //   flex-direction: column;
+      //   justify-content: center;
+    }
+    .title-data-left {
+      &::before {
+        content: "";
+        display: block;
+        width: 96px;
+        height: 44px;
+
+        background: url("@/assets/img/home/three/label_td.png");
+        background-repeat: no-repeat;
+        position: absolute;
+        left: 0;
+        top: 0;
+      }
+    }
+    .title-data-right {
+      &::before {
+        content: "";
+        display: block;
+        width: 96px;
+        height: 44px;
+        background: url("@/assets/img/home/three/label_td.png");
+        background-repeat: no-repeat;
+        position: absolute;
+        left: 0;
+        top: 0;
+      }
+    }
+  }
+
+  .screen-table {
+    width: 1800px;
+    font-size: 16px;
+    .top {
+      color: #2affff;
+      height: 54px;
+      background: #001c35;
+      display: flex;
+      label {
+        flex: 1;
+        @include contentCenter;
+      }
+    }
+    .content {
+      height: 54px;
+      display: flex;
+      label {
+        flex: 1;
+        @include contentCenter;
+        color: #ffffff;
+      }
+      &:nth-of-type(2n + 1) {
+        background: #00274a;
       }
     }
   }
