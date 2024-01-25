@@ -61,7 +61,7 @@
         </section>
       </div>
 
-      <div class="screen-top-title">
+      <!-- <div class="screen-top-title">
         <div class="title">
           <h1>产线名称</h1>
           <label>设备故障</label>
@@ -124,7 +124,7 @@
         <label>总加工数</label>
         <label>一次过站数</label>
         <label>返修加工过站</label>
-      </div>
+      </div> -->
     </largeScreenMain>
   </section>
 </template>
