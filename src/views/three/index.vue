@@ -445,6 +445,7 @@ export default {
   .screen-table {
     width: 1800px;
     font-size: 16px;
+    margin: 0px 59px 22px 59px;
     .top {
       color: #2affff;
       height: 54px;

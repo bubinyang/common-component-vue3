@@ -97,6 +97,10 @@ export default {
     maxValue: {
       type: [String, Number],
       default: () => 100
+    },
+    currentValue: {
+      type: [String, Number],
+      default: () => 50
     }
   },
   setup(props) {
@@ -213,7 +217,8 @@ export default {
         }
       }
 
-      let getvalue = ["50"];
+      let getvalue = [50];
+      console.log(getvalue, "getvalue");
       const option = {
         angleAxis: {
           max: props.maxValue,
@@ -296,7 +301,7 @@ export default {
             label: {
               normal: {
                 position: ["55%", "40%"],
-                show: true,
+                show: false,
                 textStyle: {
                   fontSize: "30",
                   fontWeight: "bold",
@@ -349,3 +354,16 @@ export default {
   }
 };
 </script>
+<style lang="scss">
+// .energyMakeUp {
+//   position: relative;
+//   .currentValue {
+//     position: absolute;
+//     left: 50%;
+//     font-size: 30px;
+//     font-weight: bold;
+//     top: 50%;
+//     transform: translateY(-50%);
+//   }
+// }
+</style>

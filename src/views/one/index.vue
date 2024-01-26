@@ -29,6 +29,10 @@
               <div class="pie1-contain">
                 <div class="pie1-box" v-for="(item, index) in list" :key="index">
                   <pie1 :color="item.color" :color1="item.color1"></pie1>
+                  <div :style="{ color: item.color }" class="currentValue">
+                    {{ sixData[item.key] }}
+                  </div>
+
                   <label :style="{ color: item.color }">{{ item.label }}</label>
                 </div>
               </div>
@@ -104,13 +108,14 @@ export default {
       refresAllDayPoint: false,
       name: "",
       list: [
-        { color: "#1C8A33", color1: "#B7FF81", label: "当月上线数" },
-        { color: "#76027E", color1: "#F71780", label: "当月产量" },
-        { color: "#F23200", color1: "#DCFF19", label: " 当月返修数" },
-        { color: "#2660D6", color1: "#04B8F8", label: "一次交检合格数" },
-        { color: "#0E4B90", color1: "#04B8F8", label: "一次扭矩合格数" },
-        { color: "#952037", color1: "#ECB5CF", label: "一次下线合格数" }
-      ]
+        { color: "#1C8A33", color1: "#B7FF81", label: "当月上线数", key: "dysxs" },
+        { color: "#76027E", color1: "#F71780", label: "当月产量", key: "dycl" },
+        { color: "#F23200", color1: "#DCFF19", label: " 当月返修数", key: "dyfxs" },
+        { color: "#2660D6", color1: "#04B8F8", label: "一次交检合格数", key: "ycjjhgs" },
+        { color: "#0E4B90", color1: "#04B8F8", label: "一次扭矩合格数", key: "ycljhgs" },
+        { color: "#952037", color1: "#ECB5CF", label: "一次下线合格数", key: "ycxxhgs" }
+      ],
+      sixData: {}
     };
   },
   created() {
@@ -140,9 +145,9 @@ export default {
       this.ratio = data;
     },
     init() {
-      // http.get("/kb/kb1").then((res) => {
-      //   console.log(res, 110);
-      // });
+      http.get("/kb/kb2/plus").then((res) => {
+        this.sixData = res.data;
+      });
     },
 
     refreshComponent() {
@@ -295,6 +300,14 @@ export default {
               width: 100%;
               font-weight: bold;
               font-size: 20px;
+            }
+            .currentValue {
+              position: absolute;
+              left: 50%;
+              font-size: 30px;
+              font-weight: bold;
+              top: 50%;
+              transform: translateY(-50%) translateX(-50%);
             }
           }
         }
