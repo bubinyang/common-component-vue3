@@ -12,51 +12,51 @@
 
         <div class="title-1 title-data">
           <div class="top">
-            <label>240</label>
+            <label>{{ originData.sxsl }}</label>
           </div>
           <h1>上线数量</h1>
         </div>
         <div class="title-2 title-data">
           <div class="top">
-            <label>240</label>
+            <label>{{ originData.xxsl }}</label>
           </div>
-          <h1>上线数量</h1>
+          <h1>下线数量</h1>
         </div>
         <div class="title-3 title-data">
           <div class="top">
-            <label>240</label>
+            <label>{{ originData.fxs }}</label>
           </div>
-          <h1>上线数量</h1>
+          <h1>返修数</h1>
         </div>
         <div class="title-4 title-data">
           <div class="top">
-            <label>240</label>
+            <label>{{ originData.ycjjhgs }}</label>
           </div>
-          <h1>上线数量</h1>
+          <h1>一次校验合格数</h1>
         </div>
         <div class="title-5 title-data">
           <div class="top">
-            <label>240</label>
+            <label>{{ originData.ycljhgs }}</label>
           </div>
-          <h1>上线数量</h1>
+          <h1>一次扭矩合格数</h1>
         </div>
         <div class="title-6 title-data">
           <div class="top">
-            <label>240</label>
+            <label>{{ originData.ycxxhgs }}</label>
           </div>
-          <h1>上线数量</h1>
+          <h1>一次下线合格数</h1>
         </div>
       </div>
       <div class="box">
         <section class="screen-main-content">
-          <div class="dialog-style" v-for="(item, index) in 50" :key="index">
-            <h3>OP010</h3>
+          <div class="dialog-style" v-for="(item, index) in originData.todayCntWsCode" :key="index">
+            <h3>{{ item.ws_code }}</h3>
             <div class="contain">
-              <div>10</div>
+              <div>{{ item.cnt }}</div>
 
-              <div>6</div>
+              <div>{{ item.ycgzs }}</div>
 
-              <div>4</div>
+              <div>{{ item.fxjggzs }}</div>
             </div>
           </div>
         </section>
@@ -73,7 +73,7 @@
 </template>
 <script>
 import { getWeek } from "@/utils";
-import http from "@/utils/request";
+import http from "@/utils/requestone";
 import { scrollItem } from "@/utils/index.js";
 
 // import one from "./one.vue";
@@ -112,13 +112,13 @@ export default {
 
   mounted() {
     setTimeout(() => {
-      if (this.originData.Items.length > 132) {
-        scrollItem({
-          contentEl: document.querySelector(".largeScreen-contain-device .screen-main-content"),
-          speed: 0.5,
-          orient: "vertical"
-        });
-      }
+      // if (this.originData.Items.length > 132) {
+      //   scrollItem({
+      //     contentEl: document.querySelector(".largeScreen-contain-device .screen-main-content"),
+      //     speed: 0.5,
+      //     orient: "vertical"
+      //   });
+      // }
     }, 1000);
   },
   methods: {
@@ -132,6 +132,10 @@ export default {
       this.ratio = data;
     },
     init(device) {
+      http.get("/kb/kb1/plus").then((res) => {
+        this.originData = res.data;
+        console.log(res, "100");
+      });
       //   http.post("/api/screen1", { ID: this.$route.query.id || "1" }).then((res) => {
       //     this.originData = res.Data;
       //     this.originData.Items.push(...res.Data.Items);
