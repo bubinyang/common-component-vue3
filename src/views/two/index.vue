@@ -98,27 +98,27 @@ export default {
 
       rankDate: "",
       list: [{ Device: "name", Quantity: "100" }],
-      originData: { Items: [] }
+      originData: { todayCntWsCode: [] }
     };
   },
 
   created() {
     const updateData = () => {
-      this.init();
       setTimeout(updateData, 300000);
     };
     updateData();
   },
 
-  mounted() {
+  async mounted() {
+    await this.init();
     setTimeout(() => {
-      // if (this.originData.Items.length > 132) {
-      //   scrollItem({
-      //     contentEl: document.querySelector(".largeScreen-contain-device .screen-main-content"),
-      //     speed: 0.5,
-      //     orient: "vertical"
-      //   });
-      // }
+      if (this.originData.todayCntWsCode.length > 40) {
+        scrollItem({
+          contentEl: document.querySelector(".largeScreen-contain-device .screen-main-content"),
+          speed: 0.5,
+          orient: "vertical"
+        });
+      }
     }, 1000);
   },
   methods: {
@@ -131,17 +131,13 @@ export default {
     emitRatio(data) {
       this.ratio = data;
     },
-    init(device) {
-      http.get("/kb/kb1/plus").then((res) => {
-        this.originData = res.data;
-        console.log(res, "100");
+    init() {
+      return new Promise((resolve) => {
+        http.get("/kb/kb1/plus").then((res) => {
+          this.originData = res.data;
+          resolve(res.data);
+        });
       });
-      //   http.post("/api/screen1", { ID: this.$route.query.id || "1" }).then((res) => {
-      //     this.originData = res.Data;
-      //     this.originData.Items.push(...res.Data.Items);
-      //     this.originData.Items.push(...res.Data.Items);
-      //     this.originData.Items.push(...res.Data.Items);
-      //   });
     }
   }
 };
