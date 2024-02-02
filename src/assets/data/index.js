@@ -17,7 +17,7 @@
  *           prompt box提示框
  *           tutorial 教程
  *           repository 储存库
- *           restore 恢复
+ *           restore 恢复(文件，系统)
  *           patient 病人
  *           explanation 解释
  *           intense 激情
@@ -53,6 +53,7 @@
               to ensure safety,remember to deactivate all electronic devices on the airplane during takeoff and landing
               the patient is in the process of recovery after surgery
               explanation of the height of status bar
+              the teacher provided a detailed explanation of the scientific concept, make it easier for students to understand
  * 一、situation status state condition 四个状态词的用法
   1.situation（情况，局势） 表示特定环境下的状态
   the situation at work is getting more stressful 工作情况越来越紧张
