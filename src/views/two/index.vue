@@ -32,7 +32,7 @@
           <div class="top">
             <label>{{ originData.ycjjhgs }}</label>
           </div>
-          <h1>一次校验合格数</h1>
+          <h1>一次交检合格数</h1>
         </div>
         <div class="title-5 title-data">
           <div class="top">
