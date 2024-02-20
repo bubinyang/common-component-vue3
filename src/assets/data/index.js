@@ -1,5 +1,5 @@
 /** 
- * 补充单词: quato(定额，对事，属性，指标)
+ * 补充单词: quota(定额，对事，属性，指标)
  *           centralized(集权，集中)
  *           specialized hospital(专科医院)
  *           air conditioner(空调)
@@ -23,6 +23,8 @@
  *           intense 激情
  *           emotion 情感
  *           reach 到达
+ *           denial 拒绝
+ *           senior 年纪大的
  * 补充短语: currently in office 在职 currently in use 在使用中
  *           I walk in the park 我在公园散步(表达自己平时习惯性在公园散步)
  *           went for walk, went for dinner 某人前去某个地方进行某个活动
@@ -36,6 +38,7 @@
  *           had to 不得不
  *           possible to 可能
  *           subscribe to 订阅  subscribe for 带着目的性订阅，为了某个东西订阅
+ *           still in denial  仍然拒绝
  *           
  * 补充长句:  before making a decision,it is important to keep in mind all factors that might affect the outcome
               after finishing the exams, she went for a long walk in the part for relax
