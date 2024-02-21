@@ -12,6 +12,7 @@ import decorateEchartY from "./tools/echart/LineBarChartsY.vue";
 import decorateEchartY01 from "./tools/echart/LineBarChartsY-01.vue";
 
 import Editor from "./tools/editor/index.vue";
+import SvgIcon from "./tools/svg-icon/index.vue";
 import SideLayout from "@/components/layout/sideLayout/index.vue";
 import ContainLayout from "@/components/layout/containLayout/index.vue";
 import largeScreenMain from "@/components/layout/large-screen-main/index.vue";
@@ -31,7 +32,8 @@ const components = [
   decorateEchart,
   decorateEchartY,
   decorateEchartY01,
-  treeStructure
+  treeStructure,
+  SvgIcon
   // ChangeYearMonthDay,
   // HourMinSecond
   // ThreeLangrunda

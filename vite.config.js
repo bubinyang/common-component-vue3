@@ -2,6 +2,8 @@ import { defineConfig, loadEnv } from "vite";
 import vue from "@vitejs/plugin-vue";
 import { resolve } from "path";
 import monacoEditorPlugin from "vite-plugin-monaco-editor";
+import viteSvgIcons from "vite-plugin-svg-icons";
+
 function pathResolve(dir) {
   return resolve(__dirname, ".", dir);
 }
@@ -15,7 +17,11 @@ export default defineConfig({
   },
   plugins: [
     vue(),
-    monacoEditorPlugin() //配置在线编辑器
+    monacoEditorPlugin(), //配置在线编辑器
+    viteSvgIcons({
+      iconDirs: [resolve(__dirname, "src/assets/icons/svg")],
+      symbolId: "icon-[dir]-[name]"
+    })
     // apiURL: loadEnv(mode, process.cwd()).VITE_APP_API,//配置全局变量，api
   ], // 配置需要使用的插件列表，这里将vue添加进去
   // 配置文件别名 vite1.0是/@/  2.0改为/@

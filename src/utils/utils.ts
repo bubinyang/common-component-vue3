@@ -573,9 +573,11 @@ export function setRouterComponent(origin: Array<any>): IObject[] {
     const vueUrl = toSysViewComponentPath(path);
     const route: IObject = {
       path,
-      name: path,
-      component: item.children && item.children.length ? layout : getSysRouteMap()[vueUrl]
+      name: item.name,
+      component: item.children && item.children.length ? layout : getSysRouteMap()[vueUrl],
+      meta: { title: item.name, url: path }
     };
+
     if (item.children) {
       route.children = setRouterComponent(item.children);
     }

@@ -1,10 +1,11 @@
 <template>
   <div class="layout">
     <section class="layout-header">
-      <section class="log"></section>
-      <section class="head-operation"></section>
+      <!-- <section class="log"></section> -->
+      <section class="head-operation">
+        <BaseHeader></BaseHeader>
+      </section>
     </section>
-    <!-- <div style="height: 50px"></div> -->
 
     <section class="layout-slider">
       <BaseSlider v-if="state.isShow"></BaseSlider>
@@ -24,15 +25,14 @@
  * :key="route.fullPath" 可以防止tab切换不同路由报错
  */
 
-import { lrdDrag, lrdDragSort } from "@/utils/utils.ts";
 import emits from "@/utils/emit.js";
 import BaseSlider from "@/layout/slider/base-slider.vue";
 import { useStore } from "vuex";
-import { reactive, provide, ref, nextTick } from "vue";
-import { useRoute } from "vue-router";
-
+import { reactive, provide, ref, nextTick, watch } from "vue";
+import { useRoute, useRouter } from "vue-router";
+import BaseHeader from "./header/base-header.vue";
 export default {
-  components: { BaseSlider },
+  components: { BaseSlider, BaseHeader },
   setup() {
     emits.on("go", () => {
       console.log("我接收到了go");
@@ -42,7 +42,9 @@ export default {
     state.isShow = true;
 
     const route = useRoute();
-
+    const { currentRoute } = useRouter();
+    console.log(currentRoute.value.matched);
+    console.log(route);
     // setTimeout(() => {
     //   state.isShow = true;
     // }, 8000);
@@ -52,6 +54,11 @@ export default {
         isRouterActive.value = true;
       });
     });
+
+    watch([() => currentRoute.value], ([value]) => {
+      console.log(currentRoute.value);
+    });
+
     return { route, state, isRouterActive };
   }
 };
@@ -70,13 +77,27 @@ export default {
     position: absolute;
     // width: grid-width(5);
     width: 100%;
-    font-size: 16pxf;
+    font-size: 16px;
     display: flex;
+    padding-left: 230px;
+    box-shadow: 4px 4px 30px 0px rgba(75, 102, 171, 0.2);
     .log {
       flex: 0 0 230px;
     }
     .head-operation {
       flex: 1;
+      display: flex;
+      align-items: center;
+      .base-header {
+        display: flex;
+        flex: 1;
+        &-left {
+          flex: 1;
+          display: flex;
+          align-items: center;
+        }
+        //  &-right{}
+      }
     }
   }
   .layout-slider {

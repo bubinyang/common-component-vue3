@@ -24,7 +24,10 @@
 :not(html):not(body)::-webkit-scrollbar-thumb:hover {
   background-color: hsla(0, 0%, 54.9%, 0.5);
 }
-
+//避免滚动鼠标，整个模块下移
+body{
+  overflow: hidden;
+}
 //菜单
 .layout-slider{
   background-color: $menuBg;
@@ -75,3 +78,17 @@
   }
 }
 
+//svg-icon
+.iconfont {
+  cursor: pointer;
+  font-style: normal;
+  font-weight: 400;
+  font-variant: normal;
+  text-transform: none;
+  line-height: 1;
+  vertical-align: text-bottom;
+  display: inline-block;
+  fill: currentColor;
+  width: 17px;
+  height: 17px;
+}
