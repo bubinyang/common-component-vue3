@@ -5,7 +5,9 @@
 
 <template>
   <div class="langScreen" :style="{ background: fullmodel ? 'rgb(4,9,61)' : 'initial' }">
-    <ExpandButton @refresh="refresh" v-bind="$attrs" v-model="fullmodel"></ExpandButton>
+    <div class="expand-btn">
+      <ExpandButton @refresh="refresh" v-bind="$attrs" v-model="fullmodel"></ExpandButton>
+    </div>
     <div :style="bg" class="main_box">
       <div class="main_contain">
         <slot name="top" />
@@ -93,6 +95,14 @@ export default {
     bottom: 0;
     top: 0;
     overflow: hidden;
+  }
+
+  .expand-btn {
+    cursor: pointer;
+    position: absolute;
+    right: 5px;
+    top: 5px;
+    z-index: 9999;
   }
 }
 </style>

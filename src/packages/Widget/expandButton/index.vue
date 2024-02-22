@@ -1,5 +1,5 @@
 <template>
-  <div class="expand-btn" @click="screen">
+  <div @click="screen">
     <i
       :style="{ color: $attrs.expandColor || 'white' }"
       v-if="!modelValue"
@@ -86,15 +86,5 @@ export default {
   right: 5px;
   top: 5px;
   z-index: 9999;
-}
-.expand-style {
-  position: fixed !important;
-  z-index: 2000 !important;
-  left: 0 !important;
-  right: 0 !important;
-  top: 0 !important;
-  bottom: 0 !important;
-  height: auto !important;
-  background: rgb(40, 146, 218) !important;
 }
 </style>
