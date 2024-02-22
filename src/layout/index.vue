@@ -1,5 +1,5 @@
 <template>
-  <div class="layout">
+  <div :class="`layout ${containClass}`">
     <section class="layout-header">
       <!-- <section class="log"></section> -->
       <section class="head-operation">
@@ -8,7 +8,7 @@
     </section>
 
     <section class="layout-slider">
-      <BaseSlider v-if="state.isShow"></BaseSlider>
+      <BaseSlider v-if="isShow"></BaseSlider>
     </section>
     <section class="layout-main" v-if="isRouterActive">
       <router-view v-slot="{ Component }">
@@ -28,16 +28,18 @@
 import emits from "@/utils/emit.js";
 import BaseSlider from "@/layout/slider/base-slider.vue";
 import { useStore } from "vuex";
-import { reactive, provide, ref, nextTick, watch } from "vue";
+import { reactive, provide, ref, nextTick, watch, computed, toRefs } from "vue";
 import { useRoute, useRouter } from "vue-router";
 import BaseHeader from "./header/base-header.vue";
+import { getThemeCacheOfConfig } from "@/utils/theme.js";
+
 export default {
   components: { BaseSlider, BaseHeader },
   setup() {
     emits.on("go", () => {
       console.log("我接收到了go");
     });
-    const state = reactive({ isShow: false });
+    const state = reactive({ isShow: false, containClass: "" });
     const isRouterActive = ref(true);
     state.isShow = true;
 
@@ -45,6 +47,16 @@ export default {
     const { currentRoute } = useRouter();
     console.log(currentRoute.value.matched);
     console.log(route);
+    // const containClass = computed(() => {
+    //   console.log(getThemeCacheOfConfig().join(""));
+
+    //   return getThemeCacheOfConfig().join("");
+    // });
+
+    emits.on("emitTheme", () => {
+      state.containClass = getThemeCacheOfConfig().join("");
+    });
+
     // setTimeout(() => {
     //   state.isShow = true;
     // }, 8000);
@@ -59,7 +71,7 @@ export default {
       console.log(currentRoute.value);
     });
 
-    return { route, state, isRouterActive };
+    return { route, ...toRefs(state), isRouterActive };
   }
 };
 </script>

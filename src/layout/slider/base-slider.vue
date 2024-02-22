@@ -2,7 +2,7 @@
   <el-menu
     class="el-menu-vertical-demo"
     :default-active="currentRouteUrl"
-    :collapse="false"
+    :collapse="collapse"
     @open="handleOpen"
     @close="handleClose"
   >
@@ -36,13 +36,14 @@
 </template>
 
 <script>
+import emits from "@/utils/emit.js";
 import { menuList } from "@/utils/menuData.js";
 import { reactive, toRefs, watch } from "vue";
 import SidebarMenusItems from "./sidebar-menus-items.vue";
 import { useStore } from "vuex";
 import { useRoute, useRouter } from "vue-router";
 import { Document, Menu as IconMenu, Location, Setting } from "@element-plus/icons-vue";
-
+import { setThemeCacheOfConfig } from "@/utils/theme.js";
 export default {
   name: "BaseSlider",
   //components: { SidebarMenusItems },
@@ -53,7 +54,14 @@ export default {
     const route = useRoute();
     const handleOpen = function () {};
     const handleClose = function () {};
-    const state = reactive({ menuList, currentRouteUrl: route.path });
+    const state = reactive({ menuList, currentRouteUrl: route.path, collapse: false });
+    console.log(setThemeCacheOfConfig);
+    emits.on("switchSlider", () => {
+      console.log("我接收到了switchSlider");
+
+      state.collapse = !state.collapse;
+      setThemeCacheOfConfig("baseSliderCollapse", state.collapse);
+    });
 
     watch(
       () => [route.path],
