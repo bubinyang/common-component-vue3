@@ -56,6 +56,7 @@ export default {
     emits.on("emitTheme", () => {
       state.containClass = getThemeCacheOfConfig().join("");
     });
+    state.containClass = getThemeCacheOfConfig().join("");
 
     // setTimeout(() => {
     //   state.isShow = true;
@@ -100,6 +101,7 @@ export default {
       flex: 1;
       display: flex;
       align-items: center;
+      padding: 0 40px;
       .base-header {
         display: flex;
         flex: 1;
@@ -107,6 +109,9 @@ export default {
           flex: 1;
           display: flex;
           align-items: center;
+          .el-breadcrumb {
+            margin-left: 20px;
+          }
         }
         //  &-right{}
       }
@@ -115,8 +120,10 @@ export default {
   .layout-slider {
     text-align: left;
     //margin-top: 50px;
-    flex: 0 0 230px;
+    // flex: 0 0 230px;
+    width: 230px;
     overflow: auto;
+    transition: width 0.3s;
     //隐藏滚动条轨道和按钮 实现无滚动条，但是可以滚动效果
     &::-webkit-scrollbar {
       display: none;

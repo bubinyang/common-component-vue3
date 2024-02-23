@@ -95,5 +95,13 @@ body{
 
 //公共切换状态class
 .baseSliderCollapse-true{
-  width:60px !important
+  .layout-slider{
+    width:60px !important
+  }
+  .layout-header{
+    padding-left: 60px !important;
+  }
+ 
+  
+
 }

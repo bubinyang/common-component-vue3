@@ -43,7 +43,7 @@ import SidebarMenusItems from "./sidebar-menus-items.vue";
 import { useStore } from "vuex";
 import { useRoute, useRouter } from "vue-router";
 import { Document, Menu as IconMenu, Location, Setting } from "@element-plus/icons-vue";
-import { setThemeCacheOfConfig } from "@/utils/theme.js";
+import { setThemeCacheOfConfig, getThemeCaheByKey } from "@/utils/theme.js";
 export default {
   name: "BaseSlider",
   //components: { SidebarMenusItems },
@@ -54,13 +54,15 @@ export default {
     const route = useRoute();
     const handleOpen = function () {};
     const handleClose = function () {};
-    const state = reactive({ menuList, currentRouteUrl: route.path, collapse: false });
+    const state = reactive({
+      menuList,
+      currentRouteUrl: route.path,
+      collapse: getThemeCaheByKey("baseSliderCollapse")
+    });
     console.log(setThemeCacheOfConfig);
     emits.on("switchSlider", () => {
       console.log("我接收到了switchSlider");
-
       state.collapse = !state.collapse;
-      setThemeCacheOfConfig("baseSliderCollapse", state.collapse);
     });
 
     watch(
