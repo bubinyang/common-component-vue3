@@ -21,23 +21,23 @@
         <div class="title-data title-data-left">
           <div class="repair">
             <label>报修</label>
-            <dataNumber :origin="111"></dataNumber>
+            <dataNumber :origin="originData.data.todayCnt"></dataNumber>
           </div>
           <i></i>
           <div class="revised">
             <label>已修</label>
-            <dataNumber :origin="222"></dataNumber>
+            <dataNumber :origin="originData.data.todayCntEnd"></dataNumber>
           </div>
         </div>
         <div class="title-data title-data-right">
           <div class="repair">
             <label>报修</label>
-            <dataNumber :origin="111"></dataNumber>
+            <dataNumber :origin="originData.data.monthCnt"></dataNumber>
           </div>
           <i></i>
           <div class="revised">
             <label>已修</label>
-            <dataNumber :origin="222"></dataNumber>
+            <dataNumber :origin="originData.data.todayCntEnd"></dataNumber>
           </div>
         </div>
       </div>
@@ -51,12 +51,12 @@
           <label>创建时间</label>
         </div>
         <section class="screen-main-contents">
-          <div class="content" v-for="(item, index) in 10" :key="index">
-            <label>OP140</label>
-            <label>电气维修</label>
-            <label>--</label>
-            <label>--</label>
-            <label>2023-12-22 10:10:10</label>
+          <div class="content" v-for="(item, index) in originData.Items" :key="index">
+            <label>{{ item.createTime }}</label>
+            <label>{{ item.major }}</label>
+            <label>{{ item.wsCode }}</label>
+            <label>{{ item.beginTime }}</label>
+            <label>{{ item.endTime }}</label>
           </div>
         </section>
       </div>
@@ -157,19 +157,20 @@ export default {
 
       rankDate: "",
       list: [{ Device: "name", Quantity: "100" }],
-      originData: { Items: [] }
+      originData: { Items: [], data: {} }
     };
   },
 
   created() {
     const updateData = () => {
-      this.init();
+      // this.init();
       setTimeout(updateData, 300000);
     };
     updateData();
   },
 
-  mounted() {
+  async mounted() {
+    await this.init();
     setTimeout(() => {
       if (this.originData.Items.length > 132) {
         scrollItem({
@@ -204,12 +205,211 @@ export default {
       this.ratio = data;
     },
     init(device) {
+      const data = {
+        msg: "操作成功",
+        code: 200,
+        data: {
+          todayCnt: 0,
+          todayCntEnd: 0,
+          monthCnt: 0,
+          monthCntEnd: 0,
+          todayCntWsCode: [
+            { ws_code: "OP010", cnt: 0 },
+            { ws_code: "OP020", cnt: 0 },
+            { ws_code: "OP030", cnt: 0 },
+            { ws_code: "OP040", cnt: 0 },
+            { ws_code: "OP050", cnt: 0 },
+            { ws_code: "OP060", cnt: 0 },
+            { ws_code: "OP065", cnt: 0 },
+            { ws_code: "OP070", cnt: 0 },
+            { ws_code: "OP080", cnt: 0 },
+            { ws_code: "OP090", cnt: 0 },
+            { ws_code: "OP100", cnt: 0 },
+            { ws_code: "OP120", cnt: 0 },
+            { ws_code: "OP130", cnt: 0 },
+            { ws_code: "OP110", cnt: 0 },
+            { ws_code: "OP140", cnt: 0 },
+            { ws_code: "OP150", cnt: 0 },
+            { ws_code: "OP160", cnt: 0 },
+            { ws_code: "OP170", cnt: 0 },
+            { ws_code: "OP180", cnt: 0 },
+            { ws_code: "OP190", cnt: 0 },
+            { ws_code: "OP210", cnt: 0 },
+            { ws_code: "OP220", cnt: 0 },
+            { ws_code: "OP230", cnt: 0 },
+            { ws_code: "OP240", cnt: 0 },
+            { ws_code: "OP250", cnt: 0 },
+            { ws_code: "OP260", cnt: 0 },
+            { ws_code: "OP270", cnt: 0 },
+            { ws_code: "OP280", cnt: 0 },
+            { ws_code: "OP290", cnt: 0 },
+            { ws_code: "OP300", cnt: 0 },
+            { ws_code: "OP310", cnt: 0 },
+            { ws_code: "OP075", cnt: 0 },
+            { ws_code: "OP220-1", cnt: 0 },
+            { ws_code: "OP220-2", cnt: 0 },
+            { ws_code: "OP270-1", cnt: 0 },
+            { ws_code: "OP270-2", cnt: 0 },
+            { ws_code: "OP270-4", cnt: 0 },
+            { ws_code: "OP096", cnt: 0 },
+            { ws_code: "OP105", cnt: 0 },
+            { ws_code: "OP035", cnt: 0 },
+            { ws_code: "OP270-3", cnt: 0 }
+          ],
+          todayCntWsCodeNull: [
+            { ws_code: "OP140", cnt: 1 },
+            { ws_code: "OP150", cnt: 2 }
+          ]
+        }
+      };
+      this.originData.data = data.data;
       //   http.post("/api/screen1", { ID: this.$route.query.id || "1" }).then((res) => {
       //     this.originData = res.Data;
       //     this.originData.Items.push(...res.Data.Items);
       //     this.originData.Items.push(...res.Data.Items);
       //     this.originData.Items.push(...res.Data.Items);
       //   });
+      const res = {
+        total: 7,
+        rows: [
+          {
+            createBy: "1111",
+            createTime: "2023-12-22 15:23:47",
+            updateBy: "",
+            updateTime: "2023-12-22 15:23:47",
+            remark: null,
+            woId: 7,
+            wsCode: "OP140",
+            major: "电气维修",
+            question: "",
+            answer: "",
+            workpiece: "",
+            workpieceCount: 0,
+            workpieceRty: 0,
+            todo: "",
+            beginTime: null,
+            endTime: null,
+            action: ""
+          },
+          {
+            createBy: "1111",
+            createTime: "2023-12-08 17:19:02",
+            updateBy: "",
+            updateTime: "2023-12-08 17:19:02",
+            remark: null,
+            woId: 6,
+            wsCode: "OP150",
+            major: "机械维修",
+            question: "",
+            answer: "",
+            workpiece: "",
+            workpieceCount: 0,
+            workpieceRty: 0,
+            todo: "",
+            beginTime: null,
+            endTime: null,
+            action: ""
+          },
+          {
+            createBy: "1111",
+            createTime: "2023-12-08 17:18:44",
+            updateBy: "",
+            updateTime: "2023-12-08 17:20:59",
+            remark: null,
+            woId: 5,
+            wsCode: "OP150",
+            major: "电气维修",
+            question: "无法使用",
+            answer: "专业人员处理",
+            workpiece: "机械",
+            workpieceCount: 1,
+            workpieceRty: 1,
+            todo: "暂时没有",
+            beginTime: "2023-12-08 00:00:00",
+            endTime: "2023-12-08 00:00:00",
+            action: ""
+          },
+          {
+            createBy: "1111",
+            createTime: "2023-12-08 17:17:15",
+            updateBy: "",
+            updateTime: "2023-12-08 17:24:46",
+            remark: null,
+            woId: 4,
+            wsCode: "OP130",
+            major: "机械维修",
+            question: "无",
+            answer: "1",
+            workpiece: "1",
+            workpieceCount: 0,
+            workpieceRty: 0,
+            todo: "1",
+            beginTime: "2023-12-08 00:00:00",
+            endTime: "2023-12-08 00:00:00",
+            action: ""
+          },
+          {
+            createBy: "1111",
+            createTime: "2023-12-08 17:16:57",
+            updateBy: "",
+            updateTime: "2023-12-08 17:20:23",
+            remark: null,
+            woId: 3,
+            wsCode: "OP130",
+            major: "电气维修",
+            question: "无法使用",
+            answer: "专业人员处理",
+            workpiece: "机械",
+            workpieceCount: 0,
+            workpieceRty: 0,
+            todo: "暂时没有",
+            beginTime: "2023-12-08 00:00:00",
+            endTime: "2023-12-09 00:00:00",
+            action: ""
+          },
+          {
+            createBy: "1111",
+            createTime: "2023-12-07 11:20:02",
+            updateBy: "",
+            updateTime: "2023-12-07 11:21:51",
+            remark: null,
+            woId: 2,
+            wsCode: "OP140",
+            major: "电气维修",
+            question: "电气问题",
+            answer: "人员处理",
+            workpiece: "1",
+            workpieceCount: 0,
+            workpieceRty: 0,
+            todo: "暂时没有",
+            beginTime: "2023-12-07 00:00:00",
+            endTime: "2023-12-07 00:00:00",
+            action: ""
+          },
+          {
+            createBy: "1111",
+            createTime: "2023-12-05 18:02:54",
+            updateBy: "",
+            updateTime: "2023-12-05 18:02:54",
+            remark: null,
+            woId: 1,
+            wsCode: "OP150",
+            major: "电气维修",
+            question: "",
+            answer: "",
+            workpiece: "",
+            workpieceCount: 0,
+            workpieceRty: 0,
+            todo: "",
+            beginTime: null,
+            endTime: null,
+            action: ""
+          }
+        ],
+        code: 200,
+        msg: "查询成功"
+      };
+      this.originData.Items = res.rows;
     }
   }
 };
@@ -433,7 +633,7 @@ export default {
         display: block;
         width: 96px;
         height: 44px;
-        background: url("@/assets/img/home/three/label_td.png");
+        background: url("@/assets/img/home/three/label_by.png");
         background-repeat: no-repeat;
         position: absolute;
         left: 0;
