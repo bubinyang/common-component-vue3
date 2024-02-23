@@ -25,6 +25,8 @@
  *           reach 到达
  *           denial 拒绝
  *           senior 年纪大的
+ *           wisely 明智的
+ * 
  * 补充短语: currently in office 在职 currently in use 在使用中
  *           I walk in the park 我在公园散步(表达自己平时习惯性在公园散步)
  *           went for walk, went for dinner 某人前去某个地方进行某个活动
