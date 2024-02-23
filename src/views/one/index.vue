@@ -38,7 +38,7 @@
               </div>
             </SmallContain>
 
-            <SmallContain :title="'一次校验不合格率'">
+            <SmallContain :title="'一次交检不合格率'">
               <!-- <twoNew v-if="refresAllDayPoint"></twoNew> -->
               <chartBar1></chartBar1>
             </SmallContain>
