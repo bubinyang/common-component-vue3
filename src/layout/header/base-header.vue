@@ -10,6 +10,24 @@
         @click="fullscreen"
         :name="!isFullscreen ? 'fullscreen2' : 'tuichuquanping'"
       ></SvgIcon>
+
+      <div class="user-container">
+        <!-- <img :src="userLogo" :alt="props.userName" style="width: 30px; height: 30px; border-radius: 50%; margin-top: 3px; margin-right: 5px" /> -->
+        <el-dropdown @command="onClickUserMenus">
+          <template #dropdown>
+            <el-dropdown-menu>
+              <!-- <el-dropdown-item icon="el-icon-lock" command="/user/password"> 1 </el-dropdown-item> -->
+              <el-dropdown-item icon="el-icon-switch-button" divided command="/login">
+                退出登录
+              </el-dropdown-item>
+            </el-dropdown-menu>
+          </template>
+          <span class="el-dropdown-link" style="line-height: 50px">
+            用户
+            <i class="el-icon-arrow-down el-icon--right"></i>
+          </span>
+        </el-dropdown>
+      </div>
     </div>
   </section>
 </template>
@@ -35,7 +53,9 @@ export default {
       state.isFullscreen = !state.isFullscreen;
       screenfull.toggle();
     };
-    return { ...toRefs(state), switchSlider, fullscreen };
+
+    const onClickUserMenus = () => {};
+    return { ...toRefs(state), switchSlider, fullscreen, onClickUserMenus };
   }
 };
 </script>

@@ -1,6 +1,6 @@
 <template>
   <template v-for="x in props.menus || []" :key="x.path">
-    <el-sub-menu v-if="x.children && x.children.length > 0" :index="x.url">
+    <el-sub-menu v-if="x.children && x.children.length > 0" :index="x.url" :router="true">
       <template #title>
         <el-icon><location /></el-icon>
 

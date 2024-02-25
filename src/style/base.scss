@@ -38,8 +38,14 @@ body{
     }
   }
    .el-menu-item,.el-sub-menu__title{
-    a{color:$mainFontColor}
-    i{ color: #c2c2c2 !important;}
+     display: flex;
+     align-items: center;
+    a{color:$mainFontColor;
+
+    }
+    i{ color: #c2c2c2 !important;
+      margin-right: 10px;
+      display: inline-block;}
    }
 
    //有子菜单的情况

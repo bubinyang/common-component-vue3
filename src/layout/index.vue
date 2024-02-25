@@ -32,6 +32,7 @@ import { reactive, provide, ref, nextTick, watch, computed, toRefs } from "vue";
 import { useRoute, useRouter } from "vue-router";
 import BaseHeader from "./header/base-header.vue";
 import { getThemeCacheOfConfig } from "@/utils/theme.js";
+import { setCache } from "@/utils/cache.js";
 
 export default {
   components: { BaseSlider, BaseHeader },
@@ -42,7 +43,7 @@ export default {
     const state = reactive({ isShow: false, containClass: "" });
     const isRouterActive = ref(true);
     state.isShow = true;
-
+    setCache("theme", { baseSliderCollapse: false });
     const route = useRoute();
     const { currentRoute } = useRouter();
     console.log(currentRoute.value.matched);
@@ -113,7 +114,13 @@ export default {
             margin-left: 20px;
           }
         }
-        //  &-right{}
+        &-right {
+          display: flex;
+          align-items: center;
+          .user-container {
+            margin-left: 20px;
+          }
+        }
       }
     }
   }
@@ -136,6 +143,7 @@ export default {
     margin-top: 50px;
     flex: 1;
     overflow: auto;
+    position: relative;
   }
 }
 </style>

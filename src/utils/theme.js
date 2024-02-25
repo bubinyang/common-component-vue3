@@ -6,7 +6,7 @@ export const setThemeCacheOfConfig = (key, value) => {
 
 /**获取主题所有配置缓存，并转成arry格式 */
 export const getThemeCacheOfConfig = () => {
-  const theme = getCache("theme");
+  const theme = getCache("theme") || {};
   return Object.entries(theme).map((item) => {
     const [key, value] = item;
     return `${key}-${value}`;
