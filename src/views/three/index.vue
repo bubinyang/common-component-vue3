@@ -13,7 +13,7 @@
         >点击发声</el-button
       > -->
 
-      <audio ref="audioRef" controls autoplay>
+      <audio v-show="false" ref="audioRef" controls autoplay>
         <source :src="videoSource" type="audio/mpeg" />
       </audio>
 
@@ -44,20 +44,22 @@
 
       <div class="screen-table">
         <div class="top">
+          <label>创建时间</label>
           <label>工位</label>
           <label>故障</label>
           <label>维修开始</label>
           <label>维修结束</label>
-          <label>创建时间</label>
         </div>
         <section class="screen-main-contents">
-          <div class="content" v-for="(item, index) in originData.Items" :key="index">
-            <label>{{ item.createTime }}</label>
-            <label>{{ item.major }}</label>
-            <label>{{ item.wsCode }}</label>
-            <label>{{ item.beginTime }}</label>
-            <label>{{ item.endTime }}</label>
-          </div>
+          <section class="table-content">
+            <div class="content" v-for="(item, index) in originData.Items" :key="index">
+              <label>{{ item.createTime }}</label>
+              <label>{{ item.major }}</label>
+              <label>{{ item.wsCode }}</label>
+              <label>{{ item.beginTime }}</label>
+              <label>{{ item.endTime }}</label>
+            </div>
+          </section>
         </section>
       </div>
 
@@ -130,7 +132,7 @@
 </template>
 <script>
 import { getWeek } from "@/utils";
-import http from "@/utils/request";
+import http from "@/utils/requestone";
 import { scrollItem } from "@/utils/index.js";
 import warningSound from "@/assets/warning.wav";
 import dataNumber from "@/components/tools/dataNumber/index.vue";
@@ -157,39 +159,37 @@ export default {
 
       rankDate: "",
       list: [{ Device: "name", Quantity: "100" }],
-      originData: { Items: [], data: {} }
+      originData: { Items: [], data: {} },
+      warnigSetInterval: ""
     };
   },
 
   created() {
     const updateData = () => {
-      // this.init();
+      this.initData();
       setTimeout(updateData, 300000);
     };
     updateData();
   },
 
   async mounted() {
-    await this.init();
-    setTimeout(() => {
-      if (this.originData.Items.length > 132) {
-        scrollItem({
-          contentEl: document.querySelector(
-            ".largeScreen-contain-device-tree .screen-main-contents"
-          ),
-          speed: 0.5,
-          orient: "vertical"
-        });
-      }
-    }, 1000);
-    setTimeout(() => {
-      if (this.$refs.audioRef) this.$refs.audioRef.play();
-    }, 5000);
-    //  this.playAudio();
+    this.initData();
+    // await this.init();
+    // setTimeout(() => {
+    //   if (this.originData.Items.length > 12) {
+    //     scrollItem({
+    //       contentEl: document.querySelector(".largeScreen-contain-device-tree .table-content"),
+    //       speed: 0.5,
+    //       orient: "vertical"
+    //     });
+    //   }
+    // }, 1000);
+
+    //this.playAudio();
   },
   methods: {
     expand() {
-      this.$refs.audioRef.play();
+      // this.$refs.audioRef.play();
     },
     playAudio() {
       const audio = new Audio(warningSound);
@@ -204,212 +204,240 @@ export default {
     emitRatio(data) {
       this.ratio = data;
     },
-    init(device) {
-      const data = {
-        msg: "操作成功",
-        code: 200,
-        data: {
-          todayCnt: 0,
-          todayCntEnd: 0,
-          monthCnt: 0,
-          monthCntEnd: 0,
-          todayCntWsCode: [
-            { ws_code: "OP010", cnt: 0 },
-            { ws_code: "OP020", cnt: 0 },
-            { ws_code: "OP030", cnt: 0 },
-            { ws_code: "OP040", cnt: 0 },
-            { ws_code: "OP050", cnt: 0 },
-            { ws_code: "OP060", cnt: 0 },
-            { ws_code: "OP065", cnt: 0 },
-            { ws_code: "OP070", cnt: 0 },
-            { ws_code: "OP080", cnt: 0 },
-            { ws_code: "OP090", cnt: 0 },
-            { ws_code: "OP100", cnt: 0 },
-            { ws_code: "OP120", cnt: 0 },
-            { ws_code: "OP130", cnt: 0 },
-            { ws_code: "OP110", cnt: 0 },
-            { ws_code: "OP140", cnt: 0 },
-            { ws_code: "OP150", cnt: 0 },
-            { ws_code: "OP160", cnt: 0 },
-            { ws_code: "OP170", cnt: 0 },
-            { ws_code: "OP180", cnt: 0 },
-            { ws_code: "OP190", cnt: 0 },
-            { ws_code: "OP210", cnt: 0 },
-            { ws_code: "OP220", cnt: 0 },
-            { ws_code: "OP230", cnt: 0 },
-            { ws_code: "OP240", cnt: 0 },
-            { ws_code: "OP250", cnt: 0 },
-            { ws_code: "OP260", cnt: 0 },
-            { ws_code: "OP270", cnt: 0 },
-            { ws_code: "OP280", cnt: 0 },
-            { ws_code: "OP290", cnt: 0 },
-            { ws_code: "OP300", cnt: 0 },
-            { ws_code: "OP310", cnt: 0 },
-            { ws_code: "OP075", cnt: 0 },
-            { ws_code: "OP220-1", cnt: 0 },
-            { ws_code: "OP220-2", cnt: 0 },
-            { ws_code: "OP270-1", cnt: 0 },
-            { ws_code: "OP270-2", cnt: 0 },
-            { ws_code: "OP270-4", cnt: 0 },
-            { ws_code: "OP096", cnt: 0 },
-            { ws_code: "OP105", cnt: 0 },
-            { ws_code: "OP035", cnt: 0 },
-            { ws_code: "OP270-3", cnt: 0 }
-          ],
-          todayCntWsCodeNull: [
-            { ws_code: "OP140", cnt: 1 },
-            { ws_code: "OP150", cnt: 2 }
-          ]
+    async initData() {
+      await this.init();
+      let requestFrame;
+      setTimeout(() => {
+        if (this.originData.Items.length > 12) {
+          requestFrame = scrollItem({
+            contentEl: document.querySelector(".largeScreen-contain-device-tree .table-content"),
+            speed: 0.5,
+            orient: "vertical"
+          });
+        } else {
+          cancelAnimationFrame(requestFrame);
         }
-      };
-      this.originData.data = data.data;
-      //   http.post("/api/screen1", { ID: this.$route.query.id || "1" }).then((res) => {
-      //     this.originData = res.Data;
-      //     this.originData.Items.push(...res.Data.Items);
-      //     this.originData.Items.push(...res.Data.Items);
-      //     this.originData.Items.push(...res.Data.Items);
-      //   });
-      const res = {
-        total: 7,
-        rows: [
-          {
-            createBy: "1111",
-            createTime: "2023-12-22 15:23:47",
-            updateBy: "",
-            updateTime: "2023-12-22 15:23:47",
-            remark: null,
-            woId: 7,
-            wsCode: "OP140",
-            major: "电气维修",
-            question: "",
-            answer: "",
-            workpiece: "",
-            workpieceCount: 0,
-            workpieceRty: 0,
-            todo: "",
-            beginTime: null,
-            endTime: null,
-            action: ""
-          },
-          {
-            createBy: "1111",
-            createTime: "2023-12-08 17:19:02",
-            updateBy: "",
-            updateTime: "2023-12-08 17:19:02",
-            remark: null,
-            woId: 6,
-            wsCode: "OP150",
-            major: "机械维修",
-            question: "",
-            answer: "",
-            workpiece: "",
-            workpieceCount: 0,
-            workpieceRty: 0,
-            todo: "",
-            beginTime: null,
-            endTime: null,
-            action: ""
-          },
-          {
-            createBy: "1111",
-            createTime: "2023-12-08 17:18:44",
-            updateBy: "",
-            updateTime: "2023-12-08 17:20:59",
-            remark: null,
-            woId: 5,
-            wsCode: "OP150",
-            major: "电气维修",
-            question: "无法使用",
-            answer: "专业人员处理",
-            workpiece: "机械",
-            workpieceCount: 1,
-            workpieceRty: 1,
-            todo: "暂时没有",
-            beginTime: "2023-12-08 00:00:00",
-            endTime: "2023-12-08 00:00:00",
-            action: ""
-          },
-          {
-            createBy: "1111",
-            createTime: "2023-12-08 17:17:15",
-            updateBy: "",
-            updateTime: "2023-12-08 17:24:46",
-            remark: null,
-            woId: 4,
-            wsCode: "OP130",
-            major: "机械维修",
-            question: "无",
-            answer: "1",
-            workpiece: "1",
-            workpieceCount: 0,
-            workpieceRty: 0,
-            todo: "1",
-            beginTime: "2023-12-08 00:00:00",
-            endTime: "2023-12-08 00:00:00",
-            action: ""
-          },
-          {
-            createBy: "1111",
-            createTime: "2023-12-08 17:16:57",
-            updateBy: "",
-            updateTime: "2023-12-08 17:20:23",
-            remark: null,
-            woId: 3,
-            wsCode: "OP130",
-            major: "电气维修",
-            question: "无法使用",
-            answer: "专业人员处理",
-            workpiece: "机械",
-            workpieceCount: 0,
-            workpieceRty: 0,
-            todo: "暂时没有",
-            beginTime: "2023-12-08 00:00:00",
-            endTime: "2023-12-09 00:00:00",
-            action: ""
-          },
-          {
-            createBy: "1111",
-            createTime: "2023-12-07 11:20:02",
-            updateBy: "",
-            updateTime: "2023-12-07 11:21:51",
-            remark: null,
-            woId: 2,
-            wsCode: "OP140",
-            major: "电气维修",
-            question: "电气问题",
-            answer: "人员处理",
-            workpiece: "1",
-            workpieceCount: 0,
-            workpieceRty: 0,
-            todo: "暂时没有",
-            beginTime: "2023-12-07 00:00:00",
-            endTime: "2023-12-07 00:00:00",
-            action: ""
-          },
-          {
-            createBy: "1111",
-            createTime: "2023-12-05 18:02:54",
-            updateBy: "",
-            updateTime: "2023-12-05 18:02:54",
-            remark: null,
-            woId: 1,
-            wsCode: "OP150",
-            major: "电气维修",
-            question: "",
-            answer: "",
-            workpiece: "",
-            workpieceCount: 0,
-            workpieceRty: 0,
-            todo: "",
-            beginTime: null,
-            endTime: null,
-            action: ""
+      }, 1000);
+    },
+
+    init(device) {
+      // const data = {
+      //   msg: "操作成功",
+      //   code: 200,
+      //   data: {
+      //     todayCnt: 0,
+      //     todayCntEnd: 0,
+      //     monthCnt: 0,
+      //     monthCntEnd: 0,
+      //     todayCntWsCode: [
+      //       { ws_code: "OP010", cnt: 0 },
+      //       { ws_code: "OP020", cnt: 0 },
+      //       { ws_code: "OP030", cnt: 0 },
+      //       { ws_code: "OP040", cnt: 0 },
+      //       { ws_code: "OP050", cnt: 0 },
+      //       { ws_code: "OP060", cnt: 0 },
+      //       { ws_code: "OP065", cnt: 0 },
+      //       { ws_code: "OP070", cnt: 0 },
+      //       { ws_code: "OP080", cnt: 0 },
+      //       { ws_code: "OP090", cnt: 0 },
+      //       { ws_code: "OP100", cnt: 0 },
+      //       { ws_code: "OP120", cnt: 0 },
+      //       { ws_code: "OP130", cnt: 0 },
+      //       { ws_code: "OP110", cnt: 0 },
+      //       { ws_code: "OP140", cnt: 0 },
+      //       { ws_code: "OP150", cnt: 0 },
+      //       { ws_code: "OP160", cnt: 0 },
+      //       { ws_code: "OP170", cnt: 0 },
+      //       { ws_code: "OP180", cnt: 0 },
+      //       { ws_code: "OP190", cnt: 0 },
+      //       { ws_code: "OP210", cnt: 0 },
+      //       { ws_code: "OP220", cnt: 0 },
+      //       { ws_code: "OP230", cnt: 0 },
+      //       { ws_code: "OP240", cnt: 0 },
+      //       { ws_code: "OP250", cnt: 0 },
+      //       { ws_code: "OP260", cnt: 0 },
+      //       { ws_code: "OP270", cnt: 0 },
+      //       { ws_code: "OP280", cnt: 0 },
+      //       { ws_code: "OP290", cnt: 0 },
+      //       { ws_code: "OP300", cnt: 0 },
+      //       { ws_code: "OP310", cnt: 0 },
+      //       { ws_code: "OP075", cnt: 0 },
+      //       { ws_code: "OP220-1", cnt: 0 },
+      //       { ws_code: "OP220-2", cnt: 0 },
+      //       { ws_code: "OP270-1", cnt: 0 },
+      //       { ws_code: "OP270-2", cnt: 0 },
+      //       { ws_code: "OP270-4", cnt: 0 },
+      //       { ws_code: "OP096", cnt: 0 },
+      //       { ws_code: "OP105", cnt: 0 },
+      //       { ws_code: "OP035", cnt: 0 },
+      //       { ws_code: "OP270-3", cnt: 0 }
+      //     ],
+      //     todayCntWsCodeNull: [
+      //       { ws_code: "OP140", cnt: 1 },
+      //       { ws_code: "OP150", cnt: 2 }
+      //     ]
+      //   }
+      // };
+
+      // const res = {
+      //   total: 7,
+      //   rows: [
+      //     {
+      //       createBy: "1111",
+      //       createTime: "2023-12-22 15:23:47",
+      //       updateBy: "",
+      //       updateTime: "2023-12-22 15:23:47",
+      //       remark: null,
+      //       woId: 7,
+      //       wsCode: "OP140",
+      //       major: "电气维修",
+      //       question: "",
+      //       answer: "",
+      //       workpiece: "",
+      //       workpieceCount: 0,
+      //       workpieceRty: 0,
+      //       todo: "",
+      //       beginTime: null,
+      //       endTime: null,
+      //       action: ""
+      //     },
+      //     {
+      //       createBy: "1111",
+      //       createTime: "2023-12-08 17:19:02",
+      //       updateBy: "",
+      //       updateTime: "2023-12-08 17:19:02",
+      //       remark: null,
+      //       woId: 6,
+      //       wsCode: "OP150",
+      //       major: "机械维修",
+      //       question: "",
+      //       answer: "",
+      //       workpiece: "",
+      //       workpieceCount: 0,
+      //       workpieceRty: 0,
+      //       todo: "",
+      //       beginTime: null,
+      //       endTime: null,
+      //       action: ""
+      //     },
+      //     {
+      //       createBy: "1111",
+      //       createTime: "2023-12-08 17:18:44",
+      //       updateBy: "",
+      //       updateTime: "2023-12-08 17:20:59",
+      //       remark: null,
+      //       woId: 5,
+      //       wsCode: "OP150",
+      //       major: "电气维修",
+      //       question: "无法使用",
+      //       answer: "专业人员处理",
+      //       workpiece: "机械",
+      //       workpieceCount: 1,
+      //       workpieceRty: 1,
+      //       todo: "暂时没有",
+      //       beginTime: "2023-12-08 00:00:00",
+      //       endTime: "2023-12-08 00:00:00",
+      //       action: ""
+      //     },
+      //     {
+      //       createBy: "1111",
+      //       createTime: "2023-12-08 17:17:15",
+      //       updateBy: "",
+      //       updateTime: "2023-12-08 17:24:46",
+      //       remark: null,
+      //       woId: 4,
+      //       wsCode: "OP130",
+      //       major: "机械维修",
+      //       question: "无",
+      //       answer: "1",
+      //       workpiece: "1",
+      //       workpieceCount: 0,
+      //       workpieceRty: 0,
+      //       todo: "1",
+      //       beginTime: "2023-12-08 00:00:00",
+      //       endTime: "2023-12-08 00:00:00",
+      //       action: ""
+      //     },
+      //     {
+      //       createBy: "1111",
+      //       createTime: "2023-12-08 17:16:57",
+      //       updateBy: "",
+      //       updateTime: "2023-12-08 17:20:23",
+      //       remark: null,
+      //       woId: 3,
+      //       wsCode: "OP130",
+      //       major: "电气维修",
+      //       question: "无法使用",
+      //       answer: "专业人员处理",
+      //       workpiece: "机械",
+      //       workpieceCount: 0,
+      //       workpieceRty: 0,
+      //       todo: "暂时没有",
+      //       beginTime: "2023-12-08 00:00:00",
+      //       endTime: "2023-12-09 00:00:00",
+      //       action: ""
+      //     },
+      //     {
+      //       createBy: "1111",
+      //       createTime: "2023-12-07 11:20:02",
+      //       updateBy: "",
+      //       updateTime: "2023-12-07 11:21:51",
+      //       remark: null,
+      //       woId: 2,
+      //       wsCode: "OP140",
+      //       major: "电气维修",
+      //       question: "电气问题",
+      //       answer: "人员处理",
+      //       workpiece: "1",
+      //       workpieceCount: 0,
+      //       workpieceRty: 0,
+      //       todo: "暂时没有",
+      //       beginTime: "2023-12-07 00:00:00",
+      //       endTime: "2023-12-07 00:00:00",
+      //       action: ""
+      //     },
+      //     {
+      //       createBy: "1111",
+      //       createTime: "2023-12-05 18:02:54",
+      //       updateBy: "",
+      //       updateTime: "2023-12-05 18:02:54",
+      //       remark: null,
+      //       woId: 1,
+      //       wsCode: "OP150",
+      //       major: "电气维修",
+      //       question: "",
+      //       answer: "",
+      //       workpiece: "",
+      //       workpieceCount: 0,
+      //       workpieceRty: 0,
+      //       todo: "",
+      //       beginTime: null,
+      //       endTime: null,
+      //       action: ""
+      //     }
+      //   ],
+      //   code: 200,
+      //   msg: "查询成功"
+      // };
+
+      http.get("/kb/kb2").then((res) => {
+        this.originData.data = res.data;
+      });
+      return new Promise((resolve) => {
+        http.get("/kb/workorderlist").then((res) => {
+          this.originData.Items = res.rows;
+          console.log(this.originData.Items, "11");
+          if (this.originData.Items.some((item) => !item.beginTime)) {
+            clearInterval(this.warnigSetInterval);
+            this.warnigSetInterval = setInterval(() => {
+              if (this.$refs.audioRef) this.$refs.audioRef.play();
+            }, 2000);
+          } else {
+            clearInterval(this.warnigSetInterval);
           }
-        ],
-        code: 200,
-        msg: "查询成功"
-      };
-      this.originData.Items = res.rows;
+          resolve();
+        });
+      });
     }
   }
 };
@@ -646,6 +674,9 @@ export default {
     width: 1800px;
     font-size: 16px;
     margin: 0px 59px 22px 59px;
+    height: 750px;
+    display: flex;
+    flex-direction: column;
     .top {
       color: #2affff;
       height: 54px;
@@ -654,6 +685,13 @@ export default {
       label {
         flex: 1;
         @include contentCenter;
+      }
+    }
+    .screen-main-contents {
+      flex: 1;
+      overflow: hidden;
+      .table-content {
+        height: 100%;
       }
     }
     .content {
