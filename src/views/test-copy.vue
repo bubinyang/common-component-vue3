@@ -135,13 +135,11 @@ import { reactive, ref, onMounted, nextTick, inject, toRefs, watch } from "vue";
 import { list, lista, listb, originData } from "@/utils/test.js";
 import { grouping, criculationAction } from "@/utils/index.js";
 import { useStore } from "vuex";
-import { word } from "@/assets/data/index.js";
+
 import warningSound from "@/assets/audio/warning.wav";
 
 console.log(useStore);
-let modifiedContent = word.trim().split("\n");
 
-console.log(modifiedContent);
 // const { dispatch } = useStore();
 export default {
   name: "Test",

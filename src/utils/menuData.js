@@ -1,58 +1,67 @@
 const menuList = [
   {
-    name: "大屏看板类demo",
+    name: "首页",
+    url: "/"
+  },
+
+  {
+    name: "产品列表",
+    url: ""
+  },
+  {
+    name: "程序选择",
+    url: ""
+  },
+  {
+    name: "测量记录",
+    url: ""
+  },
+  {
+    name: "校准测头",
+    url: ""
+  },
+  {
+    name: "公差调整",
+    url: ""
+  },
+  {
+    name: "设置",
     url: "one",
     children: [
       {
-        name: "大屏看板",
-        url: "/largeScreen/index"
-      }
-    ]
-  },
-  {
-    name: "贪吃蛇",
-    url: "/snake/index"
-  },
-  {
-    name: "3D看板",
-    url: "/ModeRunByThree/index"
-  },
-
-  {
-    name: "3D模型类",
-    url: "two",
-    children: [
-      {
-        name: "模型demo",
-        url: "/3D/index"
+        name: "用户管理",
+        url: ""
       },
       {
-        name: "基于类创建的模型demo",
-        url: "/3DClass/index"
-      },
-      {
-        name: "stage of 3D",
-        url: "/3Dstage/index"
+        name: "角色管理",
+        url: ""
       }
     ]
-  },
-
-  {
-    name: "ElTable自定义样式",
-    url: "/elTableCostomStyle/index"
-  },
-
-  {
-    name: "monkey历史数据查询",
-    url: "/monkeyData/index"
-  },
-  {
-    name: "增删改查系列",
-    url: "/crudDemo/index"
-  },
-  {
-    name: "elementui的Table合并展示",
-    url: "/elTableMerge/index"
   }
+
+  // {
+  //   name: "大屏看板类demo",
+  //   url: "one",
+  //   children: [
+  //     {
+  //       name: "大屏看板",
+  //       url: "/largeScreen/index"
+  //     }
+  //   ]
+  // },
+
+  // {
+  //   name: "ElTable自定义样式",
+  //   url: "/elTableCostomStyle/index"
+  // },
+
+  // {
+  //   name: "增删改查系列",
+  //   url: "/crudDemo/index"
+  // },
+  // {
+  //   name: "elementui的Table合并展示",
+  //   url: "/elTableMerge/index"
+  // }
 ];
 export { menuList };
