@@ -127,7 +127,7 @@ export default {
     const updateData = () => {
       this.refreshComponent();
       this.init();
-      setTimeout(updateData, 300000);
+      setTimeout(updateData, 60000);
     };
     updateData();
     // http.post("/api/line/name", { ID: this.$route.query.id || "1" }).then((res) => {

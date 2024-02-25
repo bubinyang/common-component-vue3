@@ -167,7 +167,7 @@ export default {
   created() {
     const updateData = () => {
       this.initData();
-      setTimeout(updateData, 300000);
+      setTimeout(updateData, 60000);
     };
     updateData();
   },

@@ -104,22 +104,13 @@ export default {
 
   created() {
     const updateData = () => {
-      setTimeout(updateData, 300000);
+      setTimeout(updateData, 60000);
     };
     updateData();
   },
 
-  async mounted() {
-    await this.init();
-    setTimeout(() => {
-      if (this.originData.todayCntWsCode.length > 40) {
-        scrollItem({
-          contentEl: document.querySelector(".largeScreen-contain-device .screen-main-content"),
-          speed: 0.5,
-          orient: "vertical"
-        });
-      }
-    }, 1000);
+  mounted() {
+    this.initData();
   },
   methods: {
     setTime() {
@@ -131,6 +122,19 @@ export default {
     emitRatio(data) {
       this.ratio = data;
     },
+    async initData() {
+      await this.init();
+      setTimeout(() => {
+        if (this.originData.todayCntWsCode.length > 40) {
+          scrollItem({
+            contentEl: document.querySelector(".largeScreen-contain-device .screen-main-content"),
+            speed: 0.5,
+            orient: "vertical"
+          });
+        }
+      }, 1000);
+    },
+
     init() {
       return new Promise((resolve) => {
         http.get("/kb/kb1/plus").then((res) => {
