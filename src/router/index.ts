@@ -1,6 +1,7 @@
 import { createRouter, createWebHashHistory, Router, RouteRecordRaw } from "vue-router";
 import laoyout from "@/layout/index.vue";
 import store from "@/store";
+import Cookies from "js-cookie";
 
 interface IObject<T = any> {
   [key: string]: T;
@@ -176,7 +177,8 @@ const routes: Array<RouteRecordRaw> = [
 ];
 
 const router = createRouter({ history: createWebHashHistory(), routes });
-const token = true;
+const token = Cookies.get("token");
+console.log(token, "token");
 router.beforeEach((to, from, next) => {
   console.log(to);
   if (token) {
