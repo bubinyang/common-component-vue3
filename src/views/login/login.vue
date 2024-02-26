@@ -22,6 +22,8 @@
 <script>
 import { reactive, toRefs } from "vue";
 import Cookies from "js-cookie";
+import { useRouter } from "vue-router";
+
 // const AriticeItem = reactive({
 //   title: "文章标题",
 //   info: "文章内容",
@@ -29,6 +31,8 @@ import Cookies from "js-cookie";
 // });
 export default {
   setup() {
+    const router = useRouter();
+
     const data = reactive({
       formLabelAlign: {
         name: "",
@@ -38,6 +42,7 @@ export default {
     });
     const submit = () => {
       Cookies.set("token", "abcde");
+      router.replace("/");
     };
 
     return { ...toRefs(data), submit };
