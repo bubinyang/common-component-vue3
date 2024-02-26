@@ -6,7 +6,7 @@ const menuList = [
 
   {
     name: "产品列表",
-    url: ""
+    url: "/largeScreen/index"
   },
   {
     name: "程序选择",

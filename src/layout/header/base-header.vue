@@ -39,10 +39,14 @@ import emits from "@/utils/emit.js";
 import screenfull from "screenfull";
 import { setThemeCacheOfConfig } from "@/utils/theme.js";
 import { ElMessageBox } from "element-plus";
+import Cookies from "js-cookie";
+import { useRouter } from "vue-router";
 
 export default {
   components: { breadcrumb },
   setup() {
+    const router = useRouter();
+
     const state = reactive({ isShow: false, isFullscreen: false, collapse: false });
     const switchSlider = () => {
       state.collapse = !state.collapse;
@@ -57,11 +61,14 @@ export default {
 
     const onClickUserMenus = () => {
       ElMessageBox.confirm("proxy will permanently delete the file. Continue?", "Warning", {
-        confirmButtonText: "OK",
-        cancelButtonText: "Cancel",
+        confirmButtonText: "确定",
+        cancelButtonText: "取消",
         type: "warning"
       })
-        .then(() => {})
+        .then(() => {
+          Cookies.remove("token", "abcde");
+          router.replace("/login");
+        })
         .catch(() => {});
     };
     return { ...toRefs(state), switchSlider, fullscreen, onClickUserMenus };
