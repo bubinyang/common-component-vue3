@@ -38,6 +38,7 @@ import breadcrumb from "./breadcrumb.vue";
 import emits from "@/utils/emit.js";
 import screenfull from "screenfull";
 import { setThemeCacheOfConfig } from "@/utils/theme.js";
+import { ElMessageBox } from "element-plus";
 
 export default {
   components: { breadcrumb },
@@ -54,7 +55,15 @@ export default {
       screenfull.toggle();
     };
 
-    const onClickUserMenus = () => {};
+    const onClickUserMenus = () => {
+      ElMessageBox.confirm("proxy will permanently delete the file. Continue?", "Warning", {
+        confirmButtonText: "OK",
+        cancelButtonText: "Cancel",
+        type: "warning"
+      })
+        .then(() => {})
+        .catch(() => {});
+    };
     return { ...toRefs(state), switchSlider, fullscreen, onClickUserMenus };
   }
 };
