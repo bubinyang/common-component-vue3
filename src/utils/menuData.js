@@ -25,12 +25,12 @@ const menuList = [
     url: ""
   },
   {
-    name: "设置",
+    name: "系统管理",
     url: "one",
     children: [
       {
         name: "用户管理",
-        url: ""
+        url: "/system/mangerUser/index"
       },
       {
         name: "角色管理",

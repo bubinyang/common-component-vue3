@@ -52,9 +52,9 @@ export default defineConfig({
     //反向代理配置，注意rewrite写法，开始没看文档在这里踩了坑
     proxy: {
       "/vi": {
-        target: "http://localhost:3000", //代理接口
-        changeOrigin: true
-        // rewrite: (path) => path.replace(/^\/api/, "")
+        target: "http://43.142.108.23:3025", //代理接口
+        changeOrigin: true,
+        rewrite: (path) => path.replace(/^\/vi/, "")
       }
     }
   }

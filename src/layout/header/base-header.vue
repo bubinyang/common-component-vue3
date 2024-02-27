@@ -60,7 +60,7 @@ export default {
     };
 
     const onClickUserMenus = () => {
-      ElMessageBox.confirm("proxy will permanently delete the file. Continue?", "Warning", {
+      ElMessageBox.confirm("确定进行退出操作?", "Warning", {
         confirmButtonText: "确定",
         cancelButtonText: "取消",
         type: "warning"

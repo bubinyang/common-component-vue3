@@ -1,4 +1,6 @@
 import axios from "axios";
+import Cookies from "js-cookie";
+
 // import { Message } from "element-plus";
 // import url from '@/config'
 const service = axios.create({
@@ -8,6 +10,7 @@ const service = axios.create({
 
 service.interceptors.request.use(
   (config) => {
+    config.headers["X-Token"] = Cookies.get("token");
     return config;
   },
   (error) => {
@@ -18,7 +21,7 @@ service.interceptors.request.use(
 service.interceptors.response.use(
   (config) => {
     const res = config.data;
-    if (res.code !== 200) {
+    if (res.code !== 0) {
       //   Message({
       //     message: res.message,
       //     type: "error"

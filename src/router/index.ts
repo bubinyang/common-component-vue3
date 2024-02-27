@@ -180,7 +180,6 @@ const router = createRouter({ history: createWebHashHistory(), routes });
 
 router.beforeEach((to, from, next) => {
   const token = Cookies.get("token");
-  console.log(to);
   if (token) {
     if (to.path === "/login") {
       //登录地址跳转到/
@@ -191,7 +190,7 @@ router.beforeEach((to, from, next) => {
         console.log(11);
         next();
       } else {
-        store.dispatch("getuserInfo").then((res) => {
+        store.dispatch("getuserRouters").then((res) => {
           const { userRouters } = res;
           // router.addRoute(userRouters[1]);
           addRouteFromUser(userRouters);

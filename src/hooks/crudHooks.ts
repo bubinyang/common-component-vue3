@@ -55,7 +55,7 @@ const hooks = (externalStates: IViewHooksOptions, props: IObject): IObject => {
         return;
       }
       http
-        .get(state.getDataListURL, {
+        .post(state.getDataListURL, {
           params: {
             order: state.order,
             orderField: state.orderField,
@@ -65,14 +65,13 @@ const hooks = (externalStates: IViewHooksOptions, props: IObject): IObject => {
           }
         })
         .then((res: any) => {
-          if (res.code !== 200) {
+          if (res.code !== 0) {
             state.dataList = [];
             state.total = 0;
             return console.log("接口报错");
           }
           state.dataList = state.getDataListIsPage ? res.data.list : res.data;
           state.total = state.getDataListIsPage ? res.data.total : 0;
-          console.log(state.dataList, "httpss");
         })
         .finally(() => {
           state.dataListLoading = false;
@@ -102,12 +101,12 @@ const hooks = (externalStates: IViewHooksOptions, props: IObject): IObject => {
       viewFun.query();
     },
     //新增/修改
-    addOrUpdateHandle(id?: string) {
+    addOrUpdateHandle(id?: string, data?: IObject) {
       state.dialogVisible = true;
       nextTick(() => {
         console.log(state.addOrUpdate);
         state.addOrUpdate.dataForm.id = id || "";
-        state.addOrUpdate.init();
+        state.addOrUpdate.init(data);
       });
     },
     deleteHandle(id?: string) {

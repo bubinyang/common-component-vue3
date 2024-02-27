@@ -31,7 +31,8 @@ export default createStore({
         return "有意义";
       });
     },
-    getuserInfo({ commit }, data) {
+    getuserRouters({ commit }, data) {
+      //获取路由数据
       const userRouters = setRouterComponent(menuList);
       const userName = "bby";
       return new Promise((resolve) => {
@@ -41,6 +42,9 @@ export default createStore({
         //console.log(userRouters);
         return res;
       });
+    },
+    getUserInfo({ commit }, data) {
+      commit("setUserInfo", data);
     }
   },
   modules: {}
