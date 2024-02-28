@@ -111,3 +111,10 @@ body{
   
 
 }
+
+//弹出框el-form里面各种控件，如下拉框宽度跟input保持一直
+.el-form{
+  .el-select{
+    width: 100%;
+  }
+}

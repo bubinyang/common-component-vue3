@@ -110,7 +110,7 @@ const hooks = (externalStates: IViewHooksOptions, props: IObject): IObject => {
       });
     },
     deleteHandle(id?: string) {
-      ElMessageBox.confirm("Are you sure to delete this data?")
+      ElMessageBox.confirm("确定进行删除操作?")
         .then(() => {
           http
             .post(

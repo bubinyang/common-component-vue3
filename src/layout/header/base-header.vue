@@ -60,13 +60,13 @@ export default {
     };
 
     const onClickUserMenus = () => {
-      ElMessageBox.confirm("确定进行退出操作?", "Warning", {
+      ElMessageBox.confirm("确定进行退出操作?", "提示", {
         confirmButtonText: "确定",
         cancelButtonText: "取消",
         type: "warning"
       })
         .then(() => {
-          Cookies.remove("token", "abcde");
+          Cookies.remove("token");
           router.replace("/login");
         })
         .catch(() => {});

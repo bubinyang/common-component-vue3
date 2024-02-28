@@ -81,7 +81,9 @@ export default {
     handleChange(val) {
       console.log(val);
     },
-    changeHandler() {},
+    changeHandler(val) {
+      console.log(val);
+    },
     finishHandler() {}
   }
 };

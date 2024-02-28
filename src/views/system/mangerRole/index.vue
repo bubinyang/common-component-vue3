@@ -29,9 +29,8 @@ crud完整demo，包括接口
             style="width: 100%"
             height="100%"
           >
-            <el-table-column prop="account" label="用户名" align="center"> </el-table-column>
+            <el-table-column prop="name" label="角色名称" align="center"> </el-table-column>
 
-            <el-table-column prop="name" label="别名" align="center"> </el-table-column>
             <el-table-column label="操作" width="200">
               <template v-slot="scope">
                 <el-button
@@ -88,32 +87,11 @@ export default {
     const data = reactive({
       //dialogVisible: false,
       zhCn,
-      tableData: [
-        {
-          date: "高模量对位芳纶纤维及其芳纶纸国产化项目",
-          name: "2013/7/5-2016/4/10",
-          address: "投产项目",
-          a: "苏州富顺纤维有限公司",
-          b: "望亭镇",
-          c: 151,
-          d: "苏州捷碳环保大数据有限公司",
-          e: ""
-        },
-        {
-          date: "抗疲劳加成型硫化液态硅橡胶项目",
-          name: "2019/10/13-2020/5/13",
-          address: "投产项目",
-          a: "永儒塑胶工业（苏州）有限公司",
-          b: "望亭镇",
-          c: 150,
-          d: "苏州中创碳投科技有限公司",
-          e: ""
-        }
-      ],
+
       dataForm: { name: "" },
       activatedIsNeed: true,
-      getDataListURL: "/api/user/list",
-      deleteURL: "/api/user/del",
+      getDataListURL: "/api/role/list",
+      deleteURL: "/api/role/del",
       getDataListIsPage: false,
       roleList: []
       // getDataListIsPage: true

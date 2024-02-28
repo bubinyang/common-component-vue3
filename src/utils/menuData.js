@@ -34,7 +34,7 @@ const menuList = [
       },
       {
         name: "角色管理",
-        url: ""
+        url: "/system/mangerRole/index"
       }
     ]
   }

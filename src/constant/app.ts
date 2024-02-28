@@ -1,3 +1,3 @@
 export default {
-  fullscreen: ["/login"]
+  fullscreen: ["/login", "/treeMenu"]
 };

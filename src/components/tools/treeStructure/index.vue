@@ -1,6 +1,6 @@
 <template>
   <div class="setting-trees">
-    <div v-if="isReportTree !== true" class="categorysContain">
+    <div v-if="isReportTree" class="categorysContain">
       <el-select
         v-model="activeCategory"
         size="medium"
@@ -21,30 +21,13 @@
       <div v-if="filter && showFilter" class="contain-action">
         <el-input class="filter-node-style" placeholder="关键字/能源品种 查询" v-model="filterText">
         </el-input>
-        <span class="foldable">
+        <span class="foldable" v-if="allGrowOrShrink">
           <el-button @click="setAllExpandOrFold(true)">全部展开</el-button>
 
           <el-button @click="setAllExpandOrFold(false)">全部收起</el-button>
-
-          <!-- <el-tooltip effect="dark" content="全部展开" placement="top-start">
-            <svg-icon2
-              iconClass="extend"
-              :className="'icon-svg'"
-              :style="iconStyle"
-              @click="setAllExpandOrFold(true)"
-            ></svg-icon2>
-          </el-tooltip> -->
-          <!-- <el-tooltip effect="dark" content="全部收起" placement="top-start">
-            <svg-icon2
-              iconClass="fold"
-              :className="'icon-svg'"
-              :style="iconStyle"
-              @click="setAllExpandOrFold(false)"
-            ></svg-icon2>
-          </el-tooltip> -->
         </span>
       </div>
-      <div class="subselect">
+      <div class="subselect" v-if="checkAllOrRelevance">
         <span class="checkbtns">
           <el-checkbox
             @change="checkAllEvent"
@@ -275,6 +258,13 @@ export default {
       type: Boolean,
       default: true
     },
+    //tree的数据展示默认是children和lable。实际运用后端给的字段会变化
+    defaultProps: {
+      type: Object,
+      default() {
+        return { children: "childs", label: "name" };
+      }
+    },
     filter: {
       type: Boolean,
       default: false
@@ -290,6 +280,14 @@ export default {
     needIcon: {
       type: Boolean,
       default: true
+    },
+    allGrowOrShrink: {
+      type: Boolean,
+      default: false
+    },
+    checkAllOrRelevance: {
+      type: Boolean,
+      default: false
     }
   },
   data() {
@@ -298,10 +296,10 @@ export default {
       isCheckStrictly: false,
       loading: true,
       ifDisabled: false,
-      defaultProps: {
-        children: "childs",
-        label: "name"
-      },
+      // defaultProps: {
+      //   children: "childs",
+      //   label: "name"
+      // },
       companyId: null,
       selectedkey: null, // 默认选中第一个
       treeData: [],
@@ -509,98 +507,6 @@ export default {
     height: calc(100% - 70px);
     padding-top: 10px;
     overflow: auto;
-    // background: #012f7a;
-    // :deep() {
-    //   .el-tree-node__expand-icon.expanded {
-    //     -webkit-transform: rotate(0deg);
-    //     transform: rotate(0deg);
-    //   }
-    //   .el-icon-caret-right {
-    //     font-family: "iconfont" !important;
-    //     font-size: 16px;
-    //     font-style: normal;
-    //     fill: currentColor;
-    //     -webkit-font-smoothing: antialiased;
-    //     -moz-osx-font-smoothing: grayscale;
-    //   }
-    //   .el-icon-caret-right:before {
-    //     // content: "\e783";
-    //     content: "\e624";
-
-    //     font-size: 18px;
-    //     color: #4386c6;
-    //   }
-    //   .el-tree-node__expand-icon.expanded.el-icon-caret-right:before {
-    //     // content: "\e781";
-    //     content: "\e625";
-    //     font-size: 18px;
-    //     color: #4386c6;
-    //   }
-    //   .el-tree > .el-tree-node:after {
-    //     border-top: none;
-    //   }
-    //   .el-tree-node {
-    //     position: relative;
-    //     padding-left: 16px;
-    //   }
-    //   .el-tree-node__content > .el-tree-node__expand-icon {
-    //     padding: 0px;
-    //     margin-right: 5px;
-    //   }
-    //   .el-tree-node__content {
-    //     padding-left: 6px !important;
-    //   }
-    //   //节点有间隙，隐藏掉展开按钮就好了,如果觉得空隙没事可以删掉
-    //   .el-tree-node__expand-icon.is-leaf {
-    //     display: none;
-    //   }
-    //   .el-tree-node__children {
-    //     padding-left: 16px;
-    //   }
-
-    //   .el-tree-node :last-child:before {
-    //     height: 38px;
-    //   }
-
-    //   .el-tree > .el-tree-node:before {
-    //     border-left: none;
-    //   }
-
-    //   .el-tree > .el-tree-node:after {
-    //     border-top: none;
-    //   }
-
-    //   .el-tree-node:before {
-    //     content: "";
-    //     left: -4px;
-    //     position: absolute;
-    //     right: auto;
-    //     border-width: 1px;
-    //   }
-
-    //   .el-tree-node:after {
-    //     content: "";
-    //     left: -4px;
-    //     position: absolute;
-    //     right: auto;
-    //     border-width: 1px;
-    //   }
-
-    //   .el-tree-node:before {
-    //     border-left: 1px solid #4386c6;
-    //     bottom: 0px;
-    //     height: 100%;
-    //     top: -26px;
-    //     width: 1px;
-    //   }
-
-    //   .el-tree-node:after {
-    //     border-top: 1px solid #4386c6;
-    //     height: 20px;
-    //     top: 12px;
-    //     width: 24px;
-    //   }
-    // }
   }
   .mytree.noCheckBox {
     .el-tree-node.is-current > .el-tree-node__content {
@@ -622,18 +528,18 @@ export default {
     display: flex;
     .el-select {
       width: 100%;
-      .el-input__inner {
-        color: #ffffff;
-        font-size: 16px;
-        border: 1px solid var(--color-primary);
-        background-color: var(--color-primary);
-      }
-      .el-input__inner::-webkit-input-placeholder {
-        color: #ffffff;
-      }
-      .el-input .el-select__caret {
-        color: #ffffff;
-      }
+      // .el-input__inner {
+      //   color: #ffffff;
+      //   font-size: 16px;
+      //   border: 1px solid var(--color-primary);
+      //   background-color: var(--color-primary);
+      // }
+      // .el-input__inner::-webkit-input-placeholder {
+      //   color: #ffffff;
+      // }
+      // .el-input .el-select__caret {
+      //   color: #ffffff;
+      // }
     }
   }
   .el-tree {
@@ -677,9 +583,7 @@ export default {
   }
   .contain-action {
     flex: 0 0 50px;
-    padding: 10px 10px 0 10px;
     display: flex;
-    padding: 10px 10px 0 10px;
     .foldable {
       flex: 0 0 60px;
       display: flex;

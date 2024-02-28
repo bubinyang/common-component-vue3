@@ -2,17 +2,23 @@
   <el-dialog v-model="setVisible"
     >弹出框内容
     <el-form label-width="100px" ref="dataFormRef" :model="dataForm">
-      <el-form-item label="用户名" prop="account">
+      <el-form-item label="角色名称" prop="account">
         <el-input v-model="dataForm.account"></el-input>
       </el-form-item>
-      <el-form-item label="别名" prop="name">
-        <el-input v-model="dataForm.name"></el-input>
-      </el-form-item>
 
-      <el-form-item label="角色" prop="roleid">
-        <el-select v-model="dataForm.roleid">
+      <el-form-item label="菜单权限" prop="roleid">
+        <!-- <el-select v-model="dataForm.roleid">
           <el-option v-for="item in origin" :key="item.id" :label="item.name" :value="item.id" />
-        </el-select>
+        </el-select> -->
+        <treeStructure
+          ref="tree"
+          :filter="false"
+          :is-initial-data="true"
+          :check="true"
+          :accordion="true"
+          @change="changeHandler"
+          @finishLoading="finishHandler"
+        />
       </el-form-item>
     </el-form>
 
@@ -95,12 +101,22 @@ export default {
         setVisible.value = false; //此处需要加value
       });
     };
+    ///api/user/getrightslist 获取菜单列表
+    http.post("/api/user/getrightslist", {}).then((res) => {
+      // data.roleList = res.data;
+      // data.roleList.unshift({ id: -1, name: "无" });
+    });
+
+    const changeHandler = () => {};
+    const finishHandler = () => {};
     return {
       save,
       init,
       getInfo,
       setVisible,
       dataFormRef,
+      changeHandler,
+      finishHandler,
       ...toRefs(data)
     };
   }
