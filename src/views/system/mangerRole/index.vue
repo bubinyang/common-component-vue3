@@ -64,7 +64,7 @@ crud完整demo，包括接口
 
       <component
         :is="currentComp"
-        :origin="roleList"
+        :origin="menuList"
         ref="addOrUpdate"
         @refresh="query"
         v-model:visible="dialogVisible"
@@ -93,7 +93,8 @@ export default {
       getDataListURL: "/api/role/list",
       deleteURL: "/api/role/del",
       getDataListIsPage: false,
-      roleList: []
+      roleList: [],
+      menuList: []
       // getDataListIsPage: true
     });
 
@@ -107,10 +108,28 @@ export default {
       return data.dialogVisible ? data.dialogEl : ""; // 注意 ref 包装过的值在value中
     });
 
-    http.post("/api/role/list").then((res) => {
-      data.roleList = res.data;
-      data.roleList.unshift({ id: -1, name: "无" });
+    http.post("/api/user/getrightslist", {}).then((res) => {
+      data.menuList = res.data;
+      // data.roleList = res.data;
+      // data.roleList.unshift({ id: -1, name: "无" });
     });
+
+    // http.post("/api/user/maxrightid", {}).then((res) => {
+    //   data.menuList = res.data;
+    //   // data.roleList = res.data;
+    //   // data.roleList.unshift({ id: -1, name: "无" });
+    // });
+
+    // http.post("/api/role/list").then((res) => {
+    //   data.roleList = res.data;
+    //   data.roleList.unshift({ id: -1, name: "无" });
+    // });
+
+    // http.post("/api/user/getrightslist", {}).then((res) => {
+    //   // data.roleList = res.data;
+    //   // data.roleList.unshift({ id: -1, name: "无" });
+    // });
+
     return {
       ...crudHooks(data),
       ...toRefs(data),

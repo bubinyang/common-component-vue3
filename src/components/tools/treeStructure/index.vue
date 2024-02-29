@@ -97,6 +97,7 @@
 
 <script>
 import { dataList } from "@/components/tools/treeNode/data";
+import { arrayMax } from "highcharts";
 
 const structureData = {
   code: 0,
@@ -288,12 +289,18 @@ export default {
     checkAllOrRelevance: {
       type: Boolean,
       default: false
+    },
+    initSelectIds: {
+      type: Array,
+      default: () => {
+        return [];
+      }
     }
   },
   data() {
     return {
       isCheckedAll: false,
-      isCheckStrictly: false,
+      isCheckStrictly: true,
       loading: true,
       ifDisabled: false,
       // defaultProps: {
@@ -335,7 +342,7 @@ export default {
       // 外部传入数据源
       this.$nextTick(() => {
         // 不选默认值
-        this.$refs.tree.setCurrentKey(this.treeList[0].id || "");
+        // this.$refs.tree.setCurrentKey(this.treeList[0].id || "");
         this.select(this.treeList[0] || {});
       });
     }
@@ -357,6 +364,7 @@ export default {
       structureType({
         deptId: id
       }).then((res) => {
+        console.log("我爱了");
         if (res.data && res.data.length > 0) {
           this.activeCategory = res.data[0].groupType;
           this.categorys = res.data;
@@ -404,7 +412,7 @@ export default {
           this.initialTreeData = list.map((item) => {
             return item;
           });
-
+          console.log("我来了", this.initialTreeData);
           this.$nextTick(() => {
             try {
               if (this.$refs.tree) {

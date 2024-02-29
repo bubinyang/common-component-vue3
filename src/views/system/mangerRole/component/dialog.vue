@@ -13,9 +13,12 @@
         <treeStructure
           ref="tree"
           :filter="false"
-          :is-initial-data="true"
+          :is-initial-data="false"
           :check="true"
           :accordion="true"
+          :defaultProps="{ children: 'subList', label: 'funcname' }"
+          :treeList="origin"
+          :treeLoading="false"
           @change="changeHandler"
           @finishLoading="finishHandler"
         />
@@ -33,11 +36,11 @@
 import { reactive, ref, onMounted, nextTick, toRefs, computed } from "vue";
 import http from "@/utils/request";
 import { ElNotification } from "element-plus";
-
+import { spreadTrees } from "@/utils";
 export default {
   props: {
     visible: { type: Boolean, default: () => false },
-    origin: { type: Object, default: () => ({}) }
+    origin: { type: Array, default: () => [] }
   },
   emits: ["refresh"], //这行代码需要加，否则报警
   setup(props, ctx) {
@@ -54,7 +57,9 @@ export default {
           value: "Option2",
           label: "Option2"
         }
-      ]
+      ],
+      menuList: [],
+      initSelectIds: []
     });
     let setVisible = computed({
       /*此处也可以不用computed，直接创建一个visible给el-dialog，v-if=dialogVisible直接写组件上，但是如果这样写
@@ -74,6 +79,23 @@ export default {
       dataFormRef.value.resetFields();
       if (data.dataForm.id) {
         data.dataForm = current;
+        console.log(current);
+        const ids = current.rights
+          .split("")
+          // .filter((item, index) => {
+          //   return item;
+          // })
+          .map((item, index) => index);
+        const spreadList = spreadTrees(props.origin, "subList");
+        data.initSelectIds = ids.reduce((total, item, index) => {
+          const findItem = spreadList.find((childitem) => {
+            return childitem.rightid == item;
+          });
+          total.push(findItem);
+          return total;
+        }, []);
+        console.log(data.initSelectIds);
+        // data.initSelectIds = console.log(data.dataForm, ids);
         // getInfo();
       }
     };
@@ -101,13 +123,10 @@ export default {
         setVisible.value = false; //此处需要加value
       });
     };
-    ///api/user/getrightslist 获取菜单列表
-    http.post("/api/user/getrightslist", {}).then((res) => {
-      // data.roleList = res.data;
-      // data.roleList.unshift({ id: -1, name: "无" });
-    });
 
-    const changeHandler = () => {};
+    const changeHandler = (data) => {
+      console.log(data);
+    };
     const finishHandler = () => {};
     return {
       save,
