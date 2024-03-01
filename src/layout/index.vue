@@ -43,7 +43,7 @@ export default {
     const state = reactive({ isShow: false, containClass: "" });
     const isRouterActive = ref(true);
     state.isShow = true;
-    setCache("theme", { baseSliderCollapse: false });
+    // setCache("theme", { baseSliderCollapse: true });
     const route = useRoute();
     const { currentRoute } = useRouter();
     console.log(currentRoute.value.matched);
@@ -57,6 +57,7 @@ export default {
     emits.on("emitTheme", () => {
       state.containClass = getThemeCacheOfConfig().join("");
     });
+    console.log(getThemeCacheOfConfig());
     state.containClass = getThemeCacheOfConfig().join("");
 
     // setTimeout(() => {

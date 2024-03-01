@@ -14,6 +14,6 @@ export const getThemeCacheOfConfig = () => {
 };
 //获取单个主题缓存值
 export const getThemeCaheByKey = (key) => {
-  const config = getCache("theme");
+  const config = getCache("theme") || {};
   return config[key];
 };

@@ -342,8 +342,10 @@ export default {
       // 外部传入数据源
       this.$nextTick(() => {
         // 不选默认值
+        // console.log(this.treeList[0]);
         // this.$refs.tree.setCurrentKey(this.treeList[0].id || "");
-        this.select(this.treeList[0] || {});
+        // this.$refs.tree.setCheckedKeys([this.treeList[0].id]);
+        // this.select(this.treeList[0] || {});
       });
     }
   },
@@ -440,7 +442,7 @@ export default {
     selectMultiple(item) {
       if (!this.$refs.tree) return;
       //check-strictly级联的情况下,子节点为选全，父节点都不会被抓取
-      const res = this.$refs.tree.getCheckedNodes();
+      const res = this.$refs.tree.getCheckedNodes(false, true);
       /* 限制多选项的清空--start */
       this.pitchItems = res.map((i) => ({ ...i }));
       if (this.pitchItems.length > this.limitMultiple && this.limitMultiple) {

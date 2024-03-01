@@ -116,9 +116,10 @@ const hooks = (externalStates: IViewHooksOptions, props: IObject): IObject => {
             .post(
               `${state.deleteURL}`, //为什么要用data作为关键key,那是开发规范，语义化更清晰，后端接的时候拿data
               {
-                data: id
-                  ? [id]
-                  : state.dataListSelections.map((item: IObject) => item[state.deleteIsBatchKey])
+                // data: id
+                //   ? [id]
+                //   : state.dataListSelections.map((item: IObject) => item[state.deleteIsBatchKey])
+                id
               }
 
               // state.deleteIsBatch //如果是批量，需要以body的形式传参，所以要data
@@ -130,7 +131,7 @@ const hooks = (externalStates: IViewHooksOptions, props: IObject): IObject => {
               //   : {}
             )
             .then((res: any) => {
-              if (res.code !== 200) {
+              if (res.code !== 0) {
                 return console.log("删除失败");
               }
               viewFun.query();
