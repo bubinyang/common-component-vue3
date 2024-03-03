@@ -53,7 +53,7 @@ export default {
         name: [
           {
             required: true,
-            message: "请填s写角色名称",
+            message: "请填写角色名称",
             trigger: "change"
           }
         ]
@@ -80,16 +80,20 @@ export default {
         return props.visible;
       },
       set(value) {
+        if (!value) {
+          dataFormRef.value.resetFields();
+        }
         ctx.emit("update:visible", value);
       }
     });
 
     const init = async function (current) {
       await nextTick();
-      dataFormRef.value.resetFields();
-      data.dataForm.id = 0;
-      spreadList = spreadTrees(props.origin, "subList");
       treeRef.value.$refs.tree.setCheckedKeys([]);
+
+      dataFormRef.value.resetFields();
+
+      spreadList = spreadTrees(props.origin, "subList");
       if (data.dataForm.id) {
         data.dataForm = current;
         const ids = current.rights.split("").map((item, index) => index);
@@ -103,9 +107,6 @@ export default {
         treeRef.value.$refs.tree.setCheckedKeys(
           data.initSelectIds.filter((item) => item).map((item) => item.id)
         );
-        // console.log(data.initSelectIds, treeRef.value.$refs.tree);
-        // data.initSelectIds = console.log(data.dataForm, ids);
-        // getInfo();
       }
     };
 

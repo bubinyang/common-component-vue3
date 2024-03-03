@@ -1,7 +1,7 @@
 <template>
   <el-dialog v-model="setVisible"
     >弹出框内容
-    <el-form label-width="100px" ref="dataFormRef" :model="dataForm">
+    <el-form label-width="100px" ref="dataFormRef" :model="dataForm" :rules="rules">
       <el-form-item label="用户名" prop="account">
         <el-input v-model="dataForm.account"></el-input>
       </el-form-item>
@@ -37,7 +37,25 @@ export default {
   setup(props, ctx) {
     const dataFormRef = ref(null);
     const data = reactive({
-      dataForm: { time: "", value: "" },
+      dataForm: { account: "", name: "", roleid: "", id: "" },
+
+      rules: {
+        account: [
+          {
+            required: true,
+            message: "请填写用户名称",
+            trigger: "change"
+          }
+        ],
+
+        roleid: [
+          {
+            required: true,
+            message: "请选择角色",
+            trigger: "change"
+          }
+        ]
+      },
 
       options: [
         {
@@ -59,6 +77,9 @@ export default {
         return props.visible;
       },
       set(value) {
+        if (!value) {
+          dataFormRef.value.resetFields();
+        }
         ctx.emit("update:visible", value);
       }
     });
@@ -69,6 +90,8 @@ export default {
       if (data.dataForm.id) {
         data.dataForm = current;
         // getInfo();
+      } else {
+        data.dataForm.id = 0;
       }
     };
 
@@ -79,20 +102,19 @@ export default {
     };
 
     const save = function () {
-      http[!data.dataForm.id ? "post" : "post"]("/api/user/save", data.dataForm).then((res) => {
-        if (res.code !== 0) {
-          return console.log("error");
-        } else {
+      dataFormRef.value.validate((valid) => {
+        if (!valid) return false;
+        http[!data.dataForm.id ? "post" : "post"]("/api/user/save", data.dataForm).then((res) => {
           ElNotification({
-            title: "",
-            message: res.message,
-            type: "success"
+            title: "提示",
+            message: res.code !== 0 ? "操作失败" : "操作成功",
+            type: res.code !== 0 ? "warning" : "success"
           });
-        }
 
-        ctx.emit("refresh", "");
+          ctx.emit("refresh", "");
 
-        setVisible.value = false; //此处需要加value
+          setVisible.value = false; //此处需要加value
+        });
       });
     };
     return {

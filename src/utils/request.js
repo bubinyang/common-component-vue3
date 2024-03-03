@@ -2,6 +2,8 @@ import axios from "axios";
 import Cookies from "js-cookie";
 import router from "@/router";
 // import { Message } from "element-plus";
+import { ElNotification } from "element-plus";
+
 // import url from '@/config'
 const service = axios.create({
   baseURL: `${import.meta.env.VITE_APP_API}/vi`,
@@ -22,11 +24,15 @@ service.interceptors.response.use(
   (config) => {
     const res = config.data;
     if (res.code !== 0) {
-      //   Message({
-      //     message: res.message,
-      //     type: "error"
-      //   });
-      console.error(res.message);
+      // Message({
+      //   message: res.message,
+      //   type: "error"
+      // });
+      ElNotification({
+        title: "",
+        message: res.message,
+        type: "warning"
+      });
       if (res.code === 1000) {
         Cookies.remove("token");
         router.replace("/login");

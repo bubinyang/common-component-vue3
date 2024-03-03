@@ -106,7 +106,7 @@ const hooks = (externalStates: IViewHooksOptions, props: IObject): IObject => {
       nextTick(() => {
         console.log(state.addOrUpdate);
         state.addOrUpdate.dataForm.id = id || "";
-        state.addOrUpdate.init(data);
+        state.addOrUpdate.init(JSON.parse(JSON.stringify(data||{})));
       });
     },
     deleteHandle(id?: string) {

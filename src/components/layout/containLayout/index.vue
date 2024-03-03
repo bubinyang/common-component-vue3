@@ -39,10 +39,18 @@ export default {
   height: 100%;
   display: flex;
   flex-direction: column;
+  .contain-layout-action {
+    display: flex;
+  }
   .contain-layout-content {
     flex: 1;
     overflow: auto;
     display: flex;
+  }
+  .el-pagination {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 10px;
   }
 }
 </style>
