@@ -26,7 +26,11 @@
             style="width: 100%"
             height="100%"
           >
-            <el-table-column prop="name" label="角色名称" align="center"> </el-table-column>
+            <el-table-column prop="name" label="编号" align="center"> </el-table-column>
+            <el-table-column prop="name" label="名称" align="center"> </el-table-column>
+            <el-table-column prop="name" label="图号" align="center"> </el-table-column>
+            <el-table-column prop="name" label="子组数" align="center"> </el-table-column>
+            <el-table-column prop="name" label="创建时间" align="center"> </el-table-column>
 
             <el-table-column label="操作" width="200">
               <template v-slot="scope">

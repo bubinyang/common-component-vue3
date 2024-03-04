@@ -23,7 +23,7 @@
             </el-dropdown-menu>
           </template>
           <span class="el-dropdown-link" style="line-height: 50px">
-            {{ store.state.userInfo.name }}
+            {{ store.state.userInfo?.name }}
             <i class="el-icon-arrow-down el-icon--right"></i>
           </span>
         </el-dropdown>
