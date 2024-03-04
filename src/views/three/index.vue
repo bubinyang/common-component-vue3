@@ -134,7 +134,7 @@
 import { getWeek } from "@/utils";
 import http from "@/utils/requestone";
 import { scrollItem } from "@/utils/index.js";
-import warningSound from "@/assets/warning.wav";
+import warningSound from "@/assets/warning.mp3";
 import dataNumber from "@/components/tools/dataNumber/index.vue";
 // import one from "./one.vue";
 // import two from "./two.vue";

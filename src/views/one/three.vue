@@ -4,7 +4,7 @@
     :data="newLrdEchartStep.barChartData || []"
     :x-axis-label-formatter="newLrdEchartStep.getXAxisLabelBarFormatter"
     :x-axis-data="newLrdEchartStep.xAxisData || []"
-    :chartType="'bar'"
+    :chartType="'line'"
     :title="{
       text: '',
       top: '0',
