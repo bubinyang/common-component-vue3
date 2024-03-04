@@ -173,7 +173,7 @@ export default {
     }
   },
   mounted() {
-    if (this.showDefaultTipAction) this.showDefaultTip();
+    // if (this.showDefaultTipAction) this.showDefaultTip();
     //this.criculationShowTootip();
   },
   methods: {
@@ -312,7 +312,9 @@ export default {
           a: false,
           symbol: "circle",
           smooth: true,
+
           data: item.list,
+
           ...this.seriesParam,
           ...item.seriesParam
         };
@@ -398,16 +400,17 @@ export default {
           textStyle: {
             color: "rgb(255, 255, 255)"
           },
-          formatter: (params) => {
-            const strings = params.reduce(
-              (total, item) => {
-                total.push(`${item.marker} ${item.seriesName}: ${formatValue(item.value)}`);
-                return total;
-              },
-              [this.xAxisLabelFormatter(params[0].name)]
-            );
-            return strings.join("<br />");
-          },
+          // formatter: (params) => {
+          //   const strings = params.reduce(
+          //     (total, item) => {
+          //       console.log(item);
+          //       total.push(`${item.marker} ${item.seriesName}: ${formatValue(item.value)}`);
+          //       return total;
+          //     },
+          //     [this.xAxisLabelFormatter(params[0].name)]
+          //   );
+          //   return strings.join("<br />");
+          // },
           ...this.tooltip
         },
         legend: {

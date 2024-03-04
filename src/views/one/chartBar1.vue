@@ -44,15 +44,19 @@
       },
       axisLabel: {
         show: true,
-        color: 'rgb(186,201,250)'
+        color: 'rgb(186,201,250)',
+        formatter(value) {
+          //  if (value < 1) return value;
+          return value * 100 + '%';
+        }
       }
     }"
     :seriesParam="{
-      symbolSize: 8,
-      symbol: 'circle',
-      smooth: true,
-      showSymbol: false,
-      stack: newLrdEchartStep.chartType === 'zzt' ? 'total' : false
+      label: {
+        show: true,
+        position: 'top',
+        color: 'white'
+      }
     }"
     :markPointParam="{
       itemStyle: {
@@ -99,6 +103,31 @@ const originData = [
     list: [],
     name: "当月",
     seriesParam: {
+      markLine: {
+        position: "middle",
+        data: [
+          {
+            type: "max",
+            yAxis: 0.05,
+            lineStyle: { color: "red" },
+            label: {
+              position: "insideEndTop",
+              formatter: `下限${0.05}`,
+              color: "red"
+            }
+          },
+          {
+            type: "max",
+            yAxis: 0.16,
+            lineStyle: { color: "red" },
+            label: {
+              formatter: `上限${0.16}`,
+              position: "insideEndTop",
+              color: "red"
+            }
+          }
+        ]
+      }
       // itemStyle: {
       //   color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
       //     {

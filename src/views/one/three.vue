@@ -193,17 +193,8 @@ export default {
         decimalDigits: 4,
         frequency: 15
       });
-      state.newLrdEchartStep.xAxisData = [
-        "six",
-        "李四",
-        "one",
-        "two",
-        "three",
-        "four",
-        "five",
-        "张三"
-      ];
-      originData[0].list = [300, 200, 300, 400, 800];
+      state.newLrdEchartStep.xAxisData = [];
+      originData[0].list = [];
       state.newLrdEchartStep.barChartData = originData;
       http
         .get("/system/qualityresult/list210", { params: { pageNum: 1, pageSize: 50 } })

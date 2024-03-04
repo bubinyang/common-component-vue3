@@ -9,23 +9,15 @@
             <template #action> </template>
             <three v-if="refresAllDayPoint"></three>
           </SmallContain>
-
-          <SmallContain :title="'一次气密不良'">
-            <!-- <twoNew v-if="refresAllDayPoint"></twoNew> -->
+          <section style="flex: 1; margin: 15px 0"></section>
+          <!-- <SmallContain :title="'一次气密不良率'">
             <chartBar></chartBar>
-          </SmallContain>
+          </SmallContain> -->
         </section>
-
-        <!-- <section class="screen-main-bottom">
-          <SmallContain :title="'设备利用率'">
-            <three v-if="refresAllDayPoint"></three>
-          </SmallContain>
-        </section> -->
 
         <section class="screen-main-center">
           <div class="center-contain">
             <SmallContain class="pie1" :title="'生产总览'">
-              <!-- <twoNew v-if="refresAllDayPoint"></twoNew> -->
               <div class="pie1-contain">
                 <div class="pie1-box" v-for="(item, index) in list" :key="index">
                   <pie1 :color="item.color" :color1="item.color1"></pie1>
@@ -37,23 +29,36 @@
                 </div>
               </div>
             </SmallContain>
+            <section style="flex: 1; margin: 15px 0"></section>
 
+            <!-- <SmallContain :title="'一次交检不合格率'">
+              <chartBar1></chartBar1>
+            </SmallContain> -->
+          </div>
+
+          <section class="threeBox">
+            <SmallContain :title="'一次气密不良率'">
+              <chartBar></chartBar>
+            </SmallContain>
             <SmallContain :title="'一次交检不合格率'">
-              <!-- <twoNew v-if="refresAllDayPoint"></twoNew> -->
               <chartBar1></chartBar1>
             </SmallContain>
-          </div>
+
+            <SmallContain :title="'一次下线合格率'">
+              <chartBar2></chartBar2>
+            </SmallContain>
+          </section>
         </section>
 
         <section class="screen-main-r">
           <SmallContain :title="'报修清单'">
             <orders v-if="refresAllDayPoint"></orders>
           </SmallContain>
+          <section style="flex: 1; margin: 15px 0"></section>
 
-          <SmallContain :title="'一次下线合格率'">
-            <!-- <twoNew v-if="refresAllDayPoint"></twoNew> -->
+          <!-- <SmallContain :title="'一次下线合格率'">
             <chartBar2></chartBar2>
-          </SmallContain>
+          </SmallContain> -->
         </section>
       </section>
     </largeScreenMain>
@@ -273,7 +278,7 @@ export default {
       bottom: 0;
       right: 0;
       //background: url("@/assets/img/home/zybg.jpg");
-      z-index: 1;
+      z-index: 10;
       .center-contain {
         width: 850px;
         height: 100%;
@@ -340,7 +345,16 @@ export default {
       .small-contain {
         // background: rgba(37, 42, 162, 0.8);
         // background: rgba(36, 38, 110, 0.6);
-        background: url("@/assets/img/home/box_bg.png") no-repeat;
+        // background: url("@/assets/img/home/box_bg.png") no-repeat;
+
+        border-radius: 11px;
+        backdrop-filter: blur(1px);
+        background-color: rgba(52, 39, 99, 0.169);
+        box-shadow: rgba(0, 0, 0, 0.3) 2px 8px 8px;
+        border: 0px rgba(255, 255, 255, 0.4) solid;
+        border-bottom: 0px rgba(40, 40, 40, 0.35) solid;
+        border-right: 0px rgba(40, 40, 40, 0.35) solid;
+
         background-size: 100% 100%;
         border: 0;
         flex: 1;
@@ -402,6 +416,16 @@ export default {
       border: 0;
       box-shadow: none;
     }
+  }
+
+  .threeBox {
+    height: 480px;
+    width: 1900px;
+    bottom: 20px;
+    position: absolute;
+    margin-left: 10px;
+    display: flex;
+    //flex-direction: column;
   }
 }
 
