@@ -23,7 +23,7 @@
             </el-dropdown-menu>
           </template>
           <span class="el-dropdown-link" style="line-height: 50px">
-            用户
+            {{ store.state.userInfo.name }}
             <i class="el-icon-arrow-down el-icon--right"></i>
           </span>
         </el-dropdown>
@@ -37,17 +37,23 @@ import { reactive, provide, ref, nextTick, watch, toRefs } from "vue";
 import breadcrumb from "./breadcrumb.vue";
 import emits from "@/utils/emit.js";
 import screenfull from "screenfull";
-import { setThemeCacheOfConfig } from "@/utils/theme.js";
+import { setThemeCacheOfConfig, getThemeCaheByKey } from "@/utils/theme.js";
 import { ElMessageBox } from "element-plus";
 import Cookies from "js-cookie";
 import { useRouter } from "vue-router";
+import { useStore } from "vuex";
 
 export default {
   components: { breadcrumb },
   setup() {
     const router = useRouter();
+    const store = useStore();
 
-    const state = reactive({ isShow: false, isFullscreen: false, collapse: false });
+    const state = reactive({
+      isShow: false,
+      isFullscreen: false,
+      collapse: getThemeCaheByKey("baseSliderCollapse")
+    });
     const switchSlider = () => {
       state.collapse = !state.collapse;
       setThemeCacheOfConfig("baseSliderCollapse", state.collapse);
@@ -71,7 +77,7 @@ export default {
         })
         .catch(() => {});
     };
-    return { ...toRefs(state), switchSlider, fullscreen, onClickUserMenus };
+    return { ...toRefs(state), switchSlider, fullscreen, onClickUserMenus, store };
   }
 };
 </script>

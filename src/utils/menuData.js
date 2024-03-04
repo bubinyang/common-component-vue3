@@ -1,32 +1,40 @@
 const menuList = [
   {
-    name: "首页",
-    url: "/"
+    name: "基础设置",
+    url: "one",
+    // meta:{label:'jcsz'},
+    children: [
+      {
+        name: "首页",
+        url: "/"
+      },
+
+      {
+        name: "产品列表",
+        url: "/productList/index"
+      },
+      {
+        name: "程序选择",
+        url: ""
+      },
+      {
+        name: "测量记录",
+        url: ""
+      },
+      {
+        name: "校准测头",
+        url: ""
+      },
+      {
+        name: "公差调整",
+        url: ""
+      }
+    ]
   },
 
   {
-    name: "产品列表",
-    url: "/largeScreen/index"
-  },
-  {
-    name: "程序选择",
-    url: ""
-  },
-  {
-    name: "测量记录",
-    url: ""
-  },
-  {
-    name: "校准测头",
-    url: ""
-  },
-  {
-    name: "公差调整",
-    url: ""
-  },
-  {
     name: "系统管理",
-    url: "one",
+    url: "two",
     children: [
       {
         name: "用户管理",
@@ -35,6 +43,10 @@ const menuList = [
       {
         name: "角色管理",
         url: "/system/mangerRole/index"
+      },
+      {
+        name: "密码修改",
+        url: "/system/editPassword/index"
       }
     ]
   }

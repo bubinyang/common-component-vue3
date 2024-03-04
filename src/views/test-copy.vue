@@ -550,13 +550,7 @@ export default {
         this[key] = true;
       });
     },
-    changeUserInfo() {
-      this.store.dispatch("updateState", { userInfo: "lhx" }).then((res) => {
-        console.log(res);
-      });
-
-      console.log("执行1");
-    }
+    changeUserInfo() {}
   }
 };
 </script>

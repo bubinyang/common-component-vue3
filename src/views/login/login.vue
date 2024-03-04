@@ -55,10 +55,10 @@
 <script>
 import { reactive, toRefs } from "vue";
 import Cookies from "js-cookie";
+import { setCache } from "@/utils/cache";
 import { useRouter } from "vue-router";
 import http from "@/utils/request";
-import store from "@/store";
-
+import { useStore } from "vuex";
 // const AriticeItem = reactive({
 //   title: "文章标题",
 //   info: "文章内容",
@@ -67,7 +67,7 @@ import store from "@/store";
 export default {
   setup() {
     const router = useRouter();
-
+    const store = useStore();
     const data = reactive({
       formLabelAlign: {
         name: "admin",
@@ -85,7 +85,8 @@ export default {
         })
         .then((res) => {
           data.loading = false;
-
+          setCache("userInfo", res.data);
+          // store.dispatch("getUserInfo", res.data);
           Cookies.set("token", res.data.token);
           router.replace("/");
         });

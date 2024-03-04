@@ -186,13 +186,15 @@ router.beforeEach((to, from, next) => {
       next({ path: "/" });
     } else {
       //如果没有拿到路由列表,去请求接口
-      if (store.state.userInfo) {
+      if (store.state.routes.length) {
         console.log(11);
         next();
       } else {
         store.dispatch("getuserRouters").then((res) => {
           const { userRouters } = res;
           // router.addRoute(userRouters[1]);
+          console.log(userRouters);
+          store.dispatch("updateState", { routes: userRouters });
           addRouteFromUser(userRouters);
 
           // if (!router.hasRoute("/:path(.*)*")) {

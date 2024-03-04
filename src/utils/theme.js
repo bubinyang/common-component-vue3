@@ -1,5 +1,6 @@
 import { getCache, setCache } from "./cache.js";
 export const setThemeCacheOfConfig = (key, value) => {
+  console.log(value);
   const history = getCache(key);
   setCache("theme", { ...history, [key]: value });
 };

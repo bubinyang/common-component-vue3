@@ -1,12 +1,15 @@
 import { createStore } from "vuex";
 import { setRouterComponent } from "@/utils/utils.ts";
 import { menuList } from "@/utils/menuData.js";
+import { getCache } from "@/utils/cache";
+
 interface IObject<T = any> {
   [key: string]: T;
 }
 export default createStore({
   state: {
-    userInfo: null
+    userInfo: getCache("userInfo"),
+    routes: []
   } as IObject,
   mutations: {
     setUpdateState(state, payload): void {
@@ -16,7 +19,6 @@ export default createStore({
       });
     },
     setUserInfo(state, userInfo): void {
-      console.log(userInfo);
       state.userInfo = userInfo;
     }
   },
@@ -26,17 +28,16 @@ export default createStore({
       //     console.log(res, Promise.resolve("不必要"));
       //     return res;
       //   });
-
-      return Promise.resolve("不必要").then((res) => {
-        return "有意义";
-      });
+      commit("setUpdateState", data);
     },
     getuserRouters({ commit }, data) {
       //获取路由数据
       const userRouters = setRouterComponent(menuList);
       const userName = "bby";
       return new Promise((resolve) => {
-        commit("setUserInfo", { userRouters, userName });
+        //  commit("setUserInfo", { userRouters, userName });
+        // const info=getCache("userInfo");
+        //  commit("setUserInfo", { userRouters, userName });
         setTimeout(resolve, 1000, { userRouters, userName });
       }).then((res) => {
         //console.log(userRouters);
