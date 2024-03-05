@@ -10,9 +10,6 @@
             <three v-if="refresAllDayPoint"></three>
           </SmallContain>
           <section style="flex: 1; margin: 15px 0"></section>
-          <!-- <SmallContain :title="'一次气密不良率'">
-            <chartBar></chartBar>
-          </SmallContain> -->
         </section>
 
         <section class="screen-main-center">
@@ -30,23 +27,26 @@
               </div>
             </SmallContain>
             <section style="flex: 1; margin: 15px 0"></section>
-
-            <!-- <SmallContain :title="'一次交检不合格率'">
-              <chartBar1></chartBar1>
-            </SmallContain> -->
           </div>
 
           <section class="threeBox">
-            <SmallContain :title="'一次气密不良率'">
-              <chartBar></chartBar>
-            </SmallContain>
-            <SmallContain :title="'一次交检不合格率'">
-              <chartBar1></chartBar1>
-            </SmallContain>
-
-            <SmallContain :title="'一次下线合格率'">
-              <chartBar2></chartBar2>
-            </SmallContain>
+            <section class="swiperspec-contain" @click="emitsTest">
+              <section class="swpierspec-item" style="width: 100%">
+                <SmallContain :title="'一次气密不良率'">
+                  <chartBar v-if="refresAllDayPoint" :limit="limit.one"></chartBar>
+                </SmallContain>
+              </section>
+              <section class="swpierspec-item" style="width: 100%">
+                <SmallContain :title="'一次交检不合格率'">
+                  <chartBar1 v-if="refresAllDayPoint" :limit="limit.two"></chartBar1>
+                </SmallContain>
+              </section>
+              <section class="swpierspec-item" style="width: 100%">
+                <SmallContain :title="'一次下线合格率'">
+                  <chartBar2 v-if="refresAllDayPoint" :limit="limit.three"></chartBar2>
+                </SmallContain>
+              </section>
+            </section>
           </section>
         </section>
 
@@ -55,10 +55,6 @@
             <orders v-if="refresAllDayPoint"></orders>
           </SmallContain>
           <section style="flex: 1; margin: 15px 0"></section>
-
-          <!-- <SmallContain :title="'一次下线合格率'">
-            <chartBar2></chartBar2>
-          </SmallContain> -->
         </section>
       </section>
     </largeScreenMain>
@@ -82,7 +78,8 @@ import pie1 from "./pie1.vue";
 
 import http from "@/utils/requestone";
 import twoNew from "./twoNew.vue";
-
+import { newSwpierSpecial } from "@/utils";
+import axios from "axios";
 export default {
   name: "LargeScreen",
   components: {
@@ -120,21 +117,32 @@ export default {
         { color: "#0E4B90", color1: "#04B8F8", label: "一次扭矩合格数", key: "ycljhgs" },
         { color: "#952037", color1: "#ECB5CF", label: "一次下线合格数", key: "ycxxhgs" }
       ],
-      sixData: {}
+      sixData: {},
+      limit: {}
     };
   },
   created() {
     // setInterval(() => {
     //   this.setTime();
     // }, 1000);
+
+    setTimeout(function () {
+      window.location.reload();
+    }, 3600 * 1000 * 10);
   },
-  mounted() {
+  async mounted() {
+    const { data } = await axios.get("./limit.json");
+    this.limit = data;
     const updateData = () => {
       this.refreshComponent();
       this.init();
       setTimeout(updateData, 60000);
     };
     updateData();
+
+    const delay = [{ name: 1, value: 2000 }];
+    newSwpierSpecial(".swiperspec-contain", { delayOptions: delay });
+
     // http.post("/api/line/name", { ID: this.$route.query.id || "1" }).then((res) => {
     //   this.name = res.Data;
     // });
@@ -425,7 +433,38 @@ export default {
     position: absolute;
     margin-left: 10px;
     display: flex;
+    // border: 1px solid;
     //flex-direction: column;
+  }
+
+  .swiperspec-contain {
+    margin: 0 auto;
+    width: 100%;
+    height: 100%;
+    position: relative;
+    display: flex;
+    overflow: hidden;
+    & > section {
+      top: 0px;
+      left: 0px;
+      position: absolute;
+      //border: 1px solid;
+      width: 100%;
+      height: 100%;
+      transition: 0.3s;
+      transition-property: transform;
+      display: flex;
+      // flex-shrink: 0;
+      // &:nth-child(2n) {
+      //   background: bisque;
+      // }
+      // &:nth-child(2n + 1) {
+      //   background-color: #d3dce6;
+      // }
+    }
+    .is-active {
+      z-index: 1;
+    }
   }
 }
 

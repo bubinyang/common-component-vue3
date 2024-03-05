@@ -13,7 +13,7 @@
       <div class="center">
         <div class="box-contain">
           <section class="content" v-for="(item, key) in originData" :key="key">
-            <i>10</i>
+            <i>{{ key + 1 }}</i>
             <div>
               <h1>工位:</h1>
               <label class="position">{{ item.wsCode }}</label>
@@ -121,10 +121,10 @@ export default {
     onMounted(async () => {
       const result = await init();
       await nextTick();
-      if (state.originData.length > 115) {
+      if (state.originData.length > 4) {
         oneInterval = scrollItem({
           contentEl: document.querySelector(".orders-style .box-contain"),
-          speed: 0.5,
+          speed: 0.05,
           orient: "vertical"
         });
       }

@@ -55,7 +55,10 @@
       label: {
         show: true,
         position: 'top',
-        color: 'white'
+        color: 'white',
+        formatter: (val) => {
+          return val.value;
+        }
       }
     }"
     :markPointParam="{
@@ -101,50 +104,7 @@ const originData = [
     attrKey: "A29",
     list: [],
     name: "当日",
-    seriesParam: {
-      markLine: {
-        position: "middle",
-        data: [
-          {
-            type: "max",
-            yAxis: 0.05,
-            lineStyle: { color: "red" },
-            label: {
-              position: "insideEndTop",
-              formatter: `下限${0.05}`,
-              color: "red"
-            }
-          },
-          {
-            type: "max",
-            yAxis: 0.16,
-            lineStyle: { color: "red" },
-            label: {
-              formatter: `上限${0.16}`,
-              position: "insideEndTop",
-              color: "red"
-            }
-          }
-        ]
-      }
-
-      // itemStyle: {
-      //   color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
-      //     {
-      //       offset: 0,
-      //       color: "rgba(21, 154, 255, 1)"
-      //     },
-      //     {
-      //       offset: 0.5,
-      //       color: "rgba(21, 154, 255, 0.5)"
-      //     },
-      //     {
-      //       offset: 1,
-      //       color: "rgba(0, 20, 79, 0)"
-      //     }
-      //   ])
-      // }
-    }
+    seriesParam: {}
   }
 ];
 
@@ -152,8 +112,15 @@ export default {
   components: {
     //LineBarCharts
   },
-  props: {},
-  setup() {
+  props: {
+    limit: {
+      type: Object,
+      default: () => {
+        return {};
+      }
+    }
+  },
+  setup(props) {
     const refresAllDayPoint = ref(false);
 
     const state = reactive({
@@ -180,7 +147,36 @@ export default {
     // );
 
     onMounted(() => {
-      console.log("onMounted");
+      console.log("limit", props.limit);
+
+      originData[0].seriesParam = {
+        markLine: {
+          position: "middle",
+          data: [
+            {
+              type: "max",
+              yAxis: props.limit.lowerLimit,
+              lineStyle: { color: "red" },
+              label: {
+                position: "insideEndTop",
+                formatter: `下限${props.limit.lowerLimit}`,
+                color: "red"
+              }
+            },
+            {
+              type: "max",
+              yAxis: props.limit.upperLimit,
+              lineStyle: { color: "red" },
+              label: {
+                formatter: `上限${props.limit.upperLimit}`,
+                position: "insideEndTop",
+                color: "red"
+              }
+            }
+          ]
+        }
+      };
+
       init();
     });
 
@@ -190,8 +186,7 @@ export default {
         decimalDigits: 4,
         frequency: 15
       });
-      console.log(state.newLrdEchartStep);
-      originData[0].list = [300, 200, 300, 400, 800];
+      originData[0].list = [];
       //originData[1].list = [200, 250, 400, 700, 400];
 
       //   state.newLrdEchartStep.getXAxisLabelBarFormatter = (val) => {

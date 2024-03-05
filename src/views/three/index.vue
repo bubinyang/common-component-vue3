@@ -672,7 +672,7 @@ export default {
 
   .screen-table {
     width: 1800px;
-    font-size: 16px;
+    font-size: 22px;
     margin: 0px 59px 22px 59px;
     height: 750px;
     display: flex;

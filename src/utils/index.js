@@ -386,12 +386,17 @@ export function scrollItem({ contentEl, speed = 20, orient = "horizontal" }) {
   let distance = 0;
   let action = true;
 
-  function go() {
+  async function go() {
     distance = distance - 1;
     if (-distance >= parseInt(contentSizeVal)) {
       distance = 0;
     }
     contentEl.style.transform = types[orient].setStyle(distance);
+    if (distance === 0) {
+      await new Promise((resolve) => {
+        setTimeout(resolve, 5000);
+      });
+    }
     return requestAnimationFrame(go);
   }
 
@@ -1196,6 +1201,97 @@ export function setNumberFixed(val, decimal = 2) {
     ? val.toFixed(decimal)
     : filterNullUndefind(val);
 }
+
+class SwpierSpecial {
+  constructor(elName, options = {}) {
+    this.delayOptions = options.delayOptions || [];
+    this.defaultDelay = 10000;
+    this.delay = options.delay ? options.delay : this.defaultDelay;
+    this.el = document.querySelector(elName);
+
+    this.getContainStyle();
+  }
+  // 获取容器宽高
+  getContainStyle() {
+    const { height, width } = this.el.getBoundingClientRect();
+    this.elW = width;
+    this.elH = height;
+    this.getChildEl();
+  }
+  // 获取子容器元素,组装成操作数组,设置默认属性
+  getChildEl() {
+    if (!this.el.children.length) return;
+    const { children } = this.el;
+
+    this.childEls = Array.prototype.slice.call(children).map((item, index) => {
+      const findItem = this.delayOptions.find((item) => item.name === index);
+      return {
+        el: item,
+        delay: findItem ? findItem.value : this.defaultDelay,
+        transformTx: this.elW * index
+      };
+    });
+    // 设置默认translateX的值
+    this.childEls.forEach((item, index) => {
+      if (index === 0) item.el.classList.add("is-active");
+      this.setStyle(item.el, "transform", `translateX(${item.transformTx}px)`);
+    });
+    this.setTransform();
+    this.action();
+  }
+  // 将最后一条数据挪到-elW的位置
+  setTransform() {
+    if (this.childEls.length > 2) {
+      const length = this.childEls.length;
+      const findItem = this.childEls[length - 1];
+      findItem.transformTx = -this.elW;
+    }
+  }
+
+  // 休眠方法
+  waiting(ms = this.delay) {
+    return new Promise((resolve) => {
+      setTimeout(resolve, ms);
+    });
+  }
+  // 轮播方法
+  async action() {
+    const length = this.childEls.length;
+    // eslint-disable-next-line no-constant-condition
+    while (true) {
+      for (let i = 0; i < length; i++) {
+        await this.waiting(this.childEls[i].delay);
+        // 位移执行
+        this.childEls.forEach((item) => {
+          item.transformTx = item.transformTx - this.elW;
+          if (item.transformTx === 0) {
+            item.el.classList.add("is-active");
+          } else {
+            item.el.classList.remove("is-active");
+          }
+        });
+
+        // 判断位移位置,将位移位置是负2倍的挪到最后
+        this.childEls.forEach((item) => {
+          if (item.transformTx === -2 * this.elW) {
+            item.transformTx = (length - 2) * this.elW;
+          }
+          this.setStyle(item.el, "transform", `translateX(${item.transformTx}px)`);
+        });
+      }
+    }
+  }
+
+  // 移动和重置操作
+  mutations() {}
+  setStyle(el, classKey, value) {
+    el.style[classKey] = value;
+  }
+}
+export function newSwpierSpecial(el, options) {
+  return new SwpierSpecial(el, options);
+}
+
 export default {
   // 时间类
   getTimeDataRange,
