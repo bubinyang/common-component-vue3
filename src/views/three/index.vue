@@ -45,6 +45,7 @@
       <div class="screen-table">
         <div class="top">
           <label>创建时间</label>
+          <label>产线名称</label>
           <label>工位</label>
           <label>故障</label>
           <label>维修开始</label>
@@ -52,8 +53,14 @@
         </div>
         <section class="screen-main-contents">
           <section class="table-content">
-            <div class="content" :style="{background:statusColor[item.status]}" v-for="(item, index) in originData.Items" :key="index">
+            <div
+              :class="['content', item.status === 3 ? 'warning' : '']"
+              :style="{ background: statusColor[item.status] }"
+              v-for="(item, index) in originData.Items"
+              :key="index"
+            >
               <label>{{ item.createTime }}</label>
+              <label>240线</label>
               <label>{{ item.major }}</label>
               <label>{{ item.wsCode }}</label>
               <label>{{ item.beginTime }}</label>
@@ -161,7 +168,7 @@ export default {
       list: [{ Device: "name", Quantity: "100" }],
       originData: { Items: [], data: {} },
       warnigSetInterval: "",
-      statusColor:{'1':'green','2':'yellow','3':'red'}
+      statusColor: { 1: "green", 2: "yellow", 3: "red" }
     };
   },
 
@@ -222,19 +229,17 @@ export default {
     },
 
     init(device) {
-    
-
       http.get("/kb/kb2").then((res) => {
         this.originData.data = res.data;
       });
       return new Promise((resolve) => {
         http.get("/kb/workorderlist").then((res) => {
           this.originData.Items = res.rows;
-          this.originData.Items.forEach(item=>{
-             if(item.beginTime&&item.endTime)item.status=1;
-             if(item.beginTime&&!item.endTime)item.status=2;
-             if(!item.beginTime&&!item.endTime)item.status=3;
-          })
+          this.originData.Items.forEach((item) => {
+            if (item.beginTime && item.endTime) item.status = 1;
+            if (item.beginTime && !item.endTime) item.status = 2;
+            if (!item.beginTime && !item.endTime) item.status = 3;
+          });
           console.log(this.originData.Items, "11");
           if (this.originData.Items.some((item) => !item.beginTime)) {
             clearInterval(this.warnigSetInterval);
@@ -515,6 +520,10 @@ export default {
         background: #00274a;
       }
     }
+
+    .warning {
+      animation: colorChange 3s infinite; /* 持续时间为3秒，无限循环 */
+    }
   }
 
   .box {
@@ -653,6 +662,18 @@ export default {
     label:nth-of-type(3)::before {
       background: linear-gradient(141deg, #ffce00 0%, #ff8282 100%);
     }
+  }
+}
+
+@keyframes colorChange {
+  0% {
+    background-color: darkred;
+  }
+  50% {
+    background-color: #ff4040; /* 红色 */
+  }
+  100% {
+    background-color: darkred;
   }
 }
 </style>
