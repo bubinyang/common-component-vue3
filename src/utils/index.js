@@ -364,6 +364,9 @@ export function createShade() {
  * @param contentEl 内容El
  * @param orient 方向 horizontal vertical
  */
+let distance = 0;
+let isAnimating = false;
+
 export function scrollItem({ contentEl, speed = 20, orient = "horizontal" }) {
   const types = {
     horizontal: {
@@ -383,21 +386,28 @@ export function scrollItem({ contentEl, speed = 20, orient = "horizontal" }) {
   // const boxSizeVal = boxEl.getBoundingClientRect()[types[orient].sizeLabel]
   const contentSizeVal = contentEl.getBoundingClientRect()[types[orient].sizeLabel];
   console.log(contentSizeVal);
-  let distance = 0;
   let action = true;
 
   async function go() {
-    distance = distance - 1;
-    if (-distance >= parseInt(contentSizeVal)) {
-      distance = 0;
-    }
-    contentEl.style.transform = types[orient].setStyle(distance);
-    if (distance === 0) {
-      await new Promise((resolve) => {
-        setTimeout(resolve, 5000);
+    if (!isAnimating) {
+      isAnimating = true;
+      distance = parseInt(distance - 1);
+      // console.log(parseInt(contentSizeVal));
+      if (-distance >= parseInt(contentSizeVal)) {
+        distance = 0;
+      }
+      contentEl.style.transform = types[orient].setStyle(distance);
+      if (distance === 0) {
+        await new Promise((resolve) => {
+          setTimeout(resolve, 5000);
+        });
+      }
+
+      return requestAnimationFrame(() => {
+        isAnimating = false;
+        go();
       });
     }
-    return requestAnimationFrame(go);
   }
 
   // setInterval(() => {

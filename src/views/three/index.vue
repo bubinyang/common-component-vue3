@@ -216,6 +216,7 @@ export default {
       await this.init();
       let requestFrame;
       setTimeout(() => {
+        cancelAnimationFrame(requestFrame);
         if (this.originData.Items.length > 12) {
           requestFrame = scrollItem({
             contentEl: document.querySelector(".largeScreen-contain-device-tree .table-content"),

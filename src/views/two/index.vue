@@ -84,7 +84,7 @@ import { scrollItem } from "@/utils/index.js";
 // import deviceError from "./deviceError.vue";
 // import orders from "./orders.vue";
 // import device from "./devices.vue";
-
+let requestFrame;
 export default {
   name: "LargeScreenOther",
   components: {},
@@ -105,7 +105,7 @@ export default {
   created() {
     const updateData = () => {
       this.initData();
-      setTimeout(updateData, 60000000);
+      setTimeout(updateData, 20000);
     };
     updateData();
   },
@@ -125,15 +125,19 @@ export default {
     },
     async initData() {
       await this.init();
+
       setTimeout(() => {
+        cancelAnimationFrame(requestFrame);
         if (this.originData.todayCntWsCode.length > 40) {
-          scrollItem({
+          requestFrame = scrollItem({
             contentEl: document.querySelector(".largeScreen-contain-device .screen-main-content"),
             speed: 0.5,
             orient: "vertical"
           });
+        } else {
+          cancelAnimationFrame(requestFrame);
         }
-      }, 1000);
+      }, 2000);
     },
 
     init() {
@@ -295,9 +299,10 @@ export default {
     position: relative;
     margin: 0px 5px 0px 15px;
     overflow: hidden;
-    display: flex;
+    // display: flex;
   }
   .screen-main-content {
+    overflow: hidden;
     // flex: 1;
 
     // position: relative;
