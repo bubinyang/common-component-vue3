@@ -177,9 +177,9 @@ import { is } from "snapsvg";
 // import { Curve } from 'three';
 class UploadClass {
   constructor(options) {
-    this.successUpload = options.successUpload || function () {};
-    this.errorUpload = options.errorUpload || function () {};
-    this.beforeUpload = options.beforeUpload || function () {};
+    this.successUpload = options.successUpload || function () { };
+    this.errorUpload = options.errorUpload || function () { };
+    this.beforeUpload = options.beforeUpload || function () { };
     this.limit = options.limit || 0;
     this.el = options.el; // 节点
     this.url = options.url; // 接口地址
@@ -364,7 +364,10 @@ export function createShade() {
  * @param contentEl 内容El
  * @param orient 方向 horizontal vertical
  */
-export function scrollItem({ contentEl, speed = 20, orient = "horizontal" }) {
+let distance = 0;//变量放在外面，因为scrollItem在更新数据的时候会多次执行(数据多才滚动)，distance放在函数里面会在变化的时候数字不规则跳动
+let isAnimating = false;//多次执行scrollItem的时候，防止动画重复
+
+export function scrollItem({ contentEl, speed = 20, orient = "horizontal", beginWiteTime = 5000 }) {
   const types = {
     horizontal: {
       sizeLabel: "width",
@@ -382,16 +385,29 @@ export function scrollItem({ contentEl, speed = 20, orient = "horizontal" }) {
 
   // const boxSizeVal = boxEl.getBoundingClientRect()[types[orient].sizeLabel]
   const contentSizeVal = contentEl.getBoundingClientRect()[types[orient].sizeLabel];
-  let distance = 0;
+  console.log(contentSizeVal);
   let action = true;
 
-  function go() {
-    distance = distance - 1;
-    if (-distance >= parseInt(contentSizeVal)) {
-      distance = 0;
+  async function go() {
+    if (!isAnimating) {
+      isAnimating = true;
+      distance = parseInt(distance - 1);
+      // console.log(parseInt(contentSizeVal));
+      if (-distance >= parseInt(contentSizeVal)) {
+        distance = 0;
+      }
+      contentEl.style.transform = types[orient].setStyle(distance);
+      if (distance === 0) {
+        await new Promise((resolve) => {
+          setTimeout(resolve, beginWiteTime);
+        });
+      }
+
+      return requestAnimationFrame(() => {
+        isAnimating = false;
+        go();
+      });
     }
-    contentEl.style.transform = types[orient].setStyle(distance);
-    return requestAnimationFrame(go);
   }
 
   // setInterval(() => {
@@ -411,6 +427,7 @@ export function scrollItem({ contentEl, speed = 20, orient = "horizontal" }) {
   });
   return go();
 }
+
 
 /**
  *
@@ -601,7 +618,7 @@ class SwpierSpecial {
   }
 
   // 移动和重置操作
-  mutations() {}
+  mutations() { }
   setStyle(el, classKey, value) {
     el.style[classKey] = value;
   }
@@ -1261,9 +1278,8 @@ function changeBezier(el, quadrticBezier = true, controlPointSize = 5) {
   const isOvertopM = dValueGroup[Mindex].y < intermediatePoint.y;
 
   //如果增加二次贝塞尔曲线
-  changeBezierCoordinate[2].x = `L${
-    Number(clearStr(changeBezierCoordinate[2].x, "L", "")) + controlPointSize
-  }`;
+  changeBezierCoordinate[2].x = `L${Number(clearStr(changeBezierCoordinate[2].x, "L", "")) + controlPointSize
+    }`;
   changeBezierCoordinate[3].y = isOvertopM
     ? `${Number(changeBezierCoordinate[3].y)}`
     : `${Number(changeBezierCoordinate[3].y)}`;
