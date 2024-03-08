@@ -177,9 +177,9 @@ import { is } from "snapsvg";
 // import { Curve } from 'three';
 class UploadClass {
   constructor(options) {
-    this.successUpload = options.successUpload || function () {};
-    this.errorUpload = options.errorUpload || function () {};
-    this.beforeUpload = options.beforeUpload || function () {};
+    this.successUpload = options.successUpload || function () { };
+    this.errorUpload = options.errorUpload || function () { };
+    this.beforeUpload = options.beforeUpload || function () { };
     this.limit = options.limit || 0;
     this.el = options.el; // 节点
     this.url = options.url; // 接口地址
@@ -1015,7 +1015,7 @@ export function setXmlHttpRequestSpecial(url, method, options = {}) {
 }
 
 //数组分组
-export function grouping(origin, lengthVal = 5) {
+export function grouping(origin = [], lengthVal = 5) {
   let i = 0;
   return origin.reduce((total, item, index) => {
     const arr = origin.slice(i, i + lengthVal);
@@ -1108,9 +1108,8 @@ function changeBezier(el, quadrticBezier = true, controlPointSize = 5) {
   const isOvertopM = dValueGroup[Mindex].y < intermediatePoint.y;
 
   //如果增加二次贝塞尔曲线
-  changeBezierCoordinate[2].x = `L${
-    Number(clearStr(changeBezierCoordinate[2].x, "L", "")) + controlPointSize
-  }`;
+  changeBezierCoordinate[2].x = `L${Number(clearStr(changeBezierCoordinate[2].x, "L", "")) + controlPointSize
+    }`;
   changeBezierCoordinate[3].y = isOvertopM
     ? `${Number(changeBezierCoordinate[3].y)}`
     : `${Number(changeBezierCoordinate[3].y)}`;
@@ -1293,7 +1292,7 @@ class SwpierSpecial {
   }
 
   // 移动和重置操作
-  mutations() {}
+  mutations() { }
   setStyle(el, classKey, value) {
     el.style[classKey] = value;
   }

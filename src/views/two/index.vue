@@ -48,7 +48,7 @@
         </div>
       </div>
       <div class="box">
-        <section class="screen-main-content">
+        <!-- <section class="screen-main-content">
           <div class="dialog-style" v-for="(item, index) in originData.todayCntWsCode" :key="index">
             <h3>{{ item.ws_code }}</h3>
             <div class="contain">
@@ -59,7 +59,26 @@
               <div>{{ item.fxjggzs }}</div>
             </div>
           </div>
+        </section> -->
+
+
+        <section class="screen-main-content swiperspec-contain">
+        <section v-for="(father,index) in newOriginData" :key="index">
+            <div class="dialog-style" v-for="(item, index) in father" :key="index">
+            <h3>{{ item.ws_code }}</h3>
+            <div class="contain">
+              <div>{{ item.cnt }}</div>
+
+              <div>{{ item.ycgzs }}</div>
+
+              <div>{{ item.fxjggzs }}</div>
+            </div>
+          </div>
         </section>
+        <!-- <section>2</section> -->
+  </section>
+
+
       </div>
 
       <div class="legend">
@@ -74,7 +93,7 @@
 <script>
 import { getWeek } from "@/utils";
 import http from "@/utils/requestone";
-import { scrollItem } from "@/utils/index.js";
+import { scrollItem,grouping,newSwpierSpecial} from "@/utils/index.js";
 
 // import one from "./one.vue";
 // import two from "./two.vue";
@@ -98,7 +117,8 @@ export default {
 
       rankDate: "",
       list: [{ Device: "name", Quantity: "100" }],
-      originData: { todayCntWsCode: [] }
+      originData: { todayCntWsCode: [] },
+      newOriginData:[]
     };
   },
 
@@ -110,8 +130,10 @@ export default {
     updateData();
   },
 
-  mounted() {
-    this.initData();
+ async mounted() {
+   // grouping([1, 2, 3, 4, 5, 6],4);
+    await this.initData();
+    newSwpierSpecial(".swiperspec-contain")
   },
   methods: {
     setTime() {
@@ -128,7 +150,7 @@ export default {
 
       setTimeout(() => {
         cancelAnimationFrame(requestFrame);
-        if (this.originData.todayCntWsCode.length > 40) {
+        if (this.originData.todayCntWsCode.length > 140) {
           requestFrame = scrollItem({
             contentEl: document.querySelector(".largeScreen-contain-device .screen-main-content"),
             speed: 0.5,
@@ -144,6 +166,8 @@ export default {
       return new Promise((resolve) => {
         http.get("/kb/kb1/plus").then((res) => {
           this.originData = res.data;
+          this.newOriginData=grouping(res.data.todayCntWsCode,40)
+          console.log(this.newOriginData);
           resolve(res.data);
         });
       });
@@ -303,6 +327,25 @@ export default {
   }
   .screen-main-content {
     overflow: hidden;
+    height: 100%;
+    position: relative;
+    color:white;
+    font-size: 30px;
+    & > section {
+      top: 0px;
+      left: 0px;
+      right: 0px;
+      bottom: 0px;
+      position: absolute;
+      border: 1px solid;
+      width: 100%;
+      height: 100%;
+      transition: 2s;
+      transition-property: transform;
+      background: rgba(0,15,27);
+
+    }
+
     // flex: 1;
 
     // position: relative;
