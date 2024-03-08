@@ -61,24 +61,21 @@
           </div>
         </section> -->
 
-
         <section class="screen-main-content swiperspec-contain">
-        <section v-for="(father,index) in newOriginData" :key="index">
+          <section v-for="(father, index) in newOriginData" :key="index">
             <div class="dialog-style" v-for="(item, index) in father" :key="index">
-            <h3>{{ item.ws_code }}</h3>
-            <div class="contain">
-              <div>{{ item.cnt }}</div>
+              <h3>{{ item.ws_code }}</h3>
+              <div class="contain">
+                <div>{{ item.cnt }}</div>
 
-              <div>{{ item.ycgzs }}</div>
+                <div>{{ item.ycgzs }}</div>
 
-              <div>{{ item.fxjggzs }}</div>
+                <div>{{ item.fxjggzs }}</div>
+              </div>
             </div>
-          </div>
+          </section>
+          <!-- <section>2</section> -->
         </section>
-        <!-- <section>2</section> -->
-  </section>
-
-
       </div>
 
       <div class="legend">
@@ -93,7 +90,7 @@
 <script>
 import { getWeek } from "@/utils";
 import http from "@/utils/requestone";
-import { scrollItem,grouping,newSwpierSpecial} from "@/utils/index.js";
+import { scrollItem, grouping, newSwpierSpecial } from "@/utils/index.js";
 
 // import one from "./one.vue";
 // import two from "./two.vue";
@@ -118,7 +115,7 @@ export default {
       rankDate: "",
       list: [{ Device: "name", Quantity: "100" }],
       originData: { todayCntWsCode: [] },
-      newOriginData:[]
+      newOriginData: []
     };
   },
 
@@ -130,10 +127,10 @@ export default {
     updateData();
   },
 
- async mounted() {
-   // grouping([1, 2, 3, 4, 5, 6],4);
+  async mounted() {
+    // grouping([1, 2, 3, 4, 5, 6],4);
     await this.initData();
-    newSwpierSpecial(".swiperspec-contain")
+    newSwpierSpecial(".swiperspec-contain");
   },
   methods: {
     setTime() {
@@ -166,7 +163,7 @@ export default {
       return new Promise((resolve) => {
         http.get("/kb/kb1/plus").then((res) => {
           this.originData = res.data;
-          this.newOriginData=grouping(res.data.todayCntWsCode,40)
+          this.newOriginData = grouping(res.data.todayCntWsCode, 40);
           console.log(this.newOriginData);
           resolve(res.data);
         });
@@ -329,7 +326,7 @@ export default {
     overflow: hidden;
     height: 100%;
     position: relative;
-    color:white;
+    color: white;
     font-size: 30px;
     & > section {
       top: 0px;
@@ -337,13 +334,11 @@ export default {
       right: 0px;
       bottom: 0px;
       position: absolute;
-      border: 1px solid;
       width: 100%;
       height: 100%;
       transition: 2s;
       transition-property: transform;
-      background: rgba(0,15,27);
-
+      background: rgba(0, 15, 27);
     }
 
     // flex: 1;

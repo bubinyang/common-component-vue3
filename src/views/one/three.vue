@@ -26,6 +26,7 @@
 
       axisLabel: {
         color: 'rgb(186,201,250)',
+        fontSize: 14,
         formatter: (val) => {
           return val;
         }
@@ -44,7 +45,8 @@
       },
       axisLabel: {
         show: true,
-        color: 'rgb(186,201,250)'
+        color: 'rgb(186,201,250)',
+        fontSize: 14
       }
     }"
     :seriesParam="{

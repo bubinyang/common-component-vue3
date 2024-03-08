@@ -141,7 +141,9 @@ export default {
     updateData();
 
     const delay = [{ name: 1, value: 2000 }];
-    newSwpierSpecial(".swiperspec-contain", { delayOptions: delay });
+    this.$nextTick(() => {
+      newSwpierSpecial(".swiperspec-contain");
+    });
 
     // http.post("/api/line/name", { ID: this.$route.query.id || "1" }).then((res) => {
     //   this.name = res.Data;

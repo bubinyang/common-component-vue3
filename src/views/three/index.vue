@@ -487,7 +487,8 @@ export default {
 
   .screen-table {
     width: 1800px;
-    font-size: 22px;
+    font-size: 26px;
+    font-weight: bold;
     margin: 0px 59px 22px 59px;
     height: 750px;
     display: flex;
@@ -515,7 +516,8 @@ export default {
       label {
         flex: 1;
         @include contentCenter;
-        color: #ffffff;
+        color: #591a1a;
+        // color: #ffffff;
       }
       &:nth-of-type(2n + 1) {
         background: #00274a;

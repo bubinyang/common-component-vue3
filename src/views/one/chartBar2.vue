@@ -26,6 +26,7 @@
 
       axisLabel: {
         color: 'rgb(186,201,250)',
+        fontSize: 15,
         formatter: (val) => {
           return val;
         }
@@ -45,6 +46,7 @@
       axisLabel: {
         show: true,
         color: 'rgb(186,201,250)',
+        fontSize: 15,
         formatter(value) {
           //  if (value < 1) return value;
           return value * 100 + '%';
@@ -55,7 +57,11 @@
       label: {
         show: true,
         position: 'top',
-        color: 'white'
+        color: 'white',
+        fontSize: 15,
+        formatter: (val) => {
+          return (val.value * 100).toFixed(0) + '%';
+        }
       }
     }"
     :markPointParam="{
@@ -201,10 +207,10 @@ export default {
           }
         })
         .then((res) => {
-          state.newLrdEchartStep.xAxisData = res.rows.map((item) => item.date);
-          originData[0].list = res.rows.map((item) =>
-            item.percent > 0 ? item.percent.toFixed(2) : item.percent
-          );
+          state.newLrdEchartStep.xAxisData = res.rows.map((item) => item.date).slice(-7);
+          originData[0].list = res.rows
+            .map((item) => (item.percent > 0 ? item.percent.toFixed(2) : item.percent))
+            .slice(-7);
           state.newLrdEchartStep.barChartData = originData;
         });
     };

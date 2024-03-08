@@ -177,9 +177,9 @@ import { is } from "snapsvg";
 // import { Curve } from 'three';
 class UploadClass {
   constructor(options) {
-    this.successUpload = options.successUpload || function () { };
-    this.errorUpload = options.errorUpload || function () { };
-    this.beforeUpload = options.beforeUpload || function () { };
+    this.successUpload = options.successUpload || function () {};
+    this.errorUpload = options.errorUpload || function () {};
+    this.beforeUpload = options.beforeUpload || function () {};
     this.limit = options.limit || 0;
     this.el = options.el; // 节点
     this.url = options.url; // 接口地址
@@ -1108,8 +1108,9 @@ function changeBezier(el, quadrticBezier = true, controlPointSize = 5) {
   const isOvertopM = dValueGroup[Mindex].y < intermediatePoint.y;
 
   //如果增加二次贝塞尔曲线
-  changeBezierCoordinate[2].x = `L${Number(clearStr(changeBezierCoordinate[2].x, "L", "")) + controlPointSize
-    }`;
+  changeBezierCoordinate[2].x = `L${
+    Number(clearStr(changeBezierCoordinate[2].x, "L", "")) + controlPointSize
+  }`;
   changeBezierCoordinate[3].y = isOvertopM
     ? `${Number(changeBezierCoordinate[3].y)}`
     : `${Number(changeBezierCoordinate[3].y)}`;
@@ -1214,7 +1215,7 @@ export function setNumberFixed(val, decimal = 2) {
 class SwpierSpecial {
   constructor(elName, options = {}) {
     this.delayOptions = options.delayOptions || [];
-    this.defaultDelay = 10000;
+    this.defaultDelay = 20000;
     this.delay = options.delay ? options.delay : this.defaultDelay;
     this.el = document.querySelector(elName);
 
@@ -1223,6 +1224,7 @@ class SwpierSpecial {
   // 获取容器宽高
   getContainStyle() {
     const { height, width } = this.el.getBoundingClientRect();
+    console.log(this.el.getBoundingClientRect());
     this.elW = width;
     this.elH = height;
     this.getChildEl();
@@ -1292,7 +1294,7 @@ class SwpierSpecial {
   }
 
   // 移动和重置操作
-  mutations() { }
+  mutations() {}
   setStyle(el, classKey, value) {
     el.style[classKey] = value;
   }
