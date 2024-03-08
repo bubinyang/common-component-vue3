@@ -148,18 +148,18 @@ export default {
     async initData() {
       await this.init();
 
-      setTimeout(() => {
-        cancelAnimationFrame(requestFrame);
-        if (this.originData.todayCntWsCode.length > 140) {
-          requestFrame = scrollItem({
-            contentEl: document.querySelector(".largeScreen-contain-device .screen-main-content"),
-            speed: 0.5,
-            orient: "vertical"
-          });
-        } else {
-          cancelAnimationFrame(requestFrame);
-        }
-      }, 2000);
+      // setTimeout(() => {
+      //   cancelAnimationFrame(requestFrame);
+      //   if (this.originData.todayCntWsCode.length > 140) {
+      //     requestFrame = scrollItem({
+      //       contentEl: document.querySelector(".largeScreen-contain-device .screen-main-content"),
+      //       speed: 0.5,
+      //       orient: "vertical"
+      //     });
+      //   } else {
+      //     cancelAnimationFrame(requestFrame);
+      //   }
+      // }, 2000);
     },
 
     init() {
