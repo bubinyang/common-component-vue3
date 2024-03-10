@@ -50,9 +50,9 @@
       }
     }"
     :seriesParam="{
+      smooth: false,
       symbolSize: 8,
       symbol: 'circle',
-      smooth: true,
       showSymbol: false,
       stack: newLrdEchartStep.chartType === 'zzt' ? 'total' : false
     }"

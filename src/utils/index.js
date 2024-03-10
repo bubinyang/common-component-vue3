@@ -1215,11 +1215,14 @@ export function setNumberFixed(val, decimal = 2) {
 class SwpierSpecial {
   constructor(elName, options = {}) {
     this.delayOptions = options.delayOptions || [];
-    this.defaultDelay = 20000;
+    this.defaultDelay = 5000;
     this.delay = options.delay ? options.delay : this.defaultDelay;
     this.el = document.querySelector(elName);
 
-    this.getContainStyle();
+    // this.getContainStyle();
+    this.elW = options.elW;
+    this.elH = options.elH;
+    this.getChildEl();
   }
   // 获取容器宽高
   getContainStyle() {

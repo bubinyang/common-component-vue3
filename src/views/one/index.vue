@@ -142,7 +142,7 @@ export default {
 
     const delay = [{ name: 1, value: 2000 }];
     this.$nextTick(() => {
-      newSwpierSpecial(".swiperspec-contain");
+      newSwpierSpecial(".swiperspec-contain", { elW: 1900, elH: 480 });
     });
 
     // http.post("/api/line/name", { ID: this.$route.query.id || "1" }).then((res) => {

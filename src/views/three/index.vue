@@ -45,9 +45,9 @@
       <div class="screen-table">
         <div class="top">
           <label>创建时间</label>
-          <label>产线名称</label>
-          <label>工位</label>
-          <label>故障</label>
+          <label style="flex: 0 0 180px">产线名称</label>
+          <label style="flex: 0 0 180px">工位</label>
+          <label style="flex: 0 0 180px">故障</label>
           <label>维修开始</label>
           <label>维修结束</label>
         </div>
@@ -60,9 +60,9 @@
               :key="index"
             >
               <label>{{ item.createTime }}</label>
-              <label>240线</label>
-              <label>{{ item.major }}</label>
-              <label>{{ item.wsCode }}</label>
+              <label style="flex: 0 0 180px">240线</label>
+              <label style="flex: 0 0 180px">{{ item.major }}</label>
+              <label style="flex: 0 0 180px">{{ item.wsCode }}</label>
               <label>{{ item.beginTime }}</label>
               <label>{{ item.endTime }}</label>
             </div>
@@ -487,7 +487,7 @@ export default {
 
   .screen-table {
     width: 1800px;
-    font-size: 26px;
+    font-size: 33px;
     font-weight: bold;
     margin: 0px 59px 22px 59px;
     height: 750px;

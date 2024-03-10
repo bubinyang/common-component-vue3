@@ -54,6 +54,7 @@
       }
     }"
     :seriesParam="{
+      smooth: false,
       label: {
         show: true,
         position: 'top',

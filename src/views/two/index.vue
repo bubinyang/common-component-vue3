@@ -130,7 +130,7 @@ export default {
   async mounted() {
     // grouping([1, 2, 3, 4, 5, 6],4);
     await this.initData();
-    newSwpierSpecial(".swiperspec-contain");
+    newSwpierSpecial(".swiperspec-contain", { elW: 1900, elH: 480 });
   },
   methods: {
     setTime() {
