@@ -156,8 +156,15 @@ export default {
   components: {
     //LineBarCharts
   },
-  props: {},
-  setup() {
+  props: {
+    limit: {
+      type: Object,
+      default: () => {
+        return {};
+      }
+    }
+  },
+  setup(props) {
     const refresAllDayPoint = ref(false);
     const route = useRoute();
 
@@ -185,7 +192,36 @@ export default {
     // );
 
     onMounted(() => {
-      console.log("onMounted");
+      
+      originData[0].seriesParam = {
+        markLine: {
+          position: "middle",
+          data: [
+            {
+              type: "max",
+              yAxis: props.limit.lowerLimit,
+              lineStyle: { color: "red" },
+              label: {
+                position: "insideEndTop",
+                formatter: `下限${props.limit.lowerLimit}`,
+                color: "red"
+              }
+            },
+            {
+              type: "max",
+              yAxis: props.limit.upperLimit,
+              lineStyle: { color: "red" },
+              label: {
+                formatter: `上限${props.limit.upperLimit}`,
+                position: "insideEndTop",
+                color: "red"
+              }
+            }
+          ]
+        }
+      };
+
+
       init();
     });
 

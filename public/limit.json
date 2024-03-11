@@ -1,6 +1,22 @@
 {
-    "one":{"name":"一次气密不良率","lowerLimit":0.08,"upperLimit":0.16},
-    "two":{"name":"一次交检不合格率","lowerLimit":0.05,"upperLimit":0.16},
-    "three":{"name":"一次下线合格率","lowerLimit":0.09,"upperLimit":0.16}
-
+    "one": {
+        "name": "一次气密不良率",
+        "lowerLimit": 0.08,
+        "upperLimit": 0.16
+    },
+    "two": {
+        "name": "一次交检不合格率",
+        "lowerLimit": 0.05,
+        "upperLimit": 0.16
+    },
+    "three": {
+        "name": "一次下线合格率",
+        "lowerLimit": 0.09,
+        "upperLimit": 0.16
+    },
+    "four": {
+        "name": "启动力矩",
+        "lowerLimit": 0.3,
+        "upperLimit": 0.8
+    }
 }

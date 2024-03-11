@@ -46,8 +46,9 @@
         <div class="top">
           <label>创建时间</label>
           <label style="flex: 0 0 180px">产线名称</label>
-          <label style="flex: 0 0 180px">工位</label>
           <label style="flex: 0 0 180px">故障</label>
+          <label style="flex: 0 0 180px">工位</label>
+
           <label>维修开始</label>
           <label>维修结束</label>
         </div>
@@ -175,7 +176,7 @@ export default {
   created() {
     const updateData = () => {
       this.initData();
-      setTimeout(updateData, 60000);
+      setTimeout(updateData, 20000);
     };
     updateData();
   },

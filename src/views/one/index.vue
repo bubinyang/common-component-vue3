@@ -7,7 +7,7 @@
         <section class="screen-main-l">
           <SmallContain :title="'启动力矩'">
             <template #action> </template>
-            <three v-if="refresAllDayPoint"></three>
+            <three :limit="limit.four" v-if="refresAllDayPoint"></three>
           </SmallContain>
           <section style="flex: 1; margin: 15px 0"></section>
         </section>
@@ -453,7 +453,7 @@ export default {
       //border: 1px solid;
       width: 100%;
       height: 100%;
-      transition: 0.3s;
+      transition: 2s;
       transition-property: transform;
       display: flex;
       // flex-shrink: 0;
