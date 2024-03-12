@@ -1215,7 +1215,7 @@ export function setNumberFixed(val, decimal = 2) {
 class SwpierSpecial {
   constructor(elName, options = {}) {
     this.delayOptions = options.delayOptions || [];
-    this.defaultDelay = 5000;
+    this.defaultDelay = 20000;
     this.delay = options.delay ? options.delay : this.defaultDelay;
     this.el = document.querySelector(elName);
 
@@ -1287,8 +1287,11 @@ class SwpierSpecial {
 
         // 判断位移位置,将位移位置是负2倍的挪到最后
         this.childEls.forEach((item) => {
+          this.setStyle(item.el, "transition", `4s`);
+
           if (item.transformTx === -2 * this.elW) {
             item.transformTx = (length - 2) * this.elW;
+            this.setStyle(item.el, "transition", `0s`);
           }
           this.setStyle(item.el, "transform", `translateX(${item.transformTx}px)`);
         });

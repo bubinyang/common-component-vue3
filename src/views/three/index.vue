@@ -44,6 +44,7 @@
 
       <div class="screen-table">
         <div class="top">
+          <label style="flex: 0 0 100px">序号</label>
           <label>创建时间</label>
           <label style="flex: 0 0 180px">产线名称</label>
           <label style="flex: 0 0 180px">故障</label>
@@ -60,6 +61,7 @@
               v-for="(item, index) in originData.Items"
               :key="index"
             >
+              <label style="flex: 0 0 100px">{{ index }}</label>
               <label>{{ item.createTime }}</label>
               <label style="flex: 0 0 180px">240线</label>
               <label style="flex: 0 0 180px">{{ item.major }}</label>

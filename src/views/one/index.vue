@@ -453,7 +453,7 @@ export default {
       //border: 1px solid;
       width: 100%;
       height: 100%;
-      transition: 2s;
+      transition: 3s;
       transition-property: transform;
       display: flex;
       // flex-shrink: 0;
