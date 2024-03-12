@@ -26,7 +26,7 @@
 
       axisLabel: {
         color: 'rgb(186,201,250)',
-        fontSize: 15,
+        fontSize: 20,
 
         formatter: (val) => {
           return val;
@@ -47,7 +47,7 @@
       axisLabel: {
         show: true,
         color: 'rgb(186,201,250)',
-        fontSize: 15,
+        fontSize: 20,
         formatter(value) {
           //  if (value < 1) return value;
           return value * 100 + '%';
@@ -60,7 +60,7 @@
         show: true,
         position: 'top',
         color: 'white',
-        fontSize: 15,
+        fontSize: 20,
         formatter: (val) => {
           return (val.value * 100).toFixed(0) + '%';
         }
@@ -165,8 +165,9 @@ export default {
               lineStyle: { color: "red" },
               label: {
                 position: "insideEndTop",
-                formatter: `下限${props.limit.lowerLimit}`,
-                color: "red"
+                formatter: `下限${(props.limit.lowerLimit || 0) * 100}%`,
+                color: "red",
+                fontSize: 16
               }
             },
             {
@@ -174,9 +175,10 @@ export default {
               yAxis: props.limit.upperLimit,
               lineStyle: { color: "red" },
               label: {
-                formatter: `上限${props.limit.upperLimit}`,
+                formatter: `上限${(props.limit.upperLimit || 0) * 100}%`,
                 position: "insideEndTop",
-                color: "red"
+                color: "red",
+                fontSize: 16
               }
             }
           ]

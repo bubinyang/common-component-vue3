@@ -26,7 +26,7 @@
 
       axisLabel: {
         color: 'rgb(186,201,250)',
-        fontSize: 14,
+        fontSize: 20,
         formatter: (val) => {
           return val;
         }
@@ -46,7 +46,7 @@
       axisLabel: {
         show: true,
         color: 'rgb(186,201,250)',
-        fontSize: 14
+        fontSize: 20
       }
     }"
     :seriesParam="{
@@ -192,7 +192,6 @@ export default {
     // );
 
     onMounted(() => {
-      
       originData[0].seriesParam = {
         markLine: {
           position: "middle",
@@ -204,7 +203,8 @@ export default {
               label: {
                 position: "insideEndTop",
                 formatter: `下限${props.limit.lowerLimit}`,
-                color: "red"
+                color: "red",
+                fontSize: 16
               }
             },
             {
@@ -214,13 +214,13 @@ export default {
               label: {
                 formatter: `上限${props.limit.upperLimit}`,
                 position: "insideEndTop",
-                color: "red"
+                color: "red",
+                fontSize: 16
               }
             }
           ]
         }
       };
-
 
       init();
     });
