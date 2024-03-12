@@ -15,7 +15,7 @@ const menuList = [
       },
       {
         name: "程序选择",
-        url: ""
+        url: "/programSelection/index"
       },
       {
         name: "测量记录",

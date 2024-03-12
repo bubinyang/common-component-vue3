@@ -32,7 +32,7 @@
             <el-table-column prop="name" label="子组数" align="center"> </el-table-column>
             <el-table-column prop="name" label="创建时间" align="center"> </el-table-column>
 
-            <el-table-column label="操作" width="200">
+            <el-table-column label="操作" width="210">
               <template v-slot="scope">
                 <el-button
                   @click="addOrUpdateHandle(scope.row.id, scope.row)"
@@ -40,6 +40,14 @@
                   size="mini"
                   >修改</el-button
                 >
+
+                <el-button
+                  @click="addOrUpdateHandleConfig(scope.row.id, scope.row)"
+                  type="primary"
+                  size="mini"
+                  >配置</el-button
+                >
+
                 <el-button @click="deleteHandle(scope.row.id)" type="danger" size="mini"
                   >删除</el-button
                 >
@@ -65,10 +73,16 @@
 
       <component
         :is="currentComp"
-        :origin="menuList"
         ref="addOrUpdate"
         @refresh="query"
         v-model:visible="dialogVisible"
+      ></component>
+
+      <component
+        :is="currentCompConfig"
+        ref="addOrUpdate"
+        @refresh="query"
+        v-model:visible="dialogVisibleConfig"
       ></component>
     </template>
   </SideLayout>
@@ -80,15 +94,17 @@ import { reactive, ref, onMounted, nextTick, toRefs, computed } from "vue";
 import crudHooks from "@/hooks/crudHooks.ts";
 import zhCn from "element-plus/lib/locale/lang/zh-cn"; //vue组件中文化
 import dialogEl from "./component/dialog.vue";
+import dialogElConfig from "./component/dialogConfig.vue";
+
 import http from "@/utils/request";
 
 export default {
-  components: { dialogEl },
+  components: { dialogEl, dialogElConfig },
   setup() {
     const data = reactive({
       //dialogVisible: false,
       zhCn,
-
+      dialogVisibleConfig: false,
       dataForm: { name: "" },
       activatedIsNeed: true,
       getDataListURL: "/api/role/list",
@@ -100,6 +116,7 @@ export default {
     });
 
     let currentComp = ref("dialogEl");
+    let currentCompConfig = ref("dialogElConfig");
 
     http.post("/api/user/getrightslist", {}).then((res) => {
       data.menuList = res.data;
@@ -107,10 +124,16 @@ export default {
       // data.roleList.unshift({ id: -1, name: "无" });
     });
 
+    const addOrUpdateHandleConfig = () => {
+      data.dialogVisibleConfig = true;
+    };
+
     return {
       ...crudHooks(data),
       ...toRefs(data),
-      currentComp
+      currentComp,
+      currentCompConfig,
+      addOrUpdateHandleConfig
     };
   }
 };
