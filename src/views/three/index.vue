@@ -520,6 +520,9 @@ export default {
         flex: 1;
         @include contentCenter;
         color: #591a1a;
+        &:not(:last-child){
+           border-right: 1px solid;
+        }
         // color: #ffffff;
       }
       &:nth-of-type(2n + 1) {
