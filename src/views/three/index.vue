@@ -37,7 +37,7 @@
           <i></i>
           <div class="revised">
             <label>已修</label>
-            <dataNumber :origin="originData.data.todayCntEnd"></dataNumber>
+            <dataNumber :origin="originData.data.monthCntEnd"></dataNumber>
           </div>
         </div>
       </div>

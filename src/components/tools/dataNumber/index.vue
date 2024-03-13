@@ -6,7 +6,7 @@
 
 <script>
 import moment from "moment";
-import { reactive, toRefs, onMounted } from "vue";
+import { reactive, toRefs, onMounted,watch } from "vue";
 
 export default {
   name: "dataNumber",
@@ -26,6 +26,14 @@ export default {
       state.list = String(props.origin).split("");
       console.log(state.list);
     });
+
+    watch(
+      () => props.origin,
+      (newValue, oldValue) => {
+         state.list = String(props.origin).split("");      },
+       { immediate: true, deep: true }
+    );
+
     return {
       ...toRefs(state)
     };
