@@ -61,7 +61,7 @@
               v-for="(item, index) in originData.Items"
               :key="index"
             >
-              <label style="flex: 0 0 100px">{{ index }}</label>
+              <label style="flex: 0 0 100px">{{ index+1 }}</label>
               <label>{{ item.createTime }}</label>
               <label style="flex: 0 0 180px">240线</label>
               <label style="flex: 0 0 180px">{{ item.major }}</label>
@@ -176,6 +176,7 @@ export default {
   },
 
   created() {
+     
     const updateData = () => {
       this.initData();
       setTimeout(updateData, 20000);

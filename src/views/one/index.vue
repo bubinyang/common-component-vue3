@@ -126,9 +126,9 @@ export default {
     //   this.setTime();
     // }, 1000);
 
-    setTimeout(function () {
-      window.location.reload();
-    }, 3600 * 1000 * 10);
+    // setTimeout(function () {
+    //   window.location.reload();
+    // }, 3600 * 1000 * 10);
   },
   async mounted() {
     const { data } = await axios.get("./limit.json");
