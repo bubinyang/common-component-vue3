@@ -562,7 +562,7 @@ class SwpierSpecial {
       const findItem = this.delayOptions.find((item) => item.name === index);
       return {
         el: item,
-        delay: findItem ? findItem.value : this.defaultDelay,
+        delay: findItem ? findItem.value : this.delay,
         transformTx: this.elW * index
       };
     });

@@ -31,7 +31,7 @@ export default {
   created() {},
   mounted() {
     const delay = [{ name: 1, value: 2000 }];
-    newSwpierSpecial(".swiperspec-contain", { delayOptions: delay });
+    newSwpierSpecial(".swiperspec-contain", { delayOptions: delay,delay:4000 });
   },
   methods: {
     emitsTest() {
