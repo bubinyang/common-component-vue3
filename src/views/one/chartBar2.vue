@@ -167,17 +167,17 @@ export default {
                 fontSize: 16
               }
             },
-            {
-              type: "max",
-              yAxis: props.limit.upperLimit,
-              lineStyle: { color: "red" },
-              label: {
-                formatter: `上限${(props.limit.upperLimit || 0) * 100}%`,
-                position: "insideEndTop",
-                color: "red",
-                fontSize: 16
-              }
-            }
+            // {
+            //   type: "max",
+            //   yAxis: props.limit.upperLimit,
+            //   lineStyle: { color: "red" },
+            //   label: {
+            //     formatter: `上限${(props.limit.upperLimit || 0) * 100}%`,
+            //     position: "insideEndTop",
+            //     color: "red",
+            //     fontSize: 16
+            //   }
+            // }
           ]
         }
       };

@@ -159,17 +159,17 @@ export default {
         markLine: {
           position: "middle",
           data: [
-            {
-              type: "max",
-              yAxis: props.limit.lowerLimit,
-              lineStyle: { color: "red" },
-              label: {
-                position: "insideEndTop",
-                formatter: `下限${(props.limit.lowerLimit || 0) * 100}%`,
-                color: "red",
-                fontSize: 16
-              }
-            },
+            // {
+            //   type: "max",
+            //   yAxis: props.limit.lowerLimit,
+            //   lineStyle: { color: "red" },
+            //   label: {
+            //     position: "insideEndTop",
+            //     formatter: `下限${(props.limit.lowerLimit || 0) * 100}%`,
+            //     color: "red",
+            //     fontSize: 16
+            //   }
+            // },
             {
               type: "max",
               yAxis: props.limit.upperLimit,
