@@ -19,15 +19,15 @@ const menuList = [
       },
       {
         name: "测量记录",
-        url: ""
+        url: "/mesuringRecord/index"
       },
       {
         name: "校准测头",
-        url: ""
+        url: "/calibration/index"
       },
       {
         name: "公差调整",
-        url: ""
+        url: "/toleranceAdjust/index"
       }
     ]
   },
