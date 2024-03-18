@@ -3971,7 +3971,11 @@ js-base64@^2.1.9:
 
 js-cookie@2.2.1:
   version "2.2.1"
+<<<<<<< HEAD
   resolved "https://registry.yarnpkg.com/js-cookie/-/js-cookie-2.2.1.tgz#69e106dc5d5806894562902aa5baec3744e9b2b8"
+=======
+  resolved "https://registry.npmmirror.com/js-cookie/-/js-cookie-2.2.1.tgz#69e106dc5d5806894562902aa5baec3744e9b2b8"
+>>>>>>> 34cb1b8da7bf2c2af7669ed99861ee1306db0e2c
   integrity sha512-HvdH2LzI/EAZcUwA8+0nKNtWHqS+ZmijLA30RwZA0bo7ToCckjK5MkGhjED9KoRcXO6BaGI3I9UIzSA1FKFPOQ==
 
 js-stringify@^1.0.2:

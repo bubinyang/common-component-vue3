@@ -180,6 +180,7 @@ const router = createRouter({ history: createWebHashHistory(), routes });
 
 router.beforeEach((to, from, next) => {
   const token = Cookies.get("token");
+  console.log(to);
   if (token) {
     if (to.path === "/login") {
       //登录地址跳转到/

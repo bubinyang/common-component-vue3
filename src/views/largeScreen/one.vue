@@ -101,7 +101,38 @@ const originData = [
             color: "rgba(0, 20, 79, 0.36)"
           }
         ])
-      }
+      },
+      
+      markLine: {
+          position: "middle",
+          data: [
+            {
+              type: "max",
+              yAxis: 100,
+              lineStyle: { color: "red",width:0},
+              label: {
+                position: "insideEndTop",
+                formatter: `下限100`,
+                color: "red",
+                fontSize: 16
+              }
+            },
+            {
+              type: "max",
+              yAxis: 400,
+              lineStyle: { color: "red" },
+              label: {
+                formatter: `上限400`,
+                position: "insideEndTop",
+                color: "red",
+                fontSize: 16
+              }
+            }
+          ]
+        }
+
+
+
     }
   },
   {
