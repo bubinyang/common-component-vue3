@@ -103,13 +103,13 @@ export default {
   left: 50%;
   top: 50%;
   transform: translateX(-50%) translateY(-50%);
-  width: 35%;
-  height: 20%;
+  width: 600px;
+  height: 400px;
   display: flex;
   justify-content: center;
   align-items: center;
   flex-direction: column;
-  background: #333333;
+  background: #b39f9f;
 
   // .login_bg_radial_login {
   //   position: absolute;
@@ -127,17 +127,16 @@ export default {
   }
 
   .form-box {
-    padding: 0 43px 43px 43px;
+    padding: 40px;
     background: rgba(255, 255, 255, 0.05);
     border-radius: 27px;
     backdrop-filter: blur(8px);
     border: 1px solid rgba(255, 255, 255, 0.5);
 
     width: 427px;
-    height: 335px;
+    height: 235px;
     color: #fff;
     position: relative;
-    top: 97px;
     .el-input__inner {
       background: transparent !important;
       color: #ffffff !important;
