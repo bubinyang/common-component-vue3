@@ -1,5 +1,5 @@
 <template>
-{{}}
+  {{}}
   <decorateEchart
     :criculationShowTootipAction="false"
     :data="newLrdEchartStep.barChartData || []"
@@ -44,8 +44,8 @@
       min: function (value) {
         return 0;
       },
-       max:function (value) {
-          return value.max<limit.upperLimit?limit.upperLimit:value.max;
+      max: function (value) {
+        return value.max < limit.upperLimit ? limit.upperLimit : value.max;
       },
       axisLabel: {
         show: true,
@@ -240,8 +240,8 @@ export default {
       state.newLrdEchartStep.barChartData = originData;
       http
         .get("/system/qualityresult/list210", { params: { pageNum: 1, pageSize: 50 } })
-        .then((res) => {       
-          state.newLrdEchartStep.xAxisData = res.rows.map((item) => String(item.qrId).slice(-5));
+        .then((res) => {
+          state.newLrdEchartStep.xAxisData = res.rows.map((item) => String(item.sn).slice(-5));
 
           originData[0].list = res.rows.map((item) =>
             item.finalValue > 0 ? item.finalValue.toFixed(2) : item.finalValue
