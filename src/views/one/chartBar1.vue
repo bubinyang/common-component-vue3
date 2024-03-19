@@ -173,7 +173,7 @@ export default {
             {
               type: "max",
               yAxis: props.limit.upperLimit,
-              lineStyle: { color: "red" },
+              lineStyle: { color: "red", type: "solid", width: 4 },
               label: {
                 formatter: `上限${(props.limit.upperLimit || 0) * 100}%`,
                 position: "insideEndTop",
@@ -182,6 +182,10 @@ export default {
               }
             }
           ]
+        },
+
+        lineStyle: {
+          color: "green"
         }
       };
 

@@ -159,14 +159,14 @@ export default {
             {
               type: "max",
               yAxis: props.limit.lowerLimit,
-              lineStyle: { color: "red" },
+              lineStyle: { color: "red", type: "solid", width: 4 },
               label: {
                 position: "insideEndTop",
                 formatter: `下限${(props.limit.lowerLimit || 0) * 100}%`,
                 color: "red",
                 fontSize: 16
               }
-            },
+            }
             // {
             //   type: "max",
             //   yAxis: props.limit.upperLimit,
@@ -179,6 +179,9 @@ export default {
             //   }
             // }
           ]
+        },
+        lineStyle: {
+          color: "green"
         }
       };
       init();

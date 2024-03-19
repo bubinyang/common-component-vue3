@@ -1,5 +1,4 @@
 <template>
-  {{}}
   <decorateEchart
     :criculationShowTootipAction="false"
     :data="newLrdEchartStep.barChartData || []"
@@ -105,55 +104,8 @@ const originData = [
     attrKey: "A29",
     list: [],
     name: "当月",
-    seriesParam: {
-      itemStyle: {
-        color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
-          {
-            offset: 0,
-            color: "rgba(21, 154, 255, 1)"
-          },
-          {
-            offset: 0.5,
-            color: "rgba(21, 154, 255, 0.5)"
-          },
-          {
-            offset: 1,
-            color: "rgba(0, 20, 79, 0)"
-          }
-        ]),
-        normal: {
-          barBorderRadius: 30
-        }
-      },
-      showBackground: true,
-      backgroundStyle: {
-        color: "rgba(180, 180, 180, 0.2)",
-        borderRadius: 10,
-        borderColor: "rgb(230, 230, 254)"
-        // borderWidth: 2
-      }
-      //barWidth: 10
-    }
+    seriesParam: {}
   }
-  //   {
-  //     attrKey: "A29",
-  //     list: [],
-  //     name: "上月",
-  //     seriesParam: {
-  //       areaStyle: {
-  //         color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
-  //           {
-  //             offset: 0,
-  //             color: "rgba(0,144,255,0.9)"
-  //           },
-  //           {
-  //             offset: 1,
-  //             color: "rgba(12,32,53, 0)"
-  //           }
-  //         ])
-  //       }
-  //     }
-  //   }
 ];
 
 export default {
@@ -203,7 +155,7 @@ export default {
             {
               type: "max",
               yAxis: props.limit.lowerLimit,
-              lineStyle: { color: "red" },
+              lineStyle: { color: "red", type: "solid", width: 4 },
               label: {
                 position: "insideEndTop",
                 formatter: `下限${props.limit.lowerLimit}`,
@@ -214,7 +166,7 @@ export default {
             {
               type: "max",
               yAxis: props.limit.upperLimit,
-              lineStyle: { color: "red" },
+              lineStyle: { color: "red", type: "solid", width: 4 },
               label: {
                 formatter: `上限${props.limit.upperLimit}`,
                 position: "insideEndTop",
@@ -223,6 +175,9 @@ export default {
               }
             }
           ]
+        },
+        lineStyle: {
+          color: "#00afed"
         }
       };
 
