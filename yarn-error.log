@@ -1,24 +1,20 @@
 Arguments: 
-  C:\nodejs\node.exe C:\Yarn\bin\yarn.js add js-cookie@2.2.1
+  F:\Program Files\nodejs\node.exe C:\Users\lrd\AppData\Roaming\npm\node_modules\yarn\bin\yarn.js install
 
 PATH: 
-  C:\Program Files (x86)\Common Files\Oracle\Java\javapath;C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\WINDOWS\System32\WindowsPowerShell\v1.0\;C:\WINDOWS\System32\OpenSSH\;C:\Microsoft VS Code\bin;C:\Yarn\bin\;C:\Git\cmd;C:\TortoiseSVN\bin;C:\Users\Administrator\Downloads\Leaflet.draw-develop\node_modules;C:\Program Files\Java\jdk1.8.0_181\\bin;C:\Program Files\Java\jdk1.8.0_181\\jre\bin;C:\Users\Administrator\Downloads\android-sdk-windows\platform-tools;C:\Users\Administrator\Downloads\android-sdk-windows\tools;E:\Program Files\flutter\bin;C:\Users\Administrator\Downloads\android-sdk-windows\platform-tools;E:\Program Files\Dart\dart-sdk\bin;E:\Program Files\MySQL\MySQL Server 5.5\bin;C:\nodejs\;C:\Program Files (x86)\NVIDIA Corporation\PhysX\Common;C:\Python38\Scripts\;C:\Python38\;C:\Users\Administrator\AppData\Local\Yarn\bin;E:\Program Files\MySQL\MySQL Server 5.5\bin;%USERPROFILE%\AppData\Local\Microsoft\WindowsApps;C:\Users\Administrator\AppData\Roaming\npm;E:\Program Files (x86)\Tencent\QQGameTempest\Hall.58012\
+  D:\Program Files\Java\jdk1.8.0_152\bin;C:\ProgramData\Oracle\Java\javapath;C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\WINDOWS\System32\WindowsPowerShell\v1.0\;C:\WINDOWS\System32\OpenSSH\;"D:\Program Files\Java\jdk1.8.0_152\bin;D:\Program Files\Java\jdk1.8.0_152\jre\bin";D:\apacheTools\apache-maven-3.6.3\bin;D:\mysql\mysql-5.7.31\bin;D:\rabbitmq\ela\erl7.1\bin;D:\dev\Git\cmd;D:\devSoft\TortoiseGit\bin;C:\Program Files (x86)\Microsoft SQL Server\150\DTS\Binn\;C:\Program Files\Microsoft SQL Server\150\DTS\Binn\;C:\Program Files\Microsoft SQL Server\Client SDK\ODBC\170\Tools\Binn\;C:\Program Files (x86)\Microsoft SQL Server\150\Tools\Binn\;C:\Program Files\Microsoft SQL Server\150\Tools\Binn\;D:\Program Files\Dart\dart-sdk\bin;C:\Program Files\dotnet\;F:\Program Files (x86)\Tencent\微信web开发者工具\dll;D:\Program Files\flutter_windows_2.2.1-stable\flutter\bin;F:\Program Files\nodejs\;C:\Users\lrd\AppData\Local\Programs\Python\Python38\Scripts\;C:\Users\lrd\AppData\Local\Programs\Python\Python38\;D:\Program Files\android-sdk_r24.4.1-windows\android-sdk-windows\tools;D:\Program Files\android-sdk_r24.4.1-windows\android-sdk-windows\platform-tools;D:\Program Files\Microsoft VS Code\bin;C:\Users\lrd\AppData\Local\Microsoft\WindowsApps;C:\Users\lrd\.dotnet\tools;F:\Program Files\nvm\npm;C:\Users\lrd\AppData\Roaming\npm
 
 Yarn version: 
-  1.19.1
+  1.22.19
 
 Node version: 
-  16.13.2
+  16.20.2
 
 Platform: 
   win32 x64
 
 Trace: 
-  Error: certificate has expired
-      at TLSSocket.onConnectSecure (node:_tls_wrap:1530:34)
-      at TLSSocket.emit (node:events:390:28)
-      at TLSSocket._finishInit (node:_tls_wrap:944:8)
-      at TLSWrap.ssl.onhandshakedone (node:_tls_wrap:725:12)
+  Error: EPERM: operation not permitted, unlink 'E:\mineFile\common-component-vue3\node_modules\esbuild-windows-64\esbuild.exe'
 
 npm manifest: 
   {
@@ -40,16 +36,18 @@ npm manifest:
       "highcharts": "^11.1.0",
       "html2canvas": "^1.4.1",
       "imports-loader": "^0.8.0",
+      "js-cookie": "2.2.1",
       "lamina": "^1.1.15",
       "mitt": "^2.1.0",
       "moment": "^2.29.1",
       "monaco-editor": "^0.19.0",
+      "screenfull": "^5.1.0",
       "three": "0.159.0",
       "vue": "^3.2.25",
       "vue-echarts": "^6.2.2",
       "vue-router": "^4.0.12",
       "vuex": "4.0.2",
-      "screenfull":"^5.1.0"
+      "nprogress": "^0.2.0"
     },
     "devDependencies": {
       "@types/node": "^17.0.17",
@@ -4065,6 +4063,15 @@ Lockfile:
     version "2.6.4"
     resolved "https://registry.npmjs.org/js-base64/-/js-base64-2.6.4.tgz"
     integrity sha512-pZe//GGmwJndub7ZghVHz7vjb2LgC1m8B07Au3eYqeqv9emhESByMXxaEgkUkEqJe87oBbSniGYoQNIBklc7IQ==
+  
+  js-cookie@2.2.1:
+    version "2.2.1"
+  <<<<<<< HEAD
+    resolved "https://registry.yarnpkg.com/js-cookie/-/js-cookie-2.2.1.tgz#69e106dc5d5806894562902aa5baec3744e9b2b8"
+  =======
+    resolved "https://registry.npmmirror.com/js-cookie/-/js-cookie-2.2.1.tgz#69e106dc5d5806894562902aa5baec3744e9b2b8"
+  >>>>>>> 34cb1b8da7bf2c2af7669ed99861ee1306db0e2c
+    integrity sha512-HvdH2LzI/EAZcUwA8+0nKNtWHqS+ZmijLA30RwZA0bo7ToCckjK5MkGhjED9KoRcXO6BaGI3I9UIzSA1FKFPOQ==
   
   js-stringify@^1.0.2:
     version "1.0.2"

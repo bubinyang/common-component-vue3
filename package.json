@@ -27,7 +27,8 @@
     "vue": "^3.2.25",
     "vue-echarts": "^6.2.2",
     "vue-router": "^4.0.12",
-    "vuex": "4.0.2"
+    "vuex": "4.0.2",
+    "nprogress": "^0.2.0"
   },
   "devDependencies": {
     "@types/node": "^17.0.17",

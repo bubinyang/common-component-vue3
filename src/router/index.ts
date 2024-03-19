@@ -2,6 +2,8 @@ import { createRouter, createWebHashHistory, Router, RouteRecordRaw } from "vue-
 import laoyout from "@/layout/index.vue";
 import store from "@/store";
 import Cookies from "js-cookie";
+import NProgress from "nprogress";
+import "nprogress/nprogress.css";
 
 interface IObject<T = any> {
   [key: string]: T;
@@ -179,6 +181,7 @@ const routes: Array<RouteRecordRaw> = [
 const router = createRouter({ history: createWebHashHistory(), routes });
 
 router.beforeEach((to, from, next) => {
+  NProgress.start();
   const token = Cookies.get("token");
   console.log(to);
   if (token) {
@@ -218,6 +221,10 @@ router.beforeEach((to, from, next) => {
     if (to.path === "/login") next();
     next("/login");
   }
+});
+
+router.afterEach(() => {
+  NProgress.done();
 });
 
 //判断是否已经存在该路由  同时动态添加路由地址

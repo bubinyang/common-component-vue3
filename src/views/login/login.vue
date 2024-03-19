@@ -72,9 +72,9 @@ export default {
       formLabelAlign: {
         name: "admin",
         password: "123",
-        type: "",
-        loading: true
-      }
+        type: ""
+      },
+      loading: false
     });
     const submit = () => {
       data.loading = true;
@@ -84,11 +84,11 @@ export default {
           pwd: data.formLabelAlign.password
         })
         .then((res) => {
-          data.loading = false;
           setCache("userInfo", res.data);
           // store.dispatch("getUserInfo", res.data);
           Cookies.set("token", res.data.token);
           router.replace("/");
+          data.loading = false;
         });
     };
 
