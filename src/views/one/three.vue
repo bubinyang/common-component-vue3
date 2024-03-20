@@ -177,7 +177,7 @@ export default {
           ]
         },
         lineStyle: {
-          color: "#00afed"
+          color: "green"
         }
       };
 
