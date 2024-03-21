@@ -152,9 +152,8 @@ export default {
 <style lang="scss">
 .largeScreen-containone {
   width: 100%;
-  background-size: contain;
   background: url("@/assets/img/home/planArrangement/bg.png");
-  background-repeat: no-repeat;
+  background-size: contain;
   .top {
     height: 102px;
     display: flex;
@@ -290,6 +289,10 @@ export default {
             position: absolute;
             left: 60px;
             top: 20px;
+            color: white;
+            font-size: 14px;
+            text-align: left;
+            margin-bottom: 0;
           }
           b {
             width: 100px;
@@ -297,6 +300,8 @@ export default {
             position: absolute;
             left: 60px;
             bottom: 20px;
+            color: rgb(127, 187, 243);
+            text-align: left;
           }
         }
       }
@@ -313,6 +318,7 @@ export default {
           width: 200px;
           height: 30px;
           display: flex;
+          padding: 3px;
           b {
             width: 40%;
             height: 100%;
