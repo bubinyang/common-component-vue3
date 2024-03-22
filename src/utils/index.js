@@ -562,13 +562,14 @@ class SwpierSpecial {
       const findItem = this.delayOptions.find((item) => item.name === index);
       return {
         el: item,
-        delay: findItem ? findItem.value : this.defaultDelay,
+        delay: findItem ? findItem.value : this.delay,
         transformTx: this.elW * index
       };
     });
     // 设置默认translateX的值
     this.childEls.forEach((item, index) => {
       if (index === 0) item.el.classList.add("is-active");
+      this.setStyle(item.el, "transition", `0s`);
       this.setStyle(item.el, "transform", `translateX(${item.transformTx}px)`);
     });
     this.setTransform();
@@ -608,10 +609,13 @@ class SwpierSpecial {
 
         // 判断位移位置,将位移位置是负2倍的挪到最后
         this.childEls.forEach((item) => {
+          this.setStyle(item.el, "transition", `1.5s`);
           if (item.transformTx === -2 * this.elW) {
             item.transformTx = (length - 2) * this.elW;
+            this.setStyle(item.el, "transition", `0s`);
           }
           this.setStyle(item.el, "transform", `translateX(${item.transformTx}px)`);
+
         });
       }
     }

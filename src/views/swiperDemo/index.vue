@@ -30,8 +30,8 @@ export default {
   },
   created() {},
   mounted() {
-    const delay = [{ name: 1, value: 8000 }];
-    newSwpierSpecial(".swiperspec-contain", { delayOptions: delay });
+    const delay = [{ name: 1, value: 2000 }];
+    newSwpierSpecial(".swiperspec-contain", { delayOptions: delay,delay:4000 });
   },
   methods: {
     emitsTest() {
@@ -57,14 +57,14 @@ export default {
     border: 1px solid;
     width: 100%;
     height: 100%;
-    transition: 0.3s;
+    transition: 1.5s;
     transition-property: transform;
     // flex-shrink: 0;
     &:nth-child(2n) {
-      background: bisque;
+      background: rgba(255,228,196,0.6);
     }
     &:nth-child(2n + 1) {
-      background-color: #d3dce6;
+      background-color: rgba(211,220,230,0.6);
     }
   }
   .is-active {
