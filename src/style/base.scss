@@ -8,6 +8,14 @@
     margin: 0;
     padding: 0;
 }
+body{
+  h1,h2,h3,h4,h5,h6{
+    margin-top: 0;
+    margin-bottom: 0;
+    color: inherit;
+    font-weight: normal;
+  }
+}
 
 :not(html):not(body)::-webkit-scrollbar {
   width: 8px;

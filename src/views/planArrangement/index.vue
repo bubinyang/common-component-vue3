@@ -31,25 +31,96 @@
 
       <section class="screen-main-content">
         <section class="screen-main-l">
-          <SmallContain :title="'设备状态'">
-            <section class="product_title">
-              <div class="product_title_one">
-                <label></label>
-                <h3>规格型号</h3>
-                <b>NHHKH-2</b>
-              </div>
-              <div class="product_title_two">
-                <label></label>
-                <h3>规格型号</h3>
-                <b>NHHKH-2</b>
-              </div>
+          <SmallContain :title="'今日计划安排'">
+            <section class="product_one">
+              <section class="product_title">
+                <div class="product_title_one">
+                  <label></label>
+                  <h3>规格型号</h3>
+                  <b>NHHKH-2</b>
+                </div>
+                <div class="product_title_two">
+                  <label></label>
+                  <h3>规格型号</h3>
+                  <b>NHHKH-2</b>
+                </div>
+              </section>
+
+              <section class="product_loading">
+                <label class="cricle">
+                  <div><i>ON.1</i><br /><i>当前序号</i></div>
+                </label>
+                <div class="loading-bar">
+                  <b class="loading-bar-content"></b>
+                  <label class="upRate"
+                    ><h3>上线率</h3>
+                    <b>1.17%</b></label
+                  >
+                  <label class="planNum"
+                    ><h3>计划数量</h3>
+                    <b>84</b></label
+                  >
+                  <label class="upNum"
+                    ><h3>已上线数量</h3>
+                    <b>1</b></label
+                  >
+                </div>
+              </section>
+
+              <section class="product_remark">
+                <div class="remark_top">备注</div>
+                <div class="remark_contain">
+                  <div class="remark_content">铁架</div>
+                </div>
+              </section>
             </section>
 
-            <section class="product_loading">
-              <label></label>
-              <div>
-                <b></b>
-              </div>
+            <section class="product_one">
+              <section class="product_title">
+                <div class="product_title_one">
+                  <label></label>
+                  <h3>规格型号</h3>
+                  <b>NHHKH-2</b>
+                </div>
+                <div class="product_title_two">
+                  <label></label>
+                  <h3>规格型号</h3>
+                  <b>NHHKH-2</b>
+                </div>
+              </section>
+
+              <section class="product_loading">
+                <label class="cricle">
+                  <div><i>ON.1</i><br /><i>当前序号</i></div>
+                </label>
+                <div class="loading-bar">
+                  <b class="loading-bar-content"></b>
+                  <label class="upRate"
+                    ><h3>上线率</h3>
+                    <b>1.17%</b></label
+                  >
+                  <label class="planNum"
+                    ><h3>计划数量</h3>
+                    <b>84</b></label
+                  >
+                  <label class="upNum"
+                    ><h3>已上线数量</h3>
+                    <b>1</b></label
+                  >
+                </div>
+              </section>
+
+              <section class="product_remark">
+                <div class="remark_top">备注</div>
+                <div class="remark_contain">
+                  <div class="remark_content">铁架</div>
+                </div>
+              </section>
+            </section>
+
+            <section class="product_botton">
+              <label><b>计划数量合计:</b><i>89</i></label>
+              <label><b>已上线数量合计:</b><i>1</i></label>
             </section>
           </SmallContain>
 
@@ -67,7 +138,98 @@
         </section>
 
         <section class="screen-main-r">
-          <SmallContain :title="'加工任务信息'"> </SmallContain>
+          <SmallContain :title="'明日计划安排'">
+            <section class="product_one">
+              <section class="product_title">
+                <div class="product_title_one">
+                  <label></label>
+                  <h3>规格型号</h3>
+                  <b>NHHKH-2</b>
+                </div>
+                <div class="product_title_two">
+                  <label></label>
+                  <h3>规格型号</h3>
+                  <b>NHHKH-2</b>
+                </div>
+              </section>
+
+              <section class="product_loading">
+                <label class="cricle">
+                  <div><i>ON.1</i><br /><i>当前序号</i></div>
+                </label>
+                <div class="loading-bar">
+                  <b class="loading-bar-content"></b>
+                  <label class="upRate"
+                    ><h3>上线率</h3>
+                    <b>1.17%</b></label
+                  >
+                  <label class="planNum"
+                    ><h3>计划数量</h3>
+                    <b>84</b></label
+                  >
+                  <label class="upNum"
+                    ><h3>已上线数量</h3>
+                    <b>1</b></label
+                  >
+                </div>
+              </section>
+
+              <section class="product_remark">
+                <div class="remark_top">备注</div>
+                <div class="remark_contain">
+                  <div class="remark_content">铁架</div>
+                </div>
+              </section>
+            </section>
+
+            <section class="product_one">
+              <section class="product_title">
+                <div class="product_title_one">
+                  <label></label>
+                  <h3>规格型号</h3>
+                  <b>NHHKH-2</b>
+                </div>
+                <div class="product_title_two">
+                  <label></label>
+                  <h3>规格型号</h3>
+                  <b>NHHKH-2</b>
+                </div>
+              </section>
+
+              <section class="product_loading">
+                <label class="cricle">
+                  <div><i>ON.1</i><br /><i>当前序号</i></div>
+                </label>
+                <div class="loading-bar">
+                  <b class="loading-bar-content"></b>
+                  <label class="upRate"
+                    ><h3>上线率</h3>
+                    <b>1.17%</b></label
+                  >
+                  <label class="planNum"
+                    ><h3>计划数量</h3>
+                    <b>84</b></label
+                  >
+                  <label class="upNum"
+                    ><h3>已上线数量</h3>
+                    <b>1</b></label
+                  >
+                </div>
+              </section>
+
+              <section class="product_remark">
+                <div class="remark_top">备注</div>
+                <div class="remark_contain">
+                  <div class="remark_content">铁架</div>
+                </div>
+              </section>
+            </section>
+
+            <section class="product_botton">
+              <label><b>计划数量合计:</b><i>89</i></label>
+              <label><b>已上线数量合计:</b><i>1</i></label>
+            </section>
+          </SmallContain>
         </section>
       </section>
     </largeScreenMain>
@@ -249,7 +411,8 @@ export default {
     justify-content: space-between;
     position: relative;
 
-    .screen-main-l {
+    .screen-main-l,
+    .screen-main-r {
       position: absolute;
       height: 851px;
       width: 409px;
@@ -261,6 +424,17 @@ export default {
       padding: 5px 10px;
       .small-contain-contain {
         flex-direction: column;
+        padding: 10px;
+      }
+      .product_one {
+        border: 1px solid rgb(31, 76, 130);
+        padding: 20px 10px;
+        margin-top: 40px;
+      }
+      .product_botton {
+        border: 1px solid rgb(31, 76, 130);
+        padding: 5px 10px;
+        margin-top: 20px;
       }
       .product_title {
         display: flex;
@@ -307,24 +481,117 @@ export default {
       }
 
       .product_loading {
-        label {
+        display: flex;
+        width: 100%;
+        margin-top: 10px;
+        align-items: center;
+        .cricle {
           width: 114px;
           height: 114px;
           display: block;
           background: url("@/assets/img/home/planArrangement/oN.png");
+          position: relative;
+          & > div {
+            @include contentCenterAbsolute;
+            font-size: 12px;
+            i {
+              font-style: normal;
+            }
+          }
+          i:nth-of-type(1) {
+            color: rgb(31, 239, 233);
+          }
+          i:nth-of-type(2) {
+            color: rgb(207, 212, 235);
+          }
         }
-        div {
+        .loading-bar {
           border: 1px solid rgb(108, 124, 208);
-          width: 200px;
-          height: 30px;
+          // width: 200px;
+          flex: 1;
+          height: 20px;
           display: flex;
           padding: 3px;
-          b {
+          position: relative;
+          .loading-bar-content {
             width: 40%;
             height: 100%;
             display: inline-block;
             background: rgb(124, 233, 242);
           }
+          label {
+            display: flex;
+            min-width: 100px;
+            position: absolute;
+            display: flex;
+            align-items: center;
+            font-size: 12px;
+            b {
+              font-size: 14px;
+              margin-left: 10px;
+            }
+          }
+          .upRate {
+            color: rgb(207, 212, 235);
+            text-shadow: 0 0 3px rgb(0, 255, 255);
+            left: 50%;
+            transform: translateX(-50%);
+            top: -30px;
+          }
+          .planNum {
+            color: rgb(207, 212, 235);
+            left: 20px;
+            bottom: -30px;
+            b {
+              color: rgb(74, 240, 247);
+
+              text-shadow: 0 0 3px rgb(0, 255, 255);
+            }
+          }
+
+          .upNum {
+            color: rgb(207, 212, 235);
+            right: 10px;
+            bottom: -30px;
+            b {
+              color: rgb(0, 233, 91);
+
+              text-shadow: 0 0 3px rgb(0, 255, 255);
+            }
+          }
+        }
+      }
+
+      .product_remark {
+        color: white;
+        margin-top: 10px;
+        .remark_top {
+          height: 30px;
+          width: 100%;
+          background: url("@/assets/img/home/planArrangement/remark_top.png");
+          background-repeat: no-repeat;
+          background-position: left center;
+          text-align: left;
+          line-height: 30px;
+          text-indent: 10px;
+        }
+        .remark_content {
+          height: 30px;
+          width: 100%;
+          box-shadow: inset 0px 0px 4px 1px rgba(0, 145, 255, 1);
+          text-align: left;
+          line-height: 30px;
+          text-indent: 10px;
+        }
+      }
+      .product_botton {
+        color: rgb(207, 212, 235);
+        i {
+          font-style: normal;
+          width: 60px;
+          display: inline-block;
+          text-align: left;
+          text-indent: 10px;
         }
       }
     }
@@ -379,19 +646,19 @@ export default {
             justify-content: flex-start;
             font-size: 18px;
             position: relative;
-            top: 10px;
-            left: 10px;
+            // top: 10px;
+            left: 30px;
             // top: 13px;
             // left: 5px;
             color: rgb(119, 141, 241);
             font-weight: bold;
-            border-left: 8px solid rgb(17, 184, 236);
+            // border-left: 8px solid rgb(17, 184, 236);
             padding: 3px 0 0 10px;
           }
           label {
             color: white;
             position: relative;
-            // top: 10px;
+            // top: 10px; 31 76 130
             // right: 10px;
           }
         }
