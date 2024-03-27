@@ -61,6 +61,12 @@ const routes: Array<RouteRecordRaw> = [
     component: () => import("@/views/planArrangement/index.vue")
   },
 
+  {
+    path: "/planArrangementOne",
+    name: "PlanArrangementOne",
+    component: () => import("@/views/planArrangementOne/index.vue")
+  },
+
   // 点击某个元素，展示弹出框，弹出框位置根据内容框决定位置
 
   //svg标尺
