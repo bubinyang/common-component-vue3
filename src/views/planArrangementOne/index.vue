@@ -53,39 +53,42 @@
                   >
                 </div>
               </section>
+              <section class="swiperspec-contain">
+                <section class="swpierspec-item" style="width: 100%">
+                  <template v-for="(item, key) in 4" :key="key">
+                    <section class="product_attr">
+                      <div class="product_attr_title">序号:01</div>
+                      <div class="product_attr_content">
+                        <label
+                          ><h3>规格型号:</h3>
+                          <b>1.17%</b></label
+                        >
 
-              <template v-for="(item, key) in 4" :key="key">
-                <section class="product_attr">
-                  <div class="product_attr_title">序号:01</div>
-                  <div class="product_attr_content">
-                    <label
-                      ><h3>规格型号:</h3>
-                      <b>1.17%</b></label
-                    >
+                        <label
+                          ><h3>客户代码:</h3>
+                          <b>1.17%</b></label
+                        >
+                        <label
+                          ><h3>计划数量:</h3>
+                          <b>1.17%</b></label
+                        >
 
-                    <label
-                      ><h3>客户代码:</h3>
-                      <b>1.17%</b></label
-                    >
-                    <label
-                      ><h3>计划数量:</h3>
-                      <b>1.17%</b></label
-                    >
+                        <label
+                          ><h3>已上线数量:</h3>
+                          <b>1.17%</b></label
+                        >
+                      </div>
+                    </section>
 
-                    <label
-                      ><h3>已上线数量:</h3>
-                      <b>1.17%</b></label
-                    >
-                  </div>
+                    <section class="product_remark">
+                      <div class="remark_top">备注</div>
+                      <div class="remark_contain">
+                        <div class="remark_content">铁架</div>
+                      </div>
+                    </section>
+                  </template>
                 </section>
-
-                <section class="product_remark">
-                  <div class="remark_top">备注</div>
-                  <div class="remark_contain">
-                    <div class="remark_content">铁架</div>
-                  </div>
-                </section>
-              </template>
+              </section>
             </section>
 
             <!-- <section class="product_botton">
@@ -780,6 +783,26 @@ export default {
       background-color: initial;
       border: 0;
       box-shadow: none;
+    }
+  }
+
+  .swiperspec-contain {
+    margin: 0 auto;
+    width: 100%;
+    height: 100%;
+    position: relative;
+    display: flex;
+    overflow: hidden;
+    & > section {
+      top: 0px;
+      left: 0px;
+      position: absolute;
+      //border: 1px solid;
+      width: 100%;
+      height: 100%;
+      transition: 3s;
+      transition-property: transform;
+      display: flex;
     }
   }
 }
